@@ -56,7 +56,7 @@ def mappath_featid(df:gpd.GeoDataFrame, path:tuple, AttrID:str='FID'):
     return featIdLt
 
 
-def buildgraph(dataframe:gpd.GeoDataFrame, defaultcost:float=1.0, defaultweight:float=1.0, linetype=None):
+def BuildGraph(dataframe:gpd.GeoDataFrame, defaultcost:float=1.0, defaultweight:float=1.0, linetype=None):
     """
     buildgraph(dataframe:gpd.GeoDataFrame, defaultcost:float=1.0)\n
     build graph on networkx from gpd.GeoDataFrame format\n

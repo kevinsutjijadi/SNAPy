@@ -15,7 +15,7 @@ Last updated at 2023/09/12
  pip install SNAPy
  ```
 
-## Requirements
+## Requirements 
 - pandas >= 1.5.2
 - geopandas >= 0.9.0
 - networkx >= 2.7.1
@@ -45,8 +45,8 @@ nwSim = sna.GraphSims(dfnw, dfpt) # main class for loading network data
 ```
 to save the projected entries data, or access both network data or entrance data, both dataframes can be called and used as a normal Geopandas geodataframe
 ```Python
-nwSim.EntriedDf.tofile("file.gpkg") # saving entries dataframe
-nwSim.Gdf.tofile("file.gpkg") # saving network dataframe
+nwSim.EntriesDf.tofile("file.gpkg") # saving entries dataframe
+nwSim.NetworkDf.tofile("file.gpkg") # saving network dataframe
 ```
 Example analysis and result of the betweenness Patronage
 ```Python
