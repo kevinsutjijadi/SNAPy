@@ -240,8 +240,64 @@ class GraphSims:
                         self.EntriesDf.at[i, f'{RsltAttr}_W'] = w
         return self.EntriesDf
 
-    def Straightness(self):
-        return None
+    def Straightness(self, OriID:list=None, DestID:list=None, Mode:str='N', **kwargs):
+        """
+        Straightness(OriID:list, DestID:list, **kwargs)\n
+        Calculating straightness average\n
+        returns tuple of FID and results of entry points
+        """
+        Settings={
+            'AttrEntID': self.baseSet['EntID'],
+            'SearchDist': 1500.0,
+            'DestWgt': 'weight',
+            'CalcType': 'Linear',
+
+            'DestWgt': 'weight',
+            'RsltAttr': 'Straightness',
+        }
+        if kwargs:
+            for k,v in kwargs.items():
+                Settings[k] = v
+        
+        print(f'------ Straightness Average of {Settings["DestWgt"]}')
+        # processing reach valuation of a network
+        # collecting all relatable origins and destinations
+        OriDf = self.EntriesDf[[self.baseSet['EntID'], 'geometry']]
+        DestDf = self.EntriesDf[[self.baseSet['EntID'], Settings['DestWgt'], 'geometry']]
+
+        RsltAttr = Settings['RsltAttr']
+
+        if OriID is not None: # if there are specific OriID
+            OriDf = OriDf[(OriDf[self.baseSet['EntID']].isin(OriID))]
+        print(f'Collected {len(OriDf)} Origin Point[s]')
+
+        if DestID is not None: # if there are specific destID
+            DestDf = DestDf[(DestDf[self.baseSet['EntID']].isin(DestID))]
+        print(f'Collected {len(DestDf)} Destinations Point[s]')
+        
+        if self.baseSet['Threads'] == 1: # if single thread
+            tmSt = time()
+            print('Processing with singlethreading')
+            Rslt = gph_Base_Straightness_multi(self.Gph, self.EntriesPt, OriDf, DestDf, Settings)
+            print(f'Processing finished in {time()-tmSt:,.3f} seconds')
+            self.EntriesDf[RsltAttr] = (0,)*self.EntriesDf.shape[0]
+            for i, v in zip(Rslt[0], Rslt[1]):
+                self.EntriesDf.at[i, RsltAttr] = v
+
+        else:
+            chunksize = int(round(len(OriDf) / self.baseSet['Threads'], 0)) + 1
+            print(f'Processing with multithreading, with chunksize {chunksize}')
+            tmSt = time()
+            if len(OriDf) > 400:
+                chunksize = int(round(chunksize / 2 , 0))
+            largs = [(self.Gph, self.EntriesPt, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
+            SubRslt = MultiProcessPool(gph_Base_Straightness_multi, largs)
+            print(f'Multiprocessing finished in {time()-tmSt:,.3f} seconds')
+            self.EntriesDf[RsltAttr] = (0,)*self.EntriesDf.shape[0]
+            for rslt in SubRslt:
+                for i, v in zip(rslt[0], rslt[1]):
+                    self.EntriesDf.at[i, RsltAttr] = v
+        return self.EntriesDf
 
     def MapPaths(self, OriID:list=None, DestID:list= None, **kwargs):
         """
