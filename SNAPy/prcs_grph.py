@@ -72,7 +72,6 @@ def BuildGraph(dataframe:gpd.GeoDataFrame, defaultcost:float=1.0, defaultweight:
     prmEd = []
     prmCost = []
     prmWeight = [defaultweight for x in range(len(dataframe.geometry))]
-    prmFid = []
     
     for n, itm in enumerate(dataframe.geometry):
         lnSt = itm.coords[0]
@@ -97,14 +96,12 @@ def BuildGraph(dataframe:gpd.GeoDataFrame, defaultcost:float=1.0, defaultweight:
         prmSt.append(idSt)
         prmEd.append(idEd)
         prmCost.append(itm.length*defaultcost)
-        prmFid.append(n)
     
     if linetype is not None: # if need to specify linetype
         prmTy = list(dataframe[linetype])
     else: # if linetype is none or not detected, it will be name of graph
         prmTy = [None] * dataframe.shape[0]
     
-    dataframe["FID"] = prmFid
     dataframe["EdgeCost"] = prmCost
     dataframe["EdgeWeight"] = prmWeight
     dataframe["EdgePtSt"] = prmSt
@@ -116,7 +113,7 @@ def BuildGraph(dataframe:gpd.GeoDataFrame, defaultcost:float=1.0, defaultweight:
         "target" : prmEd,
         "cost" : prmCost,
         "weight" : prmWeight,
-        "LineID" : prmFid,
+        "LineID" : tuple(dataframe.index),
         "LineType" : prmTy,
         }
     )

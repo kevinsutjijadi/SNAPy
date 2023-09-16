@@ -33,7 +33,7 @@ from .utils import MultiProcessPool
 
 ### packed functions for multiprocessing
 class GraphSims:
-    def __init__(self, NetworkDf:gpd.DataFrame, EntriesDf:gpd.DataFrame, **kwargs):
+    def __init__(self, NetworkDf:gpd.GeoDataFrame, EntriesDf:gpd.GeoDataFrame, **kwargs):
         """
         GraphSims(Gph, Entries)\n
         main class for una simulations, appending destinations\n
@@ -59,14 +59,25 @@ class GraphSims:
 
         self.dumpdir = self.baseSet['Directory']
         self.EntPtDumpDir = 'EntryDtDump.pkl'
-
-        self.Gph, self.Pid, self.NetworkDf = BuildGraph(NetworkDf)
         self.EntriesDf = EntriesDf
+
+        print(f'GraphSim Class ----------')
+        if self.baseSet['EntID'] not in self.EntriesDf.columns:
+            print('EntriesDf EntID not detected, adding from index')
+            self.EntriesDf[self.baseSet['EntID']] = self.EntriesDf.index
+
+        if self.baseSet['EdgeID'] not in NetworkDf.columns:
+            print('NetworkDf EdgeID not detected, adding from index')
+            NetworkDf[self.baseSet['EdgeID']] = NetworkDf.index
+        
+        self.Gph, self.Pid, self.NetworkDf = BuildGraph(NetworkDf)
+        print('Graph Built')
 
         if self.baseSet['EntryDtDump']:# if dump
             if not os.path.exists(self.dumpdir):
                 os.mkdir(self.dumpdir)
             if os.path.exists(f'{self.dumpdir}\\{self.EntPtDumpDir}') and not self.baseSet['EntryDtDumpOvr']:
+
                 print('Pickled EntriesPt File Detected, using it instead')
                 with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'rb') as op:
                     self.EntriesPt = pickle.load(op)
@@ -96,7 +107,8 @@ class GraphSims:
                 self.EntriesPt = MultiProcessPool(gph_addentries_multi, largs)
         self.EntriesDf['xPt_X'] = [None]*len(self.EntriesDf)
         self.EntriesDf['xPt_Y'] = [None]*len(self.EntriesDf)
-        self.EntriesDf.set_index(self.baseSet['EntID'])
+
+        # self.EntriesDf.set_index(self.baseSet['EntID'])
         for dt in self.EntriesPt:
             self.EntriesDf.at[dt[0], 'xPt_X'] = dt[4].x
             self.EntriesDf.at[dt[0], 'xPt_Y'] = dt[4].y
@@ -123,7 +135,7 @@ class GraphSims:
         if kwargs:
             for k,v in kwargs.items():
                 Settings[k] = v
-        print(f'------ UNA_BETWEENESSPATRONAGE from {Settings["OriWgt"]} to {Settings["DestWgt"]}')
+        print(f'BetweenessPatronage ---------- \nAs {Settings["RsltAttr"]} from {Settings["OriWgt"]} to {Settings["DestWgt"]}')
         # processing betweeness patronage of a network.
         # collect all relatable origins and destinations
         OriDf = self.EntriesDf[(self.EntriesDf[Settings['OriWgt']]>0)][[self.baseSet['EntID'], Settings['OriWgt'], 'geometry']] # filtering only those above 0
@@ -158,7 +170,7 @@ class GraphSims:
             print(f'Multiprocessing finished in {time()-tmSt:,.3f} seconds')
             self.NetworkDf[Settings['RsltAttr']] = (0,)*len(self.NetworkDf)
             for rslt in SubRslt:
-                for v, i in zip(rslt[0], rslt[1]):
+                for i, v in zip(rslt[0], rslt[1]):
                     self.NetworkDf.at[i, Settings['RsltAttr']] += v
         return self.NetworkDf
 
@@ -179,18 +191,19 @@ class GraphSims:
             'CalcType': 'Linear',
             'CalcExp': 0.35,
             'CalcComp': 0.6,
-            'DestWgt': 'weight',
             'RsltAttr': 'Reach',
         }
         if kwargs:
             for k,v in kwargs.items():
                 Settings[k] = v
         
-        print(f'------ REACH {Mode} of {Settings["DestWgt"]}')
+        print(f'Reach -------------- As {Settings["RsltAttr"]} with {Mode} of {Settings["DestWgt"]}')
         # processing reach valuation of a network
         # collecting all relatable origins and destinations
         OriDf = self.EntriesDf[[self.baseSet['EntID'], 'geometry']]
-        DestDf = self.EntriesDf[[self.baseSet['EntID'], Settings['DestWgt'], 'geometry']]
+        DestDf = self.EntriesDf[[self.baseSet['EntID'], 'geometry']]
+        if Mode != 'N':
+            DestDf[Settings['DesWgt']] = self.EntriesDf[Settings['DestWgt']]
 
         RsltAttr = Settings['RsltAttr']
 
@@ -240,7 +253,8 @@ class GraphSims:
                         self.EntriesDf.at[i, f'{RsltAttr}_W'] = w
         return self.EntriesDf
 
-    def Straightness(self, OriID:list=None, DestID:list=None, Mode:str='N', **kwargs):
+
+    def Straightness(self, OriID:list=None, DestID:list=None, Mode='A', **kwargs):
         """
         Straightness(OriID:list, DestID:list, **kwargs)\n
         Calculating straightness average\n
@@ -251,15 +265,13 @@ class GraphSims:
             'SearchDist': 1500.0,
             'DestWgt': 'weight',
             'CalcType': 'Linear',
-
-            'DestWgt': 'weight',
             'RsltAttr': 'Straightness',
         }
         if kwargs:
             for k,v in kwargs.items():
                 Settings[k] = v
         
-        print(f'------ Straightness Average of {Settings["DestWgt"]}')
+        print(f'Straightness Average -------------\n As {Settings["RsltAttr"]} of {Settings["DestWgt"]}')
         # processing reach valuation of a network
         # collecting all relatable origins and destinations
         OriDf = self.EntriesDf[[self.baseSet['EntID'], 'geometry']]
@@ -278,7 +290,7 @@ class GraphSims:
         if self.baseSet['Threads'] == 1: # if single thread
             tmSt = time()
             print('Processing with singlethreading')
-            Rslt = gph_Base_Straightness_multi(self.Gph, self.EntriesPt, OriDf, DestDf, Settings)
+            Rslt = gph_Base_Straightness_multi((Mode, self.Gph, self.EntriesPt, OriDf, DestDf, Settings))
             print(f'Processing finished in {time()-tmSt:,.3f} seconds')
             self.EntriesDf[RsltAttr] = (0,)*self.EntriesDf.shape[0]
             for i, v in zip(Rslt[0], Rslt[1]):
@@ -290,7 +302,7 @@ class GraphSims:
             tmSt = time()
             if len(OriDf) > 400:
                 chunksize = int(round(chunksize / 2 , 0))
-            largs = [(self.Gph, self.EntriesPt, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
+            largs = [(Mode, self.Gph, self.EntriesPt, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
             SubRslt = MultiProcessPool(gph_Base_Straightness_multi, largs)
             print(f'Multiprocessing finished in {time()-tmSt:,.3f} seconds')
             self.EntriesDf[RsltAttr] = (0,)*self.EntriesDf.shape[0]
@@ -298,6 +310,7 @@ class GraphSims:
                 for i, v in zip(rslt[0], rslt[1]):
                     self.EntriesDf.at[i, RsltAttr] = v
         return self.EntriesDf
+
 
     def MapPaths(self, OriID:list=None, DestID:list= None, **kwargs):
         """

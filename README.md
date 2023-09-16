@@ -8,12 +8,8 @@ made by kevinsutjijadi @2023 Jakarta, Indonesia
 Last updated at 2023/09/12
 
 ## Installation
-
- use the package manager [pip](https://pip.pypa.io/en/stable) to install.
-
- ```bash
- pip install SNAPy
- ```
+Module haven't been added to Pypi.
+installation by running package installation locally through clone or download the repository.
 
 ## Requirements 
 - pandas >= 1.5.2
@@ -35,13 +31,13 @@ Most analysis tools included will require a network, consisting of polygon geome
 to use library, load data into geopandas geodataframe format, and use Graphsims to load the network information. It will compile and also append how the entrances connect to the network data.
 
 ```Python
-import geopandas as pd
+import geopandas as gpd
 import SNAPy as sna
 
-dfNetwork = gpd.readfile('NetworkClean.shp') # network dataframe
-dfEntries = gpd.readfile('Features.gpkg', layer='Features') # entrance dataframe
+dfNetwork = gpd.read_file('NetworkClean.shp') # network dataframe
+dfEntries = gpd.read_file('Features.gpkg', layer='Features') # entrance dataframe
 
-nwSim = sna.GraphSims(dfnw, dfpt) # main class for loading network data
+nwSim = sna.GraphSims(dfNetwork, dfEntries) # main class for loading network data
 ```
 to save the projected entries data, or access both network data or entrance data, both dataframes can be called and used as a normal Geopandas geodataframe
 ```Python

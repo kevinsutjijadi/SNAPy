@@ -30,6 +30,7 @@ from shapely.ops import nearest_points
 from .prcs_geom import *
 from .prcs_grph import *
 
+
 # functions
 def Base_BetweenessPatronage(Gdf:gpd.GeoDataFrame, Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
     '''
@@ -51,7 +52,6 @@ def Base_BetweenessPatronage(Gdf:gpd.GeoDataFrame, Gph:nx.Graph, EntriesPt:tuple
         Settings[k] = v
     
     OutDf = pd.DataFrame([[0]], index=list(Gdf[Settings['AttrEdgeID']]), columns=['results'])
-    OutDf['FID'] = list(OutDf.index)
     expA = Settings['AlphaExp']
     SrcD = Settings['SearchDist']
     iOriEntID = list(OriDf.columns).index(Settings['AttrEntID'])
@@ -109,15 +109,14 @@ def Base_BetweenessPatronage(Gdf:gpd.GeoDataFrame, Gph:nx.Graph, EntriesPt:tuple
                 iterWgts.append(DestDf.iat[Di, iDesWgt])
             else:
                 # compiling through
-                iterPths += list(fp)
-                iterDsts += list(dsts)
+                iterPths += tuple(fp)
+                iterDsts += tuple(dsts)
                 iterWgts += [DestDf.iat[Di, iDesWgt]]*len(fp)
             
         Gph.add_edges_from(((Odt[5][0], Odt[5][1], EdgeOri),))
         Gph.remove_edges_from((('O', Odt[5][0]), ('O', Odt[5][1]),))
         
         # now compiling the results
-        # stuff!
         if len(iterPths) == 0:
                 continue
         
@@ -130,7 +129,7 @@ def Base_BetweenessPatronage(Gdf:gpd.GeoDataFrame, Gph:nx.Graph, EntriesPt:tuple
             for i in pth:
                 OutDf.iat[i,0] += trf
             pass
-    return (tuple(OutDf['results']), tuple(OutDf['FID']))
+    return (tuple(OutDf.index), tuple(OutDf['results']))
 
 
 def Base_ReachN(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
@@ -148,7 +147,6 @@ def Base_ReachN(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gp
         Settings[k] = v
     
     OutDf = pd.DataFrame([[0,],], index=list(OriDf[Settings['AttrEntID']]), columns=['results'])
-    OutDf['FID'] = list(OutDf.index)
     SrcD = Settings['SearchDist']
     iOriEntID = list(OriDf.columns).index(Settings['AttrEntID'])
     iOriGeom = list(OriDf.columns).index('geometry')
@@ -190,8 +188,8 @@ def Base_ReachN(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gp
         Gph.add_edges_from(((Odt[5][0], Odt[5][1], EdgeOri),))
         Gph.remove_edges_from((('O', Odt[5][0]), ('O', Odt[5][1]),))
 
-        OutDf.iat[Oid, 0] = num
-    return (tuple(OutDf['FID']), tuple(OutDf['results']),)
+        OutDf.iat[Oi, 0] = num
+    return (tuple(OutDf.index), tuple(OutDf['results']),)
 
 
 def Base_ReachW(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
@@ -210,7 +208,6 @@ def Base_ReachW(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gp
         Settings[k] = v
     
     OutDf = pd.DataFrame([[0, 0]], index=list(OriDf[Settings['AttrEntID']]), columns=['sumN', 'sumW'])
-    OutDf['FID'] = list(OutDf.index)
     SrcD = Settings['SearchDist']
     iOriEntID = list(OriDf.columns).index(Settings['AttrEntID'])
     iOriGeom = list(OriDf.columns).index('geometry')
@@ -256,9 +253,9 @@ def Base_ReachW(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gp
         Gph.add_edges_from(((Odt[5][0], Odt[5][1], EdgeOri),))
         Gph.remove_edges_from((('O', Odt[5][0]), ('O', Odt[5][1]),))
 
-        OutDf.iat[Oid, 0] = num
-        OutDf.iat[Oid, 1] = wgt
-    return (tuple(OutDf['FID']), tuple(OutDf['sumN']), tuple(OutDf['sumW']),)
+        OutDf.iat[Oi, 0] = num
+        OutDf.iat[Oi, 1] = wgt
+    return (tuple(OutDf.index), tuple(OutDf['sumN']), tuple(OutDf['sumW']),)
 
 
 def Base_ReachWD(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
@@ -281,7 +278,6 @@ def Base_ReachWD(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:g
         Settings[k] = v
     
     OutDf = pd.DataFrame([[0, 0]], index=list(OriDf[Settings['AttrEntID']]), columns=['sumN', 'sumW'])
-    OutDf['FID'] = list(OutDf.index)
     SrcD = Settings['SearchDist']
     iOriEntID = list(OriDf.columns).index(Settings['AttrEntID'])
     iOriGeom = list(OriDf.columns).index('geometry')
@@ -342,9 +338,9 @@ def Base_ReachWD(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:g
         Gph.add_edges_from(((Odt[5][0], Odt[5][1], EdgeOri),))
         Gph.remove_edges_from((('O', Odt[5][0]), ('O', Odt[5][1]),))
 
-        OutDf.iat[Oid, 0] = len(rsltDt)
-        OutDf.iat[Oid, 1] = val
-    return (tuple(OutDf['FID']), tuple(OutDf['sumN']), tuple(OutDf['sumW']),)
+        OutDf.iat[Oi, 0] = len(rsltDt)
+        OutDf.iat[Oi, 1] = val
+    return (tuple(OutDf.index), tuple(OutDf['sumN']), tuple(OutDf['sumW']),)
 
 
 def Base_StraightnessA(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
@@ -363,7 +359,6 @@ def Base_StraightnessA(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, De
         Settings[k] = v
     
     OutDf = pd.DataFrame([[0,]], index=list(OriDf[Settings['AttrEntID']]), columns=['rslt'])
-    OutDf['FID'] = list(OutDf.index)
     SrcD = Settings['SearchDist']
     iOriEntID = list(OriDf.columns).index(Settings['AttrEntID'])
     iOriGeom = list(OriDf.columns).index('geometry')
@@ -374,10 +369,10 @@ def Base_StraightnessA(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, De
     EntriesPtId = tuple(x[0] for x in EntriesPt)
 
     # cycles by oridf
-    for Oi in range(len(OriDf)):
+    for Oi in range(len(OutDf)):
         Oid = OriDf.iat[Oi, iOriEntID]
         ptO = OriDf.iat[Oi, iOriGeom]
-        try: Odt = EntriesPt[EntriesPtId.index(Oid)]
+        try: Odt = EntriesPt[EntriesPtId[Oid]]
         except: continue
         # insert the origin point in graph
         EdgeOri = Gph[Odt[5][0]][Odt[5][1]]
@@ -403,9 +398,8 @@ def Base_StraightnessA(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, De
                 continue
             
             dst = graphsim_dist(Gph, Odt, Ddt, "cost", OriginAdd=False)
-            if dst is None or dst > SrcD: continue
+            if dst is None or dst > SrcD or dst == 0.0: continue
             else:
-                # rsltDt.append((dstFB/dst, DestDf.iat[Di, iDesWgt]))
                 wd = DestDf.iat[Di, iDesWgt]
                 rsltS += dstFB/dst*wd
                 rsltW += wd
@@ -415,8 +409,81 @@ def Base_StraightnessA(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, De
         Gph.add_edges_from(((Odt[5][0], Odt[5][1], EdgeOri),))
         Gph.remove_edges_from((('O', Odt[5][0]), ('O', Odt[5][1]),))
 
-        OutDf.iat[Oid, 0] = rslt
-    return (tuple(OutDf['FID']), tuple(OutDf['rslt']),)
+        OutDf.iat[Oi, 0] = rslt
+    return (tuple(OutDf.index), tuple(OutDf['rslt']),)
+
+
+def Base_StraightnessB(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
+    '''
+    Base_StraightnessB(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
+    packed function on Straightness Averaged with distance weighting\n
+    returns tuple of ((result tuple), (PointID tuple))
+    '''
+    # types of calculation
+    Settings={
+        'AttrEntID': 'FID',
+        'SearchDist': 1500.0,
+        'CalcExp': 0.35,
+        'DestWgt': 'weight',
+    }
+    for k,v in SettingDict.items(): # setting kwargs
+        Settings[k] = v
+    
+    OutDf = pd.DataFrame([[0,]], index=list(OriDf[Settings['AttrEntID']]), columns=['rslt'])
+    SrcD = Settings['SearchDist']
+    iOriEntID = list(OriDf.columns).index(Settings['AttrEntID'])
+    iOriGeom = list(OriDf.columns).index('geometry')
+    iDesEntID = list(DestDf.columns).index(Settings['AttrEntID'])
+    iDesWgt = list(DestDf.columns).index(Settings['DestWgt'])
+    iDesGeom = list(DestDf.columns).index('geometry')
+    CalcExp = Settings['CalcExp']
+
+    EntriesPtId = tuple(x[0] for x in EntriesPt)
+
+    # cycles by oridf
+    for Oi in range(len(OutDf)):
+        Oid = OriDf.iat[Oi, iOriEntID]
+        ptO = OriDf.iat[Oi, iOriGeom]
+        try: Odt = EntriesPt[EntriesPtId[Oid]]
+        except: continue
+        # insert the origin point in graph
+        EdgeOri = Gph[Odt[5][0]][Odt[5][1]]
+        Gph.add_edges_from((
+            ('O', Odt[5][0], {'weight': Odt[6], 'cost': Odt[3][0], 'LineID': Odt[1]}),
+            ('O', Odt[5][1], {'weight': Odt[6], 'cost': Odt[3][1], 'LineID': Odt[1]}),
+        ))
+
+        # starting individual calculation
+        rsltS = 0
+        rsltW = 0
+        for Di in range(len(DestDf)):
+            Did = DestDf.iat[Di, iDesEntID]
+            if Did == Oid:
+                continue
+
+            try: Ddt = EntriesPt[EntriesPtId.index(Did)]
+            except: continue
+
+            # will filter based on flyby distance
+            dstFB = ptO.distance(DestDf.iat[Di, iDesGeom])
+            if dstFB >  SrcD*1.1:
+                continue
+            
+            dst = graphsim_dist(Gph, Odt, Ddt, "cost", OriginAdd=False)
+            if dst is None or dst > SrcD or dst == 0.0: continue
+            else:
+                wd = DestDf.iat[Di, iDesWgt] * (mt.e**(-dst*CalcExp/SrcD)) * (dst/SrcD)
+                rsltS += dstFB/dst * wd 
+                rsltW += wd
+
+        rslt = rsltS/rsltW
+        
+        Gph.add_edges_from(((Odt[5][0], Odt[5][1], EdgeOri),))
+        Gph.remove_edges_from((('O', Odt[5][0]), ('O', Odt[5][1]),))
+
+        OutDf.iat[Oi, 0] = rslt
+    return (tuple(OutDf.index), tuple(OutDf['rslt']),)
+
 
 # multiprocessing packing
 def gph_Base_BetweenessPatronage_multi(inpt):
@@ -427,6 +494,7 @@ def gph_Base_BetweenessPatronage_multi(inpt):
     opt = Base_BetweenessPatronage(inpt[0], inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
     return opt
 
+
 def gph_Base_MapPaths_multi(inpt):
     '''
     packaged Base_MapPaths for multiprocessing\n
@@ -434,6 +502,7 @@ def gph_Base_MapPaths_multi(inpt):
     '''
     OptIDs, OptPths, OptDsts = Base_MapPaths(inpt[0], inpt[1], inpt[2], inpt[3], inpt[4])
     return (OptIDs, OptPths, OptDsts)
+
 
 def gph_Base_Reach_multi(inpt:tuple):
     '''
@@ -454,10 +523,18 @@ def gph_Base_Reach_multi(inpt:tuple):
         case other:
             return None
 
+
 def gph_Base_Straightness_multi(inpt:tuple):
     '''
     packaged Base_Straigthness for multiprocessing\n
     Base_StraightnessA(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)
     '''
-    Opt = Base_StraightnessA(inpt[0], inpt[1], inpt[2], inpt[3], inpt[4])
-    return Opt
+    match inpt[0]:
+        case 'A':
+            Opt = Base_StraightnessA(inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
+            return Opt
+        case 'B':
+            Opt = Base_StraightnessB(inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
+            return Opt
+        case other:
+            return None
