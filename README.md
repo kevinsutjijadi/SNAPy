@@ -1,11 +1,11 @@
-# SNAPy (Spatial Netowk Analysis Python Module)
+# SNAPy (Spatial Network Analysis Python Module)
 
 A package of spatial network analysis tools based on Geopandas dataframe and networkx pathfinding. Developed for regional scale spatial network analysis in Python environment for efficiency and better documentation. With capabilities of multithreading using multiprocessing.pool. Most functions and tools are based from [Urban Network Analysis Toolbox](https://cityform.mit.edu/projects/urban-network-analysis.html) by MIT City Form Lab, but there are some (Reach, Betweeness Patronage) that have different mathematical expression which is elaborated on the [Documentation](https://github.com/kevinsutjijadi/SNAPy/Documentation) files in this repository.  
 
 
 ## Authorship
 made by kevinsutjijadi @2023 Jakarta, Indonesia  
-Last updated at 2023/09/12
+Last updated at 2023/09/18
 
 ## Installation
 Module haven't been added to Pypi.
