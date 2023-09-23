@@ -50,15 +50,16 @@ class GraphSims:
             'EntryDtDump': True,
             'EntryDtDumpOvr': False,
             'Threads': 0,
-            'Directory': '\\dump',
+            'DumpDir': '\\dump',
+            'DumpFl': 'EntryDtDump'
         }
         for k,v in kwargs.items():
             self.baseSet[k] = v
         if self.baseSet['Threads'] == 0:
             self.baseSet['Threads'] = os.cpu_count()-1
 
-        self.dumpdir = self.baseSet['Directory']
-        self.EntPtDumpDir = 'EntryDtDump.pkl'
+        self.dumpdir = self.baseSet['DumpDir']
+        self.EntPtDumpDir = f'{self.baseSet["DumpFl"]}.pkl'
         self.EntriesDf = EntriesDf
 
         print(f'GraphSim Class ----------')
@@ -73,45 +74,118 @@ class GraphSims:
         self.Gph, self.Pid, self.NetworkDf = BuildGraph(NetworkDf)
         print('Graph Built')
 
-        if self.baseSet['EntryDtDump']:# if dump
-            if not os.path.exists(self.dumpdir):
-                os.mkdir(self.dumpdir)
-            if os.path.exists(f'{self.dumpdir}\\{self.EntPtDumpDir}') and not self.baseSet['EntryDtDumpOvr']:
+        genEntryDt = True
+        genPickle = self.baseSet['EntryDtDump']
 
-                print('Pickled EntriesPt File Detected, using it instead')
-                with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'rb') as op:
-                    self.EntriesPt = pickle.load(op)
-                print(f'Found {len(self.EntriesPt)} Pickled Entry Points at {self.dumpdir}')
-            else:    
-                if self.baseSet['Threads'] == 1:
-                    self.EntriesPt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'])
-                else:
-                    chunksize = int(round(len(self.EntriesDf) / self.baseSet['Threads'], 0)) + 1
-                    largs = tuple((NetworkDf, self.EntriesDf[i:i+chunksize], self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID']) for i in range(0, len(self.EntriesDf), chunksize))
-                    EntPt = MultiProcessPool(gph_addentries_multi, largs)
-                    EntriesPt = []
-                    for ent in EntPt:
-                        EntriesPt += list(ent)
-                    self.EntriesPt = tuple(EntriesPt)
-                print(f'Pickling {len(self.EntriesPt)} Entry Points')
-                with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'wb') as op:
-                    pickle.dump(self.EntriesPt, op)
-                print('Pickling EntriesPt Successfull')
-        else:
+        if not os.path.exists(self.dumpdir):
+            os.mkdir(self.dumpdir)
+
+        if os.path.exists(f'{self.dumpdir}\\{self.EntPtDumpDir}') and not self.baseSet['EntryDtDumpOvr']:
+
+            print('Pickled EntriesPt File Detected, using it instead')
+            with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'rb') as op:
+                self.EntriesPt = pickle.load(op)
+            print(f'Found {len(self.EntriesPt)} Pickled Entry Points at {self.dumpdir}')
+            genPickle = False
+            genEntryDt = False
+        else:    
+            genPickle = True
+        
+        if genEntryDt:
             if self.baseSet['Threads'] == 1:
-                self.EntriesPt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'])
-                
+                self.EntriesPt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'])
             else:
                 chunksize = int(round(len(self.EntriesDf) / self.baseSet['Threads'], 0)) + 1
-                largs = [(NetworkDf, self.EntriesDf[i:i+chunksize]) for i in range(0, len(self.EntriesDf), chunksize)]
-                self.EntriesPt = MultiProcessPool(gph_addentries_multi, largs)
-        self.EntriesDf['xPt_X'] = [None]*len(self.EntriesDf)
-        self.EntriesDf['xPt_Y'] = [None]*len(self.EntriesDf)
+                largs = tuple((NetworkDf, self.EntriesDf[i:i+chunksize], self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID']) for i in range(0, len(self.EntriesDf), chunksize))
+                EntPt = MultiProcessPool(gph_addentries_multi, largs)
+                EntriesPt = []
+                for ent in EntPt:
+                    EntriesPt += list(ent)
+                self.EntriesPt = tuple(EntriesPt)
+        
+        self.EntriesDf['xPt_X'] = tuple(dt[4].x for dt in self.EntriesPt)
+        self.EntriesDf['xPt_Y'] = tuple(dt[4].y for dt in self.EntriesPt)
 
-        # self.EntriesDf.set_index(self.baseSet['EntID'])
-        for dt in self.EntriesPt:
-            self.EntriesDf.at[dt[0], 'xPt_X'] = dt[4].x
-            self.EntriesDf.at[dt[0], 'xPt_Y'] = dt[4].y
+        print('Entries to Network Rebuilt')
+        if genPickle:
+            print(f'Pickling {len(self.EntriesPt)} Entry Points')
+            with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'wb') as op:
+                pickle.dump(self.EntriesPt, op)
+            print('Pickling EntriesPt Successfull')
+
+
+    def reGenEntry(self, EntryDtDumpOvr=True):
+        """
+        rerun genEntryDt for reparametrizing entries point
+        """
+        if self.baseSet['Threads'] == 1:
+            self.EntriesPt = graph_addentries(self.NetworkDf, self.EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'])
+        else:
+            chunksize = int(round(len(self.EntriesDf) / self.baseSet['Threads'], 0)) + 1
+            largs = tuple((self.NetworkDf, self.EntriesDf[i:i+chunksize], self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID']) for i in range(0, len(self.EntriesDf), chunksize))
+            EntPt = MultiProcessPool(gph_addentries_multi, largs)
+            EntriesPt = []
+            for ent in EntPt:
+                EntriesPt += list(ent)
+            self.EntriesPt = tuple(EntriesPt)
+
+        if EntryDtDumpOvr:
+            print(f'Pickling {len(self.EntriesPt)} Entry Points')
+            with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'wb') as op:
+                pickle.dump(self.EntriesPt, op)
+            print('Pickling EntriesPt Successfull')
+
+
+    def reBuild(self, EntriesDf:gpd.GeoDataFrame=None, NetworkDf:gpd.GeoDataFrame=None, **kwargs):
+        """
+        reNetwork()\n
+        updating network, with recalculating entries data
+        """
+        for k,v in kwargs.items():
+            self.baseSet[k] = v
+        if self.baseSet['Threads'] == 0:
+            self.baseSet['Threads'] = os.cpu_count()-1
+        
+        self.dumpdir = self.baseSet['DumpDir']
+        self.EntPtDumpDir = f'{self.baseSet["DumpFl"]}.pkl'
+
+        print(f'GraphSim Rebuild --------------')
+        if EntriesDf is not None:
+            print('rebuilding EntriesDf')
+            self.EntriesDf = EntriesDf
+            if self.baseSet['EntID'] not in self.EntriesDf.columns:
+                print('EntriesDf EntID not detected, adding from index')
+                self.EntriesDf[self.baseSet['EntID']] = self.EntriesDf.index
+
+        if NetworkDf is not None:
+            print('rebuilding NetworkDf')
+            if self.baseSet['EdgeID'] not in NetworkDf.columns:
+                print('NetworkDf EdgeID not detected, adding from index')
+                NetworkDf[self.baseSet['EdgeID']] = NetworkDf.index
+            
+            self.Gph, self.Pid, self.NetworkDf = BuildGraph(NetworkDf)
+            print('Graph Rebuilt')
+        
+        if self.baseSet['Threads'] == 1:
+            self.EntriesPt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'])
+        else:
+            chunksize = int(round(len(self.EntriesDf) / self.baseSet['Threads'], 0)) + 1
+            largs = tuple((NetworkDf, self.EntriesDf[i:i+chunksize], self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID']) for i in range(0, len(self.EntriesDf), chunksize))
+            EntPt = MultiProcessPool(gph_addentries_multi, largs)
+            EntriesPt = []
+            for ent in EntPt:
+                EntriesPt += list(ent)
+            self.EntriesPt = tuple(EntriesPt)
+
+        self.EntriesDf['xPt_X'] = tuple(dt[4].x for dt in self.EntriesPt)
+        self.EntriesDf['xPt_Y'] = tuple(dt[4].y for dt in self.EntriesPt)
+        print('Entries to Network Rebuilt')
+
+        if self.baseSet['EntryDtDump'] or self.baseSet['EntryDtDumpOvr']:
+            print(f'Pickling {len(self.EntriesPt)} Entry Points')
+            with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'wb') as op:
+                pickle.dump(self.EntriesPt, op)
+            print('Pickling EntriesPt Successfull')
 
 
     def BetweenessPatronage(self, OriID=None, DestID=None, **kwargs):
@@ -203,7 +277,7 @@ class GraphSims:
         OriDf = self.EntriesDf[[self.baseSet['EntID'], 'geometry']]
         DestDf = self.EntriesDf[[self.baseSet['EntID'], 'geometry']]
         if Mode != 'N':
-            DestDf[Settings['DesWgt']] = self.EntriesDf[Settings['DestWgt']]
+            DestDf[Settings['DestWgt']] = self.EntriesDf[Settings['DestWgt']]
 
         RsltAttr = Settings['RsltAttr']
 

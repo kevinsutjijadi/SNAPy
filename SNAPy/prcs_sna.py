@@ -472,7 +472,7 @@ def Base_StraightnessB(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, De
             dst = graphsim_dist(Gph, Odt, Ddt, "cost", OriginAdd=False)
             if dst is None or dst > SrcD or dst == 0.0: continue
             else:
-                wd = DestDf.iat[Di, iDesWgt] * (mt.e**(-dst*CalcExp/SrcD)) * (dst/SrcD)
+                wd = DestDf.iat[Di, iDesWgt] * (mt.e**(dst*CalcExp/SrcD)) * (dst/SrcD)
                 rsltS += dstFB/dst * wd 
                 rsltW += wd
 
