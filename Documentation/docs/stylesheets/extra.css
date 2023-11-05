@@ -1,0 +1,61 @@
+:root > * {
+    --md-primary-fg-color:        #292a2b;
+    --md-primary-fg-color--light: #dddddd;
+    --md-primary-fg-color--dark:  #2c2c2c;
+    --md-primary-bg-color: #e7e7e7;
+    --md-default-bg-color: #ffffff;
+    --md-default-fg-color--light:#2998c4;
+    --md-default-bg-color--hl:#e0f3ffa9;
+    --md-default-fg-color--hl:#215cb6;
+    --md-code-bg-color: #f5f5f5;
+    --md-code-hl-function-color: #9829c4;
+  }
+
+.md-typeset h1 {
+    font-size: 2em;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.md-typeset h2 {
+    font-size: 1.2em;
+    font-weight: 800;
+    color: var(--md-default-fg-color--hl);
+    background-color: var(--md-default-bg-color--hl);
+}
+
+.md-typeset h3 {    
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--md-default-fg-color--hl);
+    background-color: var(--md-default-bg-color--hl);
+}
+
+.md-typeset h4 {
+    font-size: 1em;
+    font-weight: 600;
+    background-color: var(--md-default-bg-color--hl);
+}
+
+.md-typeset h5 {
+    font-size: 1em;
+    font-weight: 600;
+    color: var(--md-primary-fg-color--dark);
+    text-transform: none;
+}
+
+.md-typeset {
+    font-weight: 100;
+    line-height: 1.2;
+}
+
+.md-typeset mark {
+    font-size: 0.7em;
+    font-weight: 200;
+    background-color: var(--md-default-bg-color--hl);
+}
+
+
+.md-typeset blockquote {
+    color: #96aac4;
+}

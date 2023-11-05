@@ -56,7 +56,7 @@ def mappath_featid(df:gpd.GeoDataFrame, path:tuple, AttrID:str='FID'):
     return featIdLt
 
 
-def BuildGraph(dataframe:gpd.GeoDataFrame, defaultcost:float=1.0, defaultweight:float=1.0, linetype=None):
+def BuildGraph(dataframe:gpd.GeoDataFrame, defcost:float=1.0, weightAtt:str=None, linetype=None):
     """
     buildgraph(dataframe:gpd.GeoDataFrame, defaultcost:float=1.0)\n
     build graph on networkx from gpd.GeoDataFrame format\n
@@ -71,8 +71,11 @@ def BuildGraph(dataframe:gpd.GeoDataFrame, defaultcost:float=1.0, defaultweight:
     prmSt = [] # parameters for building the finished gdf for networkx graph build
     prmEd = []
     prmCost = []
-    prmWeight = [defaultweight for x in range(len(dataframe.geometry))]
-    
+    if weightAtt is None:
+        defaultcost = (defcost,)*len(dataframe.geometry)
+    else:
+        defaultcost = tuple(dataframe[weightAtt])
+
     for n, itm in enumerate(dataframe.geometry):
         lnSt = itm.coords[0]
         lnEd = itm.coords[-1]
@@ -95,7 +98,7 @@ def BuildGraph(dataframe:gpd.GeoDataFrame, defaultcost:float=1.0, defaultweight:
         
         prmSt.append(idSt)
         prmEd.append(idEd)
-        prmCost.append(itm.length*defaultcost)
+        prmCost.append(itm.length*defaultcost[n]) # cost includes multiplier
     
     if linetype is not None: # if need to specify linetype
         prmTy = list(dataframe[linetype])
@@ -103,7 +106,6 @@ def BuildGraph(dataframe:gpd.GeoDataFrame, defaultcost:float=1.0, defaultweight:
         prmTy = [None] * dataframe.shape[0]
     
     dataframe["EdgeCost"] = prmCost
-    dataframe["EdgeWeight"] = prmWeight
     dataframe["EdgePtSt"] = prmSt
     dataframe["EdgePtEd"] = prmEd
 
@@ -112,7 +114,6 @@ def BuildGraph(dataframe:gpd.GeoDataFrame, defaultcost:float=1.0, defaultweight:
         "source" : prmSt,
         "target" : prmEd,
         "cost" : prmCost,
-        "weight" : prmWeight,
         "LineID" : tuple(dataframe.index),
         "LineType" : prmTy,
         }
@@ -123,7 +124,7 @@ def BuildGraph(dataframe:gpd.GeoDataFrame, defaultcost:float=1.0, defaultweight:
     return NxGraph, pointid, dataframe
 
 
-def graph_addentries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist:float=100.0, AttrNodeID:str='FID', AttrEdgeID:str='FID'):
+def graph_addentries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist:float=100.0, AttrNodeID:str='FID', AttrEdgeID:str='FID', EdgeCost:str='EdgeWeight'):
     """
     graph_addentries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist:float=100.0)\n
     Adding entry points into the graph\n
@@ -134,11 +135,12 @@ def graph_addentries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist
     # it will create a dataset of how the point connects with the geodataframe
     # for origin - distance on the same line will just calculate from the distance, not nodes
     
-    lnNode_name = ('EdgePtSt', 'EdgePtEd', 'EdgeWeight')
+    lnNode_name = ('EdgePtSt', 'EdgePtEd', EdgeCost)
     ptLnEntry = [] # nested tuple (OriginPtID, featID, distToLine, PointIntersect, (distToNodes), (NodesID))
     EntryID = list(EntryDf[AttrNodeID])
     for ptn, pt in enumerate(EntryDf.geometry):
-        lnID, ixPt, ixDs = geom_closestline(pt, GphDf, EntryDist)    
+        lnID, ixPt, ixDs = geom_closestline(pt, GphDf, EntryDist, AttrEdgeID)    
+        lnID = int(lnID)
         if lnID is not None:
             lnFeat = GphDf[(GphDf[AttrEdgeID]==lnID)] # the line
             lnSplit = geom_linesplit(lnFeat.geometry, ixPt)
@@ -147,6 +149,10 @@ def graph_addentries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist
                 if sg is None: lnDist.append(0)
                 else: lnDist.append(sg.length)
             lnDist = tuple(lnDist)
+            if EdgeCost is None:
+                cost = 1.0
+            else:
+                cost = lnFeat[lnNode_name[2]].iloc[0]
             ptLnEntry.append((
                 EntryID[ptn], #  AttrID:str='FID' 0 - Entry Point ID
                 lnID, # 1 - ID of connected edge
@@ -154,7 +160,7 @@ def graph_addentries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist
                 lnDist, # 3 - tuple of distance to the two nodes
                 ixPt, # 4 - Point of intersection
                 (lnFeat[lnNode_name[0]].iloc[0], lnFeat[lnNode_name[1]].iloc[0]), # 5 - tuple of connected node ID
-                lnFeat[lnNode_name[2]].iloc[0], # 6 - weight of edge
+                cost, # 6 - weight of edge
                 lnSplit
                 )) # Entry data formatted, idk if this is the most effective way
     ptLnEntry = tuple(ptLnEntry) # tupleized bcs it will be called a lot of times
@@ -314,8 +320,6 @@ def graphsim_paths(Gph:nx.Graph, DtOri:tuple, DtDst:tuple, AttrWgt:str="cost", S
             memDist = 0
             # if detourR more than one:
             limDist = ShstLen * DetourR
-            print('')
-            print(f'{DtOri[3][0]} - {DtDst[3][0]}')
             if sln_Dst: # situational if falls in the same line state
                 Udst.append(sln_Dst)
                 Upth.append((DtOri[1],))
@@ -457,5 +461,5 @@ def gph_addentries_multi(inpt):
     packaged graph_addentries for multiprocessing
     graph_addentries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist:float=100.0, AttrNodeID:str='FID', AttrEdgeID:str='FID')
     '''
-    opt = graph_addentries(inpt[0], inpt[1], inpt[2], inpt[3], inpt[4])
+    opt = graph_addentries(inpt[0], inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
     return opt

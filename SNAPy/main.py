@@ -46,12 +46,14 @@ class GraphSims:
             'EntDist': 100,
             'EntID': 'FID',
             'EdgeID': 'FID',
+            'EdgeCost': None,
+            'EdgeCostDef': 1.0,
             'Verbose': True,
             'EntryDtDump': True,
             'EntryDtDumpOvr': False,
             'Threads': 0,
             'DumpDir': '\\dump',
-            'DumpFl': 'EntryDtDump'
+            'DumpEnt' : 'EntryDtDump.pkl',
         }
         for k,v in kwargs.items():
             self.baseSet[k] = v
@@ -59,133 +61,67 @@ class GraphSims:
             self.baseSet['Threads'] = os.cpu_count()-1
 
         self.dumpdir = self.baseSet['DumpDir']
-        self.EntPtDumpDir = f'{self.baseSet["DumpFl"]}.pkl'
+        self.EntPtDumpDir = self.baseSet['DumpEnt']
         self.EntriesDf = EntriesDf
-
+        
         print(f'GraphSim Class ----------')
+
+        if NetworkDf.geometry[0].geom_type == 'MultiLineString':
+            NetworkDf = NetworkDf.explode()
+            print('Network data is multilinestring, exploded')
+            NetworkDf.index = range(int(NetworkDf.shape[0]))
+
         if self.baseSet['EntID'] not in self.EntriesDf.columns:
             print('EntriesDf EntID not detected, adding from index')
-            self.EntriesDf[self.baseSet['EntID']] = self.EntriesDf.index
+            self.EntriesDf[self.baseSet['EntID']] = range(self.EntriesDf.shape[0])
 
         if self.baseSet['EdgeID'] not in NetworkDf.columns:
             print('NetworkDf EdgeID not detected, adding from index')
-            NetworkDf[self.baseSet['EdgeID']] = NetworkDf.index
+            NetworkDf[self.baseSet['EdgeID']] = range(int(NetworkDf.shape[0]))
         
-        self.Gph, self.Pid, self.NetworkDf = BuildGraph(NetworkDf)
+        
+        self.Gph, self.Pid, self.NetworkDf = BuildGraph(NetworkDf, self.baseSet['EdgeCostDef'], self.baseSet['EdgeCost'])
         print('Graph Built')
 
-        genEntryDt = True
-        genPickle = self.baseSet['EntryDtDump']
+        if self.baseSet['EntryDtDump']:# if dump
+            if not os.path.exists(self.dumpdir):
+                os.mkdir(self.dumpdir)
+            if os.path.exists(f'{self.dumpdir}\\{self.EntPtDumpDir}') and not self.baseSet['EntryDtDumpOvr']:
 
-        if not os.path.exists(self.dumpdir):
-            os.mkdir(self.dumpdir)
-
-        if os.path.exists(f'{self.dumpdir}\\{self.EntPtDumpDir}') and not self.baseSet['EntryDtDumpOvr']:
-
-            print('Pickled EntriesPt File Detected, using it instead')
-            with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'rb') as op:
-                self.EntriesPt = pickle.load(op)
-            print(f'Found {len(self.EntriesPt)} Pickled Entry Points at {self.dumpdir}')
-            genPickle = False
-            genEntryDt = False
-        else:    
-            genPickle = True
-        
-        if genEntryDt:
+                print('Pickled EntriesPt File Detected, using it instead')
+                with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'rb') as op:
+                    self.EntriesPt = pickle.load(op)
+                print(f'Found {len(self.EntriesPt)} Pickled Entry Points at {self.dumpdir}')
+            else:    
+                if self.baseSet['Threads'] == 1:
+                    self.EntriesPt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'], self.baseSet['EdgeCost'] )
+                else:
+                    chunksize = int(round(len(self.EntriesDf) / self.baseSet['Threads'], 0)) + 1
+                    largs = tuple((NetworkDf, self.EntriesDf[i:i+chunksize], self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'], self.baseSet['EdgeCost']) for i in range(0, len(self.EntriesDf), chunksize))
+                    EntPt = MultiProcessPool(gph_addentries_multi, largs)
+                    EntriesPt = []
+                    for ent in EntPt:
+                        EntriesPt += list(ent)
+                    self.EntriesPt = tuple(EntriesPt)
+                print(f'Pickling {len(self.EntriesPt)} Entry Points')
+                with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'wb') as op:
+                    pickle.dump(self.EntriesPt, op)
+                print('Pickling EntriesPt Successfull')
+        else:
             if self.baseSet['Threads'] == 1:
-                self.EntriesPt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'])
+                self.EntriesPt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeCost'])
+                
             else:
                 chunksize = int(round(len(self.EntriesDf) / self.baseSet['Threads'], 0)) + 1
-                largs = tuple((NetworkDf, self.EntriesDf[i:i+chunksize], self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID']) for i in range(0, len(self.EntriesDf), chunksize))
+                largs = [(NetworkDf, self.EntriesDf[i:i+chunksize], self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'], self.baseSet['EdgeCost']) for i in range(0, len(self.EntriesDf), chunksize)]
                 EntPt = MultiProcessPool(gph_addentries_multi, largs)
                 EntriesPt = []
                 for ent in EntPt:
                     EntriesPt += list(ent)
                 self.EntriesPt = tuple(EntriesPt)
-        
-        self.EntriesDf['xPt_X'] = tuple(dt[4].x for dt in self.EntriesPt)
-        self.EntriesDf['xPt_Y'] = tuple(dt[4].y for dt in self.EntriesPt)
-
-        print('Entries to Network Rebuilt')
-        if genPickle:
-            print(f'Pickling {len(self.EntriesPt)} Entry Points')
-            with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'wb') as op:
-                pickle.dump(self.EntriesPt, op)
-            print('Pickling EntriesPt Successfull')
-
-
-    def reGenEntry(self, EntryDtDumpOvr=True):
-        """
-        rerun genEntryDt for reparametrizing entries point
-        """
-        if self.baseSet['Threads'] == 1:
-            self.EntriesPt = graph_addentries(self.NetworkDf, self.EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'])
-        else:
-            chunksize = int(round(len(self.EntriesDf) / self.baseSet['Threads'], 0)) + 1
-            largs = tuple((self.NetworkDf, self.EntriesDf[i:i+chunksize], self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID']) for i in range(0, len(self.EntriesDf), chunksize))
-            EntPt = MultiProcessPool(gph_addentries_multi, largs)
-            EntriesPt = []
-            for ent in EntPt:
-                EntriesPt += list(ent)
-            self.EntriesPt = tuple(EntriesPt)
-
-        if EntryDtDumpOvr:
-            print(f'Pickling {len(self.EntriesPt)} Entry Points')
-            with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'wb') as op:
-                pickle.dump(self.EntriesPt, op)
-            print('Pickling EntriesPt Successfull')
-
-
-    def reBuild(self, EntriesDf:gpd.GeoDataFrame=None, NetworkDf:gpd.GeoDataFrame=None, **kwargs):
-        """
-        reNetwork()\n
-        updating network, with recalculating entries data
-        """
-        for k,v in kwargs.items():
-            self.baseSet[k] = v
-        if self.baseSet['Threads'] == 0:
-            self.baseSet['Threads'] = os.cpu_count()-1
-        
-        self.dumpdir = self.baseSet['DumpDir']
-        self.EntPtDumpDir = f'{self.baseSet["DumpFl"]}.pkl'
-
-        print(f'GraphSim Rebuild --------------')
-        if EntriesDf is not None:
-            print('rebuilding EntriesDf')
-            self.EntriesDf = EntriesDf
-            if self.baseSet['EntID'] not in self.EntriesDf.columns:
-                print('EntriesDf EntID not detected, adding from index')
-                self.EntriesDf[self.baseSet['EntID']] = self.EntriesDf.index
-
-        if NetworkDf is not None:
-            print('rebuilding NetworkDf')
-            if self.baseSet['EdgeID'] not in NetworkDf.columns:
-                print('NetworkDf EdgeID not detected, adding from index')
-                NetworkDf[self.baseSet['EdgeID']] = NetworkDf.index
-            
-            self.Gph, self.Pid, self.NetworkDf = BuildGraph(NetworkDf)
-            print('Graph Rebuilt')
-        
-        if self.baseSet['Threads'] == 1:
-            self.EntriesPt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'])
-        else:
-            chunksize = int(round(len(self.EntriesDf) / self.baseSet['Threads'], 0)) + 1
-            largs = tuple((NetworkDf, self.EntriesDf[i:i+chunksize], self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID']) for i in range(0, len(self.EntriesDf), chunksize))
-            EntPt = MultiProcessPool(gph_addentries_multi, largs)
-            EntriesPt = []
-            for ent in EntPt:
-                EntriesPt += list(ent)
-            self.EntriesPt = tuple(EntriesPt)
-
-        self.EntriesDf['xPt_X'] = tuple(dt[4].x for dt in self.EntriesPt)
-        self.EntriesDf['xPt_Y'] = tuple(dt[4].y for dt in self.EntriesPt)
-        print('Entries to Network Rebuilt')
-
-        if self.baseSet['EntryDtDump'] or self.baseSet['EntryDtDumpOvr']:
-            print(f'Pickling {len(self.EntriesPt)} Entry Points')
-            with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'wb') as op:
-                pickle.dump(self.EntriesPt, op)
-            print('Pickling EntriesPt Successfull')
+        self.EntriesDf['xLn_ID'] = [dt[1] for dt in self.EntriesPt]      
+        self.EntriesDf['xPt_X'] = [dt[4].x for dt in self.EntriesPt]
+        self.EntriesDf['xPt_Y'] = [dt[4].y for dt in self.EntriesPt]
 
 
     def BetweenessPatronage(self, OriID=None, DestID=None, **kwargs):
@@ -204,7 +140,7 @@ class GraphSims:
             'AttrEntID': self.baseSet['EntID'],
             'SearchDist' : 1200.0, 
             'DetourR' : 1.0, 
-            'AlphaExp' : 0
+            'AlphaExp' : 0.0
         }
         if kwargs:
             for k,v in kwargs.items():
@@ -212,16 +148,23 @@ class GraphSims:
         print(f'BetweenessPatronage ---------- \nAs {Settings["RsltAttr"]} from {Settings["OriWgt"]} to {Settings["DestWgt"]}')
         # processing betweeness patronage of a network.
         # collect all relatable origins and destinations
+
+        if Settings['OriWgt'] not in self.EntriesDf.columns:
+            self.EntriesDf['OriWgt'] = (1,)*len(self.EntriesDf)
+            print(f'field {Settings["OriWgt"]} is not detected, appended with default 1.0 value')
+        if Settings['DestWgt'] not in self.EntriesDf.columns:
+            self.EntriesDf['DestWgt'] = (1,)*len(self.EntriesDf)
+            print(f'field {Settings["OriWgt"]} is not detected, appended with default 1.0 value')
+
         OriDf = self.EntriesDf[(self.EntriesDf[Settings['OriWgt']]>0)][[self.baseSet['EntID'], Settings['OriWgt'], 'geometry']] # filtering only those above 0
         DestDf = self.EntriesDf[(self.EntriesDf[Settings['DestWgt']]>0)][[self.baseSet['EntID'], Settings['DestWgt'], 'geometry']]   
 
         if OriID is not None: # if there are specific OriID
             OriDf = OriDf[(OriDf[self.baseSet['EntID']].isin(OriID))]
-        print(f'Collected {len(OriDf)} Origin Point[s]')
         
         if DestID is not None: # if there are specific destID
             DestDf = DestDf[(DestDf[self.baseSet['EntID']].isin(DestID))]
-        print(f'Collected {len(DestDf)} Destination Point[s]')
+        print(f'Collected {len(OriDf)} Origin and {len(DestDf)} Destinations Point[s]')
 
         # Base_BetweenessPatronage(Gdf, Gph, EntriesPt, OriDf, DestDf, SettingDict)
         if self.baseSet['Threads'] == 1:
@@ -256,13 +199,12 @@ class GraphSims:
         - Reach \'N\'  : number of reachable features on distance,\n
         - Reach \'W\'  : sum of weight on reachable features on distance\n
         - Reach \'WD\' : sum of weight with inverse distance (linear/exponent) with compounding multiplier weights on reachable features on distance\n
-        returns tuple of FID and results of entry points
+        returns returns self.EntriesDf
         """
         Settings={
             'AttrEntID': self.baseSet['EntID'],
-            'SearchDist': 1500.0,
+            'SearchDist': 1200.0,
             'DestWgt': 'weight',
-            'CalcType': 'Linear',
             'CalcExp': 0.35,
             'CalcComp': 0.6,
             'RsltAttr': 'Reach',
@@ -283,24 +225,38 @@ class GraphSims:
 
         if OriID is not None: # if there are specific OriID
             OriDf = OriDf[(OriDf[self.baseSet['EntID']].isin(OriID))]
-        print(f'Collected {len(OriDf)} Origin Point[s]')
 
         if DestID is not None: # if there are specific destID
             DestDf = DestDf[(DestDf[self.baseSet['EntID']].isin(DestID))]
-        print(f'Collected {len(DestDf)} Destinations Point[s]')
+        print(f'Collected {len(OriDf)} Origin and {len(DestDf)} Destinations Point[s]')
         
-        if self.baseSet['Threads'] == 1: # if single thread
+        threads = self.baseSet['Threads']
+        if len(OriDf) < 50:
+            threads = 1
+        if threads == 1: # if single thread
             tmSt = time()
             print('Processing with singlethreading')
             inpt = (Mode, self.Gph, self.EntriesPt, OriDf, DestDf, Settings)
             Rslt = gph_Base_Reach_multi(inpt)
             print(f'Processing finished in {time()-tmSt:,.3f} seconds')
-            self.EntriesDf[RsltAttr] = (0,)*self.EntriesDf.shape[0]
+
+            if RsltAttr not in self.EntriesDf.columns:
+                self.EntriesDf[RsltAttr] = (0,)*self.EntriesDf.shape[0]
+
             if Mode == 'N':
                 for i, v in zip(Rslt[0], Rslt[1]):
                     self.EntriesDf.at[i, RsltAttr] = v
+            elif Mode == 'NDW':
+                if f'{RsltAttr}_W' not in self.EntriesDf.columns:
+                    self.EntriesDf[f'{RsltAttr}_D'] = (0,)*self.EntriesDf.shape[0]
+                    self.EntriesDf[f'{RsltAttr}_W'] = (0,)*self.EntriesDf.shape[0]
+                for i, v, w, x in zip(Rslt[0], Rslt[1], Rslt[2], Rslt[3]):
+                    self.EntriesDf.at[i, RsltAttr] = v
+                    self.EntriesDf.at[i, f'{RsltAttr}_D'] = w
+                    self.EntriesDf.at[i, f'{RsltAttr}_W'] = x
             else:
-                self.EntriesDf[f'{RsltAttr}_W'] = (0,)*self.EntriesDf.shape[0]
+                if f'{RsltAttr}_W' not in self.EntriesDf.columns:
+                    self.EntriesDf[f'{RsltAttr}_W'] = (0,)*self.EntriesDf.shape[0]
                 for i, v, w in zip(Rslt[0], Rslt[1], Rslt[2]):
                     self.EntriesDf.at[i, RsltAttr] = v
                     self.EntriesDf.at[i, f'{RsltAttr}_W'] = w
@@ -314,13 +270,26 @@ class GraphSims:
             largs = [(Mode, self.Gph, self.EntriesPt, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
             SubRslt = MultiProcessPool(gph_Base_Reach_multi, largs)
             print(f'Multiprocessing finished in {time()-tmSt:,.3f} seconds')
-            self.EntriesDf[RsltAttr] = (0,)*self.EntriesDf.shape[0]
+
+            if RsltAttr not in self.EntriesDf.columns:
+                self.EntriesDf[RsltAttr] = (0,)*self.EntriesDf.shape[0]
+                
             if Mode == 'N':
                 for rslt in SubRslt:
                     for i, v in zip(rslt[0], rslt[1]):
                         self.EntriesDf.at[i, RsltAttr] = v
+            elif Mode == 'NDW':
+                if f'{RsltAttr}_W' not in self.EntriesDf.columns:
+                    self.EntriesDf[f'{RsltAttr}_D'] = (0,)*self.EntriesDf.shape[0]
+                    self.EntriesDf[f'{RsltAttr}_W'] = (0,)*self.EntriesDf.shape[0]
+                for rslt in SubRslt:
+                    for i, v, w, x in zip(rslt[0], rslt[1], rslt[2], rslt[3]):
+                        self.EntriesDf.at[i, RsltAttr] = v
+                        self.EntriesDf.at[i, f'{RsltAttr}_D'] = w
+                        self.EntriesDf.at[i, f'{RsltAttr}_W'] = x
             else:
-                self.EntriesDf[f'{RsltAttr}_W'] = (0,)*self.EntriesDf.shape[0]
+                if f'{RsltAttr}_W' not in self.EntriesDf.columns:
+                    self.EntriesDf[f'{RsltAttr}_W'] = (0,)*self.EntriesDf.shape[0]
                 for rslt in SubRslt:
                     for i, v, w in zip(rslt[0], rslt[1], rslt[2]):
                         self.EntriesDf.at[i, RsltAttr] = v
@@ -328,17 +297,17 @@ class GraphSims:
         return self.EntriesDf
 
 
-    def Straightness(self, OriID:list=None, DestID:list=None, Mode='A', **kwargs):
+    def Straightness(self, OriID:list=None, DestID:list=None, **kwargs):
         """
         Straightness(OriID:list, DestID:list, **kwargs)\n
-        Calculating straightness average\n
-        returns tuple of FID and results of entry points
+        Calculating straightness average, can be distance weighted or inverse distance weighted\n
+        returns self.EntriesDf
         """
         Settings={
             'AttrEntID': self.baseSet['EntID'],
             'SearchDist': 1500.0,
+            'CalcExp': 0.35,
             'DestWgt': 'weight',
-            'CalcType': 'Linear',
             'RsltAttr': 'Straightness',
         }
         if kwargs:
@@ -355,18 +324,22 @@ class GraphSims:
 
         if OriID is not None: # if there are specific OriID
             OriDf = OriDf[(OriDf[self.baseSet['EntID']].isin(OriID))]
-        print(f'Collected {len(OriDf)} Origin Point[s]')
 
         if DestID is not None: # if there are specific destID
             DestDf = DestDf[(DestDf[self.baseSet['EntID']].isin(DestID))]
-        print(f'Collected {len(DestDf)} Destinations Point[s]')
+        print(f'Collected {len(OriDf)} Origin and {len(DestDf)} Destinations Point[s]')
+
+        DestDf[Settings['DestWgt']] = DestDf[Settings['DestWgt']].astype('float32')
         
         if self.baseSet['Threads'] == 1: # if single thread
             tmSt = time()
             print('Processing with singlethreading')
-            Rslt = gph_Base_Straightness_multi((Mode, self.Gph, self.EntriesPt, OriDf, DestDf, Settings))
+            Rslt = gph_Base_Straightness_multi((self.Gph, self.EntriesPt, OriDf, DestDf, Settings))
             print(f'Processing finished in {time()-tmSt:,.3f} seconds')
-            self.EntriesDf[RsltAttr] = (0,)*self.EntriesDf.shape[0]
+
+            if RsltAttr not in self.EntriesDf.columns:
+                self.EntriesDf[RsltAttr] = (0,)*self.EntriesDf.shape[0]
+
             for i, v in zip(Rslt[0], Rslt[1]):
                 self.EntriesDf.at[i, RsltAttr] = v
 
@@ -376,10 +349,13 @@ class GraphSims:
             tmSt = time()
             if len(OriDf) > 400:
                 chunksize = int(round(chunksize / 2 , 0))
-            largs = [(Mode, self.Gph, self.EntriesPt, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
+            largs = [(self.Gph, self.EntriesPt, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
             SubRslt = MultiProcessPool(gph_Base_Straightness_multi, largs)
             print(f'Multiprocessing finished in {time()-tmSt:,.3f} seconds')
-            self.EntriesDf[RsltAttr] = (0,)*self.EntriesDf.shape[0]
+
+            if RsltAttr not in self.EntriesDf.columns:
+                self.EntriesDf[RsltAttr] = (0,)*self.EntriesDf.shape[0]
+
             for rslt in SubRslt:
                 for i, v in zip(rslt[0], rslt[1]):
                     self.EntriesDf.at[i, RsltAttr] = v
@@ -453,4 +429,4 @@ class GraphSims:
             with open(f'{self.dumpdir}\\{DumpFl}', 'wb') as op:
                 pickle.dump(self.MappedPaths, op)
             print('Pickling PathMap Successfull')
-        return OptIDs, OptPths, OptDsts
+        return self.MappedPaths
