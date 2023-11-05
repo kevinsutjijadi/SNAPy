@@ -232,7 +232,7 @@ def Base_ReachW(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gp
 
         # starting individual calculation
         num = 0
-        wgt = 0
+        wgt = 0.0
         for Di in range(len(DestDf)):
             Did = DestDf.iat[Di, iDesEntID]
             if Did == Oid:
@@ -248,7 +248,7 @@ def Base_ReachW(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gp
             if dst is None or dst > SrcD: continue
             else: 
                 num += 1
-                wgt += DestDf.iat[Di, iDesWgt]
+                wgt += float(DestDf.iat[Di, iDesWgt])
         
         Gph.add_edges_from(((Odt[5][0], Odt[5][1], EdgeOri),))
         Gph.remove_edges_from((('O', Odt[5][0]), ('O', Odt[5][1]),))
@@ -268,8 +268,7 @@ def Base_ReachWD(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:g
     Settings={
         'AttrEntID': 'FID',
         'SearchDist': 1500.0,
-        'CalcType': 'Linear',
-        'CalcExp': 0.35,
+        'CalcExp': -0.35,
         'CalcComp': 0.6,
         'DestWgt': 'weight',
 
@@ -284,7 +283,6 @@ def Base_ReachWD(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:g
     iDesEntID = list(DestDf.columns).index(Settings['AttrEntID'])
     iDesWgt = list(DestDf.columns).index(Settings['DestWgt'])
     iDesGeom = list(DestDf.columns).index('geometry')
-    CalcType = Settings['CalcType']
     CalcExp = Settings['CalcExp']
     CalcComp = Settings['CalcComp']
 
@@ -320,19 +318,24 @@ def Base_ReachWD(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:g
             dst = graphsim_dist(Gph, Odt, Ddt, "cost", OriginAdd=False)
             if dst is None or dst > SrcD: continue
             else:
-                rsltDt.append((dst, DestDf.iat[Di, iDesWgt]))
+                rsltDt.append((dst, float(DestDf.iat[Di, iDesWgt])))
 
         val = 0
         rsltDt.sort(key = lambda x: x[0])
-        if CalcType == 'Linear':
+        if CalcExp == 0.0:
             for n, d in enumerate(rsltDt):
                 val += abs(round(
                     d[1] * (-(d[0]/SrcD)+1) * (CalcComp**n), 4
                 ))
+        elif CalcExp < 0.00:
+            for n, d in enumerate(rsltDt):
+                val += round(
+                    d[1] * (mt.e**(d[0]*CalcExp/SrcD)) * ((-d[0]/SrcD) + 1) * (CalcComp**n), 4
+                )
         else:
             for n, d in enumerate(rsltDt):
                 val += round(
-                    d[1] * (mt.e**(-d[0]*CalcExp/SrcD)) * ((-d[0]/SrcD) + 1) * (CalcComp**n), 4
+                    d[1] * d[0] / SrcD * mt.e**(CalcExp*((d[0]/SrcD)-1)) * (CalcComp**n), 4
                 )
         
         Gph.add_edges_from(((Odt[5][0], Odt[5][1], EdgeOri),))
@@ -343,22 +346,23 @@ def Base_ReachWD(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:g
     return (tuple(OutDf.index), tuple(OutDf['sumN']), tuple(OutDf['sumW']),)
 
 
-def Base_StraightnessA(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
+def Base_ReachND(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
     '''
-    Base_StraightnessA(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
-    packed function on Straightness Averaged\n
+    Base_ReachWD(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
+    packed function on Reach Weighted Distance\n
     returns tuple of ((result tuple), (PointID tuple))
     '''
     # types of calculation
     Settings={
         'AttrEntID': 'FID',
         'SearchDist': 1500.0,
+        'CalcType': 'Linear',
         'DestWgt': 'weight',
     }
     for k,v in SettingDict.items(): # setting kwargs
         Settings[k] = v
     
-    OutDf = pd.DataFrame([[0,]], index=list(OriDf[Settings['AttrEntID']]), columns=['rslt'])
+    OutDf = pd.DataFrame([[0, 0]], index=list(OriDf[Settings['AttrEntID']]), columns=['sumN', 'sumND'])
     SrcD = Settings['SearchDist']
     iOriEntID = list(OriDf.columns).index(Settings['AttrEntID'])
     iOriGeom = list(OriDf.columns).index('geometry')
@@ -369,10 +373,10 @@ def Base_StraightnessA(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, De
     EntriesPtId = tuple(x[0] for x in EntriesPt)
 
     # cycles by oridf
-    for Oi in range(len(OutDf)):
+    for Oi in range(len(OriDf)):
         Oid = OriDf.iat[Oi, iOriEntID]
         ptO = OriDf.iat[Oi, iOriGeom]
-        try: Odt = EntriesPt[EntriesPtId[Oid]]
+        try: Odt = EntriesPt[EntriesPtId.index(Oid)]
         except: continue
         # insert the origin point in graph
         EdgeOri = Gph[Odt[5][0]][Odt[5][1]]
@@ -382,8 +386,8 @@ def Base_StraightnessA(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, De
         ))
 
         # starting individual calculation
-        rsltS = 0
-        rsltW = 0
+        num = 0
+        dist = 0
         for Di in range(len(DestDf)):
             Did = DestDf.iat[Di, iDesEntID]
             if Did == Oid:
@@ -393,27 +397,101 @@ def Base_StraightnessA(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, De
             except: continue
 
             # will filter based on flyby distance
-            dstFB = ptO.distance(DestDf.iat[Di, iDesGeom])
-            if dstFB >  SrcD*1.1:
+            if ptO.distance(DestDf.iat[Di, iDesGeom]) >  SrcD*1.1:
                 continue
-            
-            dst = graphsim_dist(Gph, Odt, Ddt, "cost", OriginAdd=False)
-            if dst is None or dst > SrcD or dst == 0.0: continue
-            else:
-                wd = DestDf.iat[Di, iDesWgt]
-                rsltS += dstFB/dst*wd
-                rsltW += wd
 
-        rslt = rsltS/rsltW
+            dst = graphsim_dist(Gph, Odt, Ddt, "cost", OriginAdd=False)
+            if num == 0: 
+                    dist = dst
+            if dst is None or dst > SrcD: 
+                continue
+            else:
+                num += 1
+                
         
         Gph.add_edges_from(((Odt[5][0], Odt[5][1], EdgeOri),))
         Gph.remove_edges_from((('O', Odt[5][0]), ('O', Odt[5][1]),))
 
-        OutDf.iat[Oi, 0] = rslt
-    return (tuple(OutDf.index), tuple(OutDf['rslt']),)
+        OutDf.iat[Oi, 0] = num
+        OutDf.iat[Oi, 1] = dist
+    return (tuple(OutDf.index), tuple(OutDf['sumN']), tuple(OutDf['sumND']),)
 
 
-def Base_StraightnessB(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
+def Base_ReachNDW(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
+    '''
+    Base_ReachNDW(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
+    packed function on Reach Weighted Distance\n
+    returns tuple of ((result tuple), (PointID tuple))
+    '''
+    # types of calculation
+    Settings={
+        'AttrEntID': 'FID',
+        'SearchDist': 1500.0,
+        'CalcType': 'Linear',
+        'DestWgt': 'weight',
+    }
+    for k,v in SettingDict.items(): # setting kwargs
+        Settings[k] = v
+    
+    OutDf = pd.DataFrame([[0, 0, 0]], index=list(OriDf[Settings['AttrEntID']]), columns=['sumN', 'sumMD', 'sumW'])
+    SrcD = Settings['SearchDist']
+    iOriEntID = list(OriDf.columns).index(Settings['AttrEntID'])
+    iOriGeom = list(OriDf.columns).index('geometry')
+    iDesEntID = list(DestDf.columns).index(Settings['AttrEntID'])
+    iDesWgt = list(DestDf.columns).index(Settings['DestWgt'])
+    iDesGeom = list(DestDf.columns).index('geometry')
+
+    EntriesPtId = tuple(x[0] for x in EntriesPt)
+
+    # cycles by oridf
+    for Oi in range(len(OriDf)):
+        Oid = OriDf.iat[Oi, iOriEntID]
+        ptO = OriDf.iat[Oi, iOriGeom]
+        try: Odt = EntriesPt[EntriesPtId.index(Oid)]
+        except: continue
+        # insert the origin point in graph
+        EdgeOri = Gph[Odt[5][0]][Odt[5][1]]
+        Gph.add_edges_from((
+            ('O', Odt[5][0], {'weight': Odt[6], 'cost': Odt[3][0], 'LineID': Odt[1]}),
+            ('O', Odt[5][1], {'weight': Odt[6], 'cost': Odt[3][1], 'LineID': Odt[1]}),
+        ))
+
+        # starting individual calculation
+        num = 0
+        dist = 0
+        wgt = 0.0
+        for Di in range(len(DestDf)):
+            Did = DestDf.iat[Di, iDesEntID]
+            if Did == Oid:
+                continue
+
+            try: Ddt = EntriesPt[EntriesPtId.index(Did)]
+            except: continue
+
+            # will filter based on flyby distance
+            if ptO.distance(DestDf.iat[Di, iDesGeom]) >  SrcD*1.1:
+                continue
+
+            dst = graphsim_dist(Gph, Odt, Ddt, "cost", OriginAdd=False)
+            if num == 0: 
+                    dist = dst
+            if dst is None or dst > SrcD: 
+                continue
+            else:
+                num += 1
+                wgt += float(DestDf.iat[Di, iDesWgt])
+                
+        
+        Gph.add_edges_from(((Odt[5][0], Odt[5][1], EdgeOri),))
+        Gph.remove_edges_from((('O', Odt[5][0]), ('O', Odt[5][1]),))
+
+        OutDf.iat[Oi, 0] = num
+        OutDf.iat[Oi, 1] = dist
+        OutDf.iat[Oi, 2] = wgt
+    return (tuple(OutDf.index), tuple(OutDf['sumN']), tuple(OutDf['sumMD']), tuple(OutDf['sumW']))
+
+
+def Base_Straightness(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
     '''
     Base_StraightnessB(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
     packed function on Straightness Averaged with distance weighting\n
@@ -423,7 +501,7 @@ def Base_StraightnessB(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, De
     Settings={
         'AttrEntID': 'FID',
         'SearchDist': 1500.0,
-        'CalcExp': 0.35,
+        'CalcExp': -0.35,
         'DestWgt': 'weight',
     }
     for k,v in SettingDict.items(): # setting kwargs
@@ -466,22 +544,28 @@ def Base_StraightnessB(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, De
 
             # will filter based on flyby distance
             dstFB = ptO.distance(DestDf.iat[Di, iDesGeom])
-            if dstFB >  SrcD*1.1:
+            if dstFB >  SrcD*1.0:
                 continue
             
             dst = graphsim_dist(Gph, Odt, Ddt, "cost", OriginAdd=False)
-            if dst is None or dst > SrcD or dst == 0.0: continue
+            if dst is None or dst == 0.0: continue
             else:
-                wd = DestDf.iat[Di, iDesWgt] * (mt.e**(-dst*CalcExp/SrcD)) * (dst/SrcD)
+                if CalcExp == 0.0:
+                    wd = DestDf.iat[Di, iDesWgt]
+                elif CalcExp < 0.0:
+                    wd = DestDf.iat[Di, iDesWgt] * (mt.e**(-dst*CalcExp/SrcD)) * (dst/SrcD)
+                else:
+                    wd = DestDf.iat[Di, iDesWgt] * (dst / SrcD * mt.e**(CalcExp*((dst/SrcD)-1)))
                 rsltS += dstFB/dst * wd 
                 rsltW += wd
-
-        rslt = rsltS/rsltW
+        
+        if rsltW > 0:
+            rslt = rsltS/rsltW
+            OutDf.iat[Oi, 0] = rslt
         
         Gph.add_edges_from(((Odt[5][0], Odt[5][1], EdgeOri),))
         Gph.remove_edges_from((('O', Odt[5][0]), ('O', Odt[5][1]),))
 
-        OutDf.iat[Oi, 0] = rslt
     return (tuple(OutDf.index), tuple(OutDf['rslt']),)
 
 
@@ -520,6 +604,12 @@ def gph_Base_Reach_multi(inpt:tuple):
         case 'WD':
             Opt = Base_ReachWD(inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
             return Opt
+        case 'ND':
+            Opt = Base_ReachND(inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
+            return Opt
+        case 'NDW':
+            Opt = Base_ReachNDW(inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
+            return Opt
         case other:
             return None
 
@@ -529,12 +619,5 @@ def gph_Base_Straightness_multi(inpt:tuple):
     packaged Base_Straigthness for multiprocessing\n
     Base_StraightnessA(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)
     '''
-    match inpt[0]:
-        case 'A':
-            Opt = Base_StraightnessA(inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
-            return Opt
-        case 'B':
-            Opt = Base_StraightnessB(inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
-            return Opt
-        case other:
-            return None
+    Opt = Base_Straightness(inpt[0], inpt[1], inpt[2], inpt[3], inpt[4])
+    return Opt
