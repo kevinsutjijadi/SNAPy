@@ -10,6 +10,7 @@ __version__ = "0.1.0"
 # importing standard libraries
 import pandas as pd
 import scipy.integrate as integrate
+import geopandas as gpd
 import numpy as np
 from scipy.special import erf
 
@@ -57,12 +58,14 @@ def SimTimeDistribute(Gdf, SetDt, spread=1, ApdAtt='HrTrf_'):
     Calc_Traffic(Gdf, SetDt, spread=1)
     calculate segments and datas
     """
-    Opt = []
+    dfcrs = Gdf.crs.to_epsg()
+    Opt = [list(Gdf['geometry']),]
     for i in Gdf.index:
         Opt.append(Calc_HourlyTrafficSpread(
             tuple((Gdf.at[i, s[0]], s[1], s[2], s[3]) for s in SetDt), 
             spread
             ))
-    Ocl = tuple(f'{ApdAtt}{n*spread}' for n in range(len(Opt[0])))
-    Odf = pd.DataFrame(Opt, columns=Ocl)
+    Ocl = list(f'{ApdAtt}{n*spread}' for n in range(len(Opt[0])))
+    Ocl = ['geometry'] + Ocl
+    Odf = gpd.GeoDataFrame(Opt, columns=Ocl, crs=f'EPSG:{dfcrs}')
     return Odf
