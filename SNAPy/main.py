@@ -124,6 +124,10 @@ class GraphSims:
         self.EntriesDf['xPt_Y'] = [dt[4].y for dt in self.EntriesPt]
 
 
+    def __repr__(self) -> str:
+        strNwSim = f'GraphSim object of {len(self.NetworkDf)} Segments and {len(self.EntriesDf)} Entries'
+        return strNwSim
+
     def BetweenessPatronage(self, OriID=None, DestID=None, **kwargs):
         """
         betweenesspatronage(OriID=list, DestID=list, **kwargs)\n

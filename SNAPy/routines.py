@@ -77,11 +77,11 @@ def ReachAggregate(GraphSm:GraphSims, MeasureDf:pd.DataFrame, **kwargs):
 
         rsltattr = baseSet['OptPrefix']+str(rw[1])+baseSet['OptSuffix']
 
-        if rsltattr in GraphSm.EntriesDf.columns:
-            rn = 1
-            while rsltattr + f'_{rn}' in GraphSm.EntriesDf.columns:
-                rn += 1
-            rsltattr += f'_{rn}'
+        # if rsltattr in GraphSm.EntriesDf.columns:
+        #     rn = 1
+        #     while rsltattr + f'_{rn}' in GraphSm.EntriesDf.columns:
+        #         rn += 1
+        #     rsltattr += f'_{rn}'
 
         if len(OriIds) == 0 or len(DesIds) == 0:
             print(f'\t\tOne or more keys not found')   
@@ -143,7 +143,7 @@ def BetweenessPAggregate(GraphSm:GraphSims, PairsDf:pd.DataFrame, MeasureDf:pd.D
         n += 1
         rw = rw[1]
 
-        rsltattr = baseSet['OptPrefix']+str(rw[2])+baseSet['OptSuffix']
+        rsltattr = baseSet['OptPrefix']+str(rw[0])+baseSet['OptSuffix']
 
         if rsltattr in GraphSm.EntriesDf.columns:
             rn = 1

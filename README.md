@@ -4,7 +4,7 @@
 
 A package of spatial network analysis tools based on Geopandas dataframe and networkx pathfinding. Developed for regional scale spatial network analysis in Python environment for efficiency and better documentation. With capabilities of multithreading using multiprocessing.pool. Most functions and tools are based from [Urban Network Analysis Toolbox](https://cityform.mit.edu/projects/urban-network-analysis.html) by MIT City Form Lab, but there are some (Reach, Betweeness Patronage) that have different mathematical expression which is elaborated on the  documentation in this repository.  
 
-[Documentation](https://github.com/kevinsutjijadi/SNAPy/tree/main/Documentation) can be accesed with this link
+[Documentation](https://kevinsutjijadi.github.io/SNAPyDocs/) can be accesed with this link
 
 ## Authorship
 made by kevinsutjijadi @2023 Jakarta, Indonesia  

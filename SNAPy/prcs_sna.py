@@ -387,7 +387,7 @@ def Base_ReachND(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:g
 
         # starting individual calculation
         num = 0
-        dist = 0
+        dist = SrcD
         for Di in range(len(DestDf)):
             Did = DestDf.iat[Di, iDesEntID]
             if Did == Oid:
@@ -401,12 +401,11 @@ def Base_ReachND(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:g
                 continue
 
             dst = graphsim_dist(Gph, Odt, Ddt, "cost", OriginAdd=False)
-            if num == 0: 
-                    dist = dst
-            if dst is None or dst > SrcD: 
-                continue
-            else:
-                num += 1
+            if dst is not None: 
+                if dst < SrcD:
+                    if dst < dist:
+                        dist = dst
+                    num += 1
                 
         
         Gph.add_edges_from(((Odt[5][0], Odt[5][1], EdgeOri),))
@@ -458,7 +457,7 @@ def Base_ReachNDW(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:
 
         # starting individual calculation
         num = 0
-        dist = 0
+        dist = SrcD
         wgt = 0.0
         for Di in range(len(DestDf)):
             Did = DestDf.iat[Di, iDesEntID]
@@ -469,18 +468,16 @@ def Base_ReachNDW(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:
             except: continue
 
             # will filter based on flyby distance
-            if ptO.distance(DestDf.iat[Di, iDesGeom]) >  SrcD*1.1:
+            if ptO.distance(DestDf.iat[Di, iDesGeom]) >  SrcD*1.05:
                 continue
 
             dst = graphsim_dist(Gph, Odt, Ddt, "cost", OriginAdd=False)
-            if num == 0: 
-                    dist = dst
-            if dst is None or dst > SrcD: 
-                continue
-            else:
-                num += 1
-                wgt += float(DestDf.iat[Di, iDesWgt])
-                
+            if dst is not None: 
+                if dst < SrcD:
+                    if dst < dist:
+                        dist = dst
+                    num += 1
+                    wgt += float(DestDf.iat[Di, iDesWgt])        
         
         Gph.add_edges_from(((Odt[5][0], Odt[5][1], EdgeOri),))
         Gph.remove_edges_from((('O', Odt[5][0]), ('O', Odt[5][1]),))

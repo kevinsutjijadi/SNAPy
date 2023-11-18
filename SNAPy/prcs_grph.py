@@ -183,17 +183,18 @@ def graphsim_dist(Gph:nx.Graph, DtOri:tuple, DtDst:tuple, AttrWgt:str="cost", Or
         sln_Dst = abs(DtOri[3][0] - DtDst[3][0]) # delta distance between the points
         # if DetourR > 1.0:
         # adding edges to points
-        if OriginAdd:
-            Gph.add_edges_from((
-                ('O', DtOri[5][0], {'weight': DtOri[6], 'cost': DtOri[3][0], 'LineID': DtOri[1]}),
-                ('O', DtOri[5][1], {'weight': DtOri[6], 'cost': DtOri[3][1], 'LineID': DtOri[1]}),
-            ))
-            # Gph.remove_edge(DtOri[5][0], DtOri[5][1]) # because occupies same stuff
-        Gph.add_edges_from((
-            ('D', DtDst[5][0], {'weight': DtDst[6], 'cost': DtDst[3][0], 'LineID': DtDst[1]}),
-            ('D', DtDst[5][1], {'weight': DtDst[6], 'cost': DtDst[3][1], 'LineID': DtDst[1]}),
-        ))
-        Gph.remove_edge(DtDst[5][0], DtDst[5][1])
+        return sln_Dst
+        # if OriginAdd:
+        #     Gph.add_edges_from((
+        #         ('O', DtOri[5][0], {'weight': DtOri[6], 'cost': DtOri[3][0], 'LineID': DtOri[1]}),
+        #         ('O', DtOri[5][1], {'weight': DtOri[6], 'cost': DtOri[3][1], 'LineID': DtOri[1]}),
+        #     ))
+        #     # Gph.remove_edge(DtOri[5][0], DtOri[5][1]) # because occupies same stuff
+        # Gph.add_edges_from((
+        #     ('D', DtDst[5][0], {'weight': DtDst[6], 'cost': DtDst[3][0], 'LineID': DtDst[1]}),
+        #     ('D', DtDst[5][1], {'weight': DtDst[6], 'cost': DtDst[3][1], 'LineID': DtDst[1]}),
+        # ))
+        # Gph.remove_edge(DtDst[5][0], DtDst[5][1])
     else:
         # adding edges to points
         if OriginAdd:
@@ -214,8 +215,7 @@ def graphsim_dist(Gph:nx.Graph, DtOri:tuple, DtDst:tuple, AttrWgt:str="cost", Or
         if OriginAdd:
             Gph.add_edges_from(((DtOri[5][0], DtOri[5][1], EdgeOri),))
             Gph.remove_edges_from((('O', DtOri[5][0]), ('O', DtOri[5][1]),))
-            if sln_Dst is None:
-                Gph.add_edges_from(((DtDst[5][0], DtDst[5][1], EdgeDst),))
+            Gph.add_edges_from(((DtDst[5][0], DtDst[5][1], EdgeDst),))
         else:
             Gph.add_edges_from(((DtDst[5][0], DtDst[5][1], EdgeDst),))
         Gph.remove_edges_from((('D', DtDst[5][0]), ('D', DtDst[5][1]),))
@@ -246,19 +246,21 @@ def graphsim_paths(Gph:nx.Graph, DtOri:tuple, DtDst:tuple, AttrWgt:str="cost", S
     EdgeDst = Gph[DtDst[5][0]][DtDst[5][1]]
     if DtOri[1] == DtDst[1]:
         sln_Dst = abs(DtOri[3][0] - DtDst[3][0]) # delta distance between the points
+
+        return ((DtOri[1],),), (sln_Dst,)
         # if DetourR > 1.0:
         # adding edges to points
-        if OriginAdd:
-            Gph.add_edges_from((
-                ('O', DtOri[5][0], {'weight': DtOri[6], 'cost': DtOri[3][0], 'LineID': DtOri[1]}),
-                ('O', DtOri[5][1], {'weight': DtOri[6], 'cost': DtOri[3][1], 'LineID': DtOri[1]}),
-            ))
-            # Gph.remove_edge(DtOri[5][0], DtOri[5][1]) # because occupies same stuff
-        Gph.add_edges_from((
-            ('D', DtDst[5][0], {'weight': DtDst[6], 'cost': DtDst[3][0], 'LineID': DtDst[1]}),
-            ('D', DtDst[5][1], {'weight': DtDst[6], 'cost': DtDst[3][1], 'LineID': DtDst[1]}),
-        ))
-        Gph.remove_edge(DtDst[5][0], DtDst[5][1])
+        # if OriginAdd:
+        #     Gph.add_edges_from((
+        #         ('O', DtOri[5][0], {'weight': DtOri[6], 'cost': DtOri[3][0], 'LineID': DtOri[1]}),
+        #         ('O', DtOri[5][1], {'weight': DtOri[6], 'cost': DtOri[3][1], 'LineID': DtOri[1]}),
+        #     ))
+        #     # Gph.remove_edge(DtOri[5][0], DtOri[5][1]) # because occupies same stuff
+        # Gph.add_edges_from((
+        #     ('D', DtDst[5][0], {'weight': DtDst[6], 'cost': DtDst[3][0], 'LineID': DtDst[1]}),
+        #     ('D', DtDst[5][1], {'weight': DtDst[6], 'cost': DtDst[3][1], 'LineID': DtDst[1]}),
+        # ))
+        # Gph.remove_edge(DtDst[5][0], DtDst[5][1])
     else:
         # adding edges to points
         if OriginAdd:

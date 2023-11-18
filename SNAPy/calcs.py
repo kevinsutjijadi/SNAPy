@@ -59,13 +59,19 @@ def SimTimeDistribute(Gdf, SetDt, spread=1, ApdAtt='HrTrf_'):
     calculate segments and datas
     """
     dfcrs = Gdf.crs.to_epsg()
-    Opt = [list(Gdf['geometry']),]
-    for i in Gdf.index:
-        Opt.append(Calc_HourlyTrafficSpread(
-            tuple((Gdf.at[i, s[0]], s[1], s[2], s[3]) for s in SetDt), 
+
+    Ocl = list(f'{ApdAtt}{n*spread}' for n in range(int(round(24/spread,0))))
+    ncol = len(Gdf.columns)
+    GdfC = Gdf.copy()
+    for cl in Ocl:
+        GdfC[cl] = [0,] * len(GdfC)
+
+    for i in GdfC.index:
+        rst = Calc_HourlyTrafficSpread(
+            tuple((GdfC.at[i, s[0]], s[1], s[2], s[3]) for s in SetDt), 
             spread
-            ))
-    Ocl = list(f'{ApdAtt}{n*spread}' for n in range(len(Opt[0])))
-    Ocl = ['geometry'] + Ocl
-    Odf = gpd.GeoDataFrame(Opt, columns=Ocl, crs=f'EPSG:{dfcrs}')
-    return Odf
+            )
+        for r, cl in zip(rst, Ocl):
+            GdfC.loc[i, cl] = r
+
+    return GdfC
