@@ -550,9 +550,9 @@ def Base_Straightness(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, Des
                 if CalcExp == 0.0:
                     wd = DestDf.iat[Di, iDesWgt]
                 elif CalcExp < 0.0:
-                    wd = DestDf.iat[Di, iDesWgt] * (mt.e**(-dst*CalcExp/SrcD)) * (dst/SrcD)
+                    wd = DestDf.iat[Di, iDesWgt] * (mt.e**(dst*CalcExp/SrcD)) * (1-(dst/SrcD))
                 else:
-                    wd = DestDf.iat[Di, iDesWgt] * (dst / SrcD * mt.e**(CalcExp*((dst/SrcD)-1)))
+                    wd = DestDf.iat[Di, iDesWgt] * (dst / SrcD) * mt.e**(CalcExp*((dst/SrcD)-1))
                 rsltS += dstFB/dst * wd 
                 rsltW += wd
         
