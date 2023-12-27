@@ -16,3 +16,4 @@ with more control over spatial items
 from .main import GraphSims
 from .calcs import SimTimeDistribute
 from .routines import *
+from .prcs_geom import IntersectLines, eucDist
