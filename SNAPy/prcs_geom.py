@@ -89,15 +89,15 @@ def geom_linesplits(ln, points, tol=1e-3):
 
     ist = []
     for pt in points: # checks if any intersecting
-        if ln.distance(pt) < tol:
+        if ln.distance(pt) < tol and Point(ln.coords[0]).distance(pt) > tol and Point(ln.coords[-1]).distance(pt) > tol:
             ist.append(pt)
 
     if len(ist) == 0:
         return None
     coorn = [ln,]
-
+    iter = 0
     for pt in ist:
-        cutd = False
+        iter += 1
         coortp = coorn
         coorn = []
         for lnc in coortp:
@@ -109,8 +109,8 @@ def geom_linesplits(ln, points, tol=1e-3):
                     break
             if j is not None:
                 if Point(lnc[0]).distance(pt) < tol or Point(lnc[-1]).distance(pt) < tol:
-                    lnspl = (ln,)
-                elif Point(lnc[j + 1]).equals(pt):
+                    lnspl = (LineString(lnc),)
+                elif Point(lnc[j + 1]).distance(pt) < tol:
                     lnspl = (LineString(lnc[:j + 2]), LineString(lnc[j + 1:]))
                 else:
                     lnspl = (LineString(lnc[:j + 1] + [(pt.x, pt.y)]), LineString([(pt.x, pt.y)]+ lnc[j + 1:]))
@@ -151,13 +151,11 @@ def geom_closestline(point:Point, lineset:gpd.GeoDataFrame, searchlim:float=300,
     lnID = lnfid[nrLn]
     return lnID, ixPt, ixDs
 
-
 def checkclosePt(pt, ptLt, tol=1e-3):
     for n, p in enumerate(ptLt):
         if mt.dist(pt, p) < tol:
             return n
     return None
-
 
 def eucDist(ptA:np.ndarray, ptO:np.ndarray):
     '''
@@ -194,19 +192,91 @@ def bbox_intersects(a, b):
     return True
 
 def IntersectLinetoPoints(d, f, tol=1e-3):
+    px = []
+    if d.geometry.distance(Point(f.coords[0])) < tol:
+        px.append(Point(f.coords[0]))
+    if d.geometry.distance(Point(f.coords[-1])) < tol:
+        px.append(Point(f.coords[-1]))
     if d.geometry.intersects(f):
         pt = d.geometry.intersection(f)
         if pt.type == "MultiPoint":
             pt = list(pt.geoms)
         elif not (isinstance(pt, list) or isinstance(pt, tuple)):
-            pt = (pt,)
-        return pt
-    elif f.distance(Point(d.geometry.coords[0])) < tol:
-        return (Point(d.geometry.coords[0]),)
-    elif f.distance(Point(d.geometry.coords[-1])) < tol:
-        return (Point(d.geometry.coords[-1]),)
+            pt = [pt,]
+        px += pt
+        return px
+    # elif f.distance(Point(d.geometry.coords[0])) < tol:
+    #     return (Point(d.geometry.coords[0]),)
+    # elif f.distance(Point(d.geometry.coords[-1])) < tol:
+    #     return (Point(d.geometry.coords[-1]),)
     else:
-        return None
+        return px
+
+def FlattenLineString(gdf):
+    """
+    FlattenLineString(gdf:GeodataFrame)
+    converts geodataframe with linetringZ to linestring
+    """
+    odf = gdf.copy()
+    odf["geometry"] = gdf.apply(lambda x: LineString(np.array(x.geometry.coords)[:,:2]), axis=1)
+    return odf
+
+def NetworkSegmentDistance(df, dist=50):
+    """
+    Segment lines by NetworkSegmentDistance
+    """
+    df = df.copy()
+    if len(df.geometry[0].coords[0]) == 3:
+        df = FlattenLineString(df)
+        print('Dataframe has LineStringZ, flattening to LineString.')
+
+    ndf = {}
+    clt = []
+    for c in df.columns:
+        ndf[c] = []
+        if c not in ('geometry',):
+            clt.append(c)
+        
+    for i, d in df.iterrows():
+        dgl = d.geometry.length
+        if dgl > dist*1.5:
+            NSg = round(dgl/dist, 0)
+            LSg = dgl/NSg
+            lnc = d.geometry.coords
+            Sgmts = []
+            tpts = []
+            wlks = 0
+            for i in range(len(lnc)-1):
+                tpts.append(lnc[i])
+                sgd = eucDist(np.array(lnc[i]), np.array(lnc[i+1]))
+                sga = (wlks + sgd) // LSg
+                if sga > 0:
+                    for n in range(int(sga)):
+                        tdst = eucDist(np.array(tpts[-1]), np.array(lnc[i+1]))
+                        param = (LSg - wlks)/tdst
+                        edpt = (((lnc[i+1][0] - tpts[-1][0])*param + tpts[-1][0]), 
+                                ((lnc[i+1][1] - tpts[-1][1])*param + tpts[-1][-1]))
+                        tpts.append(edpt)
+                        Sgmts.append(LineString(tpts))
+                        tpts = [edpt]
+                        wlks = 0
+                else:
+                    wlks += sgd
+            if len(tpts) > 0:
+                tpts.append(lnc[-1])
+                Sgmts.append(LineString(tpts))
+                
+            for n in Sgmts:
+                ndf['geometry'].append(n)
+                for c in clt:
+                    ndf[c].append(d[c])
+        else:
+            ndf['geometry'].append(d.geometry)
+            for c in clt:
+                ndf[c].append(d[c])
+    return gpd.GeoDataFrame(ndf, crs=df.crs)
+                
+
 
 def NetworkSegmentIntersections(df, dfi=None, EndPoints=True, tol=1e-3):
     """
@@ -214,11 +284,15 @@ def NetworkSegmentIntersections(df, dfi=None, EndPoints=True, tol=1e-3):
     intersect lines from a single geodataframe. Returns segmented lines in geopandas, and end points geopandas that contains boolean attributes as intersections or end points.
     """
     df = df.copy()
+    if len(df.geometry[0].coords[0]) == 3:
+        df = FlattenLineString(df)
+        print('Dataframe has LineStringZ, flattening to LineString.')
+
     ndf = {}
     clt = []
     for c in df.columns:
         ndf[c] = []
-        if c not in ('geometry'):
+        if c not in ('geometry',):
             clt.append(c)
     
     df['fid'] = df.index
@@ -234,17 +308,15 @@ def NetworkSegmentIntersections(df, dfi=None, EndPoints=True, tol=1e-3):
         dfx = dfx[dfx['fid'] != i]
         ptr = dfx.apply(lambda x: IntersectLinetoPoints(d, x.geometry, tol), axis=1)
         for p in ptr:
-            if p is not None:
+            if p is not None or len(p) == 0:
                 ptlt += p
-
         try:
-            lns = geom_linesplits(d.geometry, ptlt)
+            lns = geom_linesplits(d.geometry, ptlt, tol)
             if lns is not None:
                 for l in lns:
                     ndf['geometry'].append(l)
                     for c in clt:
                         ndf[c].append(d[c])
-                        
             else:
                 print(f'\tline {i} has no intersections')
                 ndf['geometry'].append(d.geometry)
@@ -263,15 +335,30 @@ def NetworkSegmentIntersections(df, dfi=None, EndPoints=True, tol=1e-3):
         for ln in ndf['geometry']:
             ptl = ln.coords
             ptlt += [ptl[0], ptl[-1]] # collecting endpoints
-        ptar = np.asarray(ptlt)
+        ptar = ((round(p[0], 3), round(p[1], 3))for p in ptlt)
+        
+        ptp = []
+        ptn = []
+        for pt in ptar:
+            if pt not in ptp:
+                ptp.append(pt)
+                ptn.append(False)
+            else:
+                ptn[ptp.index(pt)] = True
 
-        alar = np.sum(eucDist(ptar, ptar) < tol, axis=1) # using numpy array to solve near points
-        snar = tuple(alar > 1)
-
-        pts = [Point(p) for p in ptar]
-        pts = gpd.GeoDataFrame(geometry=pts, crs=df.crs)
+        ptp = [Point(p) for p in ptp]
+        pts = gpd.GeoDataFrame(geometry=ptp, crs=df.crs)
         pts['fid'] = pts.index
-        pts['Intersection'] = snar
+        pts['Intersection'] = ptn
+
+        # checks if segmented lines are connected or endpoints
+        pte = list((p.x, p.y) for p in pts[pts['Intersection'] == False].geometry)
+        ndf['DeadEnd'] = False
+        for i, d in ndf.iterrows():
+            if (round(d.geometry.coords[0][0],3), round(d.geometry.coords[0][1],3)) in pte:
+                ndf.loc[i, 'DeadEnd'] = True
+            elif (round(d.geometry.coords[-1][0],3), round(d.geometry.coords[-1][1],3)) in pte:
+                ndf.loc[i, 'DeadEnd'] = True
 
         return ndf, pts
     else:
