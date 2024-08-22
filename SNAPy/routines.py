@@ -116,6 +116,10 @@ def BetweenessPAggregate(GraphSm:GraphSims, PairsDf:pd.DataFrame, MeasureDf:pd.D
         'SearchDist': 700,
         'DetourR' : 1.2, 
         'AlphaExp' : 0.35,
+        'DistMul' : 2.0,
+        'EdgeCmin' : 0.9,
+        'PathLim' : 200,
+        'LimCycles' : 1_000_000,
     }
     for k,v in kwargs.items():
         baseSet[k] = v
@@ -151,30 +155,40 @@ def BetweenessPAggregate(GraphSm:GraphSims, PairsDf:pd.DataFrame, MeasureDf:pd.D
                 rn += 1
             rsltattr += f'_{rn}'
 
-        try:
-            SrcDist = rw[3]
-        except:
-            SrcDist = baseSet['SearchDist']
+        try: SrcDist = rw[3]
+        except: SrcDist = baseSet['SearchDist']
 
-        try:
-            DetourR = rw[4]
-        except:
-            DetourR = baseSet['DetourR']
+        try: DetourR = rw[4]
+        except: DetourR = baseSet['DetourR']
         
-        try:
-            AlphaExp = rw[5]
-        except:
-            AlphaExp = baseSet['AlphaExp']
+        try: AlphaExp = rw[5]
+        except: AlphaExp = baseSet['AlphaExp']
+        
+        try: DistMul = rw[6]
+        except: DistMul = baseSet['DistMul']
+        
+        try: EdgeCmin = rw[7]
+        except: EdgeCmin = baseSet['EdgeCmin']
+
+        try: PathLim = rw[8]
+        except: PathLim = baseSet['PathLim']
+
+        try: LimCycles = rw[9]
+        except: LimCycles = baseSet['LimCycles']
 
         # iterating per rows
-        print(f'\t{n}/{ttl}  Reach from {rw[1]} to {rw[2]}')
+        print(f'\t{n}/{ttl}  BetweenessPatronage from {rw[1]} to {rw[2]}')
         sets={
             'OriWgt': rw[1],
             'DestWgt' : rw[2],
             'RsltAttr': rsltattr,
             'SearchDist' : SrcDist, 
             'DetourR' : DetourR, 
-            'AlphaExp' : AlphaExp
+            'AlphaExp' : AlphaExp,
+            'DistMul' : DistMul,
+            'EdgeCmin' : EdgeCmin,
+            'PathLim' : PathLim,
+            'LimCycles' : LimCycles,
         }
 
         GraphSm.BetweenessPatronage(**sets)
