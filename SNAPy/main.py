@@ -5,7 +5,7 @@
 __author__ = "Kevin Sutjijadi"
 __copyright__ = "Copyright 2023, Kevin Sutjijadi"
 __credits__ = ["Kevin Sutjijadi"]
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 """
 Spatial Network Analysis (SNA) module
@@ -28,7 +28,7 @@ from .prcs_geom import *
 from .prcs_grph import *
 from .prcs_sna import *
 from .utils import MultiProcessPool
-
+from .SGACy.graph import GraphCy
 
 
 ### packed functions for multiprocessing
@@ -46,8 +46,10 @@ class GraphSims:
             'EntDist': 100,
             'EntID': 'FID',
             'EdgeID': 'FID',
-            'EdgeCost': None,
-            'EdgeCostDef': 1.0,
+            'AE_Lnlength': None,
+            'AE_LnlengthR': None,
+            'AN_EdgeCost': None,
+            'SizeBuffer': 1.2,
             'Verbose': True,
             'EntryDtDump': True,
             'EntryDtDumpOvr': False,
@@ -79,25 +81,36 @@ class GraphSims:
             print('NetworkDf EdgeID not detected, adding from index')
             NetworkDf[self.baseSet['EdgeID']] = range(int(NetworkDf.shape[0]))
         
+        self.Gph = GraphCy(int(NetworkDf.size*self.baseSet['SizeBuffer']+2), int(NetworkDf.size*self.baseSet['SizeBuffer']+4))
+        self.Gph.fromGeopandas_Edges(NetworkDf,
+                                    self.baseSet['AE_Lnlength'],
+                                    self.baseSet['AE_LnlengthR'],
+                                    )
+        # future settings
+        # self.baseSet['A_LnW'],
+        # self.baseSet['A_PtstW'],
+        # self.baseSet['A_PtstC'],
+        # self.baseSet['A_PtedW'],
+        # self.baseSet['A_PtedC'],
+        self.NetworkSize = self.Gph.sizeInfo() # returns (nodesize, edgesize)
+        print(f'Graph Built with {self.NetworkSize[0]:,} Nodes, {self.NetworkSize[1]:,} Edges')
+        self.NetworkDf = NetworkDf
         
-        self.Gph, self.Pid, self.NetworkDf = BuildGraph(NetworkDf, self.baseSet['EdgeCostDef'], self.baseSet['EdgeCost'])
-        print('Graph Built')
 
         if self.baseSet['EntryDtDump']:# if dump
             if not os.path.exists(self.dumpdir):
                 os.mkdir(self.dumpdir)
             if os.path.exists(f'{self.dumpdir}\\{self.EntPtDumpDir}') and not self.baseSet['EntryDtDumpOvr']:
-
                 print('Pickled EntriesPt File Detected, using it instead')
                 with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'rb') as op:
                     self.EntriesPt = pickle.load(op)
                 print(f'Found {len(self.EntriesPt)} Pickled Entry Points at {self.dumpdir}')
             else:    
                 if self.baseSet['Threads'] == 1:
-                    self.EntriesPt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'], self.baseSet['EdgeCost'] )
+                    self.EntriesPt = graph_addentries(NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'], self.baseSet['AN_EdgeCost'] )
                 else:
                     chunksize = int(round(len(self.EntriesDf) / self.baseSet['Threads'], 0)) + 1
-                    largs = tuple((NetworkDf, self.EntriesDf[i:i+chunksize], self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'], self.baseSet['EdgeCost']) for i in range(0, len(self.EntriesDf), chunksize))
+                    largs = tuple((NetworkDf, self.EntriesDf[i:i+chunksize], self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'], self.baseSet['AN_EdgeCost']) for i in range(0, len(self.EntriesDf), chunksize))
                     EntPt = MultiProcessPool(gph_addentries_multi, largs)
                     EntriesPt = []
                     for ent in EntPt:
@@ -119,9 +132,10 @@ class GraphSims:
                 for ent in EntPt:
                     EntriesPt += list(ent)
                 self.EntriesPt = tuple(EntriesPt)
-        self.EntriesDf['xLn_ID'] = [dt[1] for dt in self.EntriesPt]      
-        self.EntriesDf['xPt_X'] = [dt[4].x for dt in self.EntriesPt]
-        self.EntriesDf['xPt_Y'] = [dt[4].y for dt in self.EntriesPt]
+        self.EntriesDf['xLn_ID'] = [dt[1] for dt in self.EntriesPt]
+        self.EntriesDf['xPt_X'] = [dt[4][0] for dt in self.EntriesPt]
+        self.EntriesDf['xPt_Y'] = [dt[4][1] for dt in self.EntriesPt]
+        self.EntriesDf['xPt_Z'] = [dt[4][1] for dt in self.EntriesPt]
 
 
     def __repr__(self) -> str:
@@ -144,7 +158,12 @@ class GraphSims:
             'AttrEntID': self.baseSet['EntID'],
             'SearchDist' : 1200.0, 
             'DetourR' : 1.0, 
-            'AlphaExp' : 0.0
+            'AlphaExp' : 0.0,
+            'DistMul' : 2.0,
+            'EdgeCmin' : 0.9,
+            'PathLim' : 200,
+            'LimCycles' : 1_000_000,
+            'OpType' : 'P'
         }
         if kwargs:
             for k,v in kwargs.items():
@@ -173,28 +192,36 @@ class GraphSims:
         # Base_BetweenessPatronage(Gdf, Gph, EntriesPt, OriDf, DestDf, SettingDict)
         if self.baseSet['Threads'] == 1:
             tmSt = time()
-            print('Processing with singlethreading')
-            Rslt = Base_BetweenessPatronage(self.NetworkDf, self.Gph, self.EntriesPt, OriDf, DestDf, Settings)
+            if Settings['OpType'] == 'P':
+                print('Processing with singlethreading & Plural mapping')
+                Rslt = Base_BetweenessPatronage_Plural(self.NetworkDf, self.Gph, self.EntriesPt, OriDf, DestDf, Settings)
+            else:
+                print('Processing with singlethreading & Singular mapping')
+                Rslt = Base_BetweenessPatronage_Singular(self.NetworkDf, self.Gph, self.EntriesPt, OriDf, DestDf, Settings)
             print(f'Processing finished in {time()-tmSt:,.3f} seconds')
             self.NetworkDf[Settings['RsltAttr']] = (0,)*len(Rslt[1])
-            for v, i in zip(Rslt[0], Rslt[1]):
+            for i, v in zip(Rslt[0], Rslt[1]):
                 self.NetworkDf.at[i, Settings['RsltAttr']] = v
 
         else:
             chunksize = int(round(len(OriDf) / self.baseSet['Threads'], 0)) + 1
-            if len(OriDf) > 400:
+            if len(OriDf) > 100:
                 chunksize = int(round(chunksize / 2,0))
             largs = [(self.NetworkDf, self.Gph, self.EntriesPt, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
-            print(f'Processing with multithreading, with chunksize {chunksize}')
             tmSt = time()
-            SubRslt = MultiProcessPool(gph_Base_BetweenessPatronage_multi, largs)
+            if Settings['OpType'] == 'P':
+                print(f'Processing with multithreading & Plural mapping, with chunksize {chunksize}')
+                SubRslt = MultiProcessPool(gph_Base_BetweenessPatronage_Plural_multi, largs)
+            else:
+                print(f'Processing with multithreading & Singular mapping, with chunksize {chunksize}')
+                SubRslt = MultiProcessPool(gph_Base_BetweenessPatronage_Singular_multi, largs)
+            
             print(f'Multiprocessing finished in {time()-tmSt:,.3f} seconds')
             self.NetworkDf[Settings['RsltAttr']] = (0,)*len(self.NetworkDf)
             for rslt in SubRslt:
                 for i, v in zip(rslt[0], rslt[1]):
                     self.NetworkDf.at[i, Settings['RsltAttr']] += v
         return self.NetworkDf
-
 
     def Reach(self, OriID:list=None, DestID:list=None, Mode:str='N', **kwargs):
         """
@@ -212,6 +239,7 @@ class GraphSims:
             'CalcExp': 0.35,
             'CalcComp': 0.6,
             'RsltAttr': 'Reach',
+            'LimCycles' : 1_000_000,
         }
         if kwargs:
             for k,v in kwargs.items():
@@ -313,6 +341,7 @@ class GraphSims:
             'CalcExp': 0.35,
             'DestWgt': 'weight',
             'RsltAttr': 'Straightness',
+            'LimCycles' : 1_000_000,
         }
         if kwargs:
             for k,v in kwargs.items():
@@ -351,10 +380,10 @@ class GraphSims:
             chunksize = int(round(len(OriDf) / self.baseSet['Threads'], 0)) + 1
             print(f'Processing with multithreading, with chunksize {chunksize}')
             tmSt = time()
-            if len(OriDf) > 400:
-                chunksize = int(round(chunksize / 2 , 0))
+            if len(OriDf) > 100:
+                chunksize = int(round(chunksize / 4 , 0))
             largs = [(self.Gph, self.EntriesPt, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
-            SubRslt = MultiProcessPool(gph_Base_Straightness_multi, largs)
+            SubRslt = MultiProcessPool(gph_Base_Straightness_multi, largs, self.baseSet['Threads'])
             print(f'Multiprocessing finished in {time()-tmSt:,.3f} seconds')
 
             if RsltAttr not in self.EntriesDf.columns:
@@ -364,73 +393,3 @@ class GraphSims:
                 for i, v in zip(rslt[0], rslt[1]):
                     self.EntriesDf.at[i, RsltAttr] = v
         return self.EntriesDf
-
-
-    def MapPaths(self, OriID:list=None, DestID:list= None, **kwargs):
-        """
-        MapPaths(OriID:list=None, DestID:list= None, **kwargs)\n
-        Mapping paths for future processing, results can be pickled
-        """
-        Settings={
-            'AttrEdgeID': self.baseSet['EdgeID'],
-            'AttrEntID': self.baseSet['EntID'],
-            'SearchDist' : 1200.0, 
-            'DetourR' : 1.0, 
-            'DumpSt' : True,
-            'DumpOvr': False,
-            'DumpFl' : 'PathMap.pkl'
-        }
-        if kwargs:
-            for k,v in kwargs.items():
-                Settings[k] = v
-        # processing betweeness patronage of a network.
-        # collect all relatable origins and destinations
-        OriDf = self.EntriesDf[[self.baseSet['EntID'], 'geometry']]
-        DestDf = self.EntriesDf[[self.baseSet['EntID'], 'geometry']]   
-        DumpFl = Settings['DumpFl']
-
-        if OriID is not None: # if there are specific OriID
-            OriDf = OriDf[(OriDf[self.baseSet['EntID']].isin(OriID))]
-        print(f'Collected {len(OriDf)} Origin Point[s]')
-        
-        if DestID is not None: # if there are specific destID
-            DestDf = DestDf[(DestDf[self.baseSet['EntID']].isin(DestID))]
-        print(f'Collected {len(DestDf)} Destination Point[s]')
-        OptIDs = []
-        OptPths = []
-        OptDsts = []
-
-        if os.path.exists(f'{self.dumpdir}\\{DumpFl}') and (Settings['DumpSt'] and not Settings['DumpOvr']):
-            print('Pickled PathMap File Detected, using it instead')
-            with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'rb') as op:
-                DumpData = pickle.load(op)
-            print(f'Found {len(DumpData[0])} Pickled path maps')
-            OptIDs = DumpData[0]
-            OptPths = DumpData[1]
-            OptDsts = DumpData[2]
-        elif self.baseSet['Threads'] == 1:
-            tmSt = time()
-            print('Processing with singlethreading')
-            OptIDs, OptPths, OptDsts = Base_MapPaths(self.Gph, self.EntriesPt, OriDf, DestDf, Settings)
-            print(f'Processing finished in {time()-tmSt:,.3f} seconds')
-        else:
-            chunksize = int(round(len(OriDf) / self.baseSet['Threads'], 0)) + 1
-            if len(OriDf) > 400:
-                chunksize = int(round(chunksize / 2,0))
-            largs = [(self.Gph, self.EntriesPt, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
-            print(f'Processing with multithreading, with chunksize {chunksize}')
-            tmSt = time()
-            SubRslt = MultiProcessPool(gph_Base_MapPaths_multi, largs)
-            print(f'Multiprocessing finished in {time()-tmSt:,.3f} seconds')
-            for rslt in SubRslt:
-                OptIDs += list(rslt[0])
-                OptPths += list(rslt[1])
-                OptDsts += list(rslt[2])
-        
-        self.MappedPaths = (OptIDs, OptPths, OptDsts)
-        if Settings['DumpSt'] and Settings['DumpOvr']:
-            print(f'Pickling {len(self.MappedPaths[0])} path maps')
-            with open(f'{self.dumpdir}\\{DumpFl}', 'wb') as op:
-                pickle.dump(self.MappedPaths, op)
-            print('Pickling PathMap Successfull')
-        return self.MappedPaths

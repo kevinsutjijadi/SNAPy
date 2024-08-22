@@ -69,11 +69,11 @@ def geom_linesplit(ln, point:Point, tol=1e-3):
             break
     assert j is not None
     if j == 0:
-        lnspl = (None, ln)
+        lnspl = (LineString([coortp[0]] + [(point.x, point.y)]), LineString([(point.x, point.y)] + coortp[1:]))
     elif j == len(coortp)-2:
-        lnspl = (ln, None)
-    elif Point(coortp[j + 1]).equals(point):
-        lnspl = (LineString(coortp[:j + 2]), LineString(coortp[j + 1:]))
+        lnspl = (LineString(coortp[:-1] + [(point.x, point.y)]), LineString([(point.x, point.y)] + [coortp[-1]]))
+    elif Point(coortp[j]).equals(point):
+        lnspl = (LineString(coortp[:j + 1]), LineString(coortp[j:]))
     else:
         lnspl = (LineString(coortp[:j + 1] + [(point.x, point.y)]), LineString([(point.x, point.y)]+ coortp[j + 1:]))
     return lnspl
@@ -223,7 +223,8 @@ def FlattenLineString(gdf):
 
 def NetworkSegmentDistance(df, dist=50):
     """
-    Segment lines by NetworkSegmentDistance
+    NetworkSegmentDistance(df:GeoDataFrame of Network, dist=50)
+    Segments network lines by an approximate distance of projection.
     """
     df = df.copy()
     if len(df.geometry[0].coords[0]) == 3:
@@ -246,6 +247,7 @@ def NetworkSegmentDistance(df, dist=50):
             Sgmts = []
             tpts = []
             wlks = 0
+            wlkd = 0
             for i in range(len(lnc)-1):
                 tpts.append(lnc[i])
                 sgd = eucDist(np.array(lnc[i]), np.array(lnc[i+1]))
@@ -253,15 +255,24 @@ def NetworkSegmentDistance(df, dist=50):
                 if sga > 0:
                     for n in range(int(sga)):
                         tdst = eucDist(np.array(tpts[-1]), np.array(lnc[i+1]))
-                        param = (LSg - wlks)/tdst
-                        edpt = (((lnc[i+1][0] - tpts[-1][0])*param + tpts[-1][0]), 
-                                ((lnc[i+1][1] - tpts[-1][1])*param + tpts[-1][-1]))
-                        tpts.append(edpt)
-                        Sgmts.append(LineString(tpts))
-                        tpts = [edpt]
-                        wlks = 0
+                        wlkd += LSg - wlks
+                        if (dgl - wlkd) < (LSg*1.1 - wlks) and n == (int(sga)-1):
+                            break
+                        else:
+                            param = (LSg - wlks)/tdst
+                            edpt = (((lnc[i+1][0] - tpts[-1][0])*param + tpts[-1][0]), 
+                                    ((lnc[i+1][1] - tpts[-1][1])*param + tpts[-1][-1]))
+                            tpts.append(edpt)
+                            Sgmts.append(LineString(tpts))
+                            tpts = [edpt]
+                            if n != (int(sga)-1):
+                                wlks = 0
+                            else:
+                                wlks = eucDist(np.array(tpts[-1]), np.array(lnc[i+1]))
+                                wlkd += eucDist(np.array(tpts[-1]), np.array(lnc[i+1]))
                 else:
                     wlks += sgd
+                    wlkd += sgd
             if len(tpts) > 0:
                 tpts.append(lnc[-1])
                 Sgmts.append(LineString(tpts))
@@ -296,11 +307,15 @@ def NetworkSegmentIntersections(df, dfi=None, EndPoints=True, tol=1e-3):
             clt.append(c)
     
     df['fid'] = df.index
+    df['bbox'] = df.apply(lambda x: bbox(x.geometry), axis=1)
 
     if dfi is None:
         dfi = df
-
-    df['bbox'] = df.apply(lambda x: bbox(x.geometry), axis=1) # vectorized bbox
+    else:
+        dfi = dfi.copy()
+        dfi['fid'] = dfi.index
+        dfi['bbox'] = dfi.apply(lambda x: bbox(x.geometry), axis=1) # vectorized bbox
+    
     for i, d in df.iterrows():
         ptlt = []
         dbx = d['bbox']

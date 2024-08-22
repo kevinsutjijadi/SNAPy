@@ -16,14 +16,14 @@ with more control over spatial items
 from multiprocessing import Pool
 import os
 
-def MultiProcessPool(func, largs:list, threadcount:int=None):
+def MultiProcessPool(func, largs:list, threadcount:int=0):
     """
     MultiProcessPool(func:function, inputs:list, threadcount:int=None)\n
     multiprocessing using Pool from multiprocessing, threadcount defaults to os.cpucount - 1\n
     make sure function only takes in one input, single input item is a chunck
     """
     print(f'Multiprocessing {func.__name__}, on {len(largs)} task chunks')
-    if threadcount is None: 
+    if threadcount == 0 or threadcount > os.cpu_count(): 
         threadcount = os.cpu_count()-1
     with Pool(threadcount) as pool:
         output = pool.imap(func, largs)

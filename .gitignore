@@ -2,6 +2,4 @@
 testrun1.ipynb
 *.pyc
 Resources/logo.ai
-RPK1B_01.ipynb
-RPK1C_01.ipynb
-Mitbana_R01.ipynb
+*.ipynb
