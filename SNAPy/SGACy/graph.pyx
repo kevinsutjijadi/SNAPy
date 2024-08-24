@@ -24,7 +24,9 @@ cdef struct Point3d:
     float y
     float z
 
-cdef Point3d MakePoint3d(float& x, float& y, float z= 0.0):
+@cython.boundscheck(False)
+@cython.wraparound(False)
+cdef Point3d MakePoint3d(float& x, float& y, float z= 0.0) nogil:
     cdef Point3d pt
     pt.x = x
     pt.y = y

@@ -5,7 +5,7 @@ with open("README.md", 'r') as f:
 
 setup(
     name="SNAPy",
-    version="0.01",
+    version="2.01",
     description="""Spatial Network Analysis Python Module
  A package of urban network analysis tools based on Geopandas dataframe and networkx pathfinding""",
     package_dir={"": "SNAPy"},
@@ -23,7 +23,6 @@ setup(
     ],
     install_requires=["pandas >= 1.5.2",
                       "geopandas >= 0.9.0",
-                      "networkx >= 2.7.1",
                       "scipy >= 1.10.0",
                       "numpy >= 1.24.1",
                       "shapely >= 2.0.0"

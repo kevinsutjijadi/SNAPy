@@ -21,25 +21,16 @@ from time import time
 
 # importing dependent libraries
 import geopandas as gpd
-import networkx as nx
 import pandas as pd
 from shapely.geometry import LineString, MultiLineString, Point, mapping, shape
 from shapely.ops import nearest_points
 
 # importing internal stuff
-from .prcs_geom import *
+# from .prcs_geom import *
+from .SGACy.geom import *
 from .SGACy.graph import GraphCy
 
 # functions
-def pathlength(G:nx.Graph, nodes:tuple, cost:str="cost"):
-    """
-    pathlength(G:nx.graph, nodes:nodesIDTuple, cost:strAttr)\n
-    Calculating path length on a set of nodes\n
-    returns length:float\n
-    cost default value is \'cost\'\n
-    """
-    w = sum((G[nodes[ind]][nd][cost] for ind, nd in enumerate(nodes[1:])))
-    return w
 
 
 def mappath_featid(df:gpd.GeoDataFrame, path:tuple, AttrID:str='FID'):
@@ -107,8 +98,11 @@ def graph_addentries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist
     lnNode_name = ('EdgePtSt', 'EdgePtEd', EdgeCost)
     ptLnEntry = [] # nested tuple (OriginPtID, featID, distToLine, PointIntersect, (distToNodes), (NodesID))
     EntryID = list(EntryDf[AttrNodeID])
+    GphDf['bbox'] = GphDf.apply(lambda x: bbox(x.geometry), axis=1)
+    
+    AttrEdgeIDx = tuple(GphDf.columns).index(AttrEdgeID)
     for ptn, pt in enumerate(EntryDf.geometry):
-        lnID, ixPt, ixDs = geom_closestline(pt, GphDf, EntryDist, AttrEdgeID)
+        lnID, ixPt, ixDs = geom_closestline(pt, GphDf, EntryDist, AttrEdgeIDx)
         lnID = int(lnID)
         if lnID is not None:
             lnFeat = GphDf[(GphDf[AttrEdgeID]==lnID)] # the line

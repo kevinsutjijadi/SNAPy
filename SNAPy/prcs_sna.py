@@ -21,16 +21,16 @@ from time import time
 
 # importing dependent libraries
 import geopandas as gpd
-import networkx as nx
 import pandas as pd
 from shapely.geometry import LineString, MultiLineString, Point, mapping, shape
 from shapely.ops import nearest_points
 import numpy as np
 
 # importing internal modules
-from .prcs_geom import *
+# from .prcs_geom import *
 from .prcs_grph import *
 from .SGACy.graph import GraphCy
+from .SGACy.geom import *
 
 
 # functions
@@ -60,8 +60,6 @@ def Base_BetweenessPatronage_Singular(Gdf:gpd.GeoDataFrame, Gph:GraphCy, Entries
     OutAr = np.zeros(len(Gdf), dtype=float)
     expA = Settings['AlphaExp']
     SrcD = Settings['SearchDist']
-    DfcolD = tuple(DestDf.columns)
-    iDesWgt = DfcolD.index(Settings['DestWgt'])
 
     numpaths = 0
     # cycles by oridf
@@ -176,7 +174,6 @@ def Base_BetweenessPatronage_Plural(Gdf:gpd.GeoDataFrame, Gph:GraphCy, EntriesPt
     OidAr = np.array(OriDf[Settings['AttrEntID']], dtype=int)
     EntriesPtId = np.array(tuple((x[0] for x in EntriesPt)), dtype=int)
     DestinationDatas = tuple(((EntriesPt[id][1], EntriesPt[id][4], EntriesPt[id][3], DestWgt[di], DidAr[di]) for di, id in enumerate(DestIds)))
-    falsecount = 0
     for Oi in range(len(OriDf)):
         Oid = OidAr[Oi]
         wgtO = OriWgt[Oi]

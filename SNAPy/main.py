@@ -20,15 +20,15 @@ from time import time
 
 # importing dependent libraries
 import geopandas as gpd
-import networkx as nx
 import pandas as pd
 
 # importing internal scripts
-from .prcs_geom import *
+# from .prcs_geom import *
 from .prcs_grph import *
 from .prcs_sna import *
 from .utils import MultiProcessPool
 from .SGACy.graph import GraphCy
+from .SGACy.geom import *
 
 
 ### packed functions for multiprocessing

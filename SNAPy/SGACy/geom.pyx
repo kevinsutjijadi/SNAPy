@@ -1,124 +1,145 @@
-### SNAPy (Spatial Network Analysis Python)
-# geometry related processing core
-# Kevin Sutjijadi @ 2023
+# distutils: language = c++
 
-__author__ = "Kevin Sutjijadi"
-__copyright__ = "Copyright 2023, Kevin Sutjijadi"
-__credits__ = ["Kevin Sutjijadi"]
-__version__ = "0.1.0"
+### SGACy (Spatial Graph Algorithm Cython)
+# geometry related utilities
+# Kevin Sutjijadi @ 2024
 
-"""
-Spatial Network Analysis (SNA) module
-using networkx, shapely, and geopandas, for network analysis simulations 
-with more control over spatial items
-"""
-
-import math as mt
-from multiprocessing import Pool
-from time import time
-
-# importing dependent libraries
+cimport cython
+from libcpp.queue cimport priority_queue
+from libcpp.algorithm cimport sort, find
+from libcpp.vector cimport vector
+from libcpp.utility cimport pair
+from libcpp.string cimport string
+from libc.math cimport sqrt
 import geopandas as gpd
-import pandas as pd
+from libc.stdlib cimport malloc, realloc, free
+from typing import List
+from libc.stdint cimport int32_t, uint32_t
+from libc.string cimport memset
 from shapely.geometry import LineString, MultiLineString, Point, mapping, shape
 from shapely.ops import nearest_points
 import numpy as np
 
-# importing internal scripts
+# Main graph class, 
 
+cdef struct Point3d:
+    float x
+    float y
+    float z
 
-# functions
-def geom_pointtoline(point:Point, lineset:list):
+@cython.boundscheck(False)
+@cython.wraparound(False)
+cdef Point3d MakePoint3d(float& x, float& y, float z= 0.0):
+    cdef Point3d pt
+    pt.x = x
+    pt.y = y
+    pt.z = z
+    return pt
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def bbox(pline:LineString, tl=1.0):
     """
-    geom_pointtoline(point:tuple, lineset:list, sweep_rad:float=300, sweep_res:int=10)\n
-    calculates nearest terms from a point to a set of lines\n
-    returns nrstln, nrstpt, nrstdst\n
-    nearest line index, intersection point, intersection distance\n
+    bbox(pline:LineString)
+    make a np array of bbox coordinates of (Xmin, Ymin, Xmax, Ymax)
     """
-    intrpt = []
-    intrdst = []
+    ln = np.array(pline.coords)
+    return np.array((np.min(ln[:,0])-tl, np.min(ln[:,1])-tl, np.max(ln[:,0])+tl, np.max(ln[:,1])+tl))
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def bbox_intersects(a, b):
+    """
+    bbox_intersects
+    quick comparison, returns pattern of touching bboxes
+    """
+    if b[2] < a[0] or b[0] > a[2] or b[1] > a[3] or b[3] < a[1]:
+        return  False
+    return True
+
+def geom_pointtoline(point:Point, lineset:tuple):
+    """
+    calculates nearest terms from a point to a set of lines
+    returnes nrstln, nrstpt, nrstdst
+    """
+    cdef int TempId
+    cdef float TempDst = 1_000_000.0
+    cdef float neardist
+    cdef int lnid = 0
+
     for ln in lineset:
         nearpt = nearest_points(ln, point)
-        # neardist = shl.distance(nearpt, point)
         neardist = point.distance(nearpt[0])
-        intrpt.append(nearpt[0])
-        intrdst.append(neardist)
-    if len(intrpt) == 0:
-        return None, None, None
-    nrstln = intrdst.index(min(intrdst))
-    nrstpt = intrpt[nrstln]
-    nrstdst = min(intrdst)
-    return nrstln, nrstpt, nrstdst
+        if neardist < TempDst:
+            TempDst = neardist
+            TempPt = nearpt[0]
+            TempId = lnid
+        lnid += 1
+    return TempId, TempPt, TempDst
 
-
-def geom_linesplit(ln, point:Point, tol=1e-3):
+def geom_linesplit(line:LineString, point:Point, tol=1e-3):
     """
     geom_linesplit(line:shapely.MultiLineString/LineString, point:shapely.point)\n
     Splitting line at an intersecting point\n
     returns tuple of 2 MultiLineString, always the beginning and the end based on the line direction\n
     """
-    ln = list(ln)[0]
+    cdef int j = -1
+    cdef int i
+    ln = tuple(line)[0]
     if ln.distance(point) > tol:
         return None
     coortp = ln.coords
-    j = None
     for i in range(len(coortp) - 1):
         if LineString(coortp[i:i+2]).distance(point) < tol:
             j = i
             break
-    assert j is not None
+    if j == -1:
+        return None
     if j == 0:
         lnspl = (LineString([coortp[0]] + [(point.x, point.y)]), LineString([(point.x, point.y)] + coortp[1:]))
     elif j == len(coortp)-2:
         lnspl = (LineString(coortp[:-1] + [(point.x, point.y)]), LineString([(point.x, point.y)] + [coortp[-1]]))
-    elif Point(coortp[j]).equals(point):
+    elif Point(coortp[j]).distance(point) < tol:
         lnspl = (LineString(coortp[:j + 1]), LineString(coortp[j:]))
     else:
         lnspl = (LineString(coortp[:j + 1] + [(point.x, point.y)]), LineString([(point.x, point.y)]+ coortp[j + 1:]))
-    return lnspl
+    return lnspl     
 
 
-def geom_linesplits(ln, points, tol=1e-3):
+def geom_linesplits(line:LineString, point:Point, tol:float=1e-3):
     """
     geom_linesplit(line:shapely.MultiLineString/LineString, point:list of shapely.point)\n
     Splitting line at multiple intersecting point\n
     returns tuple of LineString, always the beginning and the end based on the line direction\n
     """
-    # ln = list(ln)[0] # wtf
-
-    ist = []
-    for pt in points: # checks if any intersecting
-        if ln.distance(pt) < tol and Point(ln.coords[0]).distance(pt) > tol and Point(ln.coords[-1]).distance(pt) > tol:
-            ist.append(pt)
-
-    if len(ist) == 0:
-        return None
-    coorn = [ln,]
-    iter = 0
-    for pt in ist:
+    cdef int iter = 0
+    cdef int j = -1
+    cdef int i
+    coorn = [line,]
+    for pt in point:
         iter += 1
-        coortp = coorn
+        coorntp = coorn
         coorn = []
-        for lnc in coortp:
+        for lnc in coorntp:
             lnc = lnc.coords
-            j = None
+            j = -1
             for i in range(len(lnc) - 1):
-                if LineString(lnc[i:i+2]).distance(pt) < tol:
+                if LineString(lnc[i:i+2]).distance < tol:
                     j = i
                     break
-            if j is not None:
+            if j != -1:
                 if Point(lnc[0]).distance(pt) < tol or Point(lnc[-1]).distance(pt) < tol:
                     lnspl = (LineString(lnc),)
-                elif Point(lnc[j + 1]).distance(pt) < tol:
-                    lnspl = (LineString(lnc[:j + 2]), LineString(lnc[j + 1:]))
+                elif Point(lnc[j+1]).distance(pt) < tol:
+                    lnspl = (LineString(lnc[:j+2]), LineString(lnc[j+1:]))
                 else:
-                    lnspl = (LineString(lnc[:j + 1] + [(pt.x, pt.y)]), LineString([(pt.x, pt.y)]+ lnc[j + 1:]))
+                    lnspl = (LineString(lnc[:j+1] + [(pt.x, pt.y)]), LineString([(pt.x, pt.y)]+ lnc[j + 1:]))
                 coorn += lnspl
             else:
                 coorn.append(LineString(lnc))
     return coorn
 
-def geom_closestline(point:Point, lineset:gpd.GeoDataFrame, searchlim:float=300, AttrID:str='FID'):
+def geom_closestline(point:Point, lineset:gpd.GeoDataFrame, searchlim:float=200, AttrIDx:int=0):
     """
     geom_closestline(point:gpd.GeoDataFrame.geometry, lineset:gpd.GeoDataFrame, searchlim:float=200)\n
     Calculating closest line to a point\n
@@ -126,35 +147,27 @@ def geom_closestline(point:Point, lineset:gpd.GeoDataFrame, searchlim:float=300,
     search limit is set to 200\n
     """
     # filter by box dimensions
-    lnflt = []
-    lnfid = []
+
     # plim = (point[0]-searchlim, point[0]+searchlim, point[1]-searchlim, point[1]+searchlim)
-    plim = (point.x-searchlim, point.x+searchlim, point.y-searchlim, point.y+searchlim)
-    for nn, ln in enumerate(lineset.geometry):
-        st = 0
-        lnt = tuple(ln.coords)
-        for lsg in lnt:
-            st = (
-                (plim[0] < lsg[0] < plim[1]) + 
-                (plim[2] < lsg[1] < plim[3])
-                )
-            if st > 0: break
-        if st > 0: # if true, get line
-            lnfid.append(lineset[AttrID][nn])
-            lnflt.append(ln)
-    if len(lnflt) == 0:
+    plim = np.array((point.x-searchlim, point.x+searchlim, point.y-searchlim, point.y+searchlim), dtype=float)
+    dfx = lineset[lineset.apply(lambda x: bbox_intersects(plim, x.bbox), axis=1)]
+    if len(dfx) == 0:
         return None, None, None
-    nrLn, ixPt, ixDs = geom_pointtoline(point, lnflt)
+    nrLn, ixPt, ixDs = geom_pointtoline(point, tuple(dfx.geometry))
     if nrLn is None:
         return None, None, None
-    lnID = lnfid[nrLn]
+    lnID = dfx.iat[nrLn, AttrIDx]
+    
     return lnID, ixPt, ixDs
 
-def checkclosePt(pt, ptLt, tol=1e-3):
-    for n, p in enumerate(ptLt):
-        if mt.dist(pt, p) < tol:
-            return n
-    return None
+def FlattenLineString(gdf):
+    """
+    FlattenLineString(gdf:GeodataFrame)
+    converts geodataframe with linetringZ to linestring
+    """
+    odf = gdf.copy()
+    odf["geometry"] = gdf.apply(lambda x: LineString(np.array(x.geometry.coords)[:,:2]), axis=1)
+    return odf
 
 def eucDist(ptA:np.ndarray, ptO:np.ndarray):
     '''
@@ -173,23 +186,6 @@ def eucDist(ptA:np.ndarray, ptO:np.ndarray):
                        ))
         return dsts
 
-def bbox(pline:LineString, tl=1.0):
-    """
-    bbox(pline:LineString)
-    make a np array of bbox coordinates of (Xmin, Ymin, Xmax, Ymax)
-    """
-    ln = np.array(pline.coords)
-    return np.array((np.min(ln[:,0])-tl, np.min(ln[:,1])-tl, np.max(ln[:,0])+tl, np.max(ln[:,1])+tl))
-
-def bbox_intersects(a, b):
-    """
-    bbox_intersects
-    quick comparison, returns pattern of touching bboxes
-    """
-    if b[2] < a[0] or b[0] > a[2] or b[1] > a[3] or b[3] < a[1]:
-        return  False
-    return True
-
 def IntersectLinetoPoints(d, f, tol=1e-3):
     px = []
     if d.geometry.distance(Point(f.coords[0])) < tol:
@@ -206,15 +202,6 @@ def IntersectLinetoPoints(d, f, tol=1e-3):
         return px
     else:
         return px
-
-def FlattenLineString(gdf):
-    """
-    FlattenLineString(gdf:GeodataFrame)
-    converts geodataframe with linetringZ to linestring
-    """
-    odf = gdf.copy()
-    odf["geometry"] = gdf.apply(lambda x: LineString(np.array(x.geometry.coords)[:,:2]), axis=1)
-    return odf
 
 def NetworkSegmentDistance(df, dist=50):
     """
@@ -281,8 +268,6 @@ def NetworkSegmentDistance(df, dist=50):
             for c in clt:
                 ndf[c].append(d[c])
     return gpd.GeoDataFrame(ndf, crs=df.crs)
-                
-
 
 def NetworkSegmentIntersections(df, dfi=None, EndPoints=True, tol=1e-3):
     """
@@ -302,14 +287,16 @@ def NetworkSegmentIntersections(df, dfi=None, EndPoints=True, tol=1e-3):
             clt.append(c)
     
     df['fid'] = df.index
-    df['bbox'] = df.apply(lambda x: bbox(x.geometry), axis=1)
+    if 'bbox' not in df.columns:
+        df['bbox'] = df.apply(lambda x: bbox(x.geometry), axis=1)
 
     if dfi is None:
         dfi = df
     else:
         dfi = dfi.copy()
         dfi['fid'] = dfi.index
-        dfi['bbox'] = dfi.apply(lambda x: bbox(x.geometry), axis=1) # vectorized bbox
+        if 'bbox' not in dfi.columns:
+            dfi['bbox'] = dfi.apply(lambda x: bbox(x.geometry), axis=1) # vectorized bbox
     
     for i, d in df.iterrows():
         ptlt = []
@@ -339,7 +326,6 @@ def NetworkSegmentIntersections(df, dfi=None, EndPoints=True, tol=1e-3):
                 ndf[c].append(d[c])
     ndf = gpd.GeoDataFrame(ndf, crs=df.crs)
 
-    
     if EndPoints:
         ptlt = []
         for ln in ndf['geometry']:
