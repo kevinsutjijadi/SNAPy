@@ -27,6 +27,9 @@ cdef struct Point3d:
     float y
     float z
 
+cdef struct bBox:
+    float[4] bounds
+
 @cython.boundscheck(False)
 @cython.wraparound(False)
 cdef Point3d MakePoint3d(float& x, float& y, float z= 0.0):
@@ -77,7 +80,7 @@ def geom_pointtoline(point:Point, lineset:tuple):
         lnid += 1
     return TempId, TempPt, TempDst
 
-def geom_linesplit(line:LineString, point:Point, tol=1e-3):
+def geom_linesplit(ln:LineString, point:Point, tol=1e-3):
     """
     geom_linesplit(line:shapely.MultiLineString/LineString, point:shapely.point)\n
     Splitting line at an intersecting point\n
@@ -85,7 +88,6 @@ def geom_linesplit(line:LineString, point:Point, tol=1e-3):
     """
     cdef int j = -1
     cdef int i
-    ln = tuple(line)[0]
     if ln.distance(point) > tol:
         return None
     coortp = ln.coords
@@ -93,8 +95,6 @@ def geom_linesplit(line:LineString, point:Point, tol=1e-3):
         if LineString(coortp[i:i+2]).distance(point) < tol:
             j = i
             break
-    if j == -1:
-        return None
     if j == 0:
         lnspl = (LineString([coortp[0]] + [(point.x, point.y)]), LineString([(point.x, point.y)] + coortp[1:]))
     elif j == len(coortp)-2:
@@ -149,7 +149,7 @@ def geom_closestline(point:Point, lineset:gpd.GeoDataFrame, searchlim:float=200,
     # filter by box dimensions
 
     # plim = (point[0]-searchlim, point[0]+searchlim, point[1]-searchlim, point[1]+searchlim)
-    plim = np.array((point.x-searchlim, point.x+searchlim, point.y-searchlim, point.y+searchlim), dtype=float)
+    plim = np.array((point.x-searchlim, point.y-searchlim, point.x+searchlim, point.y+searchlim), dtype=float)
     dfx = lineset[lineset.apply(lambda x: bbox_intersects(plim, x.bbox), axis=1)]
     if len(dfx) == 0:
         return None, None, None
@@ -360,3 +360,58 @@ def NetworkSegmentIntersections(df, dfi=None, EndPoints=True, tol=1e-3):
     else:
         pts = []
         return ndf, pts
+
+
+
+
+def MapEntries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist:float = 100.0, AttrNodeID:str='FID', AttrEdgeID:str='FID', EdgeCost:str|None=None):
+    """
+    Mapping Entries into graph
+    """
+    # cdef int EntriesN = len(EntryDf)
+    # cdef EntryMap* Entryinfo = <EntryMap*>malloc(EntriesN * sizeof(EntryMap))
+    EntryIds = tuple(EntryDf[AttrNodeID])
+    cdef int AttrEdgeIDx = tuple(GphDf.columns).index(AttrEdgeID)
+    cdef float[2] lnDist
+    cdef float cost
+    EntryInfo = []
+
+    if 'bbox' not in GphDf.columns:
+        GphDf['bbox'] = GphDf.apply(lambda x: bbox(x.geometry), axis=1)
+    # cdef int AttrBboxIDx = tuple(GphDf.columns).index('bbox')
+    cdef int ptn
+    # cdef bBox* gphbounds = <bBox*>malloc(len(GphDf) * sizeof(gphbounds))
+
+    # for n in range(len(GphDf)):
+    #     bbx = GphDf.iat[n, AttrBboxIDx]
+    #     gphbounds[n] = (bbx[0], bbx[1], bbx[2], bbx[3])
+
+    for ptn, pt in enumerate(EntryDf.geometry):
+        lnID, ixPt, ixDs = geom_closestline(pt, GphDf, EntryDist, AttrEdgeIDx)
+        if lnID is not  None:
+            lnFeat = GphDf.loc[lnID]
+            lnSplit = geom_linesplit(lnFeat.geometry, ixPt)
+            lnDist = [lnSplit[0].length, lnSplit[1].length]
+            ixPt = (ixPt.x, ixPt.y, 0.0)
+            if EdgeCost is None:
+                cost = 0.0
+            else:
+                cost = lnFeat[EdgeCost]
+        else:
+            lnID = -1
+            ixDx = 0.0
+            lnDist = (0.0,0.0)
+            cost = 0.0
+            ixPt = (0.0, 0.0, 0.0)
+
+        
+        EntryInfo.append((
+            EntryIds[ptn], #  AttrID:str='FID' 0 - Entry Point ID
+            lnID, # 1 - ID of connected edge
+            ixDs, # 2 - Distance to intersection
+            lnDist, # 3 - tuple of distance to the two nodes
+            ixPt, # 4 - Point of intersection
+            cost, # 5 - cost of edge
+        ))
+    # free(gphbounds)
+    return tuple(EntryInfo)

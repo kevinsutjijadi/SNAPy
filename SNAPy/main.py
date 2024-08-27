@@ -95,6 +95,9 @@ class GraphSims:
         self.NetworkSize = self.Gph.sizeInfo() # returns (nodesize, edgesize)
         print(f'Graph Built with {self.NetworkSize[0]:,} Nodes, {self.NetworkSize[1]:,} Edges')
         self.NetworkDf = NetworkDf
+
+        if 'bbox' not in NetworkDf.columns:
+            NetworkDf['bbox'] = NetworkDf.apply(lambda x: bbox(x.geometry), axis=1)
         
 
         if self.baseSet['EntryDtDump']:# if dump
@@ -135,7 +138,8 @@ class GraphSims:
         self.EntriesDf['xLn_ID'] = [dt[1] for dt in self.EntriesPt]
         self.EntriesDf['xPt_X'] = [dt[4][0] for dt in self.EntriesPt]
         self.EntriesDf['xPt_Y'] = [dt[4][1] for dt in self.EntriesPt]
-        self.EntriesDf['xPt_Z'] = [dt[4][1] for dt in self.EntriesPt]
+        try: self.EntriesDf['xPt_Z'] = [dt[4][2] for dt in self.EntriesPt]
+        except: self.EntriesDf['xPt_Z'] = [0.0 for dt in self.EntriesPt]
 
 
     def __repr__(self) -> str:

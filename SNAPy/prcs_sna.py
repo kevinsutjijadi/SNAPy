@@ -195,9 +195,14 @@ def Base_BetweenessPatronage_Plural(Gdf:gpd.GeoDataFrame, Gph:GraphCy, EntriesPt
             continue
         numpaths += len(iterDsts)
         DistMn = min(iterDsts)
-        WgtPth = tuple(wgt*(DistMn/dst)**(1+expA) for dst, wgt in zip(iterDsts, iterWgts)) # weighting calculations based on dist
-        WgtPthSm = sum(WgtPth)
-        TrafficPth = tuple(wgtO*(w/WgtPthSm) for w in WgtPth) # calculating traffic on each path
+        iterDsts = np.array(iterDsts, dtype=float)
+        iterWgts = np.array(iterWgts, dtype=float)
+        WgtPth = iterWgts * (DistMn/iterDsts) ** (1+expA)
+        WgtPthSm = np.sum(WgtPth)
+        TrafficPth = wgtO*(WgtPth/WgtPthSm)
+        # WgtPth = tuple(wgt*(DistMn/dst)**(1+expA) for dst, wgt in zip(iterDsts, iterWgts)) # weighting calculations based on dist
+        # WgtPthSm = sum(WgtPth)
+        # TrafficPth = tuple(wgtO*(w/WgtPthSm) for w in WgtPth) # calculating traffic on each path
         # checking on segments
         for pth, trf in zip(iterPths, TrafficPth):
             for i in pth:

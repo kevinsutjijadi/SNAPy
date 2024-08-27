@@ -94,44 +94,7 @@ def graph_addentries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist
     # i will hate myself for this later but it wont mince the base graph
     # it will create a dataset of how the point connects with the geodataframe
     # for origin - distance on the same line will just calculate from the distance, not nodes
-    
-    lnNode_name = ('EdgePtSt', 'EdgePtEd', EdgeCost)
-    ptLnEntry = [] # nested tuple (OriginPtID, featID, distToLine, PointIntersect, (distToNodes), (NodesID))
-    EntryID = list(EntryDf[AttrNodeID])
-    GphDf['bbox'] = GphDf.apply(lambda x: bbox(x.geometry), axis=1)
-    
-    AttrEdgeIDx = tuple(GphDf.columns).index(AttrEdgeID)
-    for ptn, pt in enumerate(EntryDf.geometry):
-        lnID, ixPt, ixDs = geom_closestline(pt, GphDf, EntryDist, AttrEdgeIDx)
-        lnID = int(lnID)
-        if lnID is not None:
-            lnFeat = GphDf[(GphDf[AttrEdgeID]==lnID)] # the line
-            lnSplit = geom_linesplit(lnFeat.geometry, ixPt)
-            lnDist = []
-            for sg in lnSplit:
-                if sg is None: lnDist.append(0)
-                else: lnDist.append(sg.length)
-            lnDist = tuple(lnDist)
-            if EdgeCost is None:
-                cost = 0.0
-            else:
-                cost = lnFeat[lnNode_name[2]].iloc[0]
-
-            if len(tuple(ixPt.coords)[0])==2:
-                ixPt = tuple(ixPt.coords)[0] + (0.0,)
-            else:
-                ixPt = tuple(ixPt.coords)[0]
-                
-            ptLnEntry.append((
-                EntryID[ptn], #  AttrID:str='FID' 0 - Entry Point ID
-                lnID, # 1 - ID of connected edge
-                ixDs, # 2 - Distance to intersection
-                lnDist, # 3 - tuple of distance to the two nodes
-                ixPt, # 4 - Point of intersection
-                cost, # 5 - cost of edge
-                lnSplit # 6 - line geometry, 2 items
-                )) # Entry data formatted, idk if this is the most effective way
-    ptLnEntry = tuple(ptLnEntry) # tupleized bcs it will be called a lot of times
+    ptLnEntry = MapEntries(GphDf, EntryDf, EntryDist, AttrNodeID, AttrEdgeID, EdgeCost)
     return ptLnEntry
 
 
