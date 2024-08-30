@@ -268,8 +268,9 @@ cdef inline float dist3d(const Node& N1, const Node& N2) nogil:
     """
     cdef float dx = N2.pt[0] - N1.pt[0]
     cdef float dy = N2.pt[1] - N1.pt[1]
-    cdef float dz = N2.pt[2] - N1.pt[2]
-    return sqrt(dx * dx + dy * dy + dz * dz)
+    # cdef float dz = N2.pt[2] - N1.pt[2]
+    # return sqrt(dx * dx + dy * dy + dz * dz)
+    return sqrt(dx * dx + dy * dy)
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
@@ -285,8 +286,9 @@ cdef inline float dist3d_pt(const Point3d& N1, const Point3d& N2) nogil:
     """
     cdef float dx = N2.x - N1.x
     cdef float dy = N2.y - N1.y
-    cdef float dz = N2.z - N1.z
-    return sqrt(dx * dx + dy * dy + dz * dz)
+    # cdef float dz = N2.z - N1.z
+    # return sqrt(dx * dx + dy * dy + dz * dz)
+    return sqrt(dx * dx + dy * dy)
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
@@ -302,8 +304,9 @@ cdef inline float dist3d_ar(const float[3]& N1, const float[3]& N2) nogil:
     """
     cdef float dx = N2[0] - N1[0]
     cdef float dy = N2[1] - N1[1]
-    cdef float dz = N2[2] - N1[2]
-    return sqrt(dx * dx + dy * dy + dz * dz)
+    # cdef float dz = N2[2] - N1[2]
+    # return sqrt(dx * dx + dy * dy + dz * dz)
+    return sqrt(dx * dx + dy * dy)
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
@@ -325,7 +328,8 @@ cpdef float dist3d_Py(tuple[float, float, float]& p1, tuple[float, float, float]
 @cython.boundscheck(False)
 @cython.wraparound(False)
 cdef inline bint SamePoint3d(Point3d& pt1, Point3d& pt2) nogil:
-    if pt1.x == pt2.x and pt1.y == pt2.y and pt1.z == pt2.z:
+    # if pt1.x == pt2.x and pt1.y == pt2.y and pt1.z == pt2.z:
+    if pt1.x == pt2.x and pt1.y == pt2.y:
         return 1
     return 0
 
@@ -976,6 +980,7 @@ cdef class GraphCy:
         startNode.Weight = 0.0
         OpenNodes = PriorityQueue_NR()
         OpenNodes.push(startNode)
+        self.nodeVisited[NidO] = startNode
 
         cdef NodeReach NodeReach_T
         cdef int NidF
@@ -1094,6 +1099,7 @@ cdef class GraphCy:
         startNode.Weight = 0.0
         OpenNodes = PriorityQueue_NR()
         OpenNodes.push(startNode)
+        self.nodeVisited[NidO] = startNode
 
         cdef NodeReach NodeReach_T
         cdef int NidF
@@ -1208,6 +1214,7 @@ cdef class GraphCy:
         startNode.Weight = 0.0
         OpenNodes = PriorityQueue_NR()
         OpenNodes.push(startNode)
+        self.nodeVisited[NidO] = startNode
 
         cdef NodeReach NodeReach_T
         cdef int NidF
@@ -1346,6 +1353,7 @@ cdef class GraphCy:
         startNode.NidO = -1
         startNode.Weight = DstO[0] + (dist3d_ar(self.nodes[startNode.Nid].pt, PointD)- BaseDist) * DistMul
         OpenNodes.push(startNode)
+        self.nodeVisited[startNode.Nid] = startNode
         # for destination edgeorigin
         startNode.Nid = self.edges[EidO].NidD
         startNode.Eid = EidO
@@ -1353,6 +1361,7 @@ cdef class GraphCy:
         startNode.NidO = -1
         startNode.Weight = DstO[1] + (dist3d_ar(self.nodes[startNode.Nid].pt, PointD)- BaseDist) * DistMul
         OpenNodes.push(startNode)
+        self.nodeVisited[startNode.Nid] = startNode
 
         cdef NodeReach NodeReach_T
         cdef int NidF
@@ -1486,6 +1495,7 @@ cdef class GraphCy:
         startNode.Weight = 0.0
         OpenNodes = PriorityQueue_NR()
         OpenNodes.push(startNode)
+        self.nodeVisited[NidO] = startNode
 
         cdef NodeReach NodeReach_T
         cdef int NidF
@@ -1613,6 +1623,7 @@ cdef class GraphCy:
         startNode.NidO = -1
         startNode.Weight = DstO[0] + (dist3d_ar(self.nodes[startNode.Nid].pt, PointD)- BaseDist) * DistMul
         OpenNodes.push(startNode)
+        self.nodeVisited[startNode.Nid] = startNode
         # for destination edgeorigin
         startNode.Nid = self.edges[EidO].NidD
         startNode.Eid = EidO
@@ -1620,6 +1631,7 @@ cdef class GraphCy:
         startNode.NidO = -1
         startNode.Weight = DstO[1] + (dist3d_ar(self.nodes[startNode.Nid].pt, PointD)- BaseDist) * DistMul
         OpenNodes.push(startNode)
+        self.nodeVisited[startNode.Nid] = startNode
 
         cdef NodeReach NodeReach_T
         cdef int NidF
@@ -1749,6 +1761,7 @@ cdef class GraphCy:
         startNode.NidO = -1
         startNode.Weight = DstO[0] + (dist3d_ar(self.nodes[startNode.Nid].pt, PointD)- BaseDist) * DistMul
         OpenNodes.push(startNode)
+        self.nodeVisited[startNode.Nid] = startNode
         # for destination edgeorigin
         startNode.Nid = self.edges[EidO].NidD
         startNode.Eid = EidO
@@ -1756,6 +1769,7 @@ cdef class GraphCy:
         startNode.NidO = -1
         startNode.Weight = DstO[1] + (dist3d_ar(self.nodes[startNode.Nid].pt, PointD)- BaseDist) * DistMul
         OpenNodes.push(startNode)
+        self.nodeVisited[startNode.Nid] = startNode
 
         cdef NodeReach NodeReach_T
         cdef int NidF
@@ -1881,6 +1895,238 @@ cdef class GraphCy:
         cdef vector[int] EdgesReach_EidVec
         cdef int Eid
         cdef float lenE
+
+        while keepGoing:
+            cycles += 1
+            # check paths from OpenNodes
+            NodeCheck = OpenNodes.pop_top()
+            for i in range(self.EidN):
+                Eid = self.nodes[NodeCheck.Nid].Eid[i]
+                if Eid == -1:
+                    break
+                if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:
+                    continue
+                # possible new path
+                # new node?
+                EdgeC = self.edges[Eid]
+                if EdgeC.NidO == NodeCheck.Nid:
+                    lenE = EdgeC.len
+                    NidF = EdgeC.NidD
+                    edgeVector = 1.0
+                else :
+                    lenE = EdgeC.lenR
+                    NidF = EdgeC.NidO
+                    edgeVector = -1.0
+
+                if self._nodesIds[NidF] == -1:
+                    continue
+
+                len = lenE + NodeCheck.Dist + self.nodes[NidF].c
+
+                if len > LimDist:
+                    remainingDist = (LimDist - NodeCheck.Dist) / lenE
+                    if remainingDist > <float>1.0:
+                        remainingDist = <float>1.0
+
+                    # I'm sorry this section have so much brances and confusing variable names.
+                    # theres just so many particular cases that cant be untangled
+                    
+                    remainingDist = remainingDist * edgeVector
+                    EdgesReach_EidVec = EdgesReach_Eididx(EdgesFringe, Eid)
+                    if EdgesReach_EidVec.size() == 0:
+                        EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+                    elif EdgesReach_EidVec.size() == 1:
+                        Eididx = EdgesReach_EidVec[0]
+                        if EdgesFringe[Eididx].second != 1.0 and EdgesFringe[Eididx].second != -1.0:
+                            if remainingDist == -1.0 or remainingDist == 1.0:
+                                EdgesFringe.erase(EdgesFringe.begin()+Eididx)
+                                EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+                            elif remainingDist > 0.0:
+                                if EdgesFringe[Eididx].second > 0.0 and remainingDist > EdgesFringe[Eididx].second:
+                                    EdgesFringe.erase(EdgesFringe.begin()+Eididx) # popping out shorter
+                                    EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+                                elif EdgesFringe[Eididx].second < 0.0:
+                                    if (remainingDist - EdgesFringe[Eididx].second) > 1.0:
+                                        EdgesFringe.erase(EdgesFringe.begin()+Eididx)
+                                        EdgesFringe.push_back(pair[int, float](Eid, edgeVector))
+                                    else:
+                                        EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+                            else:
+                                if EdgesFringe[Eididx].second > 0.0:
+                                    if (EdgesFringe[Eididx].second - remainingDist) > 1.0:
+                                        EdgesFringe.erase(EdgesFringe.begin()+Eididx)
+                                        EdgesFringe.push_back(pair[int, float](Eid, edgeVector))
+                                    else:
+                                        EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+                                elif EdgesFringe[Eididx].second < 0.0 and remainingDist < EdgesFringe[Eididx].second:
+                                    EdgesFringe.erase(EdgesFringe.begin()+Eididx)
+                                    EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+                    else: # elif EdgesReach_EidVec.size() == 2, should not be possible more than 2
+                        if remainingDist == -1.0 or remainingDist == 1.0:
+                            EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
+                            EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
+                            EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+                        elif edgeVector == 1.0:
+                            if EdgesFringe[EdgesReach_EidVec[0]].second > 0.0:
+                                if (remainingDist - EdgesFringe[EdgesReach_EidVec[1]].second) > 1.0:
+                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
+                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
+                                    EdgesFringe.push_back(pair[int, float](Eid, edgeVector))
+                                elif remainingDist > EdgesFringe[EdgesReach_EidVec[0]].second:
+                                    EdgesFringe.erase(EdgesFringe.begin()+ EdgesReach_EidVec[0])
+                                    EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+                            else:
+                                if (remainingDist - EdgesFringe[EdgesReach_EidVec[0]].second) > 1.0:
+                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
+                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
+                                    EdgesFringe.push_back(pair[int, float](Eid, edgeVector))
+                                elif remainingDist > EdgesFringe[EdgesReach_EidVec[1]].second:
+                                    EdgesFringe.erase(EdgesFringe.begin()+ EdgesReach_EidVec[1])
+                                    EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+                        else: # edgeVector == -1.0
+                            if EdgesFringe[EdgesReach_EidVec[0]].second > 0.0:
+                                if (EdgesFringe[EdgesReach_EidVec[0]].second - remainingDist) > 1.0:
+                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
+                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
+                                    EdgesFringe.push_back(pair[int, float](Eid, edgeVector))
+                                elif remainingDist < EdgesFringe[EdgesReach_EidVec[1]].second:
+                                    EdgesFringe.erase(EdgesFringe.begin()+ EdgesReach_EidVec[1])
+                                    EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+                            else:
+                                if (EdgesFringe[EdgesReach_EidVec[1]].second - remainingDist) > 1.0:
+                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
+                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
+                                    EdgesFringe.push_back(pair[int, float](Eid, edgeVector))
+                                elif remainingDist < EdgesFringe[EdgesReach_EidVec[0]].second:
+                                    EdgesFringe.erase(EdgesFringe.begin()+ EdgesReach_EidVec[0])
+                                    EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+                    continue
+
+                NodeReach_T.Nid = NidF
+                NodeReach_T.Dist = len
+                NodeReach_T.Eid = Eid
+                NodeReach_T.NidO = NodeCheck.Nid
+                NodeReach_T.Weight = len
+
+                # check to visited nodes
+                if self.nodeVisited[NidF].Nid == -1 : # if node havent been visited
+                    self.nodeVisited[NidF] = NodeReach_T
+                    OpenNodes.push(NodeReach_T)
+                elif self.nodeVisited[NidF].Dist > len: # if visited node has a higher distance
+                    self.nodeVisited[NidF] = NodeReach_T
+                    OpenNodes.push(NodeReach_T)
+
+            if cycles > LimCycle:
+                # if reaches cycle count limit
+                keepGoing = False
+            elif OpenNodes.empty():
+                keepGoing = False
+        
+        cdef int EdgesReachSize = 0
+
+        for i in range(self.Nnodes):
+            if self.nodeVisited[i].Nid == -1:
+                continue
+            NodeReach_T = self.nodeVisited[i]
+
+            if self.edges[NodeReach_T.Eid].NidO == NodeReach_T.Nid:
+                edgeVector = 1.0
+            else:
+                edgeVector = -1.0
+            EdgesReachSize += 1
+            EdgesReach.push_back(pair[int, float](NodeReach_T.Eid, edgeVector))
+        outtup = tuple(EdgesReach[n] for n in range(EdgesReach.size()))
+
+        EdgesReach.insert(EdgesReach.end(), EdgesFringe.begin(), EdgesFringe.end())
+
+        outtup = tuple((v.first, v.second) for v in EdgesReach)
+        EdgesReach.clear()
+        return outtup
+
+    def PathReachMulti_VirtuEntry(
+        self, 
+        tuple OriginTup, 
+        float LimDist = 1_000.0, 
+        int LimCycle = 10_000_000
+        ) -> tuple[tuple[int, float]]:
+        """
+        Finds Edges within reach
+
+        Parameters
+        ------------
+        NidO : int
+            starting node ID
+        LimDist : float, default 10,000.0
+            distance limit before giving up the pathfinding process
+        LimCycle : int, default 10,000
+            number of cycles of priority_queue before giving up the pathfinding process
+        
+        Returns
+        -----------
+        length: float
+            if a path is found, it will return with the length of shortest possible distance of the path
+        
+        Edge IDs: tuple[int]
+            tuple of edge ids of found shortest path.
+        
+        if path is not found, it will return (-1.0,(-1,))
+        
+        Notes
+        -----------
+        The algorithm has bidirectional capability and also node cost added.
+        """
+
+        self.C_Reset_NodeVisited()
+        
+        cdef int cycles
+        cycles = 1
+        cdef bint keepGoing
+        keepGoing = True
+
+        cdef PriorityQueue_NR OpenNodes
+        cdef NodeReach startNode
+        OpenNodes = PriorityQueue_NR()
+
+        cdef NodeReach NodeReach_T
+        cdef int NidF
+        cdef float len
+        cdef Edge EdgeC
+        cdef NodeReach NodeCheck
+        cdef int i
+        cdef int m
+        cdef vector[pair[int, float]] EdgesFringe
+        cdef vector[pair[int, float]] EdgesReach
+        cdef pair[int, float] v
+        cdef float edgeVector
+        cdef float remainingDist
+        cdef size_t Eididx
+        cdef vector[int] EdgesReach_EidVec
+        cdef int Eid
+        cdef float lenE
+
+        cdef float[2] Dist
+        for org in OriginTup:
+            Dist = (org[2][0], org[2][1])
+            if Dist[0] > LimDist:
+                continue
+            else:
+                startNode.Nid = self.edges[org[0]].NidO
+                startNode.Eid = org[0]
+                startNode.Dist = Dist[0]
+                startNode.NidO = -1
+                startNode.pathindex = 0
+                startNode.Weight = Dist[0]
+                OpenNodes.push(startNode)
+            if Dist[1] > LimDist:
+                continue
+            else:
+                startNode.Nid = self.edges[org[0]].NidD
+                startNode.Eid = org[0]
+                startNode.Dist = Dist[1]
+                startNode.NidO = -1
+                startNode.pathindex = 0
+                startNode.Weight = Dist[1]
+                OpenNodes.push(startNode)
 
         while keepGoing:
             cycles += 1

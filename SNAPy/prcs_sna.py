@@ -34,9 +34,9 @@ from .SGACy.geom import *
 
 
 # functions
-def Base_BetweenessPatronage_Singular(Gdf:gpd.GeoDataFrame, Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
+def Base_BetweenessPatronage_Singular(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
     '''
-    Base_BetweenessPatronage(Gdf:gpd.GeoDataFrame, Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
+    Base_BetweenessPatronage(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
     packed function for multithreading on betweenesspatronage\n
     returns tuple of ((result tuple), (LineID tuple))
     '''
@@ -57,7 +57,7 @@ def Base_BetweenessPatronage_Singular(Gdf:gpd.GeoDataFrame, Gph:GraphCy, Entries
     for k,v in SettingDict.items(): # setting kwargs
         Settings[k] = v
     
-    OutAr = np.zeros(len(Gdf), dtype=float)
+    OutAr = np.zeros(Gph.sizeInfo()[1], dtype=float)
     expA = Settings['AlphaExp']
     SrcD = Settings['SearchDist']
 
@@ -131,9 +131,9 @@ def Base_BetweenessPatronage_Singular(Gdf:gpd.GeoDataFrame, Gph:GraphCy, Entries
                 OutAr[i] += trf
             pass
     print(f'Total Paths {numpaths:,}')
-    return (tuple(Gdf[Settings['AttrEdgeID']]), tuple(OutAr))
+    return OutAr
 
-def Base_BetweenessPatronage_Plural(Gdf:gpd.GeoDataFrame, Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
+def Base_BetweenessPatronage_Plural(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
     '''
     Base_BetweenessPatronage(Gdf:gpd.GeoDataFrame, Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
     packed function for multithreading on betweenesspatronage\n
@@ -156,7 +156,7 @@ def Base_BetweenessPatronage_Plural(Gdf:gpd.GeoDataFrame, Gph:GraphCy, EntriesPt
     for k,v in SettingDict.items(): # setting kwargs
         Settings[k] = v
     
-    OutAr = np.zeros(len(Gdf), dtype=float)
+    OutAr = np.zeros(Gph.sizeInfo()[1], dtype=float)
     expA = Settings['AlphaExp']
     SrcD = Settings['SearchDist']
 
@@ -209,7 +209,7 @@ def Base_BetweenessPatronage_Plural(Gdf:gpd.GeoDataFrame, Gph:GraphCy, EntriesPt
                 OutAr[i] += trf
             pass
     print(f'Total Paths {numpaths:,}')
-    return (tuple(Gdf[Settings['AttrEdgeID']]), tuple(OutAr))
+    return OutAr
 
 
 def Base_ReachN(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
@@ -570,7 +570,7 @@ def gph_Base_BetweenessPatronage_Singular_multi(inpt):
     packaged Base_BetweenessPatronage for multiprocessing\n
     Base_BetweenessPatronage(Gdf, Gph, EntriesPt, OriDf, DestDf, SettingDict)
     '''
-    opt = Base_BetweenessPatronage_Singular(inpt[0], inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
+    opt = Base_BetweenessPatronage_Singular(inpt[0], inpt[1], inpt[2], inpt[3], inpt[4])
     return opt
 
 def gph_Base_BetweenessPatronage_Plural_multi(inpt):
@@ -578,7 +578,7 @@ def gph_Base_BetweenessPatronage_Plural_multi(inpt):
     packaged Base_BetweenessPatronage for multiprocessing\n
     Base_BetweenessPatronage(Gdf, Gph, EntriesPt, OriDf, DestDf, SettingDict)
     '''
-    opt = Base_BetweenessPatronage_Plural(inpt[0], inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
+    opt = Base_BetweenessPatronage_Plural(inpt[0], inpt[1], inpt[2], inpt[3], inpt[4])
     return opt
 
 def gph_Base_Reach_multi(inpt:tuple):

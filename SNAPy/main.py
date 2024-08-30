@@ -21,6 +21,7 @@ from time import time
 # importing dependent libraries
 import geopandas as gpd
 import pandas as pd
+import pydeck as pdk
 
 # importing internal scripts
 # from .prcs_geom import *
@@ -44,8 +45,8 @@ class GraphSims:
         # base settings
         self.baseSet = {
             'EntDist': 100,
-            'EntID': 'FID',
-            'EdgeID': 'FID',
+            'EntID': 'fid',
+            'EdgeID': 'fid',
             'AE_Lnlength': None,
             'AE_LnlengthR': None,
             'AN_EdgeCost': None,
@@ -57,14 +58,33 @@ class GraphSims:
             'DumpDir': '\\dump',
             'DumpEnt' : 'EntryDtDump.pkl',
         }
+
         for k,v in kwargs.items():
             self.baseSet[k] = v
         if self.baseSet['Threads'] == 0:
             self.baseSet['Threads'] = os.cpu_count()-1
 
+        if EntriesDf.crs.is_geographic:
+            raise Exception("EntriesDf projection is geographic (degrees), please conver to projected")
+        if NetworkDf.crs.is_geographic:
+            raise Exception("NetworkDf projection is geographic (degrees), please conver to projected")
+        if EntriesDf.crs.to_epsg() != NetworkDf.crs.to_epsg():
+            raise Exception("EntriesDf and NetworkDf have different projections, please match them using gdb.to_crs()")
+
+        if self.baseSet['EntID'] not in EntriesDf:
+            entid = self.baseSet['EntID']
+            print(f'Entries ID: {entid} not found, remaking from index')
+            EntriesDf[entid] = EntriesDf.index
+        if self.baseSet['EdgeID'] not in NetworkDf:
+            edgid = self.baseSet['EdgeID']
+            print(f'Network ID: {edgid} not found, remaking from index')
+            NetworkDf[edgid] = NetworkDf.index
+
         self.dumpdir = self.baseSet['DumpDir']
         self.EntPtDumpDir = self.baseSet['DumpEnt']
         self.EntriesDf = EntriesDf
+        self.LastAtt = None
+        
         
         print(f'GraphSim Class ----------')
 
@@ -141,10 +161,76 @@ class GraphSims:
         try: self.EntriesDf['xPt_Z'] = [dt[4][2] for dt in self.EntriesPt]
         except: self.EntriesDf['xPt_Z'] = [0.0 for dt in self.EntriesPt]
 
+        # map!
+        self.pdkLayers = []
+        self.pdkCenter = None
+
 
     def __repr__(self) -> str:
         strNwSim = f'GraphSim object of {len(self.NetworkDf)} Segments and {len(self.EntriesDf)} Entries'
         return strNwSim
+
+    def Map_BaseLayerInit(self, ShowLayer=None):
+        """
+        Map_LayerBuild
+        builds pydeck map base layers consisting of network and entries
+        """
+        NetDf = self.NetworkDf[['geometry', self.baseSet['EdgeID']]].copy()
+        NetDf = NetDf.to_crs(4326)
+        lyrNetwork = pdk.Layer(
+            type="GeoJsonLayer",
+            data=NetDf,
+            pickable=True,
+            get_line_color=[80,80,80],
+            get_line_width=0.5,
+        )
+
+        EntXDf = self.EntriesDf.copy()
+        EntXDf['geometry'] = EntXDf.apply(lambda x: LineString(((x.geometry.x, x.geometry.y), (x.xPt_X, x.xPt_Y))), axis=1)
+        EntXDf = EntXDf.to_crs(4326)
+        lyrEntriesX = pdk.Layer(
+            type="GeoJsonLayer",
+            data=EntXDf,
+            pickable=False,
+            get_line_color=[255,80,80],
+            get_line_width=1,
+        )
+
+        EntDf = self.EntriesDf.copy()
+        EntDf = EntDf.to_crs(4326)
+        lyrEntries = pdk.Layer(
+            type="GeoJsonLayer",
+            data=EntDf,
+            pickable=True,
+            get_fill_color=[255,80,80],
+            get_line_width = 0,
+            get_radius=3
+        )
+        self.pdkCenter = NetDf.geometry.unary_union.centroid
+        print('built base layers on self.pdfLayers. indexed at: 0-base network layer, 1-entries line connection to edges, 2-entries')
+        print('able to pop, edit ,or add more layers by directly accessing self.pdfLayers before using self.ShowMap\n')
+
+        self.pdkLayers = [lyrNetwork, lyrEntriesX, lyrEntries]
+        
+    def Map_Show(self, tooltip=None, map_style='light', height=500, width=500):
+        
+        if len(self.pdkLayers)==0:
+            self.Map_BaseLayerInit()
+
+        view_state = pdk.ViewState(latitude=self.pdkCenter.y, longitude=self.pdkCenter.x, zoom=16)
+        if tooltip is None:
+            tooltip={
+                "html": "<b>id:</b>{"+self.baseSet['EdgeID']+"}",
+                "style": {
+                        "backgroundColor": "white",
+                        "color": "red",
+                        "fontFamily": "Helvetica",
+
+                }
+            }
+        pdkmap = pdk.Deck(layers=self.pdkLayers, initial_view_state=view_state, tooltip=tooltip, map_style=map_style, height=height, width=width)
+        return pdkmap
+           
 
     def BetweenessPatronage(self, OriID=None, DestID=None, **kwargs):
         """
@@ -198,20 +284,19 @@ class GraphSims:
             tmSt = time()
             if Settings['OpType'] == 'P':
                 print('Processing with singlethreading & Plural mapping')
-                Rslt = Base_BetweenessPatronage_Plural(self.NetworkDf, self.Gph, self.EntriesPt, OriDf, DestDf, Settings)
+                Rslt = Base_BetweenessPatronage_Plural(self.Gph, self.EntriesPt, OriDf, DestDf, Settings)
             else:
                 print('Processing with singlethreading & Singular mapping')
-                Rslt = Base_BetweenessPatronage_Singular(self.NetworkDf, self.Gph, self.EntriesPt, OriDf, DestDf, Settings)
+                Rslt = Base_BetweenessPatronage_Singular(self.Gph, self.EntriesPt, OriDf, DestDf, Settings)
             print(f'Processing finished in {time()-tmSt:,.3f} seconds')
-            self.NetworkDf[Settings['RsltAttr']] = (0,)*len(Rslt[1])
-            for i, v in zip(Rslt[0], Rslt[1]):
-                self.NetworkDf.at[i, Settings['RsltAttr']] = v
-
+            # self.NetworkDf[Settings['RsltAttr']] = (0,)*len(Rslt[1])
+            # for i, v in zip(Rslt[0], Rslt[1]):
+            # self.NetworkDf[Settings['RsltAttr']] = Rslt
         else:
             chunksize = int(round(len(OriDf) / self.baseSet['Threads'], 0)) + 1
             if len(OriDf) > 100:
                 chunksize = int(round(chunksize / 2,0))
-            largs = [(self.NetworkDf, self.Gph, self.EntriesPt, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
+            largs = [(self.Gph, self.EntriesPt, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
             tmSt = time()
             if Settings['OpType'] == 'P':
                 print(f'Processing with multithreading & Plural mapping, with chunksize {chunksize}')
@@ -221,10 +306,11 @@ class GraphSims:
                 SubRslt = MultiProcessPool(gph_Base_BetweenessPatronage_Singular_multi, largs)
             
             print(f'Multiprocessing finished in {time()-tmSt:,.3f} seconds')
-            self.NetworkDf[Settings['RsltAttr']] = (0,)*len(self.NetworkDf)
+            # self.NetworkDf[Settings['RsltAttr']] = (0,)*len(self.NetworkDf)
+            Rslt = np.zeros(len(self.NetworkDf), dtype=float)
             for rslt in SubRslt:
-                for i, v in zip(rslt[0], rslt[1]):
-                    self.NetworkDf.at[i, Settings['RsltAttr']] += v
+                Rslt += rslt
+        self.NetworkDf[Settings['RsltAttr']] = Rslt
         return self.NetworkDf
 
     def Reach(self, OriID:list=None, DestID:list=None, Mode:str='N', **kwargs):
