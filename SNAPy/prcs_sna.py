@@ -34,7 +34,7 @@ from .SGACy.geom import *
 
 
 # functions
-def Base_BetweenessPatronage_Singular(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
+def Base_BetweenessPatronage_Singular(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
     '''
     Base_BetweenessPatronage(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
     packed function for multithreading on betweenesspatronage\n
@@ -72,13 +72,11 @@ def Base_BetweenessPatronage_Singular(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.Ge
     OriWgt = np.array(OriDf[Settings['OriWgt']], dtype=float)
     DidAr = np.array(DestDf[Settings['AttrEntID']], dtype=int)
     OidAr = np.array(OriDf[Settings['AttrEntID']], dtype=int)
-    EntriesPtId = np.array(tuple((x[0] for x in EntriesPt)), dtype=int)
+    # EntriesPtId = np.array(tuple((x[0] for x in EntriesPt)), dtype=int)
 
     for Oi in range(len(OriDf)):
         Oid = OidAr[Oi]
         wgtO = OriWgt[Oi]
-        try: Odt = EntriesPt[np.where(EntriesPtId == Oid)[0][0]]
-        except: continue
         # starting individual calculation betweeness
         iterPths = []
         iterDsts = []
@@ -88,10 +86,8 @@ def Base_BetweenessPatronage_Singular(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.Ge
             Did = DidAr[Di]
             if Did == Oid:
                 continue
-            try: Ddt = EntriesPt[np.where(EntriesPtId == Did)[0][0]]
-            except: continue
             # print(Ddt[1], Ddt[4], Ddt[3], DestDf.iat[Di, iDesWgt])
-            rslt = graphsim_paths(Gph, Odt, Ddt, SrcD, DetourR, DistMul, EdgeCmin, PathLim, LimCycles)
+            rslt = graphsim_paths(Gph, Oid, Did, SrcD, DetourR, DistMul, EdgeCmin, PathLim, LimCycles)
             
             if rslt is None or len(rslt[0]) == 0: # pass on, on conditions with paths are not found or other errs
                 # print((f'\tNone'))
@@ -133,9 +129,9 @@ def Base_BetweenessPatronage_Singular(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.Ge
     print(f'Total Paths {numpaths:,}')
     return OutAr
 
-def Base_BetweenessPatronage_Plural(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
+def Base_BetweenessPatronage_Plural(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
     '''
-    Base_BetweenessPatronage(Gdf:gpd.GeoDataFrame, Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
+    Base_BetweenessPatronage(Gdf:gpd.GeoDataFrame, Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
     packed function for multithreading on betweenesspatronage\n
     returns tuple of ((result tuple), (LineID tuple))
     '''
@@ -166,22 +162,20 @@ def Base_BetweenessPatronage_Plural(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoD
     PathLim = Settings['PathLim']
     LimCycles = Settings['LimCycles']
     # cycles by oridf
-    EntriesPtId = np.array(tuple((x[0] for x in EntriesPt)), dtype=int)
+    # EntriesPtId = np.array(tuple((x[0] for x in EntriesPt)), dtype=int)
     DidAr = np.array(DestDf[Settings['AttrEntID']], dtype=int)
-    DestIds = tuple(np.where(EntriesPtId == DidAr[Di])[0][0] for Di in range(len(DestDf)))
     DestWgt = np.array(DestDf[Settings['DestWgt']], dtype=float)
     OriWgt = np.array(OriDf[Settings['OriWgt']], dtype=float)
     OidAr = np.array(OriDf[Settings['AttrEntID']], dtype=int)
-    EntriesPtId = np.array(tuple((x[0] for x in EntriesPt)), dtype=int)
-    DestinationDatas = tuple(((EntriesPt[id][1], EntriesPt[id][4], EntriesPt[id][3], DestWgt[di], DidAr[di]) for di, id in enumerate(DestIds)))
+    DestinationDatas = tuple(((DidAr[d], DestWgt[d],) for d in range(len(DestDf))))
     for Oi in range(len(OriDf)):
         Oid = OidAr[Oi]
         wgtO = OriWgt[Oi]
-        try: Odt = EntriesPt[np.where(EntriesPtId == Oid)[0][0]]
-        except: continue
+        # try: Odt = EntriesPt[np.where(EntriesPtId == Oid)[0][0]]
+        # except: continue
         # starting individual calculation betweeness
         iterDsts, iterPths, iterWgts = Gph.PathFind_Multi_MultiDest_VirtuEntry(
-            Odt[1], Odt[4], Odt[3], Odt[0],
+            Oid,
             DestinationDatas,
             DetourR, 
             SrcD,
@@ -200,10 +194,6 @@ def Base_BetweenessPatronage_Plural(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoD
         WgtPth = iterWgts * (DistMn/iterDsts) ** (1+expA)
         WgtPthSm = np.sum(WgtPth)
         TrafficPth = wgtO*(WgtPth/WgtPthSm)
-        # WgtPth = tuple(wgt*(DistMn/dst)**(1+expA) for dst, wgt in zip(iterDsts, iterWgts)) # weighting calculations based on dist
-        # WgtPthSm = sum(WgtPth)
-        # TrafficPth = tuple(wgtO*(w/WgtPthSm) for w in WgtPth) # calculating traffic on each path
-        # checking on segments
         for pth, trf in zip(iterPths, TrafficPth):
             for i in pth:
                 OutAr[i] += trf
@@ -212,9 +202,9 @@ def Base_BetweenessPatronage_Plural(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoD
     return OutAr
 
 
-def Base_ReachN(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
+def Base_ReachN(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
     '''
-    Base_Reach Count(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
+    Base_Reach Count(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
     packed function on ReachN\n
     returns tuple of ((result tuple), (PointID tuple))
     '''
@@ -229,39 +219,34 @@ def Base_ReachN(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd
         Settings[k] = v
 
     SearchDist = Settings['SearchDist']
-    DistMul = Settings['DistMul']
     LimCycles = Settings['LimCycles']
     OutAr = np.zeros(len(OriDf), dtype=int)
-    DidAr = np.array(DestDf[Settings['AttrEntID']], dtype=int)
     OidAr = np.array(OriDf[Settings['AttrEntID']], dtype=int)
-    EntriesPtId = np.array(tuple((x[0] for x in EntriesPt)), dtype=int)
+    Didtp = tuple(DestDf[Settings['AttrEntID']])
     # cycles by oridf
     for Oi in range(len(OriDf)):
         Oid = OidAr[Oi]
-        try: Odt = EntriesPt[np.where(EntriesPtId == Oid)[0][0]]
-        except: continue
 
         # starting individual calculation
-        num = 0
-        for Di in range(len(DestDf)):
-            Did = DidAr[Di]
-            if Did == Oid:
-                continue
-            try: Ddt = EntriesPt[np.where(EntriesPtId == Did)[0][0]]
-            except: continue
 
-            # will filter based on flyby distance
-            dst = graphsim_dist(Gph, Odt, Ddt, SearchDist, DistMul, LimCycles)
-            if dst is None or dst == -1.0: continue
-            else: num += 1
-
-        OutAr[Oi] = num
+        rslt = Gph.PathDistComp_MultiDest_VirtuEntry(
+            Oid,
+            Didtp,
+            SearchDist,
+            LimCycles,
+            NullVal = 0.0
+        )
+        if rslt is None:
+            continue
+        rslt = np.array(rslt)
+        nulp = rslt[:,0] != 0.0
+        OutAr[Oi] = np.sum(nulp)
     return (tuple(OriDf[Settings['AttrEntID']]), tuple(OutAr))
 
 
-def Base_ReachW(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
+def Base_ReachW(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
     '''
-    Base_ReachW(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
+    Base_ReachW(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
     packed function on Reach sum Weight\n
     returns tuple of ((result tuple), (PointID tuple))
     '''
@@ -277,44 +262,35 @@ def Base_ReachW(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd
         Settings[k] = v
     
     SearchDist = Settings['SearchDist']
-    DistMul = Settings['DistMul']
     LimCycles = Settings['LimCycles']
     OutAr = np.zeros((len(OriDf), 2), dtype=float)
-    DidAr = np.array(DestDf[Settings['AttrEntID']], dtype=int)
     DestWgt = np.array(DestDf[Settings['DestWgt']], dtype=float)
     OidAr = np.array(OriDf[Settings['AttrEntID']], dtype=int)
-    EntriesPtId = np.array(tuple((x[0] for x in EntriesPt)), dtype=int)
+    Didtp = tuple(DestDf[Settings['AttrEntID']])
     # cycles by oridf
     for Oi in range(len(OriDf)):
         Oid = OidAr[Oi]
-        try: Odt = EntriesPt[np.where(EntriesPtId == Oid)[0][0]]
-        except: continue
 
         # starting individual calculation
-        num = 0
-        wgt = 0.0
-        for Di in range(len(DestDf)):
-            Did = DidAr[Di]
-            if Did == Oid:
-                continue
-            try: Ddt = EntriesPt[np.where(EntriesPtId == Did)[0][0]]
-            except: continue
-
-            # will fileter based on flyby distance
-            dst = graphsim_dist(Gph, Odt, Ddt, SearchDist, DistMul, LimCycles)
-            if dst is None or dst == -1.0: continue
-            else: 
-                num += 1
-                wgt += float(DestWgt[Di])
-
-        OutAr[Oi][0] = num
-        OutAr[Oi][1] = wgt
+        rslt = Gph.PathDistComp_MultiDest_VirtuEntry(
+            Oid,
+            Didtp,
+            SearchDist,
+            LimCycles,
+            NullVal = 0.0
+        )
+        if rslt is None:
+            continue
+        rslt = np.array(rslt)
+        nulp = rslt[:,0] != 0.0
+        OutAr[Oi][0] = np.sum(nulp)
+        OutAr[Oi][1] = np.sum(DestWgt[nulp])
     return (tuple(OriDf[Settings['AttrEntID']]), tuple(OutAr[:,0]), tuple(OutAr[:,1]))
 
 
-def Base_ReachWD(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
+def Base_ReachWD(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
     '''
-    Base_ReachWD(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
+    Base_ReachWD(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
     packed function on Reach Weighted Distance\n
     returns tuple of ((result tuple), (PointID tuple))
     '''
@@ -336,55 +312,50 @@ def Base_ReachWD(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gp
     CalcComp = Settings['CalcComp']
 
     SearchDist = Settings['SearchDist']
-    DistMul = Settings['DistMul']
     LimCycles = Settings['LimCycles']
     OutAr = np.zeros((len(OriDf), 2), dtype=float)
-    DidAr = np.array(DestDf[Settings['AttrEntID']], dtype=int)
     DestWgt = np.array(DestDf[Settings['DestWgt']], dtype=float)
     OidAr = np.array(OriDf[Settings['AttrEntID']], dtype=int)
-    EntriesPtId = np.array(tuple((x[0] for x in EntriesPt)), dtype=int)
+    Didtp = tuple(DestDf[Settings['AttrEntID']])
     # cycles by oridf
     for Oi in range(len(OriDf)):
         Oid = OidAr[Oi]
-        try: Odt = EntriesPt[np.where(EntriesPtId == Oid)[0][0]]
-        except: continue
 
         # starting individual calculation
-        rsltDt = []
-        for Di in range(len(DestDf)):
-            Did = DidAr[Di]
-            if Did == Oid:
-                continue
 
-            try: Ddt = EntriesPt[np.where(EntriesPtId == Did)[0][0]]
-            except: continue
+        rslt = Gph.PathDistComp_MultiDest_VirtuEntry(
+            Oid,
+            Didtp,
+            SearchDist,
+            LimCycles,
+            NullVal = 0.0
+        )
+        if rslt is None:
+            continue
+        rslt = np.array(rslt)
+        rslt = rslt[:,0]
+        nulp = rslt != 0.0
+        rslt = rslt[nulp]
+        dwgt = DestWgt[nulp]
+        nrg = np.arange(dwgt.size)
+        nargsort = np.argsort(rslt)
+        rslt = rslt[nargsort]
+        dwgt = dwgt[nargsort]
 
-            # will filter based on flyby distance
-            dst = graphsim_dist(Gph, Odt, Ddt, SearchDist, DistMul, LimCycles)
-            if dst is None or dst == -1.0: continue
-            else:
-                rsltDt.append((dst, float(DestWgt[Di])))
-
-        val = 0
-        rsltDt.sort(key = lambda x: x[0])
         if CalcExp == 0.0:
-            for n, d in enumerate(rsltDt):
-                val += abs(d[1] * (-(d[0]/SrcD)+1) * (CalcComp**n))
-        elif CalcExp < 0.00:
-            for n, d in enumerate(rsltDt):
-                val += d[1] * (mt.e**(d[0]*CalcExp/SrcD)) * ((-d[0]/SrcD) + 1) * (CalcComp**n)
+            OutAr[Oi][1] = np.absolute(dwgt * (-(rslt/SrcD)+1) * (CalcComp**nrg))
+        elif CalcExp < 0:
+            OutAr[Oi][1] = dwgt * (mt.e**(rslt*CalcExp/SrcD)) * ((-rslt/SrcD) + 1) * (CalcComp**nrg)
         else:
-            for n, d in enumerate(rsltDt):
-                val += d[1] * d[0] / SrcD * mt.e**(CalcExp*((d[0]/SrcD)-1)) * (CalcComp**n)
+            OutAr[Oi][1] = dwgt * rslt / SrcD * mt.e**(CalcExp*((rslt/SrcD)-1) * (CalcComp**nrg))
 
-        OutAr[Oi][0] = len(rsltDt)
-        OutAr[Oi][1] = val
+        OutAr[Oi][0] = np.sum(nulp)
     return (tuple(OriDf[Settings['AttrEntID']]), tuple(OutAr[:,0]), tuple(OutAr[:,1]))
 
 
-def Base_ReachND(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
+def Base_ReachND(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
     '''
-    Base_ReachWD(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
+    Base_ReachWD(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
     packed function on Reach Weighted Distance\n
     returns tuple of ((result tuple), (PointID tuple))
     '''
@@ -400,46 +371,38 @@ def Base_ReachND(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gp
     for k,v in SettingDict.items(): # setting kwargs
         Settings[k] = v
     
-    SrcD = Settings['SearchDist']
-
     SearchDist = Settings['SearchDist']
-    DistMul = Settings['DistMul']
     LimCycles = Settings['LimCycles']
     OutAr = np.zeros((len(OriDf), 2), dtype=float)
-    DidAr = np.array(DestDf[Settings['AttrEntID']], dtype=int)
     OidAr = np.array(OriDf[Settings['AttrEntID']], dtype=int)
-    EntriesPtId = np.array(tuple((x[0] for x in EntriesPt)), dtype=int)
+    Didtp = tuple(DestDf[Settings['AttrEntID']])
     # cycles by oridf
     for Oi in range(len(OriDf)):
         Oid = OidAr[Oi]
-        try: Odt = EntriesPt[np.where(EntriesPtId == Oid)[0][0]]
-        except: continue
 
         # starting individual calculation
-        num = 0
-        dist = SrcD
-        for Di in range(len(DestDf)):
-            Did = DidAr[Di]
-            if Did == Oid:
-                continue
-            try: Ddt = EntriesPt[np.where(EntriesPtId == Did)[0][0]]
-            except: continue
+        rslt = Gph.PathDistComp_MultiDest_VirtuEntry(
+            Oid,
+            Didtp,
+            SearchDist,
+            LimCycles,
+            NullVal = 0.0
+        )
+        if rslt is None:
+            continue
+        rslt = np.array(rslt)
+        rslt = rslt[:,0]
+        nulp = rslt != 0.0
+        rslt = rslt[nulp]
 
-            dst = graphsim_dist(Gph, Odt, Ddt, SearchDist, DistMul, LimCycles)
-            if dst is not None or dst != -1.0: 
-                if dst < SrcD:
-                    if dst < dist:
-                        dist = dst
-                    num += 1
-
-        OutAr[Oi][0] = num
-        OutAr[Oi][1] = dist
+        OutAr[Oi][0] = np.sum(nulp)
+        OutAr[Oi][1] = np.min(rslt)
     return (tuple(OriDf[Settings['AttrEntID']]), tuple(OutAr[:,0]), tuple(OutAr[:,1]))
 
 
-def Base_ReachNDW(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
+def Base_ReachNDW(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
     '''
-    Base_ReachNDW(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
+    Base_ReachNDW(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
     packed function on Reach Weighted Distance\n
     returns tuple of ((result tuple), (PointID tuple))
     '''
@@ -454,52 +417,42 @@ def Base_ReachNDW(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:g
     }
     for k,v in SettingDict.items(): # setting kwargs
         Settings[k] = v
-    
-    SrcD = Settings['SearchDist']
 
     SearchDist = Settings['SearchDist']
-    DistMul = Settings['DistMul']
     LimCycles = Settings['LimCycles']
     DestWgt = np.array(DestDf[Settings['DestWgt']], dtype=float)
     OutAr = np.zeros((len(OriDf), 3), dtype=float)
-    DidAr = np.array(DestDf[Settings['AttrEntID']], dtype=int)
     OidAr = np.array(OriDf[Settings['AttrEntID']], dtype=int)
-    EntriesPtId = np.array(tuple((x[0] for x in EntriesPt)), dtype=int)
+    Didtp = tuple(DestDf[Settings['AttrEntID']])
     # cycles by oridf
     for Oi in range(len(OriDf)):
         Oid = OidAr[Oi]
-        try: Odt = EntriesPt[np.where(EntriesPtId == Oid)[0][0]]
-        except: continue
 
         # starting individual calculation
-        num = 0
-        dist = SrcD
-        wgt = 0.0
-        for Di in range(len(DestDf)):
-            Did = DidAr[Di]
-            if Did == Oid:
-                continue
 
-            try: Ddt = EntriesPt[np.where(EntriesPtId == Did)[0][0]]
-            except: continue
+        rslt = Gph.PathDistComp_MultiDest_VirtuEntry(
+            Oid,
+            Didtp,
+            SearchDist,
+            LimCycles,
+            NullVal = 0.0
+        )
+        if rslt is None:
+            continue
+        rslt = np.array(rslt)
+        rslt = rslt[:,0]
+        nulp = rslt != 0.0
+        rslt = rslt[nulp]     
 
-            dst = graphsim_dist(Gph, Odt, Ddt, SearchDist, DistMul, LimCycles)
-            if dst is not None or dst != -1.0: 
-                if dst < SrcD:
-                    if dst < dist:
-                        dist = dst
-                    num += 1
-                    wgt += float(DestWgt[Di])        
-
-        OutAr[Oi][0] = num
-        OutAr[Oi][1] = dist
-        OutAr[Oi][2] = wgt
+        OutAr[Oi][0] = np.sum(nulp)
+        OutAr[Oi][1] = np.min(rslt)
+        OutAr[Oi][2] = np.sum(DestWgt[nulp])
     return (tuple(OriDf[Settings['AttrEntID']]), tuple(OutAr[:,0]), tuple(OutAr[:,1]), tuple(OutAr[:,2]))
 
 
-def Base_Straightness(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
+def Base_Straightness(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
     '''
-    Base_StraightnessB(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
+    Base_StraightnessB(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
     packed function on Straightness Averaged with distance weighting\n
     returns tuple of ((result tuple), (PointID tuple))
     '''
@@ -519,42 +472,44 @@ def Base_Straightness(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, Dest
     SrcD = Settings['SearchDist']
     CalcExp = Settings['CalcExp']
     SearchDist = Settings['SearchDist']
-    DistMul = Settings['DistMul']
     LimCycles = Settings['LimCycles']
-    EntriesPtId = np.array(tuple((x[0] for x in EntriesPt)), dtype=int)
     DestWgt = np.array(DestDf[Settings['DestWgt']], dtype=float)
     OutAr = np.zeros(len(OriDf), dtype=float)
-    DidAr = np.array(DestDf[Settings['AttrEntID']], dtype=int)
     OidAr = np.array(OriDf[Settings['AttrEntID']], dtype=int)
+    Didtp = tuple(DestDf[Settings['AttrEntID']])
     # cycles by oridf
     for Oi in range(len(OriDf)):
         Oid = OidAr[Oi]
-        try: Odt = EntriesPt[np.where(EntriesPtId == Oid)[0][0]]
-        except: continue
 
         # starting individual calculation
         rsltS = 0
         rsltW = 0
-        for Di in range(len(DestDf)):
-            Did = DidAr[Di]
-            if Did == Oid:
-                continue
 
-            try: Ddt = EntriesPt[np.where(EntriesPtId == Did)[0][0]]
-            except: continue
-            
-            dst, dfb = graphsim_dist(Gph, Odt, Ddt, SearchDist, DistMul, LimCycles, True)
-            if dst is None or dst == -1.0: continue
+        rslt = Gph.PathDistComp_MultiDest_VirtuEntry(
+            Oid,
+            Didtp,
+            SearchDist,
+            LimCycles,
+            NullVal = 0.0
+        )
+        if rslt is None:
+            continue
+        rslt = np.array(rslt)
+        nulp = rslt[:,0] != 0.0
+        rslt = rslt[nulp]
+        dwgt = DestWgt[nulp]
 
-            else:
-                if CalcExp == 0.0:
-                    wd = DestWgt[Di]
-                elif CalcExp < 0.0:
-                    wd = DestWgt[Di] * (mt.e**(dst*CalcExp/SrcD)) * (1-(dst/SrcD))
-                else:
-                    wd = DestWgt[Di] * (dst / SrcD) * mt.e**(CalcExp*((dst/SrcD)-1))
-                rsltS += dfb/dst * wd 
-                rsltW += wd
+        if CalcExp == 0.0:
+            wd = dwgt
+        elif CalcExp < 0.0:
+            wd = dwgt * (mt.e**(rslt[:,0]*CalcExp/SrcD)) * (1-(rslt[:,0]/SrcD))
+        else:
+            wd = dwgt * (rslt[:,0]/SrcD) * (mt.e**(CalcExp*((rslt[:,0]/SrcD)-1)))
+        try:
+            rsltS = np.sum(rslt[:,1]/rslt[:,0] * wd)
+            rsltW = np.sum(wd)
+        except:
+            continue
         
         if rsltW > 0:
             rslt = rsltS/rsltW
@@ -570,7 +525,7 @@ def gph_Base_BetweenessPatronage_Singular_multi(inpt):
     packaged Base_BetweenessPatronage for multiprocessing\n
     Base_BetweenessPatronage(Gdf, Gph, EntriesPt, OriDf, DestDf, SettingDict)
     '''
-    opt = Base_BetweenessPatronage_Singular(inpt[0], inpt[1], inpt[2], inpt[3], inpt[4])
+    opt = Base_BetweenessPatronage_Singular(inpt[0], inpt[1], inpt[2], inpt[3])
     return opt
 
 def gph_Base_BetweenessPatronage_Plural_multi(inpt):
@@ -578,7 +533,7 @@ def gph_Base_BetweenessPatronage_Plural_multi(inpt):
     packaged Base_BetweenessPatronage for multiprocessing\n
     Base_BetweenessPatronage(Gdf, Gph, EntriesPt, OriDf, DestDf, SettingDict)
     '''
-    opt = Base_BetweenessPatronage_Plural(inpt[0], inpt[1], inpt[2], inpt[3], inpt[4])
+    opt = Base_BetweenessPatronage_Plural(inpt[0], inpt[1], inpt[2], inpt[3])
     return opt
 
 def gph_Base_Reach_multi(inpt:tuple):
@@ -589,19 +544,19 @@ def gph_Base_Reach_multi(inpt:tuple):
     '''
     match inpt[0]:
         case 'N':
-            Opt = Base_ReachN(inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
+            Opt = Base_ReachN(inpt[1], inpt[2], inpt[3], inpt[4])
             return Opt
         case 'W':
-            Opt = Base_ReachW(inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
+            Opt = Base_ReachW(inpt[1], inpt[2], inpt[3], inpt[4])
             return Opt
         case 'WD':
-            Opt = Base_ReachWD(inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
+            Opt = Base_ReachWD(inpt[1], inpt[2], inpt[3], inpt[4])
             return Opt
         case 'ND':
-            Opt = Base_ReachND(inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
+            Opt = Base_ReachND(inpt[1], inpt[2], inpt[3], inpt[4])
             return Opt
         case 'NDW':
-            Opt = Base_ReachNDW(inpt[1], inpt[2], inpt[3], inpt[4], inpt[5])
+            Opt = Base_ReachNDW(inpt[1], inpt[2], inpt[3], inpt[4])
             return Opt
         case other:
             return None
@@ -612,5 +567,5 @@ def gph_Base_Straightness_multi(inpt:tuple):
     packaged Base_Straigthness for multiprocessing\n
     Base_StraightnessA(Gph:nx.Graph, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)
     '''
-    Opt = Base_Straightness(inpt[0], inpt[1], inpt[2], inpt[3], inpt[4])
+    Opt = Base_Straightness(inpt[0], inpt[1], inpt[2], inpt[3])
     return Opt

@@ -391,7 +391,7 @@ def MapEntries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist:float
         if lnID is not  None:
             lnFeat = GphDf.loc[lnID]
             lnSplit = geom_linesplit(lnFeat.geometry, ixPt)
-            lnDist = [lnSplit[0].length, lnSplit[1].length]
+            lnDist = (lnSplit[0].length, lnSplit[1].length,)
             ixPt = (ixPt.x, ixPt.y, 0.0)
             if EdgeCost is None:
                 cost = 0.0
@@ -399,12 +399,11 @@ def MapEntries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist:float
                 cost = lnFeat[EdgeCost]
         else:
             lnID = -1
-            ixDx = 0.0
-            lnDist = (0.0,0.0)
+            ixDs = 0.0
+            lnDist = (0.0,0.0,)
             cost = 0.0
             ixPt = (0.0, 0.0, 0.0)
 
-        
         EntryInfo.append((
             EntryIds[ptn], #  AttrID:str='FID' 0 - Entry Point ID
             lnID, # 1 - ID of connected edge

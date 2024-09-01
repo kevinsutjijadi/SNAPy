@@ -50,7 +50,7 @@ class GraphSims:
             'AE_Lnlength': None,
             'AE_LnlengthR': None,
             'AN_EdgeCost': None,
-            'SizeBuffer': 1.2,
+            'SizeBuffer': 1.0,
             'Verbose': True,
             'EntryDtDump': True,
             'EntryDtDumpOvr': False,
@@ -101,7 +101,7 @@ class GraphSims:
             print('NetworkDf EdgeID not detected, adding from index')
             NetworkDf[self.baseSet['EdgeID']] = range(int(NetworkDf.shape[0]))
         
-        self.Gph = GraphCy(int(NetworkDf.size*self.baseSet['SizeBuffer']+2), int(NetworkDf.size*self.baseSet['SizeBuffer']+4))
+        self.Gph = GraphCy(int(NetworkDf.size*self.baseSet['SizeBuffer']+2), int(NetworkDf.size*self.baseSet['SizeBuffer']+4), len(EntriesDf))
         self.Gph.fromGeopandas_Edges(NetworkDf,
                                     self.baseSet['AE_Lnlength'],
                                     self.baseSet['AE_LnlengthR'],
@@ -126,11 +126,11 @@ class GraphSims:
             if os.path.exists(f'{self.dumpdir}\\{self.EntPtDumpDir}') and not self.baseSet['EntryDtDumpOvr']:
                 print('Pickled EntriesPt File Detected, using it instead')
                 with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'rb') as op:
-                    self.EntriesPt = pickle.load(op)
-                print(f'Found {len(self.EntriesPt)} Pickled Entry Points at {self.dumpdir}')
+                    EntriesDt = pickle.load(op)
+                print(f'Found {len(EntriesDt)} Pickled Entry Points at {self.dumpdir}')
             else:    
                 if self.baseSet['Threads'] == 1:
-                    self.EntriesPt = graph_addentries(NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'], self.baseSet['AN_EdgeCost'] )
+                    EntriesDt = graph_addentries(NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'], self.baseSet['AN_EdgeCost'] )
                 else:
                     chunksize = int(round(len(self.EntriesDf) / self.baseSet['Threads'], 0)) + 1
                     largs = tuple((NetworkDf, self.EntriesDf[i:i+chunksize], self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'], self.baseSet['AN_EdgeCost']) for i in range(0, len(self.EntriesDf), chunksize))
@@ -138,14 +138,14 @@ class GraphSims:
                     EntriesPt = []
                     for ent in EntPt:
                         EntriesPt += list(ent)
-                    self.EntriesPt = tuple(EntriesPt)
-                print(f'Pickling {len(self.EntriesPt)} Entry Points')
+                    EntriesDt = tuple(EntriesPt)
+                print(f'Pickling {len(EntriesDt)} Entry Points')
                 with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'wb') as op:
-                    pickle.dump(self.EntriesPt, op)
+                    pickle.dump(EntriesDt, op)
                 print('Pickling EntriesPt Successfull')
         else:
             if self.baseSet['Threads'] == 1:
-                self.EntriesPt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeCost'])
+                EntriesDt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeCost'])
                 
             else:
                 chunksize = int(round(len(self.EntriesDf) / self.baseSet['Threads'], 0)) + 1
@@ -154,12 +154,14 @@ class GraphSims:
                 EntriesPt = []
                 for ent in EntPt:
                     EntriesPt += list(ent)
-                self.EntriesPt = tuple(EntriesPt)
-        self.EntriesDf['xLn_ID'] = [dt[1] for dt in self.EntriesPt]
-        self.EntriesDf['xPt_X'] = [dt[4][0] for dt in self.EntriesPt]
-        self.EntriesDf['xPt_Y'] = [dt[4][1] for dt in self.EntriesPt]
-        try: self.EntriesDf['xPt_Z'] = [dt[4][2] for dt in self.EntriesPt]
-        except: self.EntriesDf['xPt_Z'] = [0.0 for dt in self.EntriesPt]
+                EntriesDt = tuple(EntriesPt)
+        EntriesDt = tuple(((d[0], d[1], d[2], tuple(d[3]), d[4], d[5]) for d in EntriesDt)) # i have no idea why edist is converted to list
+        self.Gph.addEntries(tuple(EntriesDt))
+        self.EntriesDf['xLn_ID'] = [dt[1] for dt in EntriesDt]
+        self.EntriesDf['xPt_X'] = [dt[4][0] for dt in EntriesDt]
+        self.EntriesDf['xPt_Y'] = [dt[4][1] for dt in EntriesDt]
+        try: self.EntriesDf['xPt_Z'] = [dt[4][2] for dt in EntriesDt]
+        except: self.EntriesDf['xPt_Z'] = [0.0 for dt in EntriesDt]
 
         # map!
         self.pdkLayers = []
@@ -284,10 +286,10 @@ class GraphSims:
             tmSt = time()
             if Settings['OpType'] == 'P':
                 print('Processing with singlethreading & Plural mapping')
-                Rslt = Base_BetweenessPatronage_Plural(self.Gph, self.EntriesPt, OriDf, DestDf, Settings)
+                Rslt = Base_BetweenessPatronage_Plural(self.Gph, OriDf, DestDf, Settings)
             else:
                 print('Processing with singlethreading & Singular mapping')
-                Rslt = Base_BetweenessPatronage_Singular(self.Gph, self.EntriesPt, OriDf, DestDf, Settings)
+                Rslt = Base_BetweenessPatronage_Singular(self.Gph, OriDf, DestDf, Settings)
             print(f'Processing finished in {time()-tmSt:,.3f} seconds')
             # self.NetworkDf[Settings['RsltAttr']] = (0,)*len(Rslt[1])
             # for i, v in zip(Rslt[0], Rslt[1]):
@@ -296,7 +298,7 @@ class GraphSims:
             chunksize = int(round(len(OriDf) / self.baseSet['Threads'], 0)) + 1
             if len(OriDf) > 100:
                 chunksize = int(round(chunksize / 2,0))
-            largs = [(self.Gph, self.EntriesPt, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
+            largs = [(self.Gph, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
             tmSt = time()
             if Settings['OpType'] == 'P':
                 print(f'Processing with multithreading & Plural mapping, with chunksize {chunksize}')
@@ -358,7 +360,7 @@ class GraphSims:
         if threads == 1: # if single thread
             tmSt = time()
             print('Processing with singlethreading')
-            inpt = (Mode, self.Gph, self.EntriesPt, OriDf, DestDf, Settings)
+            inpt = (Mode, self.Gph, OriDf, DestDf, Settings)
             Rslt = gph_Base_Reach_multi(inpt)
             print(f'Processing finished in {time()-tmSt:,.3f} seconds')
 
@@ -389,7 +391,7 @@ class GraphSims:
             tmSt = time()
             if len(OriDf) > 400:
                 chunksize = int(round(chunksize / 2,0))
-            largs = [(Mode, self.Gph, self.EntriesPt, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
+            largs = [(Mode, self.Gph, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
             SubRslt = MultiProcessPool(gph_Base_Reach_multi, largs)
             print(f'Multiprocessing finished in {time()-tmSt:,.3f} seconds')
 
@@ -457,7 +459,7 @@ class GraphSims:
         if self.baseSet['Threads'] == 1: # if single thread
             tmSt = time()
             print('Processing with singlethreading')
-            Rslt = gph_Base_Straightness_multi((self.Gph, self.EntriesPt, OriDf, DestDf, Settings))
+            Rslt = gph_Base_Straightness_multi((self.Gph, OriDf, DestDf, Settings))
             print(f'Processing finished in {time()-tmSt:,.3f} seconds')
 
             if RsltAttr not in self.EntriesDf.columns:
@@ -472,7 +474,7 @@ class GraphSims:
             tmSt = time()
             if len(OriDf) > 100:
                 chunksize = int(round(chunksize / 4 , 0))
-            largs = [(self.Gph, self.EntriesPt, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
+            largs = [(self.Gph, OriDf[i:i+chunksize], DestDf, Settings) for i in range(0, len(OriDf), chunksize)]
             SubRslt = MultiProcessPool(gph_Base_Straightness_multi, largs, self.baseSet['Threads'])
             print(f'Multiprocessing finished in {time()-tmSt:,.3f} seconds')
 

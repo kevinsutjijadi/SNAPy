@@ -99,8 +99,8 @@ def graph_addentries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist
 
 
 def graphsim_dist(Gph:GraphCy, 
-                  DtOri:tuple, 
-                  DtDst:tuple, 
+                  EntO:int, 
+                  EntD:int,  
                   ScDist:float=1500.0,
                   DistMul:float=2.0, 
                   LimCycle:int=1_000_000,
@@ -114,8 +114,8 @@ def graphsim_dist(Gph:GraphCy,
     # checks if the origin and destination on the same line
     if not IncFBDist:
         rslt = Gph.PathDist_AStar_VirtuEntry(
-            DtOri[1], DtOri[4], DtOri[3],
-            DtDst[1], DtDst[4], DtDst[3],
+            EntO,
+            EntD,
             LimDist = ScDist,
             LimCycle = LimCycle,
             DistMul = DistMul,
@@ -123,8 +123,8 @@ def graphsim_dist(Gph:GraphCy,
         return rslt
     else:
         rslt = Gph.PathDistComp_AStar_VirtuEntry(
-            DtOri[1], DtOri[4], DtOri[3],
-            DtDst[1], DtDst[4], DtDst[3],
+            EntO,
+            EntD,
             LimDist = ScDist,
             LimCycle = LimCycle,
             DistMul = DistMul,
@@ -133,8 +133,8 @@ def graphsim_dist(Gph:GraphCy,
 
 
 def graphsim_paths(Gph:GraphCy, 
-                   DtOri:tuple, 
-                   DtDst:tuple,  
+                   EntO:int, 
+                   EntD:int,  
                    ScDist:float=800.0, 
                    DetourR:float=1.0,  
                    DistMul:float=2.0, 
@@ -148,16 +148,9 @@ def graphsim_paths(Gph:GraphCy,
     """
 
     # checks if the origin and destination on the same line
-    sln_Dst = None
-    
-    if DtOri[1] == DtDst[1]:
-        sln_Dst = abs(DtOri[3][0] - DtDst[3][0]) # delta distance between the points
-        if sln_Dst < 0.1:
-            sln_Dst = 0.1
-        return ((sln_Dst,),((DtOri[1],),))
     rslt = Gph.PathFind_Multi_VirtuEntry(
-        DtOri[1], DtOri[4], DtOri[3],
-        DtDst[1], DtDst[4], DtDst[3],
+        EntO,
+        EntD,
         DistMulLim = DetourR,
         LimDist = ScDist,
         LimCycle = LimCycle,

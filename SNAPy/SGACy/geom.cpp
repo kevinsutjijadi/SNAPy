@@ -2629,7 +2629,6 @@ static const char __pyx_k_edpt[] = "edpt";
 static const char __pyx_k_geom[] = "geom";
 static const char __pyx_k_iter[] = "iter";
 static const char __pyx_k_ixDs[] = "ixDs";
-static const char __pyx_k_ixDx[] = "ixDx";
 static const char __pyx_k_ixPt[] = "ixPt";
 static const char __pyx_k_line[] = "line";
 static const char __pyx_k_lnID[] = "lnID";
@@ -2952,7 +2951,6 @@ typedef struct {
   PyObject *__pyx_n_s_iter;
   PyObject *__pyx_n_s_iterrows;
   PyObject *__pyx_n_s_ixDs;
-  PyObject *__pyx_n_s_ixDx;
   PyObject *__pyx_n_s_ixPt;
   PyObject *__pyx_n_s_j;
   PyObject *__pyx_n_s_l;
@@ -3245,7 +3243,6 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_iter);
   Py_CLEAR(clear_module_state->__pyx_n_s_iterrows);
   Py_CLEAR(clear_module_state->__pyx_n_s_ixDs);
-  Py_CLEAR(clear_module_state->__pyx_n_s_ixDx);
   Py_CLEAR(clear_module_state->__pyx_n_s_ixPt);
   Py_CLEAR(clear_module_state->__pyx_n_s_j);
   Py_CLEAR(clear_module_state->__pyx_n_s_l);
@@ -3516,7 +3513,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_iter);
   Py_VISIT(traverse_module_state->__pyx_n_s_iterrows);
   Py_VISIT(traverse_module_state->__pyx_n_s_ixDs);
-  Py_VISIT(traverse_module_state->__pyx_n_s_ixDx);
   Py_VISIT(traverse_module_state->__pyx_n_s_ixPt);
   Py_VISIT(traverse_module_state->__pyx_n_s_j);
   Py_VISIT(traverse_module_state->__pyx_n_s_l);
@@ -3819,7 +3815,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_iter __pyx_mstate_global->__pyx_n_s_iter
 #define __pyx_n_s_iterrows __pyx_mstate_global->__pyx_n_s_iterrows
 #define __pyx_n_s_ixDs __pyx_mstate_global->__pyx_n_s_ixDs
-#define __pyx_n_s_ixDx __pyx_mstate_global->__pyx_n_s_ixDx
 #define __pyx_n_s_ixPt __pyx_mstate_global->__pyx_n_s_ixPt
 #define __pyx_n_s_j __pyx_mstate_global->__pyx_n_s_j
 #define __pyx_n_s_l __pyx_mstate_global->__pyx_n_s_l
@@ -15400,7 +15395,6 @@ static PyObject *__pyx_pf_4geom_22MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
   PyObject *__pyx_v_ixDs = NULL;
   PyObject *__pyx_v_lnFeat = NULL;
   PyObject *__pyx_v_lnSplit = NULL;
-  CYTHON_UNUSED double __pyx_v_ixDx;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -15415,13 +15409,12 @@ static PyObject *__pyx_pf_4geom_22MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
   PyObject *__pyx_t_10 = NULL;
   int __pyx_t_11;
   PyObject *(*__pyx_t_12)(PyObject *);
-  float __pyx_t_13;
+  float *__pyx_t_13;
   float __pyx_t_14;
-  float __pyx_t_15[2];
-  float *__pyx_t_16;
+  float __pyx_t_15;
+  double __pyx_t_16;
   double __pyx_t_17;
-  double __pyx_t_18;
-  int __pyx_t_19;
+  int __pyx_t_18;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -15724,7 +15717,7 @@ static PyObject *__pyx_pf_4geom_22MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
  *         if lnID is not  None:
  *             lnFeat = GphDf.loc[lnID]             # <<<<<<<<<<<<<<
  *             lnSplit = geom_linesplit(lnFeat.geometry, ixPt)
- *             lnDist = [lnSplit[0].length, lnSplit[1].length]
+ *             lnDist = (lnSplit[0].length, lnSplit[1].length,)
  */
       __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_GphDf, __pyx_n_s_loc); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 392, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
@@ -15738,7 +15731,7 @@ static PyObject *__pyx_pf_4geom_22MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
  *         if lnID is not  None:
  *             lnFeat = GphDf.loc[lnID]
  *             lnSplit = geom_linesplit(lnFeat.geometry, ixPt)             # <<<<<<<<<<<<<<
- *             lnDist = [lnSplit[0].length, lnSplit[1].length]
+ *             lnDist = (lnSplit[0].length, lnSplit[1].length,)
  *             ixPt = (ixPt.x, ixPt.y, 0.0)
  */
       __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_geom_linesplit); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 393, __pyx_L1_error)
@@ -15774,31 +15767,31 @@ static PyObject *__pyx_pf_4geom_22MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
       /* "geom.pyx":394
  *             lnFeat = GphDf.loc[lnID]
  *             lnSplit = geom_linesplit(lnFeat.geometry, ixPt)
- *             lnDist = [lnSplit[0].length, lnSplit[1].length]             # <<<<<<<<<<<<<<
+ *             lnDist = (lnSplit[0].length, lnSplit[1].length,)             # <<<<<<<<<<<<<<
  *             ixPt = (ixPt.x, ixPt.y, 0.0)
  *             if EdgeCost is None:
  */
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_lnSplit, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 394, __pyx_L1_error)
+      __pyx_t_13 = __pyx_v_lnDist;
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_lnSplit, 0, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 394, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_length); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 394, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_13 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_13 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 394, __pyx_L1_error)
+      __pyx_t_14 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_14 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 394, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_lnSplit, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 394, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_lnSplit, 1, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 394, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_length); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 394, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_14 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_14 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 394, __pyx_L1_error)
+      __pyx_t_15 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_15 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 394, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_15[0] = __pyx_t_13;
-      __pyx_t_15[1] = __pyx_t_14;
-      memcpy(&(__pyx_v_lnDist[0]), __pyx_t_15, sizeof(__pyx_v_lnDist[0]) * (2));
+      (__pyx_t_13[0]) = __pyx_t_14;
+      (__pyx_t_13[1]) = __pyx_t_15;
 
       /* "geom.pyx":395
  *             lnSplit = geom_linesplit(lnFeat.geometry, ixPt)
- *             lnDist = [lnSplit[0].length, lnSplit[1].length]
+ *             lnDist = (lnSplit[0].length, lnSplit[1].length,)
  *             ixPt = (ixPt.x, ixPt.y, 0.0)             # <<<<<<<<<<<<<<
  *             if EdgeCost is None:
  *                 cost = 0.0
@@ -15822,7 +15815,7 @@ static PyObject *__pyx_pf_4geom_22MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
       __pyx_t_9 = 0;
 
       /* "geom.pyx":396
- *             lnDist = [lnSplit[0].length, lnSplit[1].length]
+ *             lnDist = (lnSplit[0].length, lnSplit[1].length,)
  *             ixPt = (ixPt.x, ixPt.y, 0.0)
  *             if EdgeCost is None:             # <<<<<<<<<<<<<<
  *                 cost = 0.0
@@ -15841,7 +15834,7 @@ static PyObject *__pyx_pf_4geom_22MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
         __pyx_v_cost = 0.0;
 
         /* "geom.pyx":396
- *             lnDist = [lnSplit[0].length, lnSplit[1].length]
+ *             lnDist = (lnSplit[0].length, lnSplit[1].length,)
  *             ixPt = (ixPt.x, ixPt.y, 0.0)
  *             if EdgeCost is None:             # <<<<<<<<<<<<<<
  *                 cost = 0.0
@@ -15860,9 +15853,9 @@ static PyObject *__pyx_pf_4geom_22MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
       /*else*/ {
         __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_v_lnFeat, __pyx_v_EdgeCost); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 399, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_14 = __pyx_PyFloat_AsFloat(__pyx_t_9); if (unlikely((__pyx_t_14 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 399, __pyx_L1_error)
+        __pyx_t_15 = __pyx_PyFloat_AsFloat(__pyx_t_9); if (unlikely((__pyx_t_15 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 399, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_v_cost = __pyx_t_14;
+        __pyx_v_cost = __pyx_t_15;
       }
       __pyx_L9:;
 
@@ -15880,8 +15873,8 @@ static PyObject *__pyx_pf_4geom_22MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
  *                 cost = lnFeat[EdgeCost]
  *         else:
  *             lnID = -1             # <<<<<<<<<<<<<<
- *             ixDx = 0.0
- *             lnDist = (0.0,0.0)
+ *             ixDs = 0.0
+ *             lnDist = (0.0,0.0,)
  */
     /*else*/ {
       __Pyx_INCREF(__pyx_int_neg_1);
@@ -15890,28 +15883,29 @@ static PyObject *__pyx_pf_4geom_22MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
       /* "geom.pyx":402
  *         else:
  *             lnID = -1
- *             ixDx = 0.0             # <<<<<<<<<<<<<<
- *             lnDist = (0.0,0.0)
+ *             ixDs = 0.0             # <<<<<<<<<<<<<<
+ *             lnDist = (0.0,0.0,)
  *             cost = 0.0
  */
-      __pyx_v_ixDx = 0.0;
+      __Pyx_INCREF(__pyx_float_0_0);
+      __Pyx_DECREF_SET(__pyx_v_ixDs, __pyx_float_0_0);
 
       /* "geom.pyx":403
  *             lnID = -1
- *             ixDx = 0.0
- *             lnDist = (0.0,0.0)             # <<<<<<<<<<<<<<
+ *             ixDs = 0.0
+ *             lnDist = (0.0,0.0,)             # <<<<<<<<<<<<<<
  *             cost = 0.0
  *             ixPt = (0.0, 0.0, 0.0)
  */
-      __pyx_t_16 = __pyx_v_lnDist;
+      __pyx_t_13 = __pyx_v_lnDist;
+      __pyx_t_16 = 0.0;
       __pyx_t_17 = 0.0;
-      __pyx_t_18 = 0.0;
-      (__pyx_t_16[0]) = __pyx_t_17;
-      (__pyx_t_16[1]) = __pyx_t_18;
+      (__pyx_t_13[0]) = __pyx_t_16;
+      (__pyx_t_13[1]) = __pyx_t_17;
 
       /* "geom.pyx":404
- *             ixDx = 0.0
- *             lnDist = (0.0,0.0)
+ *             ixDs = 0.0
+ *             lnDist = (0.0,0.0,)
  *             cost = 0.0             # <<<<<<<<<<<<<<
  *             ixPt = (0.0, 0.0, 0.0)
  * 
@@ -15919,83 +15913,83 @@ static PyObject *__pyx_pf_4geom_22MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
       __pyx_v_cost = 0.0;
 
       /* "geom.pyx":405
- *             lnDist = (0.0,0.0)
+ *             lnDist = (0.0,0.0,)
  *             cost = 0.0
  *             ixPt = (0.0, 0.0, 0.0)             # <<<<<<<<<<<<<<
  * 
- * 
+ *         EntryInfo.append((
  */
       __Pyx_INCREF(__pyx_tuple__10);
       __Pyx_DECREF_SET(__pyx_v_ixPt, __pyx_tuple__10);
     }
     __pyx_L8:;
 
-    /* "geom.pyx":409
+    /* "geom.pyx":408
  * 
  *         EntryInfo.append((
  *             EntryIds[ptn], #  AttrID:str='FID' 0 - Entry Point ID             # <<<<<<<<<<<<<<
  *             lnID, # 1 - ID of connected edge
  *             ixDs, # 2 - Distance to intersection
  */
-    __pyx_t_9 = __Pyx_GetItemInt_Tuple(__pyx_v_EntryIds, __pyx_v_ptn, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 409, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_GetItemInt_Tuple(__pyx_v_EntryIds, __pyx_v_ptn, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 408, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
 
-    /* "geom.pyx":412
+    /* "geom.pyx":411
  *             lnID, # 1 - ID of connected edge
  *             ixDs, # 2 - Distance to intersection
  *             lnDist, # 3 - tuple of distance to the two nodes             # <<<<<<<<<<<<<<
  *             ixPt, # 4 - Point of intersection
  *             cost, # 5 - cost of edge
  */
-    __pyx_t_6 = __Pyx_carray_to_py_float(__pyx_v_lnDist, 2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 412, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_carray_to_py_float(__pyx_v_lnDist, 2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 411, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
 
-    /* "geom.pyx":414
+    /* "geom.pyx":413
  *             lnDist, # 3 - tuple of distance to the two nodes
  *             ixPt, # 4 - Point of intersection
  *             cost, # 5 - cost of edge             # <<<<<<<<<<<<<<
  *         ))
  *     # free(gphbounds)
  */
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_cost); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 414, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_cost); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 413, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
 
-    /* "geom.pyx":409
+    /* "geom.pyx":408
  * 
  *         EntryInfo.append((
  *             EntryIds[ptn], #  AttrID:str='FID' 0 - Entry Point ID             # <<<<<<<<<<<<<<
  *             lnID, # 1 - ID of connected edge
  *             ixDs, # 2 - Distance to intersection
  */
-    __pyx_t_3 = PyTuple_New(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 409, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 408, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_9);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_9)) __PYX_ERR(0, 409, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_9)) __PYX_ERR(0, 408, __pyx_L1_error);
     __Pyx_INCREF(__pyx_v_lnID);
     __Pyx_GIVEREF(__pyx_v_lnID);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_lnID)) __PYX_ERR(0, 409, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_lnID)) __PYX_ERR(0, 408, __pyx_L1_error);
     __Pyx_INCREF(__pyx_v_ixDs);
     __Pyx_GIVEREF(__pyx_v_ixDs);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_v_ixDs)) __PYX_ERR(0, 409, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_v_ixDs)) __PYX_ERR(0, 408, __pyx_L1_error);
     __Pyx_GIVEREF(__pyx_t_6);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 3, __pyx_t_6)) __PYX_ERR(0, 409, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 3, __pyx_t_6)) __PYX_ERR(0, 408, __pyx_L1_error);
     __Pyx_INCREF(__pyx_v_ixPt);
     __Pyx_GIVEREF(__pyx_v_ixPt);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 4, __pyx_v_ixPt)) __PYX_ERR(0, 409, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 4, __pyx_v_ixPt)) __PYX_ERR(0, 408, __pyx_L1_error);
     __Pyx_GIVEREF(__pyx_t_2);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 5, __pyx_t_2)) __PYX_ERR(0, 409, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 5, __pyx_t_2)) __PYX_ERR(0, 408, __pyx_L1_error);
     __pyx_t_9 = 0;
     __pyx_t_6 = 0;
     __pyx_t_2 = 0;
 
-    /* "geom.pyx":408
- * 
+    /* "geom.pyx":407
+ *             ixPt = (0.0, 0.0, 0.0)
  * 
  *         EntryInfo.append((             # <<<<<<<<<<<<<<
  *             EntryIds[ptn], #  AttrID:str='FID' 0 - Entry Point ID
  *             lnID, # 1 - ID of connected edge
  */
-    __pyx_t_19 = __Pyx_PyList_Append(__pyx_v_EntryInfo, __pyx_t_3); if (unlikely(__pyx_t_19 == ((int)-1))) __PYX_ERR(0, 408, __pyx_L1_error)
+    __pyx_t_18 = __Pyx_PyList_Append(__pyx_v_EntryInfo, __pyx_t_3); if (unlikely(__pyx_t_18 == ((int)-1))) __PYX_ERR(0, 407, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "geom.pyx":389
@@ -16008,13 +16002,13 @@ static PyObject *__pyx_pf_4geom_22MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "geom.pyx":417
+  /* "geom.pyx":416
  *         ))
  *     # free(gphbounds)
  *     return tuple(EntryInfo)             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyList_AsTuple(__pyx_v_EntryInfo); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 417, __pyx_L1_error)
+  __pyx_t_1 = PyList_AsTuple(__pyx_v_EntryInfo); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 416, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -16861,7 +16855,6 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_iter, __pyx_k_iter, sizeof(__pyx_k_iter), 0, 0, 1, 1},
     {&__pyx_n_s_iterrows, __pyx_k_iterrows, sizeof(__pyx_k_iterrows), 0, 0, 1, 1},
     {&__pyx_n_s_ixDs, __pyx_k_ixDs, sizeof(__pyx_k_ixDs), 0, 0, 1, 1},
-    {&__pyx_n_s_ixDx, __pyx_k_ixDx, sizeof(__pyx_k_ixDx), 0, 0, 1, 1},
     {&__pyx_n_s_ixPt, __pyx_k_ixPt, sizeof(__pyx_k_ixPt), 0, 0, 1, 1},
     {&__pyx_n_s_j, __pyx_k_j, sizeof(__pyx_k_j), 0, 0, 1, 1},
     {&__pyx_n_s_l, __pyx_k_l, sizeof(__pyx_k_l), 0, 0, 1, 1},
@@ -17040,11 +17033,11 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__9);
 
   /* "geom.pyx":405
- *             lnDist = (0.0,0.0)
+ *             lnDist = (0.0,0.0,)
  *             cost = 0.0
  *             ixPt = (0.0, 0.0, 0.0)             # <<<<<<<<<<<<<<
  * 
- * 
+ *         EntryInfo.append((
  */
   __pyx_tuple__10 = PyTuple_Pack(3, __pyx_float_0_0, __pyx_float_0_0, __pyx_float_0_0); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 405, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
@@ -17201,10 +17194,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     """
  *     Mapping Entries into graph
  */
-  __pyx_tuple__39 = PyTuple_Pack(19, __pyx_n_s_GphDf, __pyx_n_s_EntryDf, __pyx_n_s_EntryDist, __pyx_n_s_AttrNodeID, __pyx_n_s_AttrEdgeID, __pyx_n_s_EdgeCost, __pyx_n_s_EntryIds, __pyx_n_s_AttrEdgeIDx, __pyx_n_s_lnDist, __pyx_n_s_cost, __pyx_n_s_EntryInfo, __pyx_n_s_ptn, __pyx_n_s_pt, __pyx_n_s_lnID, __pyx_n_s_ixPt, __pyx_n_s_ixDs, __pyx_n_s_lnFeat, __pyx_n_s_lnSplit, __pyx_n_s_ixDx); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 367, __pyx_L1_error)
+  __pyx_tuple__39 = PyTuple_Pack(18, __pyx_n_s_GphDf, __pyx_n_s_EntryDf, __pyx_n_s_EntryDist, __pyx_n_s_AttrNodeID, __pyx_n_s_AttrEdgeID, __pyx_n_s_EdgeCost, __pyx_n_s_EntryIds, __pyx_n_s_AttrEdgeIDx, __pyx_n_s_lnDist, __pyx_n_s_cost, __pyx_n_s_EntryInfo, __pyx_n_s_ptn, __pyx_n_s_pt, __pyx_n_s_lnID, __pyx_n_s_ixPt, __pyx_n_s_ixDs, __pyx_n_s_lnFeat, __pyx_n_s_lnSplit); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 367, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__39);
   __Pyx_GIVEREF(__pyx_tuple__39);
-  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(6, 0, 0, 19, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_geom_pyx, __pyx_n_s_MapEntries, 367, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(0, 367, __pyx_L1_error)
+  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(6, 0, 0, 18, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_geom_pyx, __pyx_n_s_MapEntries, 367, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(0, 367, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
