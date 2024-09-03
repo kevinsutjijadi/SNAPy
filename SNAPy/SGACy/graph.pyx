@@ -12,10 +12,14 @@ from libcpp.utility cimport pair
 from libcpp.string cimport string
 from libc.math cimport sqrt
 import geopandas as gpd
+cimport numpy as cnp
+import numpy as np
+import pandas as pd
 from libc.stdlib cimport malloc, realloc, free
 from typing import List
 from libc.stdint cimport int32_t, uint32_t
 from libc.string cimport memset
+
 
 # Main graph class, functions somewhat similar to NetworkX's graph, but some changes/specifics are made to adjust for spatial-oriented functionality.
 cdef struct distpair:
@@ -29,7 +33,7 @@ cdef struct Point3d:
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-cdef Point3d MakePoint3d(float& x, float& y, float z= 0.0) nogil:
+cdef Point3d MakePoint3d(float& x, float& y, float z= 0.0):
     cdef Point3d pt
     pt.x = x
     pt.y = y
@@ -88,10 +92,10 @@ cdef struct Node:
 cdef Node Node_make(tuple NodeDt):
     cdef Node nd
     nd.idx = NodeDt[0]
-    nd.pt = Float_tuple_array(NodeDt[1])
+    nd.pt = (NodeDt[1][0], NodeDt[1][1], NodeDt[1][2])
     nd.w = NodeDt[2]
     nd.c = NodeDt[3]
-    nd.Eid = Int_tuple_array(NodeDt[4])
+    nd.Eid = (NodeDt[4][0], NodeDt[4][1], NodeDt[4][2], NodeDt[4][3], NodeDt[4][4], NodeDt[4][5], NodeDt[4][6], NodeDt[4][7], NodeDt[4][8], NodeDt[4][9])
     return nd
 
 
@@ -430,8 +434,20 @@ cdef Entry Entry_make(tuple EntryDt):
     en.fid = EntryDt[0]
     en.Eid = EntryDt[1]
     en.ixDs = EntryDt[2]
-    en.EDist = Float_tuple_array(EntryDt[3])
-    en.ixPt = Float_tuple_array(EntryDt[4])
+    en.EDist = (EntryDt[3][0], EntryDt[3][1])
+    en.ixPt = (EntryDt[4][0], EntryDt[4][1], EntryDt[4][2])
+    en.Ecost = EntryDt[5]
+    return en
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+cdef Entry Entry_makeTp(tuple EntryDt):
+    cdef Entry en
+    en.fid = EntryDt[0]
+    en.Eid = EntryDt[1]
+    en.ixDs = EntryDt[2]
+    en.EDist = (EntryDt[3][0], EntryDt[3][1])
+    en.ixPt = (EntryDt[4][0], EntryDt[4][1], EntryDt[4][2])
     en.Ecost = EntryDt[5]
     return en
 
@@ -463,11 +479,13 @@ cdef class GraphCy:
     cdef int Nentry
     
     cdef NodeReach* nodeVisited
+    cdef tuple reduceData
 
     def __cinit__(self, nodesize:int = 100, edgesize:int = 100, entrysize:int = 100, EidN:int = 10):
         self.Nnodes = nodesize
         self.nodes = <Node*>malloc(nodesize * sizeof(Node))
         self._nodesIds = <int*>malloc(nodesize * sizeof(int))
+        self.reduceData = (None,)
 
         cdef Node node
         node.idx = -1
@@ -519,23 +537,59 @@ cdef class GraphCy:
         free(self.nodeVisited)
         free(self.EntryDt)
     
-    def __reduce_ex__(self, protocol):
-        # pickle reducement depends on tuplizing arrays. are there faster ways?
+    cdef void _reduceinit(self):
+        cdef int n
         cdef tuple nodes = tuple((Node_tuple(self.nodes[n]) for n in range(self.Nnodes)))
         cdef tuple edges = tuple((Edge_tuple(self.edges[n]) for n in range(self.Nedges)))
         cdef tuple nodeids = Int_array_tuple(self._nodesIds, self.Nnodes)
         cdef tuple edgeids = Int_array_tuple(self._edgesIds, self.Nedges)
         cdef tuple entrydt = tuple((Entry_tuple(self.EntryDt[n]) for n in range(self.Nentry)))
-        return (GraphCy._reconstruct, (nodes, edges, nodeids, edgeids, self.Nnodes, self.Nedges, self.Nentry, entrydt, self.EidN))
+
+        # why not working?
+        # dty_nd = np.dtype([('idx', np.int32), ('pt', np.float32, (3,)),('w', np.float32),('c', np.float32),('Eid', np.int32, (10,)),])
+        # cdef cnp.ndarray nodes = np.zeros(self.Nnodes, dtype=dty_nd)
+        # cdef cnp.ndarray nodeids = np.zeros(self.Nnodes, dtype=np.int32)
+        # cdef Node nde
+        # for n in range(self.Nnodes):
+        #     nde = self.nodes[n]
+        #     nodes[n] = (nde.idx, nde.pt, nde.w, nde.c, nde.Eid)
+        #     nodeids[n] = self._nodesIds[n]
+        
+        # dty_ed = np.dtype([('idx', np.int32), ('NidO', np.int32),('NidD', np.int32),('len', np.float32),('lenR', np.float32),('w', np.float32),])
+        # cdef cnp.ndarray edges = np.zeros(self.Nedges, dtype=dty_ed)
+        # cdef cnp.ndarray edgeids = np.zeros(self.Nedges, dtype=np.int32)
+        # cdef Edge edg
+        # for n in range(self.Nedges):
+        #     edg = self.edges[n]
+        #     edges[n] = (edg.idx, edg.NidO, edg.NidD, edg.len, edg.lenR, edg.w)
+        #     edgeids[n] = self._edgesIds[n]
+
+        # dty_en = np.dtype([('fid', np.int32), ('Eid', np.int32),('ixDs', np.float32),('EDist', np.float32, (2,)),('ixPt', np.float32, (3,)),('Ecost', np.float32),])
+        # cdef cnp.ndarray entrydt = np.zeros(self.Nentry, dtype=dty_en)
+        # cdef Entry ent
+        # for n in range(self.Nentry):
+        #     ent = self.EntryDt[n]
+        #     entrydt[n] = (ent.fid, ent.Eid, ent.ixDs, ent.EDist, ent.ixPt, ent.Ecost)
+
+        self.reduceData = (nodes, edges, nodeids, edgeids, entrydt)
+
+    def __reduce_ex__(self, protocol):
+        # pickle reducement depends on tuplizing arrays. are there faster ways?
+        if self.reduceData[0] == None:
+            self._reduceinit()
+
+        return (GraphCy._reconstruct, (self.reduceData[0], self.reduceData[1], self.reduceData[2], self.reduceData[3], self.Nnodes, self.Nedges, self.Nentry, self.reduceData[4], self.EidN))
 
     cdef void reinstateGraph(self, tuple nodes, tuple edges, tuple nodeids, tuple edgeids, tuple entrydt):
         cdef int n
         for n in range(self.Nnodes):
             self.nodes[n] = Node_make(nodes[n])
             self._nodesIds[n] = nodeids[n]
+
         for n in range(self.Nedges):
             self.edges[n] = Edge_make(edges[n])
             self._edgesIds[n] = edgeids[n]
+
         for n in range(self.Nentry):
             self.EntryDt[n] = Entry_make(entrydt[n])
         return
@@ -1000,7 +1054,7 @@ cdef class GraphCy:
 
     def addEntry(self, entryDt:tuple) -> None:
         if len(entryDt) == 6:
-            self.EntryDt[entryDt[0]] = Entry_make(entryDt)
+            self.EntryDt[entryDt[0]] = Entry_makeTp(entryDt)
         else:
             print('entrydata tuple incorrect')
     
@@ -1016,7 +1070,25 @@ cdef class GraphCy:
             self.reallocEntry(size)
         cdef int n
         for n in range(size):
-            self.EntryDt[n] = Entry_make(entriesDt[n])
+            self.EntryDt[n] = Entry_makeTp(entriesDt[n])
+    
+    def frompandas_Entries(self, entriesDf:pd.Dataframe, realloc:bool=False) -> None:
+        cdef int size = <int>len(entriesDf)
+        if size > self.Nentry:
+            self.reallocEntry(size)
+            print('entries data larger than entries array, expanding array')
+        elif realloc:
+            self.reallocEntry(size)
+        cdef int n
+        cdef Entry entry
+        for n, row in entriesDf.iterrows():
+            entry.fid = row.fid
+            entry.Eid = row.lnID
+            entry.ixDs = row.ixDs
+            entry.EDist = row.lnDist
+            entry.ixPt = row.ixPt
+            entry.Ecost = row.cost
+            self.EntryDt[n] = entry
 
     def removeEdge(self, idx:int) -> None:
         self.C_removeEdge(idx)
@@ -1999,7 +2071,7 @@ cdef class GraphCy:
             tuple EntryDests,
             float LimDist = 10_000.0, 
             int LimCycle = 10_000, 
-            float NullVal = -1.0) -> tuple[float, float]:
+            float NullVal = -1.0) -> np.ndarray:
         """
         Find smallest distance between two nodes in the graph. Using Astar principle from 3d location information.
 
@@ -2093,8 +2165,11 @@ cdef class GraphCy:
                 continue
             optD[destN].pth = PathDist
             optD[destN].fly = BaseDist
-
-        opt = tuple(((optD[n].pth, optD[n].fly) for n in range(sizeDest))) # i will revisit this.
+        # cdef cnp.ndarray opt
+        # opt = np.array(tuple(((optD[n].pth, optD[n].fly) for n in range(sizeDest)))) # i will revisit this.
+        # opt = np.asarray(optD)
+        # opt = np.ndarray(shape=(self.Nentry,), dtype=dty, buffer = <void*>optD)
+        opt = tuple(((optD[n].pth, optD[n].fly) for n in range(sizeDest)))
         free(optD)
         return opt
 

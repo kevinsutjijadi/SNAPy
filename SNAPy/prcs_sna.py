@@ -494,7 +494,7 @@ def Base_Straightness(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFra
         )
         if rslt is None:
             continue
-        rslt = np.array(rslt)
+        rslt = np.array(rslt, dtype=np.float32)
         nulp = rslt[:,0] != 0.0
         rslt = rslt[nulp]
         dwgt = DestWgt[nulp]

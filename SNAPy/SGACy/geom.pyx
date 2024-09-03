@@ -12,6 +12,7 @@ from libcpp.utility cimport pair
 from libcpp.string cimport string
 from libc.math cimport sqrt
 import geopandas as gpd
+import pandas as pd
 from libc.stdlib cimport malloc, realloc, free
 from typing import List
 from libc.stdint cimport int32_t, uint32_t
@@ -288,7 +289,7 @@ def NetworkSegmentIntersections(df, dfi=None, EndPoints=True, tol=1e-3):
     
     df['fid'] = df.index
     if 'bbox' not in df.columns:
-        df['bbox'] = df.apply(lambda x: bbox(x.geometry), axis=1)
+        df['bbox'] = df.bbox
 
     if dfi is None:
         dfi = df
@@ -296,12 +297,12 @@ def NetworkSegmentIntersections(df, dfi=None, EndPoints=True, tol=1e-3):
         dfi = dfi.copy()
         dfi['fid'] = dfi.index
         if 'bbox' not in dfi.columns:
-            dfi['bbox'] = dfi.apply(lambda x: bbox(x.geometry), axis=1) # vectorized bbox
+            dfi['bbox'] = dfi.bbox
     
     for i, d in df.iterrows():
         ptlt = []
         dbx = d['bbox']
-        dfx = dfi[dfi.apply(lambda x: bbox_intersects(dbx, x.bbox), axis=1)]
+        dfx = dfi[dfi.apply(lambda x: bbox_intersects(dbx, x['bbox']), axis=1)]
         dfx = dfx[dfx['fid'] != i]
         ptr = dfx.apply(lambda x: IntersectLinetoPoints(d, x.geometry, tol), axis=1)
         for p in ptr:
@@ -370,47 +371,35 @@ def MapEntries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist:float
     """
     # cdef int EntriesN = len(EntryDf)
     # cdef EntryMap* Entryinfo = <EntryMap*>malloc(EntriesN * sizeof(EntryMap))
-    EntryIds = tuple(EntryDf[AttrNodeID])
-    cdef int AttrEdgeIDx = tuple(GphDf.columns).index(AttrEdgeID)
-    cdef float[2] lnDist
-    cdef float cost
     EntryInfo = []
+    NearestMatch = GphDf.geometry.sindex.nearest(EntryDf.geometry, return_all=False, return_distance=True)
+    EdgeMatch = NearestMatch[0][1]
 
-    if 'bbox' not in GphDf.columns:
-        GphDf['bbox'] = GphDf.apply(lambda x: bbox(x.geometry), axis=1)
-    # cdef int AttrBboxIDx = tuple(GphDf.columns).index('bbox')
-    cdef int ptn
-    # cdef bBox* gphbounds = <bBox*>malloc(len(GphDf) * sizeof(gphbounds))
-
-    # for n in range(len(GphDf)):
-    #     bbx = GphDf.iat[n, AttrBboxIDx]
-    #     gphbounds[n] = (bbx[0], bbx[1], bbx[2], bbx[3])
-
-    for ptn, pt in enumerate(EntryDf.geometry):
-        lnID, ixPt, ixDs = geom_closestline(pt, GphDf, EntryDist, AttrEdgeIDx)
-        if lnID is not  None:
-            lnFeat = GphDf.loc[lnID]
-            lnSplit = geom_linesplit(lnFeat.geometry, ixPt)
-            lnDist = (lnSplit[0].length, lnSplit[1].length,)
-            ixPt = (ixPt.x, ixPt.y, 0.0)
-            if EdgeCost is None:
-                cost = 0.0
-            else:
-                cost = lnFeat[EdgeCost]
-        else:
-            lnID = -1
-            ixDs = 0.0
-            lnDist = (0.0,0.0,)
-            cost = 0.0
-            ixPt = (0.0, 0.0, 0.0)
-
-        EntryInfo.append((
-            EntryIds[ptn], #  AttrID:str='FID' 0 - Entry Point ID
-            lnID, # 1 - ID of connected edge
-            ixDs, # 2 - Distance to intersection
-            lnDist, # 3 - tuple of distance to the two nodes
-            ixPt, # 4 - Point of intersection
-            cost, # 5 - cost of edge
-        ))
+    EntryCtr = EntryDf.geometry.centroid.values
+    EdgeMatch_geom = GphDf.geometry.values[EdgeMatch]
+    Match_distO = EdgeMatch_geom.project(EntryCtr)
+    Match_distD = EdgeMatch_geom.length - Match_distO
+    Match_ixPt = EdgeMatch_geom.interpolate(Match_distO)
+    Match_Eid = GphDf.index.values[EdgeMatch]
+    Match_distx = NearestMatch[1]
+    if EdgeCost is not None:
+        EntryInfo = pd.DataFrame({
+            'fid':EntryDf.index,
+            'lnID':Match_Eid,
+            'ixDs':Match_distx,
+            'lnDist':np.vstack((Match_distO, Match_distD)).T.tolist(),
+            'ixPt':np.vstack((Match_ixPt.x, Match_ixPt.y, np.zeros(Match_ixPt.shape, dtype=np.float32))).T.tolist(),
+            'cost':GphDf[EdgeCost].values[EdgeMatch]
+            })
+    else:
+        EntryInfo = pd.DataFrame({
+            'fid':EntryDf.index,
+            'lnID':Match_Eid,
+            'ixDs':Match_distx,
+            'lnDist':np.vstack((Match_distO, Match_distD)).T.tolist(),
+            'ixPt':np.vstack((Match_ixPt.x, Match_ixPt.y, np.zeros(Match_ixPt.shape, dtype=np.float32))).T.tolist(),
+            'cost':np.zeros(Match_ixPt.shape, dtype=np.float32)
+            })
+    
     # free(gphbounds)
-    return tuple(EntryInfo)
+    return EntryInfo

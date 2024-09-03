@@ -52,11 +52,7 @@ class GraphSims:
             'AN_EdgeCost': None,
             'SizeBuffer': 1.0,
             'Verbose': True,
-            'EntryDtDump': True,
-            'EntryDtDumpOvr': False,
             'Threads': 0,
-            'DumpDir': '\\dump',
-            'DumpEnt' : 'EntryDtDump.pkl',
         }
 
         for k,v in kwargs.items():
@@ -64,34 +60,27 @@ class GraphSims:
         if self.baseSet['Threads'] == 0:
             self.baseSet['Threads'] = os.cpu_count()-1
 
+        issues = []
         if EntriesDf.crs.is_geographic:
-            raise Exception("EntriesDf projection is geographic (degrees), please conver to projected")
+            issues.append("EntriesDf projection is geographic (degrees), please conver to projected")
         if NetworkDf.crs.is_geographic:
-            raise Exception("NetworkDf projection is geographic (degrees), please conver to projected")
+            issues.append("NetworkDf projection is geographic (degrees), please conver to projected")
         if EntriesDf.crs.to_epsg() != NetworkDf.crs.to_epsg():
-            raise Exception("EntriesDf and NetworkDf have different projections, please match them using gdb.to_crs()")
+            issues.append("EntriesDf and NetworkDf have different projections, please match them using gdb.to_crs()")
+        if NetworkDf.geometry[0].type != 'LineString':
+            issues.append("NetworkDf geometry type is not LineString, if it is MultiLineString, convert it to LineString first")
+        if EntriesDf.geometry[0].type != 'Point':
+            issues.append("EntriesDf geoemtry type is not Point, convert it to point")
+        if len(issues) > 0:
+            for n, i in issues:
+                print(f'{n}\t'+i)
+            raise Exception("SNAPy init failed, resolve the issues to continue")
 
-        if self.baseSet['EntID'] not in EntriesDf:
-            entid = self.baseSet['EntID']
-            print(f'Entries ID: {entid} not found, remaking from index')
-            EntriesDf[entid] = EntriesDf.index
-        if self.baseSet['EdgeID'] not in NetworkDf:
-            edgid = self.baseSet['EdgeID']
-            print(f'Network ID: {edgid} not found, remaking from index')
-            NetworkDf[edgid] = NetworkDf.index
-
-        self.dumpdir = self.baseSet['DumpDir']
-        self.EntPtDumpDir = self.baseSet['DumpEnt']
         self.EntriesDf = EntriesDf
         self.LastAtt = None
         
-        
         print(f'GraphSim Class ----------')
-
-        if NetworkDf.geometry[0].geom_type == 'MultiLineString':
-            NetworkDf = NetworkDf.explode()
-            print('Network data is multilinestring, exploded')
-            NetworkDf.index = range(int(NetworkDf.shape[0]))
+        print(f'Projection EPSG:{NetworkDf.crs.to_epsg()}')
 
         if self.baseSet['EntID'] not in self.EntriesDf.columns:
             print('EntriesDf EntID not detected, adding from index')
@@ -100,7 +89,8 @@ class GraphSims:
         if self.baseSet['EdgeID'] not in NetworkDf.columns:
             print('NetworkDf EdgeID not detected, adding from index')
             NetworkDf[self.baseSet['EdgeID']] = range(int(NetworkDf.shape[0]))
-        
+
+        tmst = time()
         self.Gph = GraphCy(int(NetworkDf.size*self.baseSet['SizeBuffer']+2), int(NetworkDf.size*self.baseSet['SizeBuffer']+4), len(EntriesDf))
         self.Gph.fromGeopandas_Edges(NetworkDf,
                                     self.baseSet['AE_Lnlength'],
@@ -115,57 +105,17 @@ class GraphSims:
         self.NetworkSize = self.Gph.sizeInfo() # returns (nodesize, edgesize)
         print(f'Graph Built with {self.NetworkSize[0]:,} Nodes, {self.NetworkSize[1]:,} Edges')
         self.NetworkDf = NetworkDf
-
-        if 'bbox' not in NetworkDf.columns:
-            NetworkDf['bbox'] = NetworkDf.apply(lambda x: bbox(x.geometry), axis=1)
+        EntriesDt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeCost'])
+        print(f'Graph mapped {len(EntriesDt)} Entries')
         
-
-        if self.baseSet['EntryDtDump']:# if dump
-            if not os.path.exists(self.dumpdir):
-                os.mkdir(self.dumpdir)
-            if os.path.exists(f'{self.dumpdir}\\{self.EntPtDumpDir}') and not self.baseSet['EntryDtDumpOvr']:
-                print('Pickled EntriesPt File Detected, using it instead')
-                with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'rb') as op:
-                    EntriesDt = pickle.load(op)
-                print(f'Found {len(EntriesDt)} Pickled Entry Points at {self.dumpdir}')
-            else:    
-                if self.baseSet['Threads'] == 1:
-                    EntriesDt = graph_addentries(NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'], self.baseSet['AN_EdgeCost'] )
-                else:
-                    chunksize = int(round(len(self.EntriesDf) / self.baseSet['Threads'], 0)) + 1
-                    largs = tuple((NetworkDf, self.EntriesDf[i:i+chunksize], self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'], self.baseSet['AN_EdgeCost']) for i in range(0, len(self.EntriesDf), chunksize))
-                    EntPt = MultiProcessPool(gph_addentries_multi, largs)
-                    EntriesPt = []
-                    for ent in EntPt:
-                        EntriesPt += list(ent)
-                    EntriesDt = tuple(EntriesPt)
-                print(f'Pickling {len(EntriesDt)} Entry Points')
-                with open(f'{self.dumpdir}\\{self.EntPtDumpDir}', 'wb') as op:
-                    pickle.dump(EntriesDt, op)
-                print('Pickling EntriesPt Successfull')
-        else:
-            if self.baseSet['Threads'] == 1:
-                EntriesDt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeCost'])
-                
-            else:
-                chunksize = int(round(len(self.EntriesDf) / self.baseSet['Threads'], 0)) + 1
-                largs = [(NetworkDf, self.EntriesDf[i:i+chunksize], self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'], self.baseSet['EdgeCost']) for i in range(0, len(self.EntriesDf), chunksize)]
-                EntPt = MultiProcessPool(gph_addentries_multi, largs)
-                EntriesPt = []
-                for ent in EntPt:
-                    EntriesPt += list(ent)
-                EntriesDt = tuple(EntriesPt)
-        EntriesDt = tuple(((d[0], d[1], d[2], tuple(d[3]), d[4], d[5]) for d in EntriesDt)) # i have no idea why edist is converted to list
-        self.Gph.addEntries(tuple(EntriesDt))
-        self.EntriesDf['xLn_ID'] = [dt[1] for dt in EntriesDt]
-        self.EntriesDf['xPt_X'] = [dt[4][0] for dt in EntriesDt]
-        self.EntriesDf['xPt_Y'] = [dt[4][1] for dt in EntriesDt]
-        try: self.EntriesDf['xPt_Z'] = [dt[4][2] for dt in EntriesDt]
-        except: self.EntriesDf['xPt_Z'] = [0.0 for dt in EntriesDt]
+        self.Gph.frompandas_Entries(EntriesDt)
+        self.EntriesDf['xLn_ID'] = EntriesDt['lnID']
+        self.EntriesDf['xPt'] = EntriesDt['ixPt']
 
         # map!
         self.pdkLayers = []
         self.pdkCenter = None
+        print(f'Graph initialization finished in {time()-tmst:,.4f} s')
 
 
     def __repr__(self) -> str:
