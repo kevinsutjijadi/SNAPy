@@ -3,3 +3,5 @@ testrun1.ipynb
 *.pyc
 Resources/logo.ai
 *.ipynb
+*.html
+*.pkl

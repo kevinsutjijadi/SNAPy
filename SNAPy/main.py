@@ -27,7 +27,7 @@ import pydeck as pdk
 # from .prcs_geom import *
 from .prcs_grph import *
 from .prcs_sna import *
-from .utils import MultiProcessPool
+from .utils import *
 from .SGACy.graph import GraphCy
 from .SGACy.geom import *
 
@@ -50,7 +50,7 @@ class GraphSims:
             'AE_Lnlength': None,
             'AE_LnlengthR': None,
             'AN_EdgeCost': None,
-            'SizeBuffer': 1.0,
+            'SizeBuffer': 0.05,
             'Verbose': True,
             'Threads': 0,
         }
@@ -78,6 +78,7 @@ class GraphSims:
 
         self.EntriesDf = EntriesDf
         self.LastAtt = None
+        self.epsg = NetworkDf.crs.to_epsg()
         
         print(f'GraphSim Class ----------')
         print(f'Projection EPSG:{NetworkDf.crs.to_epsg()}')
@@ -89,9 +90,10 @@ class GraphSims:
         if self.baseSet['EdgeID'] not in NetworkDf.columns:
             print('NetworkDf EdgeID not detected, adding from index')
             NetworkDf[self.baseSet['EdgeID']] = range(int(NetworkDf.shape[0]))
-
+    
         tmst = time()
-        self.Gph = GraphCy(int(NetworkDf.size*self.baseSet['SizeBuffer']+2), int(NetworkDf.size*self.baseSet['SizeBuffer']+4), len(EntriesDf))
+        nwSz = NetworkDf.shape[0]
+        self.Gph = GraphCy(int(nwSz*(1+self.baseSet['SizeBuffer'])), int(nwSz*(2+self.baseSet['SizeBuffer'])), len(EntriesDf))
         self.Gph.fromGeopandas_Edges(NetworkDf,
                                     self.baseSet['AE_Lnlength'],
                                     self.baseSet['AE_LnlengthR'],
@@ -108,9 +110,17 @@ class GraphSims:
         EntriesDt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeCost'])
         print(f'Graph mapped {len(EntriesDt)} Entries')
         
+        entryfails = EntriesDt['lnID'] == -1
+        if entryfails.size > 0:
+            print(f'Detected {entryfails.size} Entries unable to map to network. Coordinate error or further than EntDist parameter')
+            print(f"\tEntry ids are :\n\t{list(EntriesDt['fid'][entryfails])}")
+        
         self.Gph.frompandas_Entries(EntriesDt)
         self.EntriesDf['xLn_ID'] = EntriesDt['lnID']
-        self.EntriesDf['xPt'] = EntriesDt['ixPt']
+        self.EntriesDf['xPt_X'] = [p[0] for p in EntriesDt['ixPt']]
+        self.EntriesDf['xPt_Y'] = [p[1] for p in EntriesDt['ixPt']]
+
+        self.NodeDf = None
 
         # map!
         self.pdkLayers = []
@@ -121,6 +131,11 @@ class GraphSims:
     def __repr__(self) -> str:
         strNwSim = f'GraphSim object of {len(self.NetworkDf)} Segments and {len(self.EntriesDf)} Entries'
         return strNwSim
+
+    def getNodes(self, reset=False) -> gpd.GeoDataFrame:
+        if self.NodeDf is None or reset:
+            self.NodeDf = self.Gph.getNodes(self.epsg)
+        return self.NodeDf
 
     def Map_BaseLayerInit(self, ShowLayer=None):
         """
@@ -145,7 +160,7 @@ class GraphSims:
             data=EntXDf,
             pickable=False,
             get_line_color=[255,80,80],
-            get_line_width=1,
+            get_line_width=2,
         )
 
         EntDf = self.EntriesDf.copy()
@@ -163,24 +178,62 @@ class GraphSims:
         print('able to pop, edit ,or add more layers by directly accessing self.pdfLayers before using self.ShowMap\n')
 
         self.pdkLayers = [lyrNetwork, lyrEntriesX, lyrEntries]
-        
-    def Map_Show(self, tooltip=None, map_style='light', height=500, width=500):
+        self.pdkLyrNm = ['Ntw_Edges', 'Ntw_EntriesX', 'Ntw_Entries']
+    
+    def Map_LayerAdd(self, layers=None):
+        if layers is None:
+            return
+        if 'junction' in layers and 'Ntw_Nodes' not in self.pdkLyrNm:
+            if self.NodeDf is None:
+                self.getNodes()
+            nodes = self.NodeDf.copy().to_crs(4326)
+            
+            nodes['DeadEnd'] = nodes['JunctCnt'] < 2
+            nodes['color'] = nodes['DeadEnd'].apply(colorBR)
+            ly = pdk.Layer(
+                    type="GeoJsonLayer",
+                    data=nodes,
+                    pickable=True,
+                    get_fill_color='color',
+                    get_line_width = 0,
+                    get_radius=1.5,
+                )
+            self.pdkLayers.append(ly)
+            self.pdkLyrNm.append('Ntw_Nodes')
+            nodes['coords'] = nodes.geometry.apply(getcoords)
+            nodes['JunctCnt'] = nodes['JunctCnt'].astype('string')
+            ly = pdk.Layer(
+                    type="TextLayer",
+                    data=nodes,
+                    pickable=False,
+                    get_position='coords',
+                    get_text='JunctCnt',
+                    get_size=14,
+                    get_color='color',
+                    background=True,
+                    get_background_color = [255, 255, 255, 180],
+                    get_text_anchor=pdk.types.String("middle"),
+                    get_alignment_baseline=pdk.types.String("center"),
+                )
+            self.pdkLayers.append(ly)
+            self.pdkLyrNm.append('Ntw_NodesLbl')
+            print('Map layers added junctions info')
+
+
+    def Map_Show(self, show='base', map_style='light', height=500, width=500, zoom=17):
         
         if len(self.pdkLayers)==0:
             self.Map_BaseLayerInit()
-
-        view_state = pdk.ViewState(latitude=self.pdkCenter.y, longitude=self.pdkCenter.x, zoom=16)
-        if tooltip is None:
-            tooltip={
-                "html": "<b>id:</b>{"+self.baseSet['EdgeID']+"}",
-                "style": {
-                        "backgroundColor": "white",
-                        "color": "red",
-                        "fontFamily": "Helvetica",
-
-                }
-            }
-        pdkmap = pdk.Deck(layers=self.pdkLayers, initial_view_state=view_state, tooltip=tooltip, map_style=map_style, height=height, width=width)
+        
+        match show:
+            case 'base':
+                pass
+            case 'junction':
+                self.Map_LayerAdd('junction')
+        print(f'Shown Layers:\n\t{self.pdkLyrNm}')
+        view_state = pdk.ViewState(latitude=self.pdkCenter.y, longitude=self.pdkCenter.x, zoom=zoom)
+        
+        pdkmap = pdk.Deck(layers=self.pdkLayers, initial_view_state=view_state, map_style=map_style, height=height, width=width)
         return pdkmap
            
 
@@ -223,13 +276,15 @@ class GraphSims:
 
         OriDf = self.EntriesDf[(self.EntriesDf[Settings['OriWgt']]>0)][[self.baseSet['EntID'], Settings['OriWgt'], 'geometry']] # filtering only those above 0
         DestDf = self.EntriesDf[(self.EntriesDf[Settings['DestWgt']]>0)][[self.baseSet['EntID'], Settings['DestWgt'], 'geometry']]   
-
-        if OriID is not None: # if there are specific OriID
-            OriDf = OriDf[(OriDf[self.baseSet['EntID']].isin(OriID))]
-        
-        if DestID is not None: # if there are specific destID
-            DestDf = DestDf[(DestDf[self.baseSet['EntID']].isin(DestID))]
-        print(f'Collected {len(OriDf)} Origin and {len(DestDf)} Destinations Point[s]')
+        try:
+            if OriID is not None: # if there are specific OriID
+                OriDf = OriDf[(OriDf[self.baseSet['EntID']].isin(OriID))]
+            
+            if DestID is not None: # if there are specific destID
+                DestDf = DestDf[(DestDf[self.baseSet['EntID']].isin(DestID))]
+            print(f'Collected {len(OriDf)} Origin and {len(DestDf)} Destinations Point[s]')
+        except:
+            raise Exception("OriID or DestID not in correct form. Any form of iterable array that works in panda DataFrame.isin() is possible")
 
         # Base_BetweenessPatronage(Gdf, Gph, EntriesPt, OriDf, DestDf, SettingDict)
         if self.baseSet['Threads'] == 1:
@@ -296,13 +351,15 @@ class GraphSims:
             DestDf[Settings['DestWgt']] = self.EntriesDf[Settings['DestWgt']]
 
         RsltAttr = Settings['RsltAttr']
+        try:
+            if OriID is not None: # if there are specific OriID
+                OriDf = OriDf[(OriDf[self.baseSet['EntID']].isin(OriID))]
 
-        if OriID is not None: # if there are specific OriID
-            OriDf = OriDf[(OriDf[self.baseSet['EntID']].isin(OriID))]
-
-        if DestID is not None: # if there are specific destID
-            DestDf = DestDf[(DestDf[self.baseSet['EntID']].isin(DestID))]
-        print(f'Collected {len(OriDf)} Origin and {len(DestDf)} Destinations Point[s]')
+            if DestID is not None: # if there are specific destID
+                DestDf = DestDf[(DestDf[self.baseSet['EntID']].isin(DestID))]
+            print(f'Collected {len(OriDf)} Origin and {len(DestDf)} Destinations Point[s]')
+        except:
+            raise Exception("OriID or DestID not in correct form. Any form of iterable array that works in panda DataFrame.isin() is possible")
         
         threads = self.baseSet['Threads']
         if len(OriDf) < 50:
@@ -397,12 +454,15 @@ class GraphSims:
 
         RsltAttr = Settings['RsltAttr']
 
-        if OriID is not None: # if there are specific OriID
-            OriDf = OriDf[(OriDf[self.baseSet['EntID']].isin(OriID))]
+        try:
+            if OriID is not None: # if there are specific OriID
+                OriDf = OriDf[(OriDf[self.baseSet['EntID']].isin(OriID))]
 
-        if DestID is not None: # if there are specific destID
-            DestDf = DestDf[(DestDf[self.baseSet['EntID']].isin(DestID))]
-        print(f'Collected {len(OriDf)} Origin and {len(DestDf)} Destinations Point[s]')
+            if DestID is not None: # if there are specific destID
+                DestDf = DestDf[(DestDf[self.baseSet['EntID']].isin(DestID))]
+            print(f'Collected {len(OriDf)} Origin and {len(DestDf)} Destinations Point[s]')
+        except:
+            raise Exception("OriID or DestID not in correct form. Any form of iterable array that works in panda DataFrame.isin() is possible")
 
         DestDf[Settings['DestWgt']] = DestDf[Settings['DestWgt']].astype('float32')
         

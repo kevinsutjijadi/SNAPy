@@ -19,10 +19,6 @@ UNA supplemental calculations module,
 providing additional statistics and other processing for results of netx_sim module
 """
 
-### NEEDS:
-# convert GISVector into graph
-# graph editing
-# entrance - exit findings from points to network'
 
 def Func_SkewedDistribution(t, p, loc=0, shp=1, skw=0):
     '''
@@ -30,35 +26,33 @@ def Func_SkewedDistribution(t, p, loc=0, shp=1, skw=0):
     function on skewed distribution
     '''
     pos = (t-loc) / shp
-    return p / (shp * np.sqrt(2 * np.pi)) * (np.e **(-0.5 * pos**2)) * 0.5 * (1 + erf(skw * pos / np.sqrt(2)))
+    return p / (shp * np.sqrt(2 * np.pi)) * (np.e **(-0.5 * pos**2)) * (1 + erf(skw * pos / np.sqrt(2)))
 
 
-def Calc_HourlyTrafficSpread(sets, spread=1, h_start=0, h_end=24, cal_ends=True):
+def Calc_HourlyTrafficSpread(sets, spread=1, h_start=0, h_end=24, cal_ends=False):
     """
-    Frml_Hourly_TrafficSpread(list/tuple of [p:ammount, loc:location, shp:shape, skw:skew], spread:time resolution by hour-default 1, h_start, h_end)
+    Frml_Hourly_TrafficSpread(list/tuple of [p:np.array of btwns value, [loc:location, shp:shape, skw:skew]], spread:time resolution by hour-default 1, h_start, h_end)
     generating an evenly spaced traffic ammount
     """
-    h_sets = [h_start + (spread*n) for n in range(int(round((h_end-h_start)/spread,0)))]
-    opt = [0]*len(h_sets)
-    if not cal_ends:
-        for set in sets:
-            for n, h in enumerate(h_sets):
-                opt[n] += integrate.quad(lambda x: Func_SkewedDistribution(x, set[0]*2, set[1], set[2], set[3]), h-0.5, h+0.5)[0]
-    if cal_ends:
-        for set in sets:
-            for n,h in enumerate(h_sets):
-                opt[n] += integrate.quad(lambda x: Func_SkewedDistribution(x, set[0]*2, set[1], set[2], set[3]), h-24.5, h-23.5)[0]
-                opt[n] += integrate.quad(lambda x: Func_SkewedDistribution(x, set[0]*2, set[1], set[2], set[3]), h-0.5, h+0.5)[0]
-                opt[n] += integrate.quad(lambda x: Func_SkewedDistribution(x, set[0]*2, set[1], set[2], set[3]), h+23.5, h+24.5)[0]
+    h_sets = np.array([h_start + (spread*n) for n in range(int(round((h_end-h_start)/spread,0)))])
+    opt = np.zeros((sets[0][0].shape[0], h_sets.shape[0]), dtype=np.float32)
+    for values, param in sets:
+        intfunc = np.vectorize(lambda z, h: integrate.quad(lambda x: Func_SkewedDistribution(x, z, param[0], param[1], param[2]), h-0.5, h+0.5)[0])
+        intfuncY = np.vectorize(lambda z, h: integrate.quad(lambda x: Func_SkewedDistribution(x, z, param[0], param[1], param[2]), h-24.5, h-23.5)[0])
+        intfuncT = np.vectorize(lambda z, h: integrate.quad(lambda x: Func_SkewedDistribution(x, z, param[0], param[1], param[2]), h+23.5, h+24.5)[0])
+
+        opt += intfunc(values[:,np.newaxis], h_sets)
+        if cal_ends:
+            opt += intfuncY(values[:,np.newaxis], h_sets)
+            opt += intfuncT(values[:,np.newaxis], h_sets)
     return opt
 
 
-def SimTimeDistribute(Gdf, SetDt, spread=1, ApdAtt='HrTrf_'):
+def SimTimeDistribute(Gdf, SetDt, spread=1, ApdAtt='HrTrf_', h_start=0, h_end=24, cal_ends=False, returnArray=False):
     """
-    Calc_Traffic(Gdf, SetDt, spread=1)
+    Calc_Traffic(Gdf, SetDt[arr: attribute name on gdf, loc:location, shp:shape, skw:skew] , spread=1)
     calculate segments and datas
     """
-    dfcrs = Gdf.crs.to_epsg()
 
     Ocl = list(f'{ApdAtt}{n*spread}' for n in range(int(round(24/spread,0))))
     ncol = len(Gdf.columns)
@@ -66,12 +60,12 @@ def SimTimeDistribute(Gdf, SetDt, spread=1, ApdAtt='HrTrf_'):
     for cl in Ocl:
         GdfC[cl] = [0,] * len(GdfC)
 
-    for i in GdfC.index:
-        rst = Calc_HourlyTrafficSpread(
-            tuple((GdfC.at[i, s[0]], s[1], s[2], s[3]) for s in SetDt), 
-            spread
-            )
-        for r, cl in zip(rst, Ocl):
-            GdfC.loc[i, cl] = r
+    sets = [(np.array(GdfC[s[0]]), (s[1], s[2], s[3])) for s in SetDt]
+    rslt = Calc_HourlyTrafficSpread(sets, spread, h_start, h_end, cal_ends)
+    # masukin ke anu gdf
+    if returnArray:
+        return Ocl, rslt
+    for n, cl in enumerate(Ocl):
+        GdfC[cl] = rslt[:,n]
 
     return GdfC

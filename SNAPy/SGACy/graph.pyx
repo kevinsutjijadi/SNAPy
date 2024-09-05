@@ -15,6 +15,7 @@ import geopandas as gpd
 cimport numpy as cnp
 import numpy as np
 import pandas as pd
+from shapely.geometry import LineString, MultiLineString, Point, mapping, shape
 from libc.stdlib cimport malloc, realloc, free
 from typing import List
 from libc.stdint cimport int32_t, uint32_t
@@ -86,6 +87,16 @@ cdef struct Node:
     float w     # weight
     float c     # cost
     int[10] Eid    # connected edges IDs
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+cdef int Node_junctioncount(Node node) nogil:
+    cdef int n
+    cdef int c = 0
+    for n in range(10):
+        if node.Eid[n] != -1:
+            c += 1
+        else: return c
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
@@ -1052,8 +1063,28 @@ cdef class GraphCy:
 
         # print(f'Add edges from geopandas successfull, added {pointidCnt:,} nodes, and {edgeidCnt:,} edges')
 
+    def getNodes(self, crs) -> gpd.GeoDataFrame:
+        # get nodes info, location, cost, intersections
+        cdef int n
+        cdef Node node
+        nodePt = np.array([Point(self.nodes[n].pt[0], self.nodes[n].pt[1]) for n in range(self.Nnodes)], dtype=object)
+        nodeID = np.array([self.nodes[n].idx for n in range(self.Nnodes)], dtype=np.int32)
+        nodeJC = np.array([Node_junctioncount(self.nodes[n]) for n in range(self.Nnodes)], dtype=np.int32)
+        cullp = nodeID != -1
+        nodePt = nodePt[cullp]
+        nodeID = nodeID[cullp]
+        nodeJC = nodeJC[cullp]
+        nodeDf = gpd.GeoDataFrame(
+            data={'fid': nodeID, 'JunctCnt':nodeJC},
+            geometry=nodePt,
+            crs=crs
+        )
+        return nodeDf
+
     def addEntry(self, entryDt:tuple) -> None:
         if len(entryDt) == 6:
+            if entryDt[0] == -1:
+                return
             self.EntryDt[entryDt[0]] = Entry_makeTp(entryDt)
         else:
             print('entrydata tuple incorrect')
@@ -1070,6 +1101,8 @@ cdef class GraphCy:
             self.reallocEntry(size)
         cdef int n
         for n in range(size):
+            if entriesDt[n][0] == -1:
+                continue
             self.EntryDt[n] = Entry_makeTp(entriesDt[n])
     
     def frompandas_Entries(self, entriesDf:pd.Dataframe, realloc:bool=False) -> None:
@@ -1082,6 +1115,8 @@ cdef class GraphCy:
         cdef int n
         cdef Entry entry
         for n, row in entriesDf.iterrows():
+            if row.lnID == -1:
+                continue
             entry.fid = row.fid
             entry.Eid = row.lnID
             entry.ixDs = row.ixDs

@@ -382,6 +382,12 @@ def MapEntries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist:float
     Match_ixPt = EdgeMatch_geom.interpolate(Match_distO)
     Match_Eid = GphDf.index.values[EdgeMatch]
     Match_distx = NearestMatch[1]
+
+    cullp = Match_distx > EntryDist
+    # cull by dist
+    if np.sum(cullp) > 0.0:
+        Match_Eid[cullp] = -1
+
     if EdgeCost is not None:
         EntryInfo = pd.DataFrame({
             'fid':EntryDf.index,

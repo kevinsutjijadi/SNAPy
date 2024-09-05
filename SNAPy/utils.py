@@ -14,6 +14,7 @@ with more control over spatial items
 """
 
 from multiprocessing import Pool
+from shapely.geometry import LineString, MultiLineString, Point, mapping, shape
 import os
 
 def MultiProcessPool(func, largs:list, threadcount:int=0):
@@ -30,3 +31,12 @@ def MultiProcessPool(func, largs:list, threadcount:int=0):
         pool.close()
         pool.join()
     return output
+
+def colorBR(value):
+    return (255,0,0) if value else (0,0,255)
+
+def getcoords(point:Point, z=2):
+    if point.has_z:
+        return (point.x, point.y, point.z+z)
+    else:
+        return (point.x, point.y, z)
