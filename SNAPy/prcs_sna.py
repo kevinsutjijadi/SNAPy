@@ -148,11 +148,15 @@ def Base_BetweenessPatronage_Plural(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:
         'EdgeCmin' : 0.9,
         'PathLim' : 2_000,
         'LimCycles' : 1_000_000,
+        'Include_Destination': False,
     }
     for k,v in SettingDict.items(): # setting kwargs
         Settings[k] = v
     
-    OutAr = np.zeros(Gph.sizeInfo()[1], dtype=float)
+    Include_Destination = Settings['Include_Destination']
+    OutAr = np.zeros(Gph.sizeInfo()[1], dtype=np.float32)
+    if Include_Destination:
+        OutEn = np.zeros(DestDf.shape[0], dtype=np.float32)
     expA = Settings['AlphaExp']
     SrcD = Settings['SearchDist']
 
@@ -163,18 +167,16 @@ def Base_BetweenessPatronage_Plural(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:
     LimCycles = Settings['LimCycles']
     # cycles by oridf
     # EntriesPtId = np.array(tuple((x[0] for x in EntriesPt)), dtype=int)
-    DidAr = np.array(DestDf[Settings['AttrEntID']], dtype=int)
-    DestWgt = np.array(DestDf[Settings['DestWgt']], dtype=float)
-    OriWgt = np.array(OriDf[Settings['OriWgt']], dtype=float)
-    OidAr = np.array(OriDf[Settings['AttrEntID']], dtype=int)
-    DestinationDatas = tuple(((DidAr[d], DestWgt[d],) for d in range(len(DestDf))))
+    DidAr = np.array(DestDf[Settings['AttrEntID']], dtype=np.int32)
+    DestWgt = np.array(DestDf[Settings['DestWgt']], dtype=np.float32)
+    # DestWgt = DestDf[Settings['DestWgt']]
+    OriWgt = np.array(OriDf[Settings['OriWgt']], dtype=np.float32)
+    OidAr = np.array(OriDf[Settings['AttrEntID']], dtype=np.int32)
+    DestinationDatas = tuple((DidAr[d] for d in range(len(DestDf))))
     for Oi in range(len(OriDf)):
         Oid = OidAr[Oi]
         wgtO = OriWgt[Oi]
-        # try: Odt = EntriesPt[np.where(EntriesPtId == Oid)[0][0]]
-        # except: continue
-        # starting individual calculation betweeness
-        iterDsts, iterPths, iterWgts = Gph.PathFind_Multi_MultiDest_VirtuEntry(
+        iterDsts, iterPths, iterIds = Gph.PathFind_Multi_MultiDest_VirtuEntry(
             Oid,
             DestinationDatas,
             DetourR, 
@@ -182,24 +184,36 @@ def Base_BetweenessPatronage_Plural(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:
             LimCycles,
             DistMul,
             PathLim, 
-        )
-        
+        ) 
         # now compiling the results
-        if len(iterPths) == 0:
+        if len(iterIds) == 0:
             continue
         numpaths += len(iterDsts)
         DistMn = min(iterDsts)
-        iterDsts = np.array(iterDsts, dtype=float)
-        iterWgts = np.array(iterWgts, dtype=float)
+        iterDsts = np.array(iterDsts, dtype=np.float32)
+        iterIds = np.array(iterIds, dtype=np.int32)
+        # iterWgts = DestWgt.loc[iterIds]
+        iterId = np.digitize(iterIds, DidAr)-1
+        iterWgts = DestWgt[iterId]
         WgtPth = iterWgts * (DistMn/iterDsts) ** (1+expA)
         WgtPthSm = np.sum(WgtPth)
         TrafficPth = wgtO*(WgtPth/WgtPthSm)
-        for pth, trf in zip(iterPths, TrafficPth):
-            for i in pth:
-                OutAr[i] += trf
+        
+        if Include_Destination:
+            for pth, trf, id in zip(iterPths, TrafficPth, iterId):
+                OutEn[id] += trf
+                for i in pth:
+                    OutAr[i] += trf
             pass
+        else:
+            for pth, trf in zip(iterPths, TrafficPth):
+                for i in pth:
+                    OutAr[i] += trf
     print(f'Total Paths {numpaths:,}')
-    return OutAr
+    if Include_Destination:
+        return OutAr, OutEn
+    else:
+        return OutAr
 
 
 def Base_ReachN(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):

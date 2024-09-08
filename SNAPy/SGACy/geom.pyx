@@ -372,7 +372,7 @@ def MapEntries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist:float
     # cdef int EntriesN = len(EntryDf)
     # cdef EntryMap* Entryinfo = <EntryMap*>malloc(EntriesN * sizeof(EntryMap))
     EntryInfo = []
-    NearestMatch = GphDf.geometry.sindex.nearest(EntryDf.geometry, return_all=False, return_distance=True)
+    NearestMatch = GphDf.geometry.sindex.nearest(EntryDf.geometry, return_all=False,  return_distance=True)
     EdgeMatch = NearestMatch[0][1]
 
     EntryCtr = EntryDf.geometry.centroid.values

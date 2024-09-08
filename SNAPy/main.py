@@ -142,7 +142,7 @@ class GraphSims:
         Map_LayerBuild
         builds pydeck map base layers consisting of network and entries
         """
-        NetDf = self.NetworkDf[['geometry', self.baseSet['EdgeID']]].copy()
+        NetDf = self.NetworkDf.copy()
         NetDf = NetDf.to_crs(4326)
         lyrNetwork = pdk.Layer(
             type="GeoJsonLayer",
@@ -180,14 +180,15 @@ class GraphSims:
         self.pdkLayers = [lyrNetwork, lyrEntriesX, lyrEntries]
         self.pdkLyrNm = ['Ntw_Edges', 'Ntw_EntriesX', 'Ntw_Entries']
     
-    def Map_LayerAdd(self, layers=None):
-        if layers is None:
-            return
+    def Map_LayerAdd(self, layers:dict):
+
+        if len(self.pdkLayers) == 0:
+            self.Map_BaseLayerInit()
+        
         if 'junction' in layers and 'Ntw_Nodes' not in self.pdkLyrNm:
             if self.NodeDf is None:
                 self.getNodes()
             nodes = self.NodeDf.copy().to_crs(4326)
-            
             nodes['DeadEnd'] = nodes['JunctCnt'] < 2
             nodes['color'] = nodes['DeadEnd'].apply(colorBR)
             ly = pdk.Layer(
@@ -218,9 +219,90 @@ class GraphSims:
             self.pdkLayers.append(ly)
             self.pdkLyrNm.append('Ntw_NodesLbl')
             print('Map layers added junctions info')
+            layers.pop('junction')
+        # other layers
+        if len(layers) == 0:
+            return
+        colsNetwork = tuple(self.NetworkDf.columns)
+        colsEntries = tuple(self.EntriesDf.columns)
+        for ly, st in layers.items():
+            if ly+'_Ntw' in self.pdkLyrNm or ly+'_Ent' in self.pdkLyrNm:
+                continue
+            if st is None:
+                st = {}
+            if ly in colsNetwork:
+                # if output attribute name in networkdf columns
+                dt = self.NetworkDf[['geometry', ly]].copy()
+                dt = dt.to_crs(4326)
+                dt['color'] = [(int(x[0]), int(x[1]), int(x[2]), 120) for x in ColorRampMapping(np.array(dt[ly]), **st)]
+                dt['linewidth'] = ValueRampMapping(np.array(dt[ly]), **st)
+                lyr = pdk.Layer(
+                    type="GeoJsonLayer",
+                    data=dt,
+                    pickable=False,
+                    get_line_color='color',
+                    get_line_width='linewidth',
+                )
+                self.pdkLayers.append(lyr)
+                self.pdkLyrNm.append(ly+'_Ntw')
+                dt['coords'] = dt.geometry.interpolate(0.5, normalized=True).apply(getcoords)
+                dt[ly] = dt[ly].apply(NumStringFormat)
+                lyr = pdk.Layer(
+                    type="TextLayer",
+                    data=dt,
+                    pickable=False,
+                    get_position='coords',
+                    get_text=ly,
+                    get_size=14,
+                    get_color=[0,0,0],
+                    background=True,
+                    get_background_color = [255, 255, 255, 180],
+                    get_text_anchor=pdk.types.String("middle"),
+                    get_alignment_baseline=pdk.types.String("center"),
+                )
+                self.pdkLayers.append(lyr)
+                self.pdkLyrNm.append(ly+'_NtwLbl')
+                print(f'Map layers added {ly} as Edges')
+
+            if ly in colsEntries:
+                # if output attribute name in entriesdf columns
+                dt = self.EntriesDf[['geometry', ly]].copy()
+                dt = dt.to_crs(4326)
+
+                dt['color'] = [(int(x[0]), int(x[1]), int(x[2]), 120) for x in ColorRampMapping(np.array(dt[ly]), **st)]
+                dt['radius'] = ValueRampMapping(np.array(dt[ly]), **st)*2+2
+                lyr = pdk.Layer(
+                    type="GeoJsonLayer",
+                    data=dt,
+                    pickable=False,
+                    get_fill_color='color',
+                    get_line_width = 0,
+                    get_radius='radius',
+                )
+                self.pdkLayers.append(lyr)
+                self.pdkLyrNm.append(ly+'_Ent')
+                dt['coords'] = dt.geometry.apply(getcoords)
+                dt[ly] = dt[ly].apply(NumStringFormat)
+                lyr = pdk.Layer(
+                    type="TextLayer",
+                    data=dt,
+                    pickable=False,
+                    get_position='coords',
+                    get_text=ly,
+                    get_size=14,
+                    get_color=[0,0,0],
+                    background=True,
+                    get_background_color = [255, 255, 255, 180],
+                    get_text_anchor=pdk.types.String("middle"),
+                    get_alignment_baseline=pdk.types.String("center"),
+                )
+                self.pdkLayers.append(lyr)
+                self.pdkLyrNm.append(ly+'_EntLbl')
+                print(f'Mapp layers added {ly} as Entries')
 
 
-    def Map_Show(self, show='base', map_style='light', height=500, width=500, zoom=17):
+
+    def Map_Show(self, show='base', map_style='light', height=500, width=500, viewZoom=17, viewCenter=None):
         
         if len(self.pdkLayers)==0:
             self.Map_BaseLayerInit()
@@ -229,9 +311,13 @@ class GraphSims:
             case 'base':
                 pass
             case 'junction':
-                self.Map_LayerAdd('junction')
+                self.Map_LayerAdd({'junction':None,})
         print(f'Shown Layers:\n\t{self.pdkLyrNm}')
-        view_state = pdk.ViewState(latitude=self.pdkCenter.y, longitude=self.pdkCenter.x, zoom=zoom)
+        
+        if viewCenter is not None:
+            try: self.pdkCenter = Point(viewCenter[0], viewCenter[1])
+            except: raise("viewCenter not in acceptable format, in list or tuple of x,y")
+        view_state = pdk.ViewState(latitude=self.pdkCenter.y, longitude=self.pdkCenter.x, zoom=viewZoom)
         
         pdkmap = pdk.Deck(layers=self.pdkLayers, initial_view_state=view_state, map_style=map_style, height=height, width=width)
         return pdkmap
@@ -258,7 +344,8 @@ class GraphSims:
             'EdgeCmin' : 0.9,
             'PathLim' : 200,
             'LimCycles' : 1_000_000,
-            'OpType' : 'P'
+            'OpType' : 'P',
+            'Include_Destination' : False,
         }
         if kwargs:
             for k,v in kwargs.items():
@@ -299,6 +386,14 @@ class GraphSims:
             # self.NetworkDf[Settings['RsltAttr']] = (0,)*len(Rslt[1])
             # for i, v in zip(Rslt[0], Rslt[1]):
             # self.NetworkDf[Settings['RsltAttr']] = Rslt
+            if Settings['Include_Destination']:
+               Entryids = np.array(DestDf.index)
+               RsltDes = np.zeros(len(self.EntriesDf), dtype=np.float32)
+               RsltDes[Entryids] = Rslt[1]
+               self.EntriesDf[Settings['RsltAttr']] = RsltDes
+               self.NetworkDf[Settings['RsltAttr']] = Rslt[0]
+            else:
+                self.NetworkDf[Settings['RsltAttr']] = Rslt
         else:
             chunksize = int(round(len(OriDf) / self.baseSet['Threads'], 0)) + 1
             if len(OriDf) > 100:
@@ -313,11 +408,19 @@ class GraphSims:
                 SubRslt = MultiProcessPool(gph_Base_BetweenessPatronage_Singular_multi, largs)
             
             print(f'Multiprocessing finished in {time()-tmSt:,.3f} seconds')
-            # self.NetworkDf[Settings['RsltAttr']] = (0,)*len(self.NetworkDf)
-            Rslt = np.zeros(len(self.NetworkDf), dtype=float)
-            for rslt in SubRslt:
-                Rslt += rslt
-        self.NetworkDf[Settings['RsltAttr']] = Rslt
+
+            Rslt = np.zeros(len(self.NetworkDf), dtype=np.float32)
+            if Settings['Include_Destination']:
+                Entryids = np.array(DestDf.index)
+                RsltDes = np.zeros(len(self.EntriesDf), dtype=np.float32)
+                for rslt in SubRslt:
+                    Rslt += rslt[0]
+                    RsltDes[Entryids] += rslt[1]
+                self.EntriesDf[Settings['RsltAttr']] = RsltDes
+            else:
+                for rslt in SubRslt:
+                    Rslt += rslt
+            self.NetworkDf[Settings['RsltAttr']] = Rslt
         return self.NetworkDf
 
     def Reach(self, OriID:list=None, DestID:list=None, Mode:str='N', **kwargs):

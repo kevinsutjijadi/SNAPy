@@ -450,6 +450,7 @@ cdef Entry Entry_make(tuple EntryDt):
     en.Ecost = EntryDt[5]
     return en
 
+
 @cython.boundscheck(False)
 @cython.wraparound(False)
 cdef Entry Entry_makeTp(tuple EntryDt):
@@ -548,67 +549,86 @@ cdef class GraphCy:
         free(self.nodeVisited)
         free(self.EntryDt)
     
-    cdef void _reduceinit(self):
-        cdef int n
-        cdef tuple nodes = tuple((Node_tuple(self.nodes[n]) for n in range(self.Nnodes)))
-        cdef tuple edges = tuple((Edge_tuple(self.edges[n]) for n in range(self.Nedges)))
-        cdef tuple nodeids = Int_array_tuple(self._nodesIds, self.Nnodes)
-        cdef tuple edgeids = Int_array_tuple(self._edgesIds, self.Nedges)
-        cdef tuple entrydt = tuple((Entry_tuple(self.EntryDt[n]) for n in range(self.Nentry)))
-
-        # why not working?
-        # dty_nd = np.dtype([('idx', np.int32), ('pt', np.float32, (3,)),('w', np.float32),('c', np.float32),('Eid', np.int32, (10,)),])
-        # cdef cnp.ndarray nodes = np.zeros(self.Nnodes, dtype=dty_nd)
-        # cdef cnp.ndarray nodeids = np.zeros(self.Nnodes, dtype=np.int32)
-        # cdef Node nde
-        # for n in range(self.Nnodes):
-        #     nde = self.nodes[n]
-        #     nodes[n] = (nde.idx, nde.pt, nde.w, nde.c, nde.Eid)
-        #     nodeids[n] = self._nodesIds[n]
+    def _reducePickle(self):
+        dty_nd = np.dtype([('idx', np.int32), ('pt', np.float32, (3,)),('w', np.float32),('c', np.float32),('Eid', np.int32, (10,)),])
+        cdef cnp.ndarray nodes = np.zeros(self.Nnodes, dtype=dty_nd)
+        cdef cnp.ndarray nodeids = np.zeros(self.Nnodes, dtype=np.int32)
+        cdef Node nde
+        for n in range(self.Nnodes):
+            nde = self.nodes[n]
+            nodes[n] = (nde.idx, nde.pt, nde.w, nde.c, nde.Eid)
+            nodeids[n] = self._nodesIds[n]
         
-        # dty_ed = np.dtype([('idx', np.int32), ('NidO', np.int32),('NidD', np.int32),('len', np.float32),('lenR', np.float32),('w', np.float32),])
-        # cdef cnp.ndarray edges = np.zeros(self.Nedges, dtype=dty_ed)
-        # cdef cnp.ndarray edgeids = np.zeros(self.Nedges, dtype=np.int32)
-        # cdef Edge edg
-        # for n in range(self.Nedges):
-        #     edg = self.edges[n]
-        #     edges[n] = (edg.idx, edg.NidO, edg.NidD, edg.len, edg.lenR, edg.w)
-        #     edgeids[n] = self._edgesIds[n]
+        dty_ed = np.dtype([('idx', np.int32), ('NidO', np.int32),('NidD', np.int32),('len', np.float32),('lenR', np.float32),('w', np.float32),])
 
-        # dty_en = np.dtype([('fid', np.int32), ('Eid', np.int32),('ixDs', np.float32),('EDist', np.float32, (2,)),('ixPt', np.float32, (3,)),('Ecost', np.float32),])
-        # cdef cnp.ndarray entrydt = np.zeros(self.Nentry, dtype=dty_en)
-        # cdef Entry ent
-        # for n in range(self.Nentry):
-        #     ent = self.EntryDt[n]
-        #     entrydt[n] = (ent.fid, ent.Eid, ent.ixDs, ent.EDist, ent.ixPt, ent.Ecost)
+        cdef cnp.ndarray edges = np.zeros(self.Nedges, dtype=dty_ed)
+        cdef cnp.ndarray edgeids = np.zeros(self.Nedges, dtype=np.int32)
+        cdef Edge edg
+        for n in range(self.Nedges):
+            edg = self.edges[n]
+            edges[n] = (edg.idx, edg.NidO, edg.NidD, edg.len, edg.lenR, edg.w)
+            edgeids[n] = self._edgesIds[n]
 
+        dty_en = np.dtype([('fid', np.int32), ('Eid', np.int32),('ixDs', np.float32),('EDist', np.float32, (2,)),('ixPt', np.float32, (3,)),('Ecost', np.float32),])
+
+        cdef cnp.ndarray entrydt = np.zeros(self.Nentry, dtype=dty_en)
+        cdef Entry ent
+        for n in range(self.Nentry):
+            ent = self.EntryDt[n]
+            entrydt[n] = (ent.fid, ent.Eid, ent.ixDs, ent.EDist, ent.ixPt, ent.Ecost)
         self.reduceData = (nodes, edges, nodeids, edgeids, entrydt)
+        return self.reduceData
 
     def __reduce_ex__(self, protocol):
         # pickle reducement depends on tuplizing arrays. are there faster ways?
-        if self.reduceData[0] == None:
-            self._reduceinit()
+        if len(self.reduceData) == 1:
+            self._reducePickle()
 
         return (GraphCy._reconstruct, (self.reduceData[0], self.reduceData[1], self.reduceData[2], self.reduceData[3], self.Nnodes, self.Nedges, self.Nentry, self.reduceData[4], self.EidN))
 
-    cdef void reinstateGraph(self, tuple nodes, tuple edges, tuple nodeids, tuple edgeids, tuple entrydt):
+    
+    def _rebuildGraph(self, cnp.ndarray nodes, cnp.ndarray edges, cnp.ndarray nodeids, cnp.ndarray edgeids, cnp.ndarray entrydt):
         cdef int n
+        cdef Node nd
+        cdef Edge ed
+        cdef Entry en
         for n in range(self.Nnodes):
-            self.nodes[n] = Node_make(nodes[n])
+            NodeDt = nodes[n]
+            nd.idx = NodeDt[0]
+            nd.pt = (NodeDt[1][0], NodeDt[1][1], NodeDt[1][2])
+            nd.w = NodeDt[2]
+            nd.c = NodeDt[3]
+            nd.Eid = (NodeDt[4][0], NodeDt[4][1], NodeDt[4][2], NodeDt[4][3], NodeDt[4][4], NodeDt[4][5], NodeDt[4][6], NodeDt[4][7], NodeDt[4][8], NodeDt[4][9])
+            self.nodes[n] = nd
             self._nodesIds[n] = nodeids[n]
 
         for n in range(self.Nedges):
-            self.edges[n] = Edge_make(edges[n])
+            EdgeDt = edges[n]
+            ed.idx = EdgeDt[0]
+            ed.NidO = EdgeDt[1]
+            ed.NidD = EdgeDt[2]
+            ed.len = EdgeDt[3]
+            ed.lenR = EdgeDt[4]
+            ed.w = EdgeDt[5]
+            self.edges[n] = ed
             self._edgesIds[n] = edgeids[n]
 
         for n in range(self.Nentry):
-            self.EntryDt[n] = Entry_make(entrydt[n])
+            entry = entrydt[n]
+            en.fid = entry[0]
+            en.Eid = entry[1]
+            en.ixDs = entry[2]
+            en.EDist = (entry[3][0], entry[3][1])
+            en.ixPt = (entry[4][0], entry[4][1], entry[4][2])
+            en.Ecost = entry[5]
+            self.EntryDt[n] = en
         return
 
     @staticmethod
     def _reconstruct(nodes, edges, nodeids, edgeids, Nnodes, Nedges, Nentry, entrydt, EidN):
         cdef GraphCy gcy = GraphCy(Nnodes, Nedges, Nentry, EidN)
-        gcy.reinstateGraph(nodes, edges, nodeids, edgeids, entrydt)
+        # gcy.reinstateGraph(nodes, edges, nodeids, edgeids, entrydt)
+        gcy._rebuildGraph(nodes, edges, nodeids, edgeids, entrydt)
         return gcy
         
     def sizeInfo(self) -> tuple[int, int, int]:
@@ -838,7 +858,7 @@ cdef class GraphCy:
     
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    cdef void c_addEntry(self, int& idx, int& Eid, float ixDs, float[2] EDist, float[3] ixPt, float Ecost):
+    cdef void C_addEntry(self, int& idx, int& Eid, float ixDs, float[2] EDist, float[3] ixPt, float Ecost):
         cdef Entry entry
         entry.fid = idx
         entry.Eid = Eid
@@ -1065,8 +1085,6 @@ cdef class GraphCy:
 
     def getNodes(self, crs) -> gpd.GeoDataFrame:
         # get nodes info, location, cost, intersections
-        cdef int n
-        cdef Node node
         nodePt = np.array([Point(self.nodes[n].pt[0], self.nodes[n].pt[1]) for n in range(self.Nnodes)], dtype=object)
         nodeID = np.array([self.nodes[n].idx for n in range(self.Nnodes)], dtype=np.int32)
         nodeJC = np.array([Node_junctioncount(self.nodes[n]) for n in range(self.Nnodes)], dtype=np.int32)
@@ -3473,7 +3491,7 @@ cdef class GraphCy:
         cdef vector[vector[int]] MappedPaths
         cdef vector[vector[int]] FoundPaths
         cdef vector[float] FoundDistance
-        cdef vector[float] FoundWeights
+        cdef vector[float] FoundDests
         
         cdef bint keepGoing
         cdef NodeReach NodeCheck
@@ -3489,10 +3507,10 @@ cdef class GraphCy:
         cdef int i
         cdef int pathN
         cdef int EntryDestination
-        cdef float DestWgt
+        # cdef int DestWgt
         cdef float compdist
         # cycles per destination
-        for EntryDestination, DestWgt in EntryDests:
+        for EntryDestination in EntryDests:
             EntryD = self.EntryDt[EntryDestination]
             if EntryOrigin == EntryDestination:
                 continue
@@ -3522,7 +3540,7 @@ cdef class GraphCy:
                     MinimumDistance = <float>0.1
                 # print(f'\t\tSameLine {MinimumDistance}')
                 FoundDistance.push_back(MinimumDistance)
-                FoundWeights.push_back(DestWgt)
+                FoundDests.push_back(EntryDestination)
                 pathN += 1
             else: # finding minimum distance from the mapped nodes
                 if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:
@@ -3587,7 +3605,7 @@ cdef class GraphCy:
                             FoundDistance.push_back(pathlength)
                             MappedPaths[NodeCheck.pathindex].push_back(Eid)
                             FoundPaths.push_back(MappedPaths[NodeCheck.pathindex])
-                            FoundWeights.push_back(DestWgt)
+                            FoundDests.push_back(EntryDestination)
                             pathN += 1
                             if PathLim <= pathN:
                                 keepGoing = False
@@ -3627,4 +3645,218 @@ cdef class GraphCy:
                 if cycles > LimCycle:
                     break
             # print(f'\t{EidO} to {EidD} - c{cycles} || p{pathN}')
-        return tuple(FoundDistance), tuple(FoundPaths), tuple(FoundWeights)
+        return tuple(FoundDistance), tuple(FoundPaths), tuple(FoundDests)
+
+
+    def PathFind_Multi_MultiDest_VirtuEntry_True(
+            self, 
+            int EntryOrigin,
+            tuple EntryDests,
+            float DistMulLim = 1.1,
+            float LimDist = 10_000.0,
+            int LimCycle = 1_000_000,
+            float DistMul = 2.0,
+            int PathLim = 100_000,
+            ) -> tuple[tuple[float, tuple[int]]] | None:
+        # point coord, id, edge id, dist to edge
+        """
+        Find possible paths within
+
+        Parameters
+        ------------
+        NidO : int
+            starting node ID
+        NidD : int
+            destination node ID
+        DistMulLim : float, default 1.1
+            distance search limit multiplier for distance filter. i.e. if the minimum distance is 100m, it will propable nodes with propable paths up to 120m
+        LimDist : float, default 10,000.0
+            distance limit before giving up the pathfinding process
+        LimCycle : int, default 10,000
+            number of cycles of priority_queue before giving up the pathfinding process
+        DistMul : float, default 1.0
+            A* weighting multiplier for the remaining cartesian distance
+        EdgeCmin : float, default 0.9
+            minimum edge cost multiplier, important if there are costs smaller than 1.0
+        
+        Returns
+        -----------
+        set of alternative paths
+        tuple of sets of distance and edgeids (213.8, (1, 2, 3, 4))
+        
+        Notes
+        -----------
+        Modified alternative paths algorithm, with an operation cost near O(2K+?)
+        """
+
+        # initial map
+        cdef float LimitDistance
+        # cdef float[3] PointO = (PtO[0], PtO[1], PtO[2])
+        # cdef float[3] PointD
+        # cdef float[2] DistO = (DstO[0], DstO[1])
+        # cdef float[2] DistD
+        cdef Entry EntryO = self.EntryDt[EntryOrigin]
+        cdef Entry EntryD
+        cdef float BaseDist
+        cdef float MinimumDistance
+        self.C_NodeMap_VirtuEntry(
+            EntryOrigin,
+            0, LimDist*DistMulLim, LimCycle*2)
+
+        # collecting paths
+        cdef vector[vector[int]] MappedPaths
+        cdef vector[vector[int]] FoundPaths
+        cdef vector[float] FoundDistance
+        cdef vector[float] FoundDests
+        
+        cdef bint keepGoing
+        cdef NodeReach NodeCheck
+        cdef PriorityQueue_NR OpenNodes = PriorityQueue_NR()
+        cdef NodeReach startNode
+
+        cdef NodeReach NodeReach_T
+        cdef float pathlength
+        cdef Edge EdgeC
+        cdef vector[int] MappedPath_T
+        cdef vector[int] MappedPath_T2
+        cdef int cycles
+        cdef int i
+        cdef int pathN
+        cdef int EntryDestination
+        # cdef int DestWgt
+        cdef float compdist
+        # cycles per destination
+        for EntryDestination in EntryDests:
+            EntryD = self.EntryDt[EntryDestination]
+            if EntryOrigin == EntryDestination:
+                continue
+
+            MappedPaths.clear()
+            OpenNodes.clear()
+            MappedPath_T.clear()
+            MappedPath_T2.clear()
+            keepGoing = True
+            pathN = 0
+            MinimumDistance = -1.0
+
+            BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)
+            if BaseDist*1.1 > LimDist:
+                continue
+            cycles = 0
+            MappedPath_T.push_back(EntryD.Eid)
+            MappedPaths.push_back(MappedPath_T)
+            # MinimumDistance = self.PathDist_AStar_VirtuEntry(EntryOrigin, 
+            #                                                 EntryDestination, 
+            #                                                 LimDist, LimCycle, DistMul)
+
+            if EntryD.Eid == EntryO.Eid: # checks if same edge
+                MinimumDistance = abs(EntryD.EDist[0] - EntryO.EDist[0])
+                FoundPaths.push_back(MappedPath_T)
+                if MinimumDistance == 0.0:
+                    MinimumDistance = <float>0.1
+                # print(f'\t\tSameLine {MinimumDistance}')
+                FoundDistance.push_back(MinimumDistance)
+                FoundDests.push_back(EntryDestination)
+                pathN += 1
+            else: # finding minimum distance from the mapped nodes
+                if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:
+                    MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidO].Dist + EntryD.EDist[0]
+                if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:
+                    if MinimumDistance == -1.0:
+                        MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidD].Dist + EntryD.EDist[1]
+                    else:
+                        compdist = self.nodeVisited[self.edges[EntryD.Eid].NidD].Dist + EntryD.EDist[1]
+                        if compdist < MinimumDistance:
+                            MinimumDistance = compdist
+
+            # print(dest, MinimumDistance)
+            if MinimumDistance == -1.0 or MinimumDistance > LimDist:
+                continue
+            LimitDistance = MinimumDistance * DistMulLim
+            # for Origin EdgeOrigin
+            if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:
+                startNode.Nid = self.edges[EntryD.Eid].NidO
+                startNode.Eid = EntryD.Eid
+                startNode.Dist = EntryD.EDist[0]
+                startNode.NidO = -1
+                startNode.pathindex = 0
+                startNode.Weight = EntryD.EDist[0] + (self.nodeVisited[startNode.Nid].Dist - MinimumDistance) * DistMul
+                OpenNodes.push(startNode)
+            # print(f'\tstartA {startNode.Dist} || {nodeMapped[startNode.Nid].Dist} || {LimitDistance}')
+            # for destination edgeorigin
+            if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:
+                startNode.Nid = self.edges[EntryD.Eid].NidD
+                startNode.Eid = EntryD.Eid
+                startNode.Dist = EntryD.EDist[1]
+                startNode.NidO = -1
+                startNode.pathindex = 0
+                startNode.Weight = EntryD.EDist[1] + (self.nodeVisited[startNode.Nid].Dist - MinimumDistance) * DistMul
+                OpenNodes.push(startNode)
+            # print(f'\tstartB {startNode.Dist} || {nodeMapped[startNode.Nid].Dist} || {LimitDistance}')
+            # cdef float RemainDist
+            while keepGoing:
+                cycles += 1
+                if OpenNodes.empty():
+                    break
+                NodeCheck = OpenNodes.pop_top()
+                MappedPath_T = MappedPaths[NodeCheck.pathindex] # getting mapped path from nodecheck index
+                # print(f'\tC - {cycles} || {NodeCheck}')
+                for i in range(self.EidN):
+                    Eid = self.nodes[NodeCheck.Nid].Eid[i]
+                    if Eid == -1:
+                        # print(f'\t\t{cycles} - Out Edge{Eid}')
+                        break
+                    if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:
+                        # print(f'\t\t{cycles} - Out similar Edge{Eid}')
+                        continue
+                    if Find_IntVector(MappedPaths[NodeCheck.pathindex], Eid): # if Eid already in mapped paths
+                        continue
+
+                    if Eid == EntryO.Eid:
+                        if NodeCheck.Nid == self.edges[EntryO.Eid].NidO:
+                            pathlength = NodeCheck.Dist + EntryO.EDist[0]
+                        else:
+                            pathlength = NodeCheck.Dist + EntryO.EDist[1]
+                        if pathlength < LimitDistance:
+                            FoundDistance.push_back(pathlength)
+                            MappedPaths[NodeCheck.pathindex].push_back(Eid)
+                            FoundPaths.push_back(MappedPaths[NodeCheck.pathindex])
+                            FoundDests.push_back(EntryDestination)
+                            pathN += 1
+                            if PathLim <= pathN:
+                                keepGoing = False
+                                break
+                        continue
+
+                    EdgeC = self.edges[Eid]
+                    if EdgeC.NidO == NodeCheck.Nid:
+                        pathlength = EdgeC.lenR
+                        NidF = EdgeC.NidD
+                    else:
+                        pathlength = EdgeC.len
+                        NidF = EdgeC.NidO
+
+                    pathlength += NodeCheck.Dist + self.nodes[NidF].c
+                    if self.nodeVisited[NidF].Nid == -1:
+                        continue
+                    if (pathlength + self.nodeVisited[NidF].Dist) > LimitDistance:
+                        continue
+                    NodeReach_T.Weight = pathlength + (self.nodeVisited[NidF].Dist-MinimumDistance) * DistMul
+                    MappedPath_T2 = MappedPath_T
+                    MappedPath_T2.push_back(Eid)
+                    NodeReach_T.Nid = NidF
+                    NodeReach_T.Dist = pathlength
+                    NodeReach_T.Eid = Eid
+                    
+                    if MappedPaths[NodeCheck.pathindex] == MappedPath_T:
+                        NodeReach_T.pathindex = NodeCheck.pathindex
+                        MappedPaths[NodeCheck.pathindex] = MappedPath_T2
+                    else:
+                        NodeReach_T.pathindex = <int>MappedPaths.size()
+                        MappedPaths.push_back(MappedPath_T2)
+                    OpenNodes.push(NodeReach_T)
+                
+                if cycles > LimCycle:
+                    break
+            # print(f'\t{EidO} to {EidD} - c{cycles} || p{pathN}')
+        return tuple(FoundDistance), tuple(FoundPaths), tuple(FoundDests)
