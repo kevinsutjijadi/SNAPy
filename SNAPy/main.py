@@ -111,12 +111,12 @@ class GraphSims:
         print(f'Graph Built with {self.NetworkSize[0]:,} Nodes, {self.NetworkSize[1]:,} Edges')
         self.NetworkDf = NetworkDf
         EntriesDt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'],  self.baseSet['AN_EdgeCost'])
-        print(f'Graph mapped {len(EntriesDt)} Entries')
+        print(f'Graph mapped {len(EntriesDt):,} Entries')
         
-        entryfails = EntriesDt['lnID'] == -1
-        if entryfails.size > 0:
-            print(f'Detected {entryfails.size} Entries unable to map to network. Coordinate error or further than EntDist parameter')
-            print(f"\tEntry ids are :\n\t{list(EntriesDt['fid'][entryfails])}")
+        entryfails = EntriesDt[EntriesDt['lnID'] == -1]
+        if entryfails.shape[0] > 0:
+            print(f'Detected {entryfails.shape[0]} Entries unable to map to network. Coordinate error or further than EntDist parameter')
+            print(f"\tEntry ids are :\n\t{list(entryfails['fid'])}")
         
         self.Gph.frompandas_Entries(EntriesDt)
         self.EntriesDf['xLn_ID'] = EntriesDt['lnID']
