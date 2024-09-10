@@ -22,6 +22,7 @@ from time import time
 import geopandas as gpd
 import pandas as pd
 import pydeck as pdk
+import warnings
 
 # importing internal scripts
 # from .prcs_geom import *
@@ -53,8 +54,10 @@ class GraphSims:
             'SizeBuffer': 0.05,
             'Verbose': True,
             'Threads': 0,
+            'Warnings':True,
         }
-
+        if self.baseSet['Warnings']:
+            warnings.filterwarnings('ignore')
         for k,v in kwargs.items():
             self.baseSet[k] = v
         if self.baseSet['Threads'] == 0:
@@ -72,7 +75,7 @@ class GraphSims:
         if EntriesDf.geometry[0].type != 'Point':
             issues.append("EntriesDf geoemtry type is not Point, convert it to point")
         if len(issues) > 0:
-            for n, i in issues:
+            for n, i in enumerate(issues):
                 print(f'{n}\t'+i)
             raise Exception("SNAPy init failed, resolve the issues to continue")
 
@@ -107,7 +110,7 @@ class GraphSims:
         self.NetworkSize = self.Gph.sizeInfo() # returns (nodesize, edgesize)
         print(f'Graph Built with {self.NetworkSize[0]:,} Nodes, {self.NetworkSize[1]:,} Edges')
         self.NetworkDf = NetworkDf
-        EntriesDt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeCost'])
+        EntriesDt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'],  self.baseSet['AN_EdgeCost'])
         print(f'Graph mapped {len(EntriesDt)} Entries')
         
         entryfails = EntriesDt['lnID'] == -1
@@ -230,6 +233,10 @@ class GraphSims:
                 continue
             if st is None:
                 st = {}
+            if 'label' not in st:
+                st['label'] = True
+            if 'labelsize' not in st:
+                st['labelsize'] = 9
             if ly in colsNetwork:
                 # if output attribute name in networkdf columns
                 dt = self.NetworkDf[['geometry', ly]].copy()
@@ -245,23 +252,24 @@ class GraphSims:
                 )
                 self.pdkLayers.append(lyr)
                 self.pdkLyrNm.append(ly+'_Ntw')
-                dt['coords'] = dt.geometry.interpolate(0.5, normalized=True).apply(getcoords)
-                dt[ly] = dt[ly].apply(NumStringFormat)
-                lyr = pdk.Layer(
-                    type="TextLayer",
-                    data=dt,
-                    pickable=False,
-                    get_position='coords',
-                    get_text=ly,
-                    get_size=14,
-                    get_color=[0,0,0],
-                    background=True,
-                    get_background_color = [255, 255, 255, 180],
-                    get_text_anchor=pdk.types.String("middle"),
-                    get_alignment_baseline=pdk.types.String("center"),
-                )
-                self.pdkLayers.append(lyr)
-                self.pdkLyrNm.append(ly+'_NtwLbl')
+                if st['label']:
+                    dt['coords'] = dt.geometry.interpolate(0.5, normalized=True).apply(getcoords)
+                    dt[ly] = dt[ly].apply(NumStringFormat)
+                    lyr = pdk.Layer(
+                        type="TextLayer",
+                        data=dt,
+                        pickable=False,
+                        get_position='coords',
+                        get_text=ly,
+                        get_size=st['labelsize'],
+                        get_color=[0,0,0],
+                        background=True,
+                        get_background_color = [255, 255, 255, 180],
+                        get_text_anchor=pdk.types.String("middle"),
+                        get_alignment_baseline=pdk.types.String("center"),
+                    )
+                    self.pdkLayers.append(lyr)
+                    self.pdkLyrNm.append(ly+'_NtwLbl')
                 print(f'Map layers added {ly} as Edges')
 
             if ly in colsEntries:
@@ -281,23 +289,24 @@ class GraphSims:
                 )
                 self.pdkLayers.append(lyr)
                 self.pdkLyrNm.append(ly+'_Ent')
-                dt['coords'] = dt.geometry.apply(getcoords)
-                dt[ly] = dt[ly].apply(NumStringFormat)
-                lyr = pdk.Layer(
-                    type="TextLayer",
-                    data=dt,
-                    pickable=False,
-                    get_position='coords',
-                    get_text=ly,
-                    get_size=14,
-                    get_color=[0,0,0],
-                    background=True,
-                    get_background_color = [255, 255, 255, 180],
-                    get_text_anchor=pdk.types.String("middle"),
-                    get_alignment_baseline=pdk.types.String("center"),
-                )
-                self.pdkLayers.append(lyr)
-                self.pdkLyrNm.append(ly+'_EntLbl')
+                if st['label']:
+                    dt['coords'] = dt.geometry.apply(getcoords)
+                    dt[ly] = dt[ly].apply(NumStringFormat)
+                    lyr = pdk.Layer(
+                        type="TextLayer",
+                        data=dt,
+                        pickable=False,
+                        get_position='coords',
+                        get_text=ly,
+                        get_size=st['labelsize'],
+                        get_color=[0,0,0],
+                        background=True,
+                        get_background_color = [255, 255, 255, 180],
+                        get_text_anchor=pdk.types.String("middle"),
+                        get_alignment_baseline=pdk.types.String("center"),
+                    )
+                    self.pdkLayers.append(lyr)
+                    self.pdkLyrNm.append(ly+'_EntLbl')
                 print(f'Mapp layers added {ly} as Entries')
 
 
