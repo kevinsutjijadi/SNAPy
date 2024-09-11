@@ -149,6 +149,7 @@ def Base_BetweenessPatronage_Plural(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:
         'PathLim' : 2_000,
         'LimCycles' : 1_000_000,
         'Include_Destination': False,
+        'TruePathFind':False,
     }
     for k,v in SettingDict.items(): # setting kwargs
         Settings[k] = v
@@ -159,7 +160,8 @@ def Base_BetweenessPatronage_Plural(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:
         OutEn = np.zeros(DestDf.shape[0], dtype=np.float32)
     expA = Settings['AlphaExp']
     SrcD = Settings['SearchDist']
-
+    
+    TruePathFind = Settings['TruePathFind']
     numpaths = 0
     DetourR = Settings['DetourR']
     DistMul = Settings['DistMul']
@@ -176,15 +178,26 @@ def Base_BetweenessPatronage_Plural(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:
     for Oi in range(len(OriDf)):
         Oid = OidAr[Oi]
         wgtO = OriWgt[Oi]
-        iterDsts, iterPths, iterIds = Gph.PathFind_Multi_MultiDest_VirtuEntry(
-            Oid,
-            DestinationDatas,
-            DetourR, 
-            SrcD,
-            LimCycles,
-            DistMul,
-            PathLim, 
-        ) 
+        if TruePathFind:
+            iterDsts, iterPths, iterIds = Gph.PathFind_Multi_MultiDest_VirtuEntry_True(
+                Oid,
+                DestinationDatas,
+                DetourR, 
+                SrcD,
+                LimCycles,
+                DistMul,
+                PathLim, 
+            ) 
+        else:
+            iterDsts, iterPths, iterIds = Gph.PathFind_Multi_MultiDest_VirtuEntry(
+                Oid,
+                DestinationDatas,
+                DetourR, 
+                SrcD,
+                LimCycles,
+                DistMul,
+                PathLim, 
+            ) 
         # now compiling the results
         if len(iterIds) == 0:
             continue

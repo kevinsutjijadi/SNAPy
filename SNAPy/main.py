@@ -30,7 +30,7 @@ from .prcs_grph import *
 from .prcs_sna import *
 from .utils import *
 from .SGACy.graph import GraphCy
-from .SGACy.geom import *
+from .SGACy.geom import multilinestring_to_linestring
 
 
 ### packed functions for multiprocessing
@@ -71,7 +71,11 @@ class GraphSims:
         if EntriesDf.crs.to_epsg() != NetworkDf.crs.to_epsg():
             issues.append("EntriesDf and NetworkDf have different projections, please match them using gdb.to_crs()")
         if NetworkDf.geometry[0].type != 'LineString':
-            issues.append("NetworkDf geometry type is not LineString, if it is MultiLineString, convert it to LineString first")
+            if 'MultiLineString' in tuple(NetworkDf.geometry.type):
+                print('DataFrame contains MultiLineString, exploding to LineString')
+                NetworkDf = multilinestring_to_linestring(NetworkDf)
+            else:
+                issues.append("NetworkDf geometry type is not LineString, if it is MultiLineString, convert it to LineString first")
         if EntriesDf.geometry[0].type != 'Point':
             issues.append("EntriesDf geoemtry type is not Point, convert it to point")
         if len(issues) > 0:
@@ -96,7 +100,7 @@ class GraphSims:
     
         tmst = time()
         nwSz = NetworkDf.shape[0]
-        self.Gph = GraphCy(int(nwSz*(1+self.baseSet['SizeBuffer'])), int(nwSz*(2+self.baseSet['SizeBuffer'])), len(EntriesDf))
+        self.Gph = GraphCy(int(nwSz*(2+self.baseSet['SizeBuffer'])), int(nwSz*(1+self.baseSet['SizeBuffer'])), len(EntriesDf))
         self.Gph.fromGeopandas_Edges(NetworkDf,
                                     self.baseSet['AE_Lnlength'],
                                     self.baseSet['AE_LnlengthR'],
@@ -139,6 +143,12 @@ class GraphSims:
         if self.NodeDf is None or reset:
             self.NodeDf = self.Gph.getNodes(self.epsg)
         return self.NodeDf
+    
+    def Threads(self, value:int):
+        if value == 0:
+            self.baseSet['Threads'] = os.cpu_count()-1
+        else:
+            self.baseSet['Threads'] = value
 
     def Map_BaseLayerInit(self, ShowLayer=None):
         """
@@ -355,10 +365,13 @@ class GraphSims:
             'LimCycles' : 1_000_000,
             'OpType' : 'P',
             'Include_Destination' : False,
+            'Threads' : None
         }
         if kwargs:
             for k,v in kwargs.items():
                 Settings[k] = v
+        if Settings['Threads'] is not None:
+            self.Threads(Settings['Threads'])
         print(f'BetweenessPatronage ---------- \nAs {Settings["RsltAttr"]} from {Settings["OriWgt"]} to {Settings["DestWgt"]}')
         # processing betweeness patronage of a network.
         # collect all relatable origins and destinations
@@ -449,11 +462,13 @@ class GraphSims:
             'CalcComp': 0.6,
             'RsltAttr': 'Reach',
             'LimCycles' : 1_000_000,
+            'Threads':None,
         }
         if kwargs:
             for k,v in kwargs.items():
                 Settings[k] = v
-        
+        if Settings['Threads'] is not None:
+            self.Threads(Settings['Threads'])
         print(f'Reach -------------- As {Settings["RsltAttr"]} with {Mode} of {Settings["DestWgt"]}')
         # processing reach valuation of a network
         # collecting all relatable origins and destinations
@@ -553,11 +568,13 @@ class GraphSims:
             'DestWgt': 'weight',
             'RsltAttr': 'Straightness',
             'LimCycles' : 1_000_000,
+            'Threads':None,
         }
         if kwargs:
             for k,v in kwargs.items():
                 Settings[k] = v
-        
+        if Settings['Threads'] is not None:
+            self.Threads(Settings['Threads'])
         print(f'Straightness Average -------------\n As {Settings["RsltAttr"]} of {Settings["DestWgt"]}')
         # processing reach valuation of a network
         # collecting all relatable origins and destinations

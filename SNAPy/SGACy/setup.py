@@ -14,12 +14,12 @@ ext_modules = [
     )
 ]
 
-# ext_modules = [
-#     Extension(
-#         "geom",
-#         [dir+"geom.pyx"],
-#     )
-# ]
+ext_modules = [
+    Extension(
+        "geom",
+        [dir+"geom.pyx"],
+    )
+]
 
 setup(
     ext_modules=cythonize(ext_modules),

@@ -494,9 +494,18 @@ cdef class GraphCy:
     cdef tuple reduceData
 
     def __cinit__(self, nodesize:int = 100, edgesize:int = 100, entrysize:int = 100, EidN:int = 10):
+        if nodesize < edgesize:
+            print("Warning, nodesize smaller than edgesize")
+
         self.Nnodes = nodesize
         self.nodes = <Node*>malloc(nodesize * sizeof(Node))
         self._nodesIds = <int*>malloc(nodesize * sizeof(int))
+
+        if not self.nodes:
+            raise MemoryError("Failed to allocate memory for nodes")
+        if not self._nodesIds:
+            raise MemoryError("Failed to allocate memory for nodesids")
+
         self.reduceData = (None,)
 
         cdef Node node
@@ -509,8 +518,16 @@ cdef class GraphCy:
         self.edges = <Edge*>malloc(edgesize * sizeof(Edge))
         self._edgesIds = <int*>malloc(edgesize * sizeof(int))
 
+        if not self.edges:
+            raise MemoryError("Failed to allocate memory for edges")
+        if not self._edgesIds:
+            raise MemoryError("Failed to allocate memory for edgesids")
+
         self.Nentry = entrysize
         self.EntryDt = <Entry*>malloc(entrysize * sizeof(Entry))
+
+        if not self.EntryDt:
+            raise MemoryError("Failed to allocate memory for entries")
 
         cdef Edge edge
         edge.idx = -1
@@ -519,6 +536,9 @@ cdef class GraphCy:
             self._edgesIds[n] = -1
 
         self.nodeVisited = <NodeReach*>malloc(self.Nnodes * sizeof(NodeReach))
+
+        if not self.nodeVisited:
+            raise MemoryError("Failed to allocate memory for nodevisited map")
 
         self.EidN = EidN
 
@@ -790,8 +810,8 @@ cdef class GraphCy:
         node.pt = (cX, cY, cZ)
         node.w = w
         node.c = c
-        
         cdef int n
+
         for n in range(self.EidN):
             node.Eid[n] = -1
 
@@ -987,7 +1007,7 @@ cdef class GraphCy:
         cdef int idEd
         cdef bint State_3d = True
         cdef int ckSt
-        cdef int dfSize = int(dfNetwork.size)
+        cdef int dfSize = int(dfNetwork.shape[0])
         
         dfKeys = tuple(dfNetwork.columns)
         # checking if fields exists
@@ -1048,23 +1068,32 @@ cdef class GraphCy:
         else:
             PtedC = (0.0,)*dfSize
 
-
         if len(dfNetwork.geometry[0].coords[0]) == 2:
             State_3d = False # checks dimension
-        
-        for index, row in dfNetwork.iterrows():
+
+        cdef int[10] EidB = (-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,)
+        lndt = tuple(dfNetwork.geometry.apply(lambda x: (x.coords[0], x.coords[-1])))
+        # for index, row in dfNetwork.iterrows():
+        for index in range(dfSize):
+            dt = lndt[index]
             if State_3d:
-                lnSt = MakePoint3d(row.geometry.coords[0][0], row.geometry.coords[0][1], row.geometry.coords[0][2])
-                lnEd = MakePoint3d(row.geometry.coords[-1][0], row.geometry.coords[-1][1], row.geometry.coords[-1][2])
+                lnSt = MakePoint3d(dt[0][0], dt[0][1], dt[0][2])
+                lnEd = MakePoint3d(dt[1][0], dt[1][1], dt[1][2])
             else: # for 2d points, appending 3d
-                lnSt = MakePoint3d(row.geometry.coords[0][0], row.geometry.coords[0][1], 0.0)
-                lnEd = MakePoint3d(row.geometry.coords[-1][0], row.geometry.coords[-1][1], 0.0)
+                lnSt = MakePoint3d(dt[0][0], dt[0][1], 0.0)
+                lnEd = MakePoint3d(dt[1][0], dt[1][1], 0.0)
 
             ckSt = checkclosePt(lnSt, pointCoords)
             if ckSt == -1:
                 pointCoords.push_back(lnSt)
                 idSt = pointidCnt
                 self.C_addNode(idSt, lnSt.x, lnSt.y, lnSt.z, PtstW[edgeidCnt], PtstC[edgeidCnt])
+                self.nodes[idSt].idx = idSt
+                self.nodes[idSt].pt = (lnSt.x, lnSt.y, lnSt.z)
+                self.nodes[idSt].w = PtstW[edgeidCnt]
+                self.nodes[idSt].c = PtstC[edgeidCnt]
+                self.nodes[idSt].Eid = EidB
+                self._nodesIds[idSt] = idSt
                 pointidCnt += 1
             else:
                 idSt = ckSt
@@ -1076,7 +1105,11 @@ cdef class GraphCy:
                 self.C_addNode(idEd, lnEd.x, lnEd.y, lnEd.z, PtedW[edgeidCnt], PtedC[edgeidCnt])
                 pointidCnt += 1
             else:
-                idEd = ckEd 
+                idEd = ckEd
+            
+            if pointidCnt == self.Nnodes:
+                print(f'warning, nodes counted more than allocated memory array, stopped at {pointidCnt}')
+                break
             
             self.C_addEdge(index, idSt, idEd, Lnlength[edgeidCnt], LnlengthR[edgeidCnt], LnW[edgeidCnt]) # add edge
             edgeidCnt += 1
@@ -3491,7 +3524,7 @@ cdef class GraphCy:
         cdef vector[vector[int]] MappedPaths
         cdef vector[vector[int]] FoundPaths
         cdef vector[float] FoundDistance
-        cdef vector[float] FoundDests
+        cdef vector[int] FoundDests
         
         cdef bint keepGoing
         cdef NodeReach NodeCheck
@@ -3707,7 +3740,7 @@ cdef class GraphCy:
         cdef vector[vector[int]] MappedPaths
         cdef vector[vector[int]] FoundPaths
         cdef vector[float] FoundDistance
-        cdef vector[float] FoundDests
+        cdef vector[int] FoundDests
         
         cdef bint keepGoing
         cdef NodeReach NodeCheck

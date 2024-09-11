@@ -2,7 +2,8 @@
     "python.defaultInterpreterPath": "C:\\Users\\kevin\\Anaconda3\\envs\\TBAnalytics\\python.exe",
     "python.terminal.activateEnvironment": true,
     "terminal.integrated.defaultProfile.windows": "Command Prompt",
+    "jupyter.memoryLimit": 8192,
     "[markdown]": {
         "editor.wordWrap": "bounded",
-        "editor.wordWrapColumn": 120}
+        "editor.wordWrapColumn": 120},
 }

@@ -18,8 +18,9 @@ from typing import List
 from libc.stdint cimport int32_t, uint32_t
 from libc.string cimport memset
 from shapely.geometry import LineString, MultiLineString, Point, mapping, shape
-from shapely.ops import nearest_points
+from shapely.ops import nearest_points, split, linemerge
 import numpy as np
+from collections import defaultdict
 
 # Main graph class, 
 
@@ -60,6 +61,27 @@ def bbox_intersects(a, b):
     if b[2] < a[0] or b[0] > a[2] or b[1] > a[3] or b[3] < a[1]:
         return  False
     return True
+
+def multilinestring_to_linestring(gdf):
+    # Function to explode a MultiLineString into multiple LineStrings
+    def explode_multilinestring(row):
+        if row.geometry.geom_type == 'MultiLineString':
+            return [LineString(line) for line in row.geometry.geoms]
+        else:
+            return [row.geometry]
+
+    # Explode MultiLineStrings and reset the index
+    exploded = gdf.explode(column='geometry', ignore_index=True)
+    
+    # Apply the explode function and stack the results
+    exploded['geometry'] = exploded.apply(explode_multilinestring, axis=1)
+    exploded = exploded.explode('geometry', ignore_index=True)
+    
+    # Reset the geometry column
+    exploded = exploded.set_geometry('geometry')
+    exploded = exploded.reset_index(drop=True)
+    
+    return exploded
 
 def geom_pointtoline(point:Point, lineset:tuple):
     """
@@ -270,97 +292,69 @@ def NetworkSegmentDistance(df, dist=50):
                 ndf[c].append(d[c])
     return gpd.GeoDataFrame(ndf, crs=df.crs)
 
-def NetworkSegmentIntersections(df, dfi=None, EndPoints=True, tol=1e-3):
+def NetworkCompileIntersections(df, tol=3):
+    """
+    Gathers endpoints as intersections and counts number of intersections
+    """
+    ar = np.concatenate([
+        np.array([(ln.coords[0][0], ln.coords[0][1]) for ln in df.geometry]),
+        np.array([(ln.coords[-1][0], ln.coords[-1][1]) for ln in df.geometry])
+        ])
+    ar = ar.round(tol)
+    a, b = np.unique(ar, return_counts=True, axis=0)
+    pts = np.array([Point(x[0], x[1]) for x in a])
+    dfpt = gpd.GeoDataFrame(
+        data={'JunctCnt':b},
+        geometry=pts,
+    )
+    return dfpt
+
+
+def NetworkSegmentIntersections(df, EndPoints=True, tol=3):
     """
     NetworkSegment(df:GeoDataFrame, Endpoints:bool)\n
     intersect lines from a single geodataframe. Returns segmented lines in geopandas, and end points geopandas that contains boolean attributes as intersections or end points.
     """
     df = df.copy()
-    if len(df.geometry[0].coords[0]) == 3:
-        df = FlattenLineString(df)
-        print('Dataframe has LineStringZ, flattening to LineString.')
 
-    ndf = {}
-    clt = []
-    for c in df.columns:
-        ndf[c] = []
-        if c not in ('geometry',):
-            clt.append(c)
-    
-    df['fid'] = df.index
-    if 'bbox' not in df.columns:
-        df['bbox'] = df.bbox
+    if 'MultiLineString' in tuple(df.geometry.type):
+        print('DataFrame contains MultiLineString, exploding to LineString')
+        df = multilinestring_to_linestring(df)
 
-    if dfi is None:
-        dfi = df
-    else:
-        dfi = dfi.copy()
-        dfi['fid'] = dfi.index
-        if 'bbox' not in dfi.columns:
-            dfi['bbox'] = dfi.bbox
-    
-    for i, d in df.iterrows():
-        ptlt = []
-        dbx = d['bbox']
-        dfx = dfi[dfi.apply(lambda x: bbox_intersects(dbx, x['bbox']), axis=1)]
-        dfx = dfx[dfx['fid'] != i]
-        ptr = dfx.apply(lambda x: IntersectLinetoPoints(d, x.geometry, tol), axis=1)
-        for p in ptr:
-            if p is not None or len(p) == 0:
-                ptlt += p
-        try:
-            lns = geom_linesplits(d.geometry, ptlt, tol)
-            if lns is not None:
-                for l in lns:
-                    ndf['geometry'].append(l)
-                    for c in clt:
-                        ndf[c].append(d[c])
-            else:
-                print(f'\tline {i} has no intersections')
-                ndf['geometry'].append(d.geometry)
-                for c in clt:
-                    ndf[c].append(d[c])
-        except:
-            print(f'\tline {i} bounds has no intersections')
-            ndf['geometry'].append(d.geometry)
-            for c in clt:
-                ndf[c].append(d[c])
-    ndf = gpd.GeoDataFrame(ndf, crs=df.crs)
+    dfNw = df['geometry']
+    ar, ds = dfNw.geometry.sindex.nearest(dfNw.geometry, return_all=True, return_distance=True, exclusive=True)
+    dfNw.geometry.type
+    # for a, x, y in zip(ar[1], ar[0][0], ar[0][1]):
+    #     print(a, x, y)
+    ptr = ds < 1e-3
+    arac = ar[0][ptr]
+    arbc = ar[1][ptr]
+    gp = defaultdict(list)
+    for first, second in zip(arac, arbc):
+        gp[first].append(second)
 
+    for k, v in gp.items():
+        vg = dfNw[dfNw.index.isin(v)]
+        kg = dfNw.loc[k]
+        # print('\t', k, v, kg.length)
+        ixpt = kg.intersection(vg).explode(ignore_index=False)
+        ixpj = np.array(kg.project(ixpt))
+        ixpt = np.array(ixpt[(ixpj > 0.0)*(kg.length > ixpj)])
+        # print(ixpt)
+        if len(ixpt) == 0:
+            continue
+        for p in ixpt:
+            kg = MultiLineString(split(kg, p).geoms)
+        df.loc[k, 'geometry'] = kg
+
+    nwdf = multilinestring_to_linestring(df)
+    print(f'NetworkSegmentIntersection splits from {len(dfNw)} lines to {len(nwdf)} lines')
     if EndPoints:
-        ptlt = []
-        for ln in ndf['geometry']:
-            ptl = ln.coords
-            ptlt += [ptl[0], ptl[-1]] # collecting endpoints
-        ptar = ((round(p[0], 3), round(p[1], 3))for p in ptlt)
-        
-        ptp = []
-        ptn = []
-        for pt in ptar:
-            if pt not in ptp:
-                ptp.append(pt)
-                ptn.append(False)
-            else:
-                ptn[ptp.index(pt)] = True
-
-        ptp = [Point(p) for p in ptp]
-        pts = gpd.GeoDataFrame(geometry=ptp, crs=df.crs)
-        pts['fid'] = pts.index
-        pts['Intersection'] = ptn
-
-        # checks if segmented lines are connected or endpoints
-        pte = list((p.x, p.y) for p in pts[pts['Intersection'] == False].geometry)
-        ndf['DeadEnd'] = False
-        for i, d in ndf.iterrows():
-            if (round(d.geometry.coords[0][0],3), round(d.geometry.coords[0][1],3)) in pte:
-                ndf.loc[i, 'DeadEnd'] = True
-            elif (round(d.geometry.coords[-1][0],3), round(d.geometry.coords[-1][1],3)) in pte:
-                ndf.loc[i, 'DeadEnd'] = True
-
-        return ndf, pts
-    else:
-        pts = []
-        return ndf, pts
+        ixdf = NetworkCompileIntersections(nwdf, tol)
+        return nwdf, ixdf
+    return nwdf
+    
+    
 
 
 

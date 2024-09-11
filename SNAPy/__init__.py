@@ -18,4 +18,4 @@ from .calcs import SimTimeDistribute
 from .routines import *
 # from .prcs_geom import NetworkSegmentIntersections, NetworkSegmentDistance, eucDist, FlattenLineString
 from .SGACy.graph import GraphCy
-from .SGACy.geom import *
+from .SGACy.geom import NetworkSegmentIntersections, NetworkCompileIntersections, NetworkSegmentDistance
