@@ -30,7 +30,7 @@ from .prcs_grph import *
 from .prcs_sna import *
 from .utils import *
 from .SGACy.graph import GraphCy
-from .SGACy.geom import multilinestring_to_linestring
+from .SGACy.geom import multilinestring_to_linestring, NetworkCompileIntersections, NetworkSegmentIntersections
 
 
 ### packed functions for multiprocessing
@@ -82,10 +82,24 @@ class GraphSims:
             for n, i in enumerate(issues):
                 print(f'{n}\t'+i)
             raise Exception("SNAPy init failed, resolve the issues to continue")
+        
+        self.epsg = NetworkDf.crs.to_epsg()
+
+        ixpt = NetworkCompileIntersections(NetworkDf)
+        if (np.sum(ixpt['junctCnt'] == 1)/len(ixpt)) > 0.3:
+            print("Warning, more than 30% of endpoints are dead ends, segment intersections first?")
+            inpt = input('segment intersections: (y/n)')
+            if inpt == 'y':
+                print("segmenting intersections")
+                NetworkDf, self.ixDf = NetworkCompileIntersections(NetworkDf, True)
+                NetworkDf.set_crs(self.epsg)
+                self.ixDf.set_crs(self.epsg)
+                print("Access segmented network at GraphSims.NetworkDf and GraphSims.ixDf, recommended to save both dataframes, future GraphSims runs use segmented datasets")
+            else:
+                print("ignoring segmentation")
 
         self.EntriesDf = EntriesDf
         self.LastAtt = None
-        self.epsg = NetworkDf.crs.to_epsg()
         
         print(f'GraphSim Class ----------')
         print(f'Projection EPSG:{NetworkDf.crs.to_epsg()}')
