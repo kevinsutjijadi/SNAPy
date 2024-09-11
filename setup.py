@@ -1,15 +1,18 @@
 from setuptools import find_packages, setup
+import os
 
 with open("README.md", 'r') as f:
-    long_description = f.read
+    long_description = f.read()
 
 setup(
-    name="SNAPy",
-    version="2.01",
+    name="snapy-toolbox",
+    version="0.2.10",
     description="""Spatial Network Analysis Python Module
  A package of urban network analysis tools based on Geopandas dataframe and networkx pathfinding""",
-    package_dir={"": "SNAPy"},
-    packages=find_packages(where="SNAPy"),
+    # package_dir={"": "SNAPy"},
+    packages=['', 'SNAPy', 'SNAPy.SGACy'],
+    package_data={'SNAPy.SGACy': ['*.pyx', '*.cpp', '*.pyd'],},
+    include_package_data=True,
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/kevinsutjijadi/SNAPy",
@@ -21,10 +24,10 @@ setup(
         "Programming Language :: Python :: 3.11",
         "Operating System :: OS Independent",
     ],
-    install_requires=["pandas >= 1.5.2",
-                      "geopandas >= 0.9.0",
+    install_requires=["pandas >= 1.5.3",
+                      "geopandas >= 1.0.1",
                       "scipy >= 1.10.0",
-                      "numpy >= 1.24.1",
+                      "numpy >= 1.23.5",
                       "shapely >= 2.0.0"
                       ],
     extras_require={
