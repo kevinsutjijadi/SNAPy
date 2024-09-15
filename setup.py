@@ -28,7 +28,8 @@ setup(
                       "geopandas >= 1.0.1",
                       "scipy >= 1.10.0",
                       "numpy >= 1.23.5",
-                      "shapely >= 2.0.0"
+                      "shapely >= 2.0.0",
+                      "pydeck >= 0.8.0"
                       ],
     extras_require={
         "dev": ["pytest>=7.0", "twine>=4.0.2"],

@@ -63,12 +63,14 @@ class GraphSims:
         if self.baseSet['Threads'] == 0:
             self.baseSet['Threads'] = os.cpu_count()-1
 
+        self.epsg = NetworkDf.crs.to_epsg()
+
         issues = []
         if EntriesDf.crs.is_geographic:
             issues.append("EntriesDf projection is geographic (degrees), please conver to projected")
         if NetworkDf.crs.is_geographic:
             issues.append("NetworkDf projection is geographic (degrees), please conver to projected")
-        if EntriesDf.crs.to_epsg() != NetworkDf.crs.to_epsg():
+        if EntriesDf.crs.to_epsg() != self.epsg:
             issues.append("EntriesDf and NetworkDf have different projections, please match them using gdb.to_crs()")
         if NetworkDf.geometry[0].type != 'LineString':
             if 'MultiLineString' in tuple(NetworkDf.geometry.type):
@@ -83,17 +85,17 @@ class GraphSims:
                 print(f'{n}\t'+i)
             raise Exception("SNAPy init failed, resolve the issues to continue")
         
-        self.epsg = NetworkDf.crs.to_epsg()
+        self.NodeDf = None
 
         ixpt = NetworkCompileIntersections(NetworkDf)
         if (np.sum(ixpt['JunctCnt'] == 1)/len(ixpt)) > 0.3:
             print("Warning, more than 30% of endpoints are dead ends, segment intersections first?")
-            inpt = input('segment intersections: (y/n)')
+            inpt = input('segment intersections: (y/[n])')
             if inpt == 'y':
                 print("segmenting intersections")
-                NetworkDf, self.ixDf = NetworkCompileIntersections(NetworkDf, True)
+                NetworkDf, self.NodeDf = NetworkSegmentIntersections(NetworkDf, True)
                 NetworkDf.set_crs(self.epsg)
-                self.ixDf.set_crs(self.epsg)
+                self.NodeDf.set_crs(self.epsg)
                 print("Access segmented network at GraphSims.NetworkDf and GraphSims.ixDf, recommended to save both dataframes, future GraphSims runs use segmented datasets")
             else:
                 print("ignoring segmentation")
@@ -102,7 +104,7 @@ class GraphSims:
         self.LastAtt = None
         
         print(f'GraphSim Class ----------')
-        print(f'Projection EPSG:{NetworkDf.crs.to_epsg()}')
+        print(f'Projection EPSG:{self.epsg}')
 
         if self.baseSet['EntID'] not in self.EntriesDf.columns:
             print('EntriesDf EntID not detected, adding from index')
@@ -141,10 +143,9 @@ class GraphSims:
         self.EntriesDf['xPt_X'] = [p[0] for p in EntriesDt['ixPt']]
         self.EntriesDf['xPt_Y'] = [p[1] for p in EntriesDt['ixPt']]
 
-        self.NodeDf = None
-
         # map!
         self.pdkLayers = []
+        self.pdkLyrNm = []
         self.pdkCenter = None
         print(f'Graph initialization finished in {time()-tmst:,.4f} s')
 
@@ -159,6 +160,8 @@ class GraphSims:
         return self.NodeDf
     
     def Threads(self, value:int):
+        if value is None:
+            return
         if value == 0:
             self.baseSet['Threads'] = os.cpu_count()-1
         else:
@@ -355,7 +358,6 @@ class GraphSims:
         pdkmap = pdk.Deck(layers=self.pdkLayers, initial_view_state=view_state, map_style=map_style, height=height, width=width)
         return pdkmap
            
-
     def BetweenessPatronage(self, OriID=None, DestID=None, **kwargs):
         """
         betweenesspatronage(OriID=list, DestID=list, **kwargs)\n
@@ -375,7 +377,7 @@ class GraphSims:
             'AlphaExp' : 0.0,
             'DistMul' : 2.0,
             'EdgeCmin' : 0.9,
-            'PathLim' : 200,
+            'PathLim' : 2000,
             'LimCycles' : 1_000_000,
             'OpType' : 'P',
             'Include_Destination' : False,
@@ -567,7 +569,6 @@ class GraphSims:
                         self.EntriesDf.at[i, RsltAttr] = v
                         self.EntriesDf.at[i, f'{RsltAttr}_W'] = w
         return self.EntriesDf
-
 
     def Straightness(self, OriID:list=None, DestID:list=None, **kwargs):
         """
