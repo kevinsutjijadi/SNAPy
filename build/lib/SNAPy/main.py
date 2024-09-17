@@ -63,12 +63,14 @@ class GraphSims:
         if self.baseSet['Threads'] == 0:
             self.baseSet['Threads'] = os.cpu_count()-1
 
+        self.epsg = NetworkDf.crs.to_epsg()
+
         issues = []
         if EntriesDf.crs.is_geographic:
             issues.append("EntriesDf projection is geographic (degrees), please conver to projected")
         if NetworkDf.crs.is_geographic:
             issues.append("NetworkDf projection is geographic (degrees), please conver to projected")
-        if EntriesDf.crs.to_epsg() != NetworkDf.crs.to_epsg():
+        if EntriesDf.crs.to_epsg() != self.epsg:
             issues.append("EntriesDf and NetworkDf have different projections, please match them using gdb.to_crs()")
         if NetworkDf.geometry[0].type != 'LineString':
             if 'MultiLineString' in tuple(NetworkDf.geometry.type):
@@ -83,17 +85,17 @@ class GraphSims:
                 print(f'{n}\t'+i)
             raise Exception("SNAPy init failed, resolve the issues to continue")
         
-        self.epsg = NetworkDf.crs.to_epsg()
+        self.NodeDf = None
 
         ixpt = NetworkCompileIntersections(NetworkDf)
         if (np.sum(ixpt['JunctCnt'] == 1)/len(ixpt)) > 0.3:
             print("Warning, more than 30% of endpoints are dead ends, segment intersections first?")
-            inpt = input('segment intersections: (y/n)')
+            inpt = input('segment intersections: (y/[n])')
             if inpt == 'y':
                 print("segmenting intersections")
-                NetworkDf, self.ixDf = NetworkCompileIntersections(NetworkDf, True)
+                NetworkDf, self.NodeDf = NetworkSegmentIntersections(NetworkDf, True)
                 NetworkDf.set_crs(self.epsg)
-                self.ixDf.set_crs(self.epsg)
+                self.NodeDf.set_crs(self.epsg)
                 print("Access segmented network at GraphSims.NetworkDf and GraphSims.ixDf, recommended to save both dataframes, future GraphSims runs use segmented datasets")
             else:
                 print("ignoring segmentation")
@@ -102,7 +104,7 @@ class GraphSims:
         self.LastAtt = None
         
         print(f'GraphSim Class ----------')
-        print(f'Projection EPSG:{NetworkDf.crs.to_epsg()}')
+        print(f'Projection EPSG:{self.epsg}')
 
         if self.baseSet['EntID'] not in self.EntriesDf.columns:
             print('EntriesDf EntID not detected, adding from index')
@@ -141,10 +143,9 @@ class GraphSims:
         self.EntriesDf['xPt_X'] = [p[0] for p in EntriesDt['ixPt']]
         self.EntriesDf['xPt_Y'] = [p[1] for p in EntriesDt['ixPt']]
 
-        self.NodeDf = None
-
         # map!
         self.pdkLayers = []
+        self.pdkLyrNm = []
         self.pdkCenter = None
         print(f'Graph initialization finished in {time()-tmst:,.4f} s')
 
@@ -159,27 +160,36 @@ class GraphSims:
         return self.NodeDf
     
     def Threads(self, value:int):
+        if value is None:
+            return
         if value == 0:
             self.baseSet['Threads'] = os.cpu_count()-1
         else:
             self.baseSet['Threads'] = value
 
-    def Map_BaseLayerInit(self, ShowLayer=None):
+    def Map_BaseLayerInit(self, ContainFields=False):
         """
         Map_LayerBuild
         builds pydeck map base layers consisting of network and entries
         """
-        NetDf = self.NetworkDf.copy()
+        if not ContainFields:
+            NetDf = self.NetworkDf[['geometry', self.baseSet['EdgeID']]].copy()
+            EntXDf = self.EntriesDf[['geometry', self.baseSet['EntID'], 'xPt_X', 'xPt_Y']].copy()
+            EntDf = self.EntriesDf[['geometry', self.baseSet['EntID']]].copy()
+        else:
+            NetDf = self.NetworkDf.copy()
+            EntXDf = self.EntriesDf.copy()
+            EntDf = self.EntriesDf.copy()
+
         NetDf = NetDf.to_crs(4326)
         lyrNetwork = pdk.Layer(
             type="GeoJsonLayer",
             data=NetDf,
             pickable=True,
             get_line_color=[80,80,80],
-            get_line_width=0.5,
+            get_line_width=0.8,
         )
 
-        EntXDf = self.EntriesDf.copy()
         EntXDf['geometry'] = EntXDf.apply(lambda x: LineString(((x.geometry.x, x.geometry.y), (x.xPt_X, x.xPt_Y))), axis=1)
         EntXDf = EntXDf.to_crs(4326)
         lyrEntriesX = pdk.Layer(
@@ -187,10 +197,9 @@ class GraphSims:
             data=EntXDf,
             pickable=False,
             get_line_color=[255,80,80],
-            get_line_width=2,
+            get_line_width=0.5,
         )
 
-        EntDf = self.EntriesDf.copy()
         EntDf = EntDf.to_crs(4326)
         lyrEntries = pdk.Layer(
             type="GeoJsonLayer",
@@ -198,7 +207,7 @@ class GraphSims:
             pickable=True,
             get_fill_color=[255,80,80],
             get_line_width = 0,
-            get_radius=3
+            get_radius=1.5
         )
         self.pdkCenter = NetDf.geometry.unary_union.centroid
         print('built base layers on self.pdfLayers. indexed at: 0-base network layer, 1-entries line connection to edges, 2-entries')
@@ -207,6 +216,37 @@ class GraphSims:
         self.pdkLayers = [lyrNetwork, lyrEntriesX, lyrEntries]
         self.pdkLyrNm = ['Ntw_Edges', 'Ntw_EntriesX', 'Ntw_Entries']
     
+    def Map_PopLayer(self, name:int|str|None=None):
+        """
+        Map_LayerBuild
+        builds pydeck map base layers consisting of network and entries
+        """
+        if name is None:
+            print(f'existing layers: {self.pdkLyrNm}')
+            ly = input('input layer name/index: (default enter:skip)')
+            if ly is None:
+                return
+            try:
+                name = int(ly)
+            except:
+                name = ly
+
+        if isinstance(name, int):
+            try:
+                self.pdkLayers.pop(name)
+                self.pdkLyrNm.pop(name)
+            except:
+                print(f'index {name} doesnt exists')
+        else:
+            try:
+                name = self.pdkLyrNm.index(name)
+                self.pdkLayers.pop(name)
+                self.pdkLyrNm.pop(name)
+            except:
+                print(f'layer named {name} does not exist')
+        print(f'remaining layers: {self.pdkLyrNm}')
+        return
+
     def Map_LayerAdd(self, layers:dict):
 
         if len(self.pdkLayers) == 0:
@@ -333,8 +373,6 @@ class GraphSims:
                     self.pdkLyrNm.append(ly+'_EntLbl')
                 print(f'Mapp layers added {ly} as Entries')
 
-
-
     def Map_Show(self, show='base', map_style='light', height=500, width=500, viewZoom=17, viewCenter=None):
         
         if len(self.pdkLayers)==0:
@@ -355,7 +393,6 @@ class GraphSims:
         pdkmap = pdk.Deck(layers=self.pdkLayers, initial_view_state=view_state, map_style=map_style, height=height, width=width)
         return pdkmap
            
-
     def BetweenessPatronage(self, OriID=None, DestID=None, **kwargs):
         """
         betweenesspatronage(OriID=list, DestID=list, **kwargs)\n
@@ -375,7 +412,7 @@ class GraphSims:
             'AlphaExp' : 0.0,
             'DistMul' : 2.0,
             'EdgeCmin' : 0.9,
-            'PathLim' : 200,
+            'PathLim' : 2000,
             'LimCycles' : 1_000_000,
             'OpType' : 'P',
             'Include_Destination' : False,
@@ -568,7 +605,6 @@ class GraphSims:
                         self.EntriesDf.at[i, f'{RsltAttr}_W'] = w
         return self.EntriesDf
 
-
     def Straightness(self, OriID:list=None, DestID:list=None, **kwargs):
         """
         Straightness(OriID:list, DestID:list, **kwargs)\n
@@ -638,3 +674,147 @@ class GraphSims:
                 for i, v in zip(rslt[0], rslt[1]):
                     self.EntriesDf.at[i, RsltAttr] = v
         return self.EntriesDf
+
+    def PathReach(self, OriID:list, distance:float=800, joined:bool=False, incl_nodes=False, showmap=False, skip_layerinit=False, **kwargs):
+        """
+        PathReach(OriID:list, Distance:float=800, **kwargs)\n
+        Returning dataframe of edges\n
+        returns geoDataFrame of split lines
+        """
+
+        def line_subpart(geom, vector):
+            if abs(vector) == 1.0:
+                return geom
+            if vector < 0.0:
+                vec = 1 + vector
+            else:
+                vec = vector
+            dist = vec * geom.length
+            coords = list(geom.coords)
+
+            if len(coords) == 2:
+                cp = geom.interpolate(dist)
+                if vector < 0.0:
+                    return LineString([(cp.x, cp.y)] + [coords[1],])
+                else:
+                    return LineString([coords[0],] + [(cp.x, cp.y)])
+                
+            for i, c in enumerate(coords):
+                pd = geom.project(Point(c))
+                if pd > dist:
+                    cp = geom.interpolate(dist)
+                    if vector < 0.0:
+                        return LineString([(cp.x, cp.y)] + coords[i:])
+                    else:
+                        return LineString(coords[:i] + [(cp.x, cp.y)])
+        if showmap and not incl_nodes:
+            incl_nodes = True
+            print('if showmap, incl_nodes must be true')
+
+        if incl_nodes:
+            self.getNodes()
+
+        if joined:
+            rslt = self.Gph.PathReachMulti_VirtuEntry(tuple(OriID), distance, incl_nodes)
+            if incl_nodes:
+                rsltNd = rslt[1]
+                rslt = rslt[0]
+                nid = [x[0] for x in rsltNd]
+                nodedf = self.NodeDf.loc[nid].copy()
+                nodedf['Distance'] = [x[1] for x in rsltNd]
+            eid = [x[0] for x in rslt]
+            edf = self.NetworkDf.loc[eid][['geometry', self.baseSet['EdgeID']]]
+            edf['vector'] = [x[1] for x in rslt]
+            edf['geometry'] = edf.apply(lambda x: line_subpart(x.geometry, x.vector), axis=1)
+        else:
+            edf = None
+            nodedf = None
+            for oid in OriID:
+                rslt = self.Gph.PathReachMulti_VirtuEntry((oid,), distance, incl_nodes)
+                if incl_nodes:
+                    rsltNd = rslt[1]
+                    rslt = rslt[0]
+                    nid = [x[0] for x in rsltNd]
+                    nodedfs = self.NodeDf.loc[nid].copy()
+                    nodedfs['Distance'] = [x[1] for x in rsltNd]
+                    if nodedf is None:
+                        nodedf = nodedfs.copy()
+                    else:
+                        nodedf = gpd.GeoDataFrame(pd.concat([nodedf, nodedfs], ignore_index=True))
+                eid = [x[0] for x in rslt]
+                edfs = self.NetworkDf.loc[eid][['geometry', self.baseSet['EdgeID']]]
+                edfs['vector'] = [x[1] for x in rslt]
+                edfs['geometry'] = edfs.apply(lambda x: line_subpart(x.geometry, x.vector), axis=1)
+                edfs['Oid'] = oid
+                if edf is None:
+                    edf = edfs.copy()
+                else:
+                    edf = gpd.GeoDataFrame(pd.concat([edf, edfs], ignore_index=True))
+        
+        edf.set_crs(self.epsg, inplace=True, allow_override=True)
+        if incl_nodes:
+            nodedf.set_crs(self.epsg, inplace=True, allow_override=True)
+        
+        if showmap:
+            print('showing map')
+            if len(self.pdkLyrNm) == 0 and not skip_layerinit:
+                print('setting base init layer')
+                self.Map_BaseLayerInit()
+            MapLayers = self.pdkLayers
+            edt = edf.copy().to_crs(4326)
+            lyr = pdk.Layer(
+                    type="GeoJsonLayer",
+                    data=edt,
+                    pickable=True,
+                    get_line_color=[255,80,80,180],
+                    get_line_width=3,
+                )
+            MapLayers.append(lyr)
+            ndt = nodedf.copy().to_crs(4326)
+            lyr = pdk.Layer(
+                    type="GeoJsonLayer",
+                    data=ndt,
+                    pickable=True,
+                    get_fill_color=[255,80,80],
+                    get_line_width = 0,
+                    get_radius=2,
+                )
+            MapLayers.append(lyr)
+            ndt['coords'] = ndt.geometry.apply(getcoords)
+            ndt['Distance'] = ndt.Distance.apply(lambda x: f'{x:,.1f}')
+            lyr = pdk.Layer(
+                    type="TextLayer",
+                    data=ndt,
+                    pickable=False,
+                    get_position='coords',
+                    get_text='Distance',
+                    get_size=14,
+                    get_color=[0,0,0],
+                    background=True,
+                    get_background_color = [255, 255, 255, 180],
+                    get_text_anchor=pdk.types.String("middle"),
+                    get_alignment_baseline=pdk.types.String("center"),
+                )
+            MapLayers.append(lyr)
+
+            entO = self.EntriesDf.loc[OriID].copy().to_crs(4326)
+            lyr = pdk.Layer(
+                    type="GeoJsonLayer",
+                    data=entO,
+                    pickable=True,
+                    get_fill_color=[255,80,80],
+                    get_line_width = 0,
+                    get_radius=4,
+                )
+            MapLayers.append(lyr)
+            if self.pdkCenter is None:
+                self.pdkCenter = entO.geometry.unary_union.centroid
+            view_state = pdk.ViewState(latitude=self.pdkCenter.y, longitude=self.pdkCenter.x, zoom=17)
+            pdkmap = pdk.Deck(layers=MapLayers, initial_view_state=view_state, map_style='light')
+            print('to see map, please set/access index 0 of result')
+            return pdkmap, edf, nodedf
+
+        if incl_nodes:
+            return edf, nodedf
+        return edf
+
