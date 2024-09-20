@@ -2654,7 +2654,7 @@ cdef class GraphCy:
                         if remainingDist == -1.0 or remainingDist == 1.0:
                             EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
                             EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
-                            EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+                            EdgesReach.push_back(pair[int, float](Eid, edgeVector))
                         elif edgeVector == 1.0:
                             if EdgesFringe[EdgesReach_EidVec[0]].second > 0.0:
                                 if (remainingDist - EdgesFringe[EdgesReach_EidVec[1]].second) > 1.0:
@@ -2697,9 +2697,9 @@ cdef class GraphCy:
                     self.nodeVisited[NidF] = NodeReach_T
                     OpenNodes.push(NodeReach_T)
                 elif self.nodeVisited[NidF].Dist > len: # if visited node has a higher distance
-                    EdgesReach.push_back(pair[int, float](self.nodeVisited[NidF].Eid, edgeVector))
                     self.nodeVisited[NidF] = NodeReach_T
                     OpenNodes.push(NodeReach_T)
+                    EdgesReach.push_back(pair[int, float](Eid, edgeVector))
                 else:
                     EdgesReach.push_back(pair[int, float](Eid, edgeVector))
 
@@ -2711,29 +2711,13 @@ cdef class GraphCy:
         
         cdef vector[pair[int, float]] NodeVstd
 
-        # if not OutputNodes:
-        #     for i in range(self.Nnodes):
-        #         if self.nodeVisited[i].Nid == -1:
-        #             continue
-        #         NodeReach_T = self.nodeVisited[i]
-        #         if self.edges[NodeReach_T.Eid].NidO == NodeReach_T.Nid:
-        #             edgeVector = 1.0
-        #         else:
-        #             edgeVector = -1.0
-        #         EdgesReach.push_back(pair[int, float](NodeReach_T.Eid, edgeVector))
         if OutputNodes:
             for i in range(self.Nnodes):
                 if self.nodeVisited[i].Nid == -1:
                     continue
                 NodeReach_T = self.nodeVisited[i]
-                # if self.edges[NodeReach_T.Eid].NidO == NodeReach_T.Nid:
-                #     edgeVector = 1.0
-                # else:
-                #     edgeVector = -1.0
-                # EdgesReach.push_back(pair[int, float](NodeReach_T.Eid, edgeVector))
                 NodeVstd.push_back(pair[int, float](NodeReach_T.Nid, NodeReach_T.Dist))
 
-        # outtup = tuple(EdgesReach[n] for n in range(EdgesReach.size()))
         EdgesReach.insert(EdgesReach.end(), EdgesFringe.begin(), EdgesFringe.end())
         outtup = tuple((v.first, v.second) for v in EdgesReach)
         EdgesReach.clear()

@@ -6,7 +6,7 @@ with open("README.md", 'r') as f:
 
 setup(
     name="snapy-toolbox",
-    version="0.2.11",
+    version="0.2.12",
     description="""Spatial Network Analysis Python Module
  A package of urban network analysis tools based on Geopandas dataframe and networkx pathfinding""",
     # package_dir={"": "SNAPy"},
@@ -38,3 +38,4 @@ setup(
 )
 
 # python setup.py sdist bdist_wheel
+# twine upload dist/*

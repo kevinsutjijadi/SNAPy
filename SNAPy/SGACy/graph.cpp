@@ -2049,7 +2049,7 @@ struct __pyx_ctuple_double__and_double {
   double f1;
 };
 
-/* "graph.pyx":2748
+/* "graph.pyx":2732
  * 
  * 
  *     cdef void C_NodeMap_AStar(             # <<<<<<<<<<<<<<
@@ -2067,7 +2067,7 @@ struct __pyx_opt_args_5graph_7GraphCy_C_NodeMap_AStar {
   float EdgeCmin;
 };
 
-/* "graph.pyx":2887
+/* "graph.pyx":2871
  *         return
  * 
  *     cdef void C_NodeMap_AStar_VirtuEntry(             # <<<<<<<<<<<<<<
@@ -2085,7 +2085,7 @@ struct __pyx_opt_args_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry {
   float EdgeCmin;
 };
 
-/* "graph.pyx":3038
+/* "graph.pyx":3022
  *         return
  * 
  *     cdef void C_NodeMap_VirtuEntry(             # <<<<<<<<<<<<<<
@@ -2307,8 +2307,8 @@ struct __pyx_obj_5graph___pyx_scope_struct_10_genexpr {
 };
 
 
-/* "graph.pyx":2738
- *         # outtup = tuple(EdgesReach[n] for n in range(EdgesReach.size()))
+/* "graph.pyx":2722
+ * 
  *         EdgesReach.insert(EdgesReach.end(), EdgesFringe.begin(), EdgesFringe.end())
  *         outtup = tuple((v.first, v.second) for v in EdgesReach)             # <<<<<<<<<<<<<<
  *         EdgesReach.clear()
@@ -2322,7 +2322,7 @@ struct __pyx_obj_5graph___pyx_scope_struct_11_genexpr {
 };
 
 
-/* "graph.pyx":2743
+/* "graph.pyx":2727
  *             return outtup
  * 
  *         outnodes = tuple((v.first, v.second) for v in NodeVstd)             # <<<<<<<<<<<<<<
@@ -36659,8 +36659,8 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 }
 static PyObject *__pyx_gb_5graph_7GraphCy_25PathReachMulti_VirtuEntry_2generator6(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value); /* proto */
 
-/* "graph.pyx":2738
- *         # outtup = tuple(EdgesReach[n] for n in range(EdgesReach.size()))
+/* "graph.pyx":2722
+ * 
  *         EdgesReach.insert(EdgesReach.end(), EdgesFringe.begin(), EdgesFringe.end())
  *         outtup = tuple((v.first, v.second) for v in EdgesReach)             # <<<<<<<<<<<<<<
  *         EdgesReach.clear()
@@ -36679,13 +36679,13 @@ static PyObject *__pyx_pf_5graph_7GraphCy_25PathReachMulti_VirtuEntry_genexpr(CY
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_5graph___pyx_scope_struct_11_genexpr *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 2738, __pyx_L1_error)
+    __PYX_ERR(0, 2722, __pyx_L1_error)
   } else {
     __Pyx_GOTREF((PyObject *)__pyx_cur_scope);
   }
   __pyx_cur_scope->__pyx_genexpr_arg_0 = __pyx_genexpr_arg_0;
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_5graph_7GraphCy_25PathReachMulti_VirtuEntry_2generator6, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_PathReachMulti_VirtuEntry_locals, __pyx_n_s_graph); if (unlikely(!gen)) __PYX_ERR(0, 2738, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_5graph_7GraphCy_25PathReachMulti_VirtuEntry_2generator6, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_PathReachMulti_VirtuEntry_locals, __pyx_n_s_graph); if (unlikely(!gen)) __PYX_ERR(0, 2722, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -36723,23 +36723,23 @@ static PyObject *__pyx_gb_5graph_7GraphCy_25PathReachMulti_VirtuEntry_2generator
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 2738, __pyx_L1_error)
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 2722, __pyx_L1_error)
   __pyx_t_1 = __pyx_cur_scope->__pyx_genexpr_arg_0.begin();
   for (;;) {
     if (!(__pyx_t_1 != __pyx_cur_scope->__pyx_genexpr_arg_0.end())) break;
     __pyx_t_2 = *__pyx_t_1;
     ++__pyx_t_1;
     __pyx_cur_scope->__pyx_v_v = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_v.first); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 2738, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_v.first); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 2722, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_cur_scope->__pyx_v_v.second); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 2738, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_cur_scope->__pyx_v_v.second); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 2722, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 2738, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 2722, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_GIVEREF(__pyx_t_3);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3)) __PYX_ERR(0, 2738, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3)) __PYX_ERR(0, 2722, __pyx_L1_error);
     __Pyx_GIVEREF(__pyx_t_4);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4)) __PYX_ERR(0, 2738, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4)) __PYX_ERR(0, 2722, __pyx_L1_error);
     __pyx_t_3 = 0;
     __pyx_t_4 = 0;
     __pyx_r = __pyx_t_5;
@@ -36753,7 +36753,7 @@ static PyObject *__pyx_gb_5graph_7GraphCy_25PathReachMulti_VirtuEntry_2generator
     return __pyx_r;
     __pyx_L6_resume_from_yield:;
     __pyx_t_1 = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_cur_scope->__pyx_t_0);
-    if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 2738, __pyx_L1_error)
+    if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 2722, __pyx_L1_error)
   }
   CYTHON_MAYBE_UNUSED_VAR(__pyx_cur_scope);
 
@@ -36778,7 +36778,7 @@ static PyObject *__pyx_gb_5graph_7GraphCy_25PathReachMulti_VirtuEntry_2generator
 }
 static PyObject *__pyx_gb_5graph_7GraphCy_25PathReachMulti_VirtuEntry_5generator7(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value); /* proto */
 
-/* "graph.pyx":2743
+/* "graph.pyx":2727
  *             return outtup
  * 
  *         outnodes = tuple((v.first, v.second) for v in NodeVstd)             # <<<<<<<<<<<<<<
@@ -36798,13 +36798,13 @@ static PyObject *__pyx_pf_5graph_7GraphCy_25PathReachMulti_VirtuEntry_3genexpr(C
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_5graph___pyx_scope_struct_12_genexpr *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 2743, __pyx_L1_error)
+    __PYX_ERR(0, 2727, __pyx_L1_error)
   } else {
     __Pyx_GOTREF((PyObject *)__pyx_cur_scope);
   }
   __pyx_cur_scope->__pyx_genexpr_arg_0 = __pyx_genexpr_arg_0;
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_5graph_7GraphCy_25PathReachMulti_VirtuEntry_5generator7, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_PathReachMulti_VirtuEntry_locals, __pyx_n_s_graph); if (unlikely(!gen)) __PYX_ERR(0, 2743, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_5graph_7GraphCy_25PathReachMulti_VirtuEntry_5generator7, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_PathReachMulti_VirtuEntry_locals, __pyx_n_s_graph); if (unlikely(!gen)) __PYX_ERR(0, 2727, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -36842,23 +36842,23 @@ static PyObject *__pyx_gb_5graph_7GraphCy_25PathReachMulti_VirtuEntry_5generator
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 2743, __pyx_L1_error)
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 2727, __pyx_L1_error)
   __pyx_t_1 = __pyx_cur_scope->__pyx_genexpr_arg_0.begin();
   for (;;) {
     if (!(__pyx_t_1 != __pyx_cur_scope->__pyx_genexpr_arg_0.end())) break;
     __pyx_t_2 = *__pyx_t_1;
     ++__pyx_t_1;
     __pyx_cur_scope->__pyx_v_v = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_v.first); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 2743, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_v.first); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 2727, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_cur_scope->__pyx_v_v.second); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 2743, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_cur_scope->__pyx_v_v.second); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 2727, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 2743, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 2727, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_GIVEREF(__pyx_t_3);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3)) __PYX_ERR(0, 2743, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3)) __PYX_ERR(0, 2727, __pyx_L1_error);
     __Pyx_GIVEREF(__pyx_t_4);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4)) __PYX_ERR(0, 2743, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4)) __PYX_ERR(0, 2727, __pyx_L1_error);
     __pyx_t_3 = 0;
     __pyx_t_4 = 0;
     __pyx_r = __pyx_t_5;
@@ -36872,7 +36872,7 @@ static PyObject *__pyx_gb_5graph_7GraphCy_25PathReachMulti_VirtuEntry_5generator
     return __pyx_r;
     __pyx_L6_resume_from_yield:;
     __pyx_t_1 = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_cur_scope->__pyx_t_0);
-    if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 2743, __pyx_L1_error)
+    if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 2727, __pyx_L1_error)
   }
   CYTHON_MAYBE_UNUSED_VAR(__pyx_cur_scope);
 
@@ -38175,7 +38175,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
  *                         if remainingDist == -1.0 or remainingDist == 1.0:
  *                             EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])             # <<<<<<<<<<<<<<
  *                             EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
- *                             EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+ *                             EdgesReach.push_back(pair[int, float](Eid, edgeVector))
  */
             (void)(__pyx_v_EdgesFringe.erase((__pyx_v_EdgesFringe.begin() + (__pyx_v_EdgesReach_EidVec[0]))));
 
@@ -38183,7 +38183,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
  *                         if remainingDist == -1.0 or remainingDist == 1.0:
  *                             EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
  *                             EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])             # <<<<<<<<<<<<<<
- *                             EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+ *                             EdgesReach.push_back(pair[int, float](Eid, edgeVector))
  *                         elif edgeVector == 1.0:
  */
             __pyx_t_15 = __pyx_f_5graph_EdgesReach_Eididx(__pyx_v_EdgesFringe, __pyx_v_Eid); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2656, __pyx_L1_error)
@@ -38192,18 +38192,18 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
             /* "graph.pyx":2657
  *                             EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
  *                             EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
- *                             EdgesFringe.push_back(pair[int, float](Eid, remainingDist))             # <<<<<<<<<<<<<<
+ *                             EdgesReach.push_back(pair[int, float](Eid, edgeVector))             # <<<<<<<<<<<<<<
  *                         elif edgeVector == 1.0:
  *                             if EdgesFringe[EdgesReach_EidVec[0]].second > 0.0:
  */
             try {
-              __pyx_t_8 = std::pair<int,float> (__pyx_v_Eid, __pyx_v_remainingDist);
+              __pyx_t_8 = std::pair<int,float> (__pyx_v_Eid, __pyx_v_edgeVector);
             } catch(...) {
               __Pyx_CppExn2PyErr();
               __PYX_ERR(0, 2657, __pyx_L1_error)
             }
             try {
-              __pyx_v_EdgesFringe.push_back(__pyx_t_8);
+              __pyx_v_EdgesReach.push_back(__pyx_t_8);
             } catch(...) {
               __Pyx_CppExn2PyErr();
               __PYX_ERR(0, 2657, __pyx_L1_error)
@@ -38221,7 +38221,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
 
           /* "graph.pyx":2658
  *                             EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
- *                             EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+ *                             EdgesReach.push_back(pair[int, float](Eid, edgeVector))
  *                         elif edgeVector == 1.0:             # <<<<<<<<<<<<<<
  *                             if EdgesFringe[EdgesReach_EidVec[0]].second > 0.0:
  *                                 if (remainingDist - EdgesFringe[EdgesReach_EidVec[1]].second) > 1.0:
@@ -38230,7 +38230,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
           if (__pyx_t_6) {
 
             /* "graph.pyx":2659
- *                             EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+ *                             EdgesReach.push_back(pair[int, float](Eid, edgeVector))
  *                         elif edgeVector == 1.0:
  *                             if EdgesFringe[EdgesReach_EidVec[0]].second > 0.0:             # <<<<<<<<<<<<<<
  *                                 if (remainingDist - EdgesFringe[EdgesReach_EidVec[1]].second) > 1.0:
@@ -38348,7 +38348,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
               __pyx_L38:;
 
               /* "graph.pyx":2659
- *                             EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+ *                             EdgesReach.push_back(pair[int, float](Eid, edgeVector))
  *                         elif edgeVector == 1.0:
  *                             if EdgesFringe[EdgesReach_EidVec[0]].second > 0.0:             # <<<<<<<<<<<<<<
  *                                 if (remainingDist - EdgesFringe[EdgesReach_EidVec[1]].second) > 1.0:
@@ -38470,7 +38470,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
 
             /* "graph.pyx":2658
  *                             EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
- *                             EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
+ *                             EdgesReach.push_back(pair[int, float](Eid, edgeVector))
  *                         elif edgeVector == 1.0:             # <<<<<<<<<<<<<<
  *                             if EdgesFringe[EdgesReach_EidVec[0]].second > 0.0:
  *                                 if (remainingDist - EdgesFringe[EdgesReach_EidVec[1]].second) > 1.0:
@@ -38784,7 +38784,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
  *                     self.nodeVisited[NidF] = NodeReach_T
  *                     OpenNodes.push(NodeReach_T)             # <<<<<<<<<<<<<<
  *                 elif self.nodeVisited[NidF].Dist > len: # if visited node has a higher distance
- *                     EdgesReach.push_back(pair[int, float](self.nodeVisited[NidF].Eid, edgeVector))
+ *                     self.nodeVisited[NidF] = NodeReach_T
  */
         ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2698, __pyx_L1_error)
 
@@ -38802,8 +38802,8 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
  *                     self.nodeVisited[NidF] = NodeReach_T
  *                     OpenNodes.push(NodeReach_T)
  *                 elif self.nodeVisited[NidF].Dist > len: # if visited node has a higher distance             # <<<<<<<<<<<<<<
- *                     EdgesReach.push_back(pair[int, float](self.nodeVisited[NidF].Eid, edgeVector))
  *                     self.nodeVisited[NidF] = NodeReach_T
+ *                     OpenNodes.push(NodeReach_T)
  */
       __pyx_t_6 = ((__pyx_v_self->nodeVisited[__pyx_v_NidF]).Dist > __pyx_v_len);
       if (__pyx_t_6) {
@@ -38811,53 +38811,53 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
         /* "graph.pyx":2700
  *                     OpenNodes.push(NodeReach_T)
  *                 elif self.nodeVisited[NidF].Dist > len: # if visited node has a higher distance
- *                     EdgesReach.push_back(pair[int, float](self.nodeVisited[NidF].Eid, edgeVector))             # <<<<<<<<<<<<<<
+ *                     self.nodeVisited[NidF] = NodeReach_T             # <<<<<<<<<<<<<<
+ *                     OpenNodes.push(NodeReach_T)
+ *                     EdgesReach.push_back(pair[int, float](Eid, edgeVector))
+ */
+        (__pyx_v_self->nodeVisited[__pyx_v_NidF]) = __pyx_v_NodeReach_T;
+
+        /* "graph.pyx":2701
+ *                 elif self.nodeVisited[NidF].Dist > len: # if visited node has a higher distance
+ *                     self.nodeVisited[NidF] = NodeReach_T
+ *                     OpenNodes.push(NodeReach_T)             # <<<<<<<<<<<<<<
+ *                     EdgesReach.push_back(pair[int, float](Eid, edgeVector))
+ *                 else:
+ */
+        ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2701, __pyx_L1_error)
+
+        /* "graph.pyx":2702
  *                     self.nodeVisited[NidF] = NodeReach_T
  *                     OpenNodes.push(NodeReach_T)
+ *                     EdgesReach.push_back(pair[int, float](Eid, edgeVector))             # <<<<<<<<<<<<<<
+ *                 else:
+ *                     EdgesReach.push_back(pair[int, float](Eid, edgeVector))
  */
         try {
-          __pyx_t_8 = std::pair<int,float> ((__pyx_v_self->nodeVisited[__pyx_v_NidF]).Eid, __pyx_v_edgeVector);
+          __pyx_t_8 = std::pair<int,float> (__pyx_v_Eid, __pyx_v_edgeVector);
         } catch(...) {
           __Pyx_CppExn2PyErr();
-          __PYX_ERR(0, 2700, __pyx_L1_error)
+          __PYX_ERR(0, 2702, __pyx_L1_error)
         }
         try {
           __pyx_v_EdgesReach.push_back(__pyx_t_8);
         } catch(...) {
           __Pyx_CppExn2PyErr();
-          __PYX_ERR(0, 2700, __pyx_L1_error)
+          __PYX_ERR(0, 2702, __pyx_L1_error)
         }
-
-        /* "graph.pyx":2701
- *                 elif self.nodeVisited[NidF].Dist > len: # if visited node has a higher distance
- *                     EdgesReach.push_back(pair[int, float](self.nodeVisited[NidF].Eid, edgeVector))
- *                     self.nodeVisited[NidF] = NodeReach_T             # <<<<<<<<<<<<<<
- *                     OpenNodes.push(NodeReach_T)
- *                 else:
- */
-        (__pyx_v_self->nodeVisited[__pyx_v_NidF]) = __pyx_v_NodeReach_T;
-
-        /* "graph.pyx":2702
- *                     EdgesReach.push_back(pair[int, float](self.nodeVisited[NidF].Eid, edgeVector))
- *                     self.nodeVisited[NidF] = NodeReach_T
- *                     OpenNodes.push(NodeReach_T)             # <<<<<<<<<<<<<<
- *                 else:
- *                     EdgesReach.push_back(pair[int, float](Eid, edgeVector))
- */
-        ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2702, __pyx_L1_error)
 
         /* "graph.pyx":2699
  *                     self.nodeVisited[NidF] = NodeReach_T
  *                     OpenNodes.push(NodeReach_T)
  *                 elif self.nodeVisited[NidF].Dist > len: # if visited node has a higher distance             # <<<<<<<<<<<<<<
- *                     EdgesReach.push_back(pair[int, float](self.nodeVisited[NidF].Eid, edgeVector))
  *                     self.nodeVisited[NidF] = NodeReach_T
+ *                     OpenNodes.push(NodeReach_T)
  */
         goto __pyx_L43;
       }
 
       /* "graph.pyx":2704
- *                     OpenNodes.push(NodeReach_T)
+ *                     EdgesReach.push_back(pair[int, float](Eid, edgeVector))
  *                 else:
  *                     EdgesReach.push_back(pair[int, float](Eid, edgeVector))             # <<<<<<<<<<<<<<
  * 
@@ -38941,17 +38941,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
     __pyx_L44:;
   }
 
-  /* "graph.pyx":2724
- *         #             edgeVector = -1.0
- *         #         EdgesReach.push_back(pair[int, float](NodeReach_T.Eid, edgeVector))
+  /* "graph.pyx":2714
+ *         cdef vector[pair[int, float]] NodeVstd
+ * 
  *         if OutputNodes:             # <<<<<<<<<<<<<<
  *             for i in range(self.Nnodes):
  *                 if self.nodeVisited[i].Nid == -1:
  */
   if (__pyx_v_OutputNodes) {
 
-    /* "graph.pyx":2725
- *         #         EdgesReach.push_back(pair[int, float](NodeReach_T.Eid, edgeVector))
+    /* "graph.pyx":2715
+ * 
  *         if OutputNodes:
  *             for i in range(self.Nnodes):             # <<<<<<<<<<<<<<
  *                 if self.nodeVisited[i].Nid == -1:
@@ -38962,7 +38962,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_i = __pyx_t_11;
 
-      /* "graph.pyx":2726
+      /* "graph.pyx":2716
  *         if OutputNodes:
  *             for i in range(self.Nnodes):
  *                 if self.nodeVisited[i].Nid == -1:             # <<<<<<<<<<<<<<
@@ -38972,16 +38972,16 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
       __pyx_t_6 = ((__pyx_v_self->nodeVisited[__pyx_v_i]).Nid == -1L);
       if (__pyx_t_6) {
 
-        /* "graph.pyx":2727
+        /* "graph.pyx":2717
  *             for i in range(self.Nnodes):
  *                 if self.nodeVisited[i].Nid == -1:
  *                     continue             # <<<<<<<<<<<<<<
  *                 NodeReach_T = self.nodeVisited[i]
- *                 # if self.edges[NodeReach_T.Eid].NidO == NodeReach_T.Nid:
+ *                 NodeVstd.push_back(pair[int, float](NodeReach_T.Nid, NodeReach_T.Dist))
  */
         goto __pyx_L46_continue;
 
-        /* "graph.pyx":2726
+        /* "graph.pyx":2716
  *         if OutputNodes:
  *             for i in range(self.Nnodes):
  *                 if self.nodeVisited[i].Nid == -1:             # <<<<<<<<<<<<<<
@@ -38990,49 +38990,49 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
  */
       }
 
-      /* "graph.pyx":2728
+      /* "graph.pyx":2718
  *                 if self.nodeVisited[i].Nid == -1:
  *                     continue
  *                 NodeReach_T = self.nodeVisited[i]             # <<<<<<<<<<<<<<
- *                 # if self.edges[NodeReach_T.Eid].NidO == NodeReach_T.Nid:
- *                 #     edgeVector = 1.0
+ *                 NodeVstd.push_back(pair[int, float](NodeReach_T.Nid, NodeReach_T.Dist))
+ * 
  */
       __pyx_v_NodeReach_T = (__pyx_v_self->nodeVisited[__pyx_v_i]);
 
-      /* "graph.pyx":2734
- *                 #     edgeVector = -1.0
- *                 # EdgesReach.push_back(pair[int, float](NodeReach_T.Eid, edgeVector))
+      /* "graph.pyx":2719
+ *                     continue
+ *                 NodeReach_T = self.nodeVisited[i]
  *                 NodeVstd.push_back(pair[int, float](NodeReach_T.Nid, NodeReach_T.Dist))             # <<<<<<<<<<<<<<
  * 
- *         # outtup = tuple(EdgesReach[n] for n in range(EdgesReach.size()))
+ *         EdgesReach.insert(EdgesReach.end(), EdgesFringe.begin(), EdgesFringe.end())
  */
       try {
         __pyx_t_8 = std::pair<int,float> (__pyx_v_NodeReach_T.Nid, __pyx_v_NodeReach_T.Dist);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(0, 2734, __pyx_L1_error)
+        __PYX_ERR(0, 2719, __pyx_L1_error)
       }
       try {
         __pyx_v_NodeVstd.push_back(__pyx_t_8);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(0, 2734, __pyx_L1_error)
+        __PYX_ERR(0, 2719, __pyx_L1_error)
       }
       __pyx_L46_continue:;
     }
 
-    /* "graph.pyx":2724
- *         #             edgeVector = -1.0
- *         #         EdgesReach.push_back(pair[int, float](NodeReach_T.Eid, edgeVector))
+    /* "graph.pyx":2714
+ *         cdef vector[pair[int, float]] NodeVstd
+ * 
  *         if OutputNodes:             # <<<<<<<<<<<<<<
  *             for i in range(self.Nnodes):
  *                 if self.nodeVisited[i].Nid == -1:
  */
   }
 
-  /* "graph.pyx":2737
+  /* "graph.pyx":2721
+ *                 NodeVstd.push_back(pair[int, float](NodeReach_T.Nid, NodeReach_T.Dist))
  * 
- *         # outtup = tuple(EdgesReach[n] for n in range(EdgesReach.size()))
  *         EdgesReach.insert(EdgesReach.end(), EdgesFringe.begin(), EdgesFringe.end())             # <<<<<<<<<<<<<<
  *         outtup = tuple((v.first, v.second) for v in EdgesReach)
  *         EdgesReach.clear()
@@ -39041,25 +39041,25 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
     __pyx_v_EdgesReach.insert(__pyx_v_EdgesReach.end(), __pyx_v_EdgesFringe.begin(), __pyx_v_EdgesFringe.end());
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 2737, __pyx_L1_error)
+    __PYX_ERR(0, 2721, __pyx_L1_error)
   }
 
-  /* "graph.pyx":2738
- *         # outtup = tuple(EdgesReach[n] for n in range(EdgesReach.size()))
+  /* "graph.pyx":2722
+ * 
  *         EdgesReach.insert(EdgesReach.end(), EdgesFringe.begin(), EdgesFringe.end())
  *         outtup = tuple((v.first, v.second) for v in EdgesReach)             # <<<<<<<<<<<<<<
  *         EdgesReach.clear()
  *         if not OutputNodes:
  */
-  __pyx_t_1 = __pyx_pf_5graph_7GraphCy_25PathReachMulti_VirtuEntry_genexpr(NULL, __pyx_v_EdgesReach); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2738, __pyx_L1_error)
+  __pyx_t_1 = __pyx_pf_5graph_7GraphCy_25PathReachMulti_VirtuEntry_genexpr(NULL, __pyx_v_EdgesReach); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2722, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PySequence_Tuple(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 2738, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PySequence_Tuple(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 2722, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_outtup = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "graph.pyx":2739
+  /* "graph.pyx":2723
  *         EdgesReach.insert(EdgesReach.end(), EdgesFringe.begin(), EdgesFringe.end())
  *         outtup = tuple((v.first, v.second) for v in EdgesReach)
  *         EdgesReach.clear()             # <<<<<<<<<<<<<<
@@ -39068,7 +39068,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
  */
   __pyx_v_EdgesReach.clear();
 
-  /* "graph.pyx":2740
+  /* "graph.pyx":2724
  *         outtup = tuple((v.first, v.second) for v in EdgesReach)
  *         EdgesReach.clear()
  *         if not OutputNodes:             # <<<<<<<<<<<<<<
@@ -39078,7 +39078,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
   __pyx_t_6 = (!__pyx_v_OutputNodes);
   if (__pyx_t_6) {
 
-    /* "graph.pyx":2741
+    /* "graph.pyx":2725
  *         EdgesReach.clear()
  *         if not OutputNodes:
  *             return outtup             # <<<<<<<<<<<<<<
@@ -39090,7 +39090,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
     __pyx_r = __pyx_v_outtup;
     goto __pyx_L0;
 
-    /* "graph.pyx":2740
+    /* "graph.pyx":2724
  *         outtup = tuple((v.first, v.second) for v in EdgesReach)
  *         EdgesReach.clear()
  *         if not OutputNodes:             # <<<<<<<<<<<<<<
@@ -39099,22 +39099,22 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
  */
   }
 
-  /* "graph.pyx":2743
+  /* "graph.pyx":2727
  *             return outtup
  * 
  *         outnodes = tuple((v.first, v.second) for v in NodeVstd)             # <<<<<<<<<<<<<<
  *         NodeVstd.clear()
  *         return outtup, outnodes
  */
-  __pyx_t_3 = __pyx_pf_5graph_7GraphCy_25PathReachMulti_VirtuEntry_3genexpr(NULL, __pyx_v_NodeVstd); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 2743, __pyx_L1_error)
+  __pyx_t_3 = __pyx_pf_5graph_7GraphCy_25PathReachMulti_VirtuEntry_3genexpr(NULL, __pyx_v_NodeVstd); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 2727, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PySequence_Tuple(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2743, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PySequence_Tuple(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2727, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_outnodes = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "graph.pyx":2744
+  /* "graph.pyx":2728
  * 
  *         outnodes = tuple((v.first, v.second) for v in NodeVstd)
  *         NodeVstd.clear()             # <<<<<<<<<<<<<<
@@ -39123,7 +39123,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
  */
   __pyx_v_NodeVstd.clear();
 
-  /* "graph.pyx":2745
+  /* "graph.pyx":2729
  *         outnodes = tuple((v.first, v.second) for v in NodeVstd)
  *         NodeVstd.clear()
  *         return outtup, outnodes             # <<<<<<<<<<<<<<
@@ -39131,14 +39131,14 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2745, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2729, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_outtup);
   __Pyx_GIVEREF(__pyx_v_outtup);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_outtup)) __PYX_ERR(0, 2745, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_outtup)) __PYX_ERR(0, 2729, __pyx_L1_error);
   __Pyx_INCREF(__pyx_v_outnodes);
   __Pyx_GIVEREF(__pyx_v_outnodes);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_outnodes)) __PYX_ERR(0, 2745, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_outnodes)) __PYX_ERR(0, 2729, __pyx_L1_error);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
@@ -39169,7 +39169,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_80PathReachMulti_VirtuEntry(struct __p
   return __pyx_r;
 }
 
-/* "graph.pyx":2748
+/* "graph.pyx":2732
  * 
  * 
  *     cdef void C_NodeMap_AStar(             # <<<<<<<<<<<<<<
@@ -39244,16 +39244,16 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
     }
   }
 
-  /* "graph.pyx":2793
+  /* "graph.pyx":2777
  *         As a supporting function for multipath.
  *         """
  *         self.C_Reset_NodeVisited()             # <<<<<<<<<<<<<<
  * 
  *         # START
  */
-  __pyx_f_5graph_7GraphCy_C_Reset_NodeVisited(__pyx_v_self, NULL); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2793, __pyx_L1_error)
+  __pyx_f_5graph_7GraphCy_C_Reset_NodeVisited(__pyx_v_self, NULL); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2777, __pyx_L1_error)
 
-  /* "graph.pyx":2797
+  /* "graph.pyx":2781
  *         # START
  *         cdef int cycles
  *         cycles = 1             # <<<<<<<<<<<<<<
@@ -39262,7 +39262,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
   __pyx_v_cycles = 1;
 
-  /* "graph.pyx":2799
+  /* "graph.pyx":2783
  *         cycles = 1
  *         cdef bint keepGoing
  *         keepGoing = True             # <<<<<<<<<<<<<<
@@ -39271,17 +39271,17 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
   __pyx_v_keepGoing = 1;
 
-  /* "graph.pyx":2800
+  /* "graph.pyx":2784
  *         cdef bint keepGoing
  *         keepGoing = True
  *         cdef float BaseDist = dist3d(self.nodes[NidO], self.nodes[NidD])             # <<<<<<<<<<<<<<
  *         # cdef vector[NodeReach] OpenNodes
  *         cdef PriorityQueue_NR OpenNodes
  */
-  __pyx_t_1 = __pyx_f_5graph_dist3d((__pyx_v_self->nodes[__pyx_v_NidO]), (__pyx_v_self->nodes[__pyx_v_NidD])); if (unlikely(__pyx_t_1 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 2800, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5graph_dist3d((__pyx_v_self->nodes[__pyx_v_NidO]), (__pyx_v_self->nodes[__pyx_v_NidD])); if (unlikely(__pyx_t_1 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 2784, __pyx_L1_error)
   __pyx_v_BaseDist = __pyx_t_1;
 
-  /* "graph.pyx":2804
+  /* "graph.pyx":2788
  *         cdef PriorityQueue_NR OpenNodes
  *         cdef NodeReach startNode
  *         startNode.Nid = NidO             # <<<<<<<<<<<<<<
@@ -39290,7 +39290,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
   __pyx_v_startNode.Nid = __pyx_v_NidO;
 
-  /* "graph.pyx":2805
+  /* "graph.pyx":2789
  *         cdef NodeReach startNode
  *         startNode.Nid = NidO
  *         startNode.Eid = -1             # <<<<<<<<<<<<<<
@@ -39299,7 +39299,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
   __pyx_v_startNode.Eid = -1;
 
-  /* "graph.pyx":2806
+  /* "graph.pyx":2790
  *         startNode.Nid = NidO
  *         startNode.Eid = -1
  *         startNode.Dist = 0.0             # <<<<<<<<<<<<<<
@@ -39308,7 +39308,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
   __pyx_v_startNode.Dist = 0.0;
 
-  /* "graph.pyx":2807
+  /* "graph.pyx":2791
  *         startNode.Eid = -1
  *         startNode.Dist = 0.0
  *         startNode.NidO = -1             # <<<<<<<<<<<<<<
@@ -39317,7 +39317,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
   __pyx_v_startNode.NidO = -1;
 
-  /* "graph.pyx":2808
+  /* "graph.pyx":2792
  *         startNode.Dist = 0.0
  *         startNode.NidO = -1
  *         startNode.Weight = 0.0             # <<<<<<<<<<<<<<
@@ -39326,7 +39326,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
   __pyx_v_startNode.Weight = 0.0;
 
-  /* "graph.pyx":2809
+  /* "graph.pyx":2793
  *         startNode.NidO = -1
  *         startNode.Weight = 0.0
  *         self.nodeVisited[NidO] = startNode             # <<<<<<<<<<<<<<
@@ -39335,28 +39335,28 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
   (__pyx_v_self->nodeVisited[__pyx_v_NidO]) = __pyx_v_startNode;
 
-  /* "graph.pyx":2810
+  /* "graph.pyx":2794
  *         startNode.Weight = 0.0
  *         self.nodeVisited[NidO] = startNode
  *         OpenNodes = PriorityQueue_NR()             # <<<<<<<<<<<<<<
  *         OpenNodes.push(startNode)
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5graph_PriorityQueue_NR)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2810, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5graph_PriorityQueue_NR)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2794, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_OpenNodes = ((struct __pyx_obj_5graph_PriorityQueue_NR *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "graph.pyx":2811
+  /* "graph.pyx":2795
  *         self.nodeVisited[NidO] = startNode
  *         OpenNodes = PriorityQueue_NR()
  *         OpenNodes.push(startNode)             # <<<<<<<<<<<<<<
  * 
  *         cdef NodeReach NodeReach_T
  */
-  ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2811, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2795, __pyx_L1_error)
 
-  /* "graph.pyx":2819
+  /* "graph.pyx":2803
  *         cdef NodeReach NodeCheck
  *         cdef Node NodeTarget
  *         NodeTarget = self.nodes[NidD]             # <<<<<<<<<<<<<<
@@ -39365,7 +39365,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
   __pyx_v_NodeTarget = (__pyx_v_self->nodes[__pyx_v_NidD]);
 
-  /* "graph.pyx":2827
+  /* "graph.pyx":2811
  * 
  *         # check distmin
  *         if DistMin == -1.0:             # <<<<<<<<<<<<<<
@@ -39375,24 +39375,24 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
   __pyx_t_3 = (__pyx_v_DistMin == -1.0);
   if (__pyx_t_3) {
 
-    /* "graph.pyx":2828
+    /* "graph.pyx":2812
  *         # check distmin
  *         if DistMin == -1.0:
  *             DistMin = self.PathDist_AStar(NidO, NidD, LimDist, LimCycle, DistMul)             # <<<<<<<<<<<<<<
  *             if DistMin == -1.0:
  *                 return
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_PathDist_AStar); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 2828, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_PathDist_AStar); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 2812, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_NidO); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 2828, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_NidO); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 2812, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_NidD); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 2828, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_NidD); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 2812, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_LimDist); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 2828, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_LimDist); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 2812, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_LimCycle); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 2828, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_LimCycle); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 2812, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = PyFloat_FromDouble(__pyx_v_DistMul); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 2828, __pyx_L1_error)
+    __pyx_t_9 = PyFloat_FromDouble(__pyx_v_DistMul); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 2812, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __pyx_t_10 = NULL;
     __pyx_t_11 = 0;
@@ -39417,15 +39417,15 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2828, __pyx_L1_error)
+      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2812, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
-    __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 2828, __pyx_L1_error)
+    __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 2812, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_DistMin = __pyx_t_1;
 
-    /* "graph.pyx":2829
+    /* "graph.pyx":2813
  *         if DistMin == -1.0:
  *             DistMin = self.PathDist_AStar(NidO, NidD, LimDist, LimCycle, DistMul)
  *             if DistMin == -1.0:             # <<<<<<<<<<<<<<
@@ -39435,7 +39435,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
     __pyx_t_3 = (__pyx_v_DistMin == -1.0);
     if (__pyx_t_3) {
 
-      /* "graph.pyx":2830
+      /* "graph.pyx":2814
  *             DistMin = self.PathDist_AStar(NidO, NidD, LimDist, LimCycle, DistMul)
  *             if DistMin == -1.0:
  *                 return             # <<<<<<<<<<<<<<
@@ -39444,7 +39444,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
       goto __pyx_L0;
 
-      /* "graph.pyx":2829
+      /* "graph.pyx":2813
  *         if DistMin == -1.0:
  *             DistMin = self.PathDist_AStar(NidO, NidD, LimDist, LimCycle, DistMul)
  *             if DistMin == -1.0:             # <<<<<<<<<<<<<<
@@ -39453,7 +39453,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
     }
 
-    /* "graph.pyx":2827
+    /* "graph.pyx":2811
  * 
  *         # check distmin
  *         if DistMin == -1.0:             # <<<<<<<<<<<<<<
@@ -39462,7 +39462,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
   }
 
-  /* "graph.pyx":2832
+  /* "graph.pyx":2816
  *                 return
  * 
  *         DistMin = DistMin * DistMulLim             # <<<<<<<<<<<<<<
@@ -39471,7 +39471,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
   __pyx_v_DistMin = (__pyx_v_DistMin * __pyx_v_DistMulLim);
 
-  /* "graph.pyx":2834
+  /* "graph.pyx":2818
  *         DistMin = DistMin * DistMulLim
  * 
  *         while keepGoing:             # <<<<<<<<<<<<<<
@@ -39481,7 +39481,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
   while (1) {
     if (!__pyx_v_keepGoing) break;
 
-    /* "graph.pyx":2835
+    /* "graph.pyx":2819
  * 
  *         while keepGoing:
  *             cycles += 1             # <<<<<<<<<<<<<<
@@ -39490,17 +39490,17 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
     __pyx_v_cycles = (__pyx_v_cycles + 1);
 
-    /* "graph.pyx":2837
+    /* "graph.pyx":2821
  *             cycles += 1
  *             # check paths from OpenNodes
  *             NodeCheck = OpenNodes.pop_top()             # <<<<<<<<<<<<<<
  * 
  *             for i in range(self.EidN):
  */
-    __pyx_t_12 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->pop_top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2837, __pyx_L1_error)
+    __pyx_t_12 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->pop_top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2821, __pyx_L1_error)
     __pyx_v_NodeCheck = __pyx_t_12;
 
-    /* "graph.pyx":2839
+    /* "graph.pyx":2823
  *             NodeCheck = OpenNodes.pop_top()
  * 
  *             for i in range(self.EidN):             # <<<<<<<<<<<<<<
@@ -39512,7 +39512,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
     for (__pyx_t_14 = 0; __pyx_t_14 < __pyx_t_13; __pyx_t_14+=1) {
       __pyx_v_i = __pyx_t_14;
 
-      /* "graph.pyx":2840
+      /* "graph.pyx":2824
  * 
  *             for i in range(self.EidN):
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]             # <<<<<<<<<<<<<<
@@ -39521,7 +39521,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
       __pyx_v_Eid = ((__pyx_v_self->nodes[__pyx_v_NodeCheck.Nid]).Eid[__pyx_v_i]);
 
-      /* "graph.pyx":2841
+      /* "graph.pyx":2825
  *             for i in range(self.EidN):
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                 if Eid == -1:             # <<<<<<<<<<<<<<
@@ -39531,7 +39531,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
       __pyx_t_3 = (__pyx_v_Eid == -1L);
       if (__pyx_t_3) {
 
-        /* "graph.pyx":2842
+        /* "graph.pyx":2826
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                 if Eid == -1:
  *                     break             # <<<<<<<<<<<<<<
@@ -39540,7 +39540,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
         goto __pyx_L8_break;
 
-        /* "graph.pyx":2841
+        /* "graph.pyx":2825
  *             for i in range(self.EidN):
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                 if Eid == -1:             # <<<<<<<<<<<<<<
@@ -39549,7 +39549,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
       }
 
-      /* "graph.pyx":2843
+      /* "graph.pyx":2827
  *                 if Eid == -1:
  *                     break
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:             # <<<<<<<<<<<<<<
@@ -39567,7 +39567,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
       __pyx_L11_bool_binop_done:;
       if (__pyx_t_3) {
 
-        /* "graph.pyx":2844
+        /* "graph.pyx":2828
  *                     break
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:
  *                     continue             # <<<<<<<<<<<<<<
@@ -39576,7 +39576,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
         goto __pyx_L7_continue;
 
-        /* "graph.pyx":2843
+        /* "graph.pyx":2827
  *                 if Eid == -1:
  *                     break
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:             # <<<<<<<<<<<<<<
@@ -39585,7 +39585,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
       }
 
-      /* "graph.pyx":2847
+      /* "graph.pyx":2831
  *                 # possible new path
  *                 # new node?
  *                 EdgeC = self.edges[Eid]             # <<<<<<<<<<<<<<
@@ -39594,7 +39594,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
       __pyx_v_EdgeC = (__pyx_v_self->edges[__pyx_v_Eid]);
 
-      /* "graph.pyx":2848
+      /* "graph.pyx":2832
  *                 # new node?
  *                 EdgeC = self.edges[Eid]
  *                 if not ReverseEdge:             # <<<<<<<<<<<<<<
@@ -39604,7 +39604,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
       __pyx_t_3 = (!__pyx_v_ReverseEdge);
       if (__pyx_t_3) {
 
-        /* "graph.pyx":2849
+        /* "graph.pyx":2833
  *                 EdgeC = self.edges[Eid]
  *                 if not ReverseEdge:
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -39614,7 +39614,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
         __pyx_t_3 = (__pyx_v_EdgeC.NidO == __pyx_v_NodeCheck.Nid);
         if (__pyx_t_3) {
 
-          /* "graph.pyx":2850
+          /* "graph.pyx":2834
  *                 if not ReverseEdge:
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         len = EdgeC.len             # <<<<<<<<<<<<<<
@@ -39624,7 +39624,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
           __pyx_t_1 = __pyx_v_EdgeC.len;
           __pyx_v_len = __pyx_t_1;
 
-          /* "graph.pyx":2851
+          /* "graph.pyx":2835
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         len = EdgeC.len
  *                         NidF = EdgeC.NidD             # <<<<<<<<<<<<<<
@@ -39634,7 +39634,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
           __pyx_t_16 = __pyx_v_EdgeC.NidD;
           __pyx_v_NidF = __pyx_t_16;
 
-          /* "graph.pyx":2849
+          /* "graph.pyx":2833
  *                 EdgeC = self.edges[Eid]
  *                 if not ReverseEdge:
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -39644,7 +39644,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
           goto __pyx_L14;
         }
 
-        /* "graph.pyx":2853
+        /* "graph.pyx":2837
  *                         NidF = EdgeC.NidD
  *                     else :
  *                         len = EdgeC.lenR             # <<<<<<<<<<<<<<
@@ -39655,7 +39655,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
           __pyx_t_1 = __pyx_v_EdgeC.lenR;
           __pyx_v_len = __pyx_t_1;
 
-          /* "graph.pyx":2854
+          /* "graph.pyx":2838
  *                     else :
  *                         len = EdgeC.lenR
  *                         NidF = EdgeC.NidO             # <<<<<<<<<<<<<<
@@ -39667,7 +39667,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
         }
         __pyx_L14:;
 
-        /* "graph.pyx":2848
+        /* "graph.pyx":2832
  *                 # new node?
  *                 EdgeC = self.edges[Eid]
  *                 if not ReverseEdge:             # <<<<<<<<<<<<<<
@@ -39677,7 +39677,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
         goto __pyx_L13;
       }
 
-      /* "graph.pyx":2856
+      /* "graph.pyx":2840
  *                         NidF = EdgeC.NidO
  *                 else:
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -39688,7 +39688,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
         __pyx_t_3 = (__pyx_v_EdgeC.NidO == __pyx_v_NodeCheck.Nid);
         if (__pyx_t_3) {
 
-          /* "graph.pyx":2857
+          /* "graph.pyx":2841
  *                 else:
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         len = EdgeC.lenR             # <<<<<<<<<<<<<<
@@ -39698,7 +39698,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
           __pyx_t_1 = __pyx_v_EdgeC.lenR;
           __pyx_v_len = __pyx_t_1;
 
-          /* "graph.pyx":2858
+          /* "graph.pyx":2842
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         len = EdgeC.lenR
  *                         NidF = EdgeC.NidD             # <<<<<<<<<<<<<<
@@ -39708,7 +39708,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
           __pyx_t_16 = __pyx_v_EdgeC.NidD;
           __pyx_v_NidF = __pyx_t_16;
 
-          /* "graph.pyx":2856
+          /* "graph.pyx":2840
  *                         NidF = EdgeC.NidO
  *                 else:
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -39718,7 +39718,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
           goto __pyx_L15;
         }
 
-        /* "graph.pyx":2860
+        /* "graph.pyx":2844
  *                         NidF = EdgeC.NidD
  *                     else :
  *                         len = EdgeC.len             # <<<<<<<<<<<<<<
@@ -39729,7 +39729,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
           __pyx_t_1 = __pyx_v_EdgeC.len;
           __pyx_v_len = __pyx_t_1;
 
-          /* "graph.pyx":2861
+          /* "graph.pyx":2845
  *                     else :
  *                         len = EdgeC.len
  *                         NidF = EdgeC.NidO             # <<<<<<<<<<<<<<
@@ -39743,7 +39743,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
       }
       __pyx_L13:;
 
-      /* "graph.pyx":2863
+      /* "graph.pyx":2847
  *                         NidF = EdgeC.NidO
  * 
  *                 len += NodeCheck.Dist + self.nodes[NidF].c             # <<<<<<<<<<<<<<
@@ -39752,17 +39752,17 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
       __pyx_v_len = (__pyx_v_len + (__pyx_v_NodeCheck.Dist + (__pyx_v_self->nodes[__pyx_v_NidF]).c));
 
-      /* "graph.pyx":2864
+      /* "graph.pyx":2848
  * 
  *                 len += NodeCheck.Dist + self.nodes[NidF].c
  *                 DistC_Target = dist3d(self.nodes[NidF], NodeTarget)             # <<<<<<<<<<<<<<
  * 
  *                 if (len + DistC_Target*EdgeCmin) > DistMin: # check if there is still a propable remaining distance to target
  */
-      __pyx_t_1 = __pyx_f_5graph_dist3d((__pyx_v_self->nodes[__pyx_v_NidF]), __pyx_v_NodeTarget); if (unlikely(__pyx_t_1 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 2864, __pyx_L1_error)
+      __pyx_t_1 = __pyx_f_5graph_dist3d((__pyx_v_self->nodes[__pyx_v_NidF]), __pyx_v_NodeTarget); if (unlikely(__pyx_t_1 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 2848, __pyx_L1_error)
       __pyx_v_DistC_Target = __pyx_t_1;
 
-      /* "graph.pyx":2866
+      /* "graph.pyx":2850
  *                 DistC_Target = dist3d(self.nodes[NidF], NodeTarget)
  * 
  *                 if (len + DistC_Target*EdgeCmin) > DistMin: # check if there is still a propable remaining distance to target             # <<<<<<<<<<<<<<
@@ -39772,7 +39772,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
       __pyx_t_3 = ((__pyx_v_len + (__pyx_v_DistC_Target * __pyx_v_EdgeCmin)) > __pyx_v_DistMin);
       if (__pyx_t_3) {
 
-        /* "graph.pyx":2867
+        /* "graph.pyx":2851
  * 
  *                 if (len + DistC_Target*EdgeCmin) > DistMin: # check if there is still a propable remaining distance to target
  *                     continue             # <<<<<<<<<<<<<<
@@ -39781,7 +39781,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
         goto __pyx_L7_continue;
 
-        /* "graph.pyx":2866
+        /* "graph.pyx":2850
  *                 DistC_Target = dist3d(self.nodes[NidF], NodeTarget)
  * 
  *                 if (len + DistC_Target*EdgeCmin) > DistMin: # check if there is still a propable remaining distance to target             # <<<<<<<<<<<<<<
@@ -39790,7 +39790,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
       }
 
-      /* "graph.pyx":2869
+      /* "graph.pyx":2853
  *                     continue
  * 
  *                 NodeReach_T.Nid = NidF             # <<<<<<<<<<<<<<
@@ -39799,7 +39799,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
       __pyx_v_NodeReach_T.Nid = __pyx_v_NidF;
 
-      /* "graph.pyx":2870
+      /* "graph.pyx":2854
  * 
  *                 NodeReach_T.Nid = NidF
  *                 NodeReach_T.Dist = len             # <<<<<<<<<<<<<<
@@ -39808,7 +39808,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
       __pyx_v_NodeReach_T.Dist = __pyx_v_len;
 
-      /* "graph.pyx":2871
+      /* "graph.pyx":2855
  *                 NodeReach_T.Nid = NidF
  *                 NodeReach_T.Dist = len
  *                 NodeReach_T.Eid = Eid             # <<<<<<<<<<<<<<
@@ -39817,7 +39817,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
       __pyx_v_NodeReach_T.Eid = __pyx_v_Eid;
 
-      /* "graph.pyx":2872
+      /* "graph.pyx":2856
  *                 NodeReach_T.Dist = len
  *                 NodeReach_T.Eid = Eid
  *                 NodeReach_T.NidO = NodeCheck.Nid             # <<<<<<<<<<<<<<
@@ -39827,7 +39827,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
       __pyx_t_16 = __pyx_v_NodeCheck.Nid;
       __pyx_v_NodeReach_T.NidO = __pyx_t_16;
 
-      /* "graph.pyx":2873
+      /* "graph.pyx":2857
  *                 NodeReach_T.Eid = Eid
  *                 NodeReach_T.NidO = NodeCheck.Nid
  *                 NodeReach_T.Weight = len + (DistC_Target - BaseDist) * DistMul             # <<<<<<<<<<<<<<
@@ -39836,7 +39836,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
       __pyx_v_NodeReach_T.Weight = (__pyx_v_len + ((__pyx_v_DistC_Target - __pyx_v_BaseDist) * __pyx_v_DistMul));
 
-      /* "graph.pyx":2876
+      /* "graph.pyx":2860
  * 
  *                 # check to visited nodes
  *                 if self.nodeVisited[NidF].Nid == -1 or self.nodeVisited[NidF].Dist > len: # if node havent been visited             # <<<<<<<<<<<<<<
@@ -39854,7 +39854,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
       __pyx_L18_bool_binop_done:;
       if (__pyx_t_3) {
 
-        /* "graph.pyx":2877
+        /* "graph.pyx":2861
  *                 # check to visited nodes
  *                 if self.nodeVisited[NidF].Nid == -1 or self.nodeVisited[NidF].Dist > len: # if node havent been visited
  *                     self.nodeVisited[NidF] = NodeReach_T             # <<<<<<<<<<<<<<
@@ -39863,16 +39863,16 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
         (__pyx_v_self->nodeVisited[__pyx_v_NidF]) = __pyx_v_NodeReach_T;
 
-        /* "graph.pyx":2878
+        /* "graph.pyx":2862
  *                 if self.nodeVisited[NidF].Nid == -1 or self.nodeVisited[NidF].Dist > len: # if node havent been visited
  *                     self.nodeVisited[NidF] = NodeReach_T
  *                     OpenNodes.push(NodeReach_T)             # <<<<<<<<<<<<<<
  *             if OpenNodes.empty():
  *                 break
  */
-        ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2878, __pyx_L1_error)
+        ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2862, __pyx_L1_error)
 
-        /* "graph.pyx":2876
+        /* "graph.pyx":2860
  * 
  *                 # check to visited nodes
  *                 if self.nodeVisited[NidF].Nid == -1 or self.nodeVisited[NidF].Dist > len: # if node havent been visited             # <<<<<<<<<<<<<<
@@ -39884,17 +39884,17 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
     }
     __pyx_L8_break:;
 
-    /* "graph.pyx":2879
+    /* "graph.pyx":2863
  *                     self.nodeVisited[NidF] = NodeReach_T
  *                     OpenNodes.push(NodeReach_T)
  *             if OpenNodes.empty():             # <<<<<<<<<<<<<<
  *                 break
  *             elif cycles > LimCycle or OpenNodes.top().Dist > LimDist:
  */
-    __pyx_t_3 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->empty(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2879, __pyx_L1_error)
+    __pyx_t_3 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->empty(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2863, __pyx_L1_error)
     if (__pyx_t_3) {
 
-      /* "graph.pyx":2880
+      /* "graph.pyx":2864
  *                     OpenNodes.push(NodeReach_T)
  *             if OpenNodes.empty():
  *                 break             # <<<<<<<<<<<<<<
@@ -39903,7 +39903,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
       goto __pyx_L6_break;
 
-      /* "graph.pyx":2879
+      /* "graph.pyx":2863
  *                     self.nodeVisited[NidF] = NodeReach_T
  *                     OpenNodes.push(NodeReach_T)
  *             if OpenNodes.empty():             # <<<<<<<<<<<<<<
@@ -39912,7 +39912,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
     }
 
-    /* "graph.pyx":2881
+    /* "graph.pyx":2865
  *             if OpenNodes.empty():
  *                 break
  *             elif cycles > LimCycle or OpenNodes.top().Dist > LimDist:             # <<<<<<<<<<<<<<
@@ -39925,13 +39925,13 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
       __pyx_t_3 = __pyx_t_15;
       goto __pyx_L21_bool_binop_done;
     }
-    __pyx_t_12 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2881, __pyx_L1_error)
+    __pyx_t_12 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2865, __pyx_L1_error)
     __pyx_t_15 = (__pyx_t_12.Dist > __pyx_v_LimDist);
     __pyx_t_3 = __pyx_t_15;
     __pyx_L21_bool_binop_done:;
     if (__pyx_t_3) {
 
-      /* "graph.pyx":2884
+      /* "graph.pyx":2868
  *                 # if reaches cycle count limit
  *                 # if the minimum distance in open nodes is more than the distance limit
  *                 break             # <<<<<<<<<<<<<<
@@ -39940,7 +39940,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
       goto __pyx_L6_break;
 
-      /* "graph.pyx":2881
+      /* "graph.pyx":2865
  *             if OpenNodes.empty():
  *                 break
  *             elif cycles > LimCycle or OpenNodes.top().Dist > LimDist:             # <<<<<<<<<<<<<<
@@ -39951,7 +39951,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
   }
   __pyx_L6_break:;
 
-  /* "graph.pyx":2885
+  /* "graph.pyx":2869
  *                 # if the minimum distance in open nodes is more than the distance limit
  *                 break
  *         return             # <<<<<<<<<<<<<<
@@ -39960,7 +39960,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
  */
   goto __pyx_L0;
 
-  /* "graph.pyx":2748
+  /* "graph.pyx":2732
  * 
  * 
  *     cdef void C_NodeMap_AStar(             # <<<<<<<<<<<<<<
@@ -39984,7 +39984,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar(struct __pyx_obj_5graph_Grap
   __Pyx_RefNannyFinishContext();
 }
 
-/* "graph.pyx":2887
+/* "graph.pyx":2871
  *         return
  * 
  *     cdef void C_NodeMap_AStar_VirtuEntry(             # <<<<<<<<<<<<<<
@@ -40060,16 +40060,16 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
     }
   }
 
-  /* "graph.pyx":2933
+  /* "graph.pyx":2917
  *         As a supporting function for multipath.
  *         """
  *         self.C_Reset_NodeVisited()             # <<<<<<<<<<<<<<
  * 
  *         cdef Entry EntryO = self.EntryDt[EntryOrigin]
  */
-  __pyx_f_5graph_7GraphCy_C_Reset_NodeVisited(__pyx_v_self, NULL); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2933, __pyx_L1_error)
+  __pyx_f_5graph_7GraphCy_C_Reset_NodeVisited(__pyx_v_self, NULL); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2917, __pyx_L1_error)
 
-  /* "graph.pyx":2935
+  /* "graph.pyx":2919
  *         self.C_Reset_NodeVisited()
  * 
  *         cdef Entry EntryO = self.EntryDt[EntryOrigin]             # <<<<<<<<<<<<<<
@@ -40078,7 +40078,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
   __pyx_v_EntryO = (__pyx_v_self->EntryDt[__pyx_v_EntryOrigin]);
 
-  /* "graph.pyx":2936
+  /* "graph.pyx":2920
  * 
  *         cdef Entry EntryO = self.EntryDt[EntryOrigin]
  *         cdef Entry EntryD = self.EntryDt[EntryDestination]             # <<<<<<<<<<<<<<
@@ -40087,7 +40087,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
   __pyx_v_EntryD = (__pyx_v_self->EntryDt[__pyx_v_EntryDestination]);
 
-  /* "graph.pyx":2939
+  /* "graph.pyx":2923
  *         # START
  *         cdef int cycles
  *         cycles = 1             # <<<<<<<<<<<<<<
@@ -40096,7 +40096,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
   __pyx_v_cycles = 1;
 
-  /* "graph.pyx":2941
+  /* "graph.pyx":2925
  *         cycles = 1
  *         cdef bint keepGoing
  *         keepGoing = True             # <<<<<<<<<<<<<<
@@ -40105,29 +40105,29 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
   __pyx_v_keepGoing = 1;
 
-  /* "graph.pyx":2947
+  /* "graph.pyx":2931
  *         cdef PriorityQueue_NR OpenNodes
  *         cdef NodeReach startNode
  *         OpenNodes = PriorityQueue_NR()             # <<<<<<<<<<<<<<
  * 
  *         cdef float BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5graph_PriorityQueue_NR)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2947, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5graph_PriorityQueue_NR)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2931, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_OpenNodes = ((struct __pyx_obj_5graph_PriorityQueue_NR *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "graph.pyx":2949
+  /* "graph.pyx":2933
  *         OpenNodes = PriorityQueue_NR()
  * 
  *         cdef float BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)             # <<<<<<<<<<<<<<
  * 
  *         # for Oriding edgeorigin
  */
-  __pyx_t_2 = __pyx_f_5graph_dist3d_ar(__pyx_v_EntryO.ixPt, __pyx_v_EntryD.ixPt); if (unlikely(__pyx_t_2 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 2949, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_5graph_dist3d_ar(__pyx_v_EntryO.ixPt, __pyx_v_EntryD.ixPt); if (unlikely(__pyx_t_2 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 2933, __pyx_L1_error)
   __pyx_v_BaseDist = __pyx_t_2;
 
-  /* "graph.pyx":2952
+  /* "graph.pyx":2936
  * 
  *         # for Oriding edgeorigin
  *         startNode.Nid = self.edges[EntryO.Eid].NidO             # <<<<<<<<<<<<<<
@@ -40137,7 +40137,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
   __pyx_t_3 = (__pyx_v_self->edges[__pyx_v_EntryO.Eid]).NidO;
   __pyx_v_startNode.Nid = __pyx_t_3;
 
-  /* "graph.pyx":2953
+  /* "graph.pyx":2937
  *         # for Oriding edgeorigin
  *         startNode.Nid = self.edges[EntryO.Eid].NidO
  *         startNode.Eid = EntryO.Eid             # <<<<<<<<<<<<<<
@@ -40147,7 +40147,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
   __pyx_t_3 = __pyx_v_EntryO.Eid;
   __pyx_v_startNode.Eid = __pyx_t_3;
 
-  /* "graph.pyx":2954
+  /* "graph.pyx":2938
  *         startNode.Nid = self.edges[EntryO.Eid].NidO
  *         startNode.Eid = EntryO.Eid
  *         startNode.Dist = EntryO.EDist[0]             # <<<<<<<<<<<<<<
@@ -40156,7 +40156,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
   __pyx_v_startNode.Dist = (__pyx_v_EntryO.EDist[0]);
 
-  /* "graph.pyx":2955
+  /* "graph.pyx":2939
  *         startNode.Eid = EntryO.Eid
  *         startNode.Dist = EntryO.EDist[0]
  *         startNode.NidO = -1             # <<<<<<<<<<<<<<
@@ -40165,17 +40165,17 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
   __pyx_v_startNode.NidO = -1;
 
-  /* "graph.pyx":2956
+  /* "graph.pyx":2940
  *         startNode.Dist = EntryO.EDist[0]
  *         startNode.NidO = -1
  *         startNode.Weight = EntryO.EDist[0] + (dist3d_ar(self.nodes[startNode.Nid].pt, EntryD.ixPt)-BaseDist) * DistMul             # <<<<<<<<<<<<<<
  *         self.nodeVisited[startNode.Nid] = startNode
  *         OpenNodes.push(startNode)
  */
-  __pyx_t_2 = __pyx_f_5graph_dist3d_ar((__pyx_v_self->nodes[__pyx_v_startNode.Nid]).pt, __pyx_v_EntryD.ixPt); if (unlikely(__pyx_t_2 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 2956, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_5graph_dist3d_ar((__pyx_v_self->nodes[__pyx_v_startNode.Nid]).pt, __pyx_v_EntryD.ixPt); if (unlikely(__pyx_t_2 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 2940, __pyx_L1_error)
   __pyx_v_startNode.Weight = ((__pyx_v_EntryO.EDist[0]) + ((__pyx_t_2 - __pyx_v_BaseDist) * __pyx_v_DistMul));
 
-  /* "graph.pyx":2957
+  /* "graph.pyx":2941
  *         startNode.NidO = -1
  *         startNode.Weight = EntryO.EDist[0] + (dist3d_ar(self.nodes[startNode.Nid].pt, EntryD.ixPt)-BaseDist) * DistMul
  *         self.nodeVisited[startNode.Nid] = startNode             # <<<<<<<<<<<<<<
@@ -40184,16 +40184,16 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
   (__pyx_v_self->nodeVisited[__pyx_v_startNode.Nid]) = __pyx_v_startNode;
 
-  /* "graph.pyx":2958
+  /* "graph.pyx":2942
  *         startNode.Weight = EntryO.EDist[0] + (dist3d_ar(self.nodes[startNode.Nid].pt, EntryD.ixPt)-BaseDist) * DistMul
  *         self.nodeVisited[startNode.Nid] = startNode
  *         OpenNodes.push(startNode)             # <<<<<<<<<<<<<<
  *         # for destination edgeorigin
  *         startNode.Nid = self.edges[EntryO.Eid].NidD
  */
-  ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2958, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2942, __pyx_L1_error)
 
-  /* "graph.pyx":2960
+  /* "graph.pyx":2944
  *         OpenNodes.push(startNode)
  *         # for destination edgeorigin
  *         startNode.Nid = self.edges[EntryO.Eid].NidD             # <<<<<<<<<<<<<<
@@ -40203,7 +40203,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
   __pyx_t_3 = (__pyx_v_self->edges[__pyx_v_EntryO.Eid]).NidD;
   __pyx_v_startNode.Nid = __pyx_t_3;
 
-  /* "graph.pyx":2961
+  /* "graph.pyx":2945
  *         # for destination edgeorigin
  *         startNode.Nid = self.edges[EntryO.Eid].NidD
  *         startNode.Eid = EntryO.Eid             # <<<<<<<<<<<<<<
@@ -40213,7 +40213,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
   __pyx_t_3 = __pyx_v_EntryO.Eid;
   __pyx_v_startNode.Eid = __pyx_t_3;
 
-  /* "graph.pyx":2962
+  /* "graph.pyx":2946
  *         startNode.Nid = self.edges[EntryO.Eid].NidD
  *         startNode.Eid = EntryO.Eid
  *         startNode.Dist = EntryO.EDist[1]             # <<<<<<<<<<<<<<
@@ -40222,7 +40222,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
   __pyx_v_startNode.Dist = (__pyx_v_EntryO.EDist[1]);
 
-  /* "graph.pyx":2963
+  /* "graph.pyx":2947
  *         startNode.Eid = EntryO.Eid
  *         startNode.Dist = EntryO.EDist[1]
  *         startNode.NidO = -1             # <<<<<<<<<<<<<<
@@ -40231,17 +40231,17 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
   __pyx_v_startNode.NidO = -1;
 
-  /* "graph.pyx":2964
+  /* "graph.pyx":2948
  *         startNode.Dist = EntryO.EDist[1]
  *         startNode.NidO = -1
  *         startNode.Weight = EntryO.EDist[1] + (dist3d_ar(self.nodes[startNode.Nid].pt, EntryD.ixPt)-BaseDist) * DistMul             # <<<<<<<<<<<<<<
  *         self.nodeVisited[startNode.Nid] = startNode
  *         OpenNodes.push(startNode)
  */
-  __pyx_t_2 = __pyx_f_5graph_dist3d_ar((__pyx_v_self->nodes[__pyx_v_startNode.Nid]).pt, __pyx_v_EntryD.ixPt); if (unlikely(__pyx_t_2 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 2964, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_5graph_dist3d_ar((__pyx_v_self->nodes[__pyx_v_startNode.Nid]).pt, __pyx_v_EntryD.ixPt); if (unlikely(__pyx_t_2 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 2948, __pyx_L1_error)
   __pyx_v_startNode.Weight = ((__pyx_v_EntryO.EDist[1]) + ((__pyx_t_2 - __pyx_v_BaseDist) * __pyx_v_DistMul));
 
-  /* "graph.pyx":2965
+  /* "graph.pyx":2949
  *         startNode.NidO = -1
  *         startNode.Weight = EntryO.EDist[1] + (dist3d_ar(self.nodes[startNode.Nid].pt, EntryD.ixPt)-BaseDist) * DistMul
  *         self.nodeVisited[startNode.Nid] = startNode             # <<<<<<<<<<<<<<
@@ -40250,16 +40250,16 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
   (__pyx_v_self->nodeVisited[__pyx_v_startNode.Nid]) = __pyx_v_startNode;
 
-  /* "graph.pyx":2966
+  /* "graph.pyx":2950
  *         startNode.Weight = EntryO.EDist[1] + (dist3d_ar(self.nodes[startNode.Nid].pt, EntryD.ixPt)-BaseDist) * DistMul
  *         self.nodeVisited[startNode.Nid] = startNode
  *         OpenNodes.push(startNode)             # <<<<<<<<<<<<<<
  * 
  *         cdef NodeReach NodeReach_T
  */
-  ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2966, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2950, __pyx_L1_error)
 
-  /* "graph.pyx":2978
+  /* "graph.pyx":2962
  * 
  *         # check distmin
  *         if DistMin == -1.0:             # <<<<<<<<<<<<<<
@@ -40269,40 +40269,40 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
   __pyx_t_4 = (__pyx_v_DistMin == -1.0);
   if (__pyx_t_4) {
 
-    /* "graph.pyx":2979
+    /* "graph.pyx":2963
  *         # check distmin
  *         if DistMin == -1.0:
  *             DistMin = self.PathDist_AStar_VirtuEntry(EntryOrigin,             # <<<<<<<<<<<<<<
  *                                                     EntryDestination,
  *                                                     LimDist, LimCycle, DistMul)
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_PathDist_AStar_VirtuEntry); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 2979, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_PathDist_AStar_VirtuEntry); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 2963, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_EntryOrigin); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 2979, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_EntryOrigin); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 2963, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
 
-    /* "graph.pyx":2980
+    /* "graph.pyx":2964
  *         if DistMin == -1.0:
  *             DistMin = self.PathDist_AStar_VirtuEntry(EntryOrigin,
  *                                                     EntryDestination,             # <<<<<<<<<<<<<<
  *                                                     LimDist, LimCycle, DistMul)
  *             if DistMin == -1.0:
  */
-    __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_EntryDestination); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 2980, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_EntryDestination); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 2964, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
 
-    /* "graph.pyx":2981
+    /* "graph.pyx":2965
  *             DistMin = self.PathDist_AStar_VirtuEntry(EntryOrigin,
  *                                                     EntryDestination,
  *                                                     LimDist, LimCycle, DistMul)             # <<<<<<<<<<<<<<
  *             if DistMin == -1.0:
  *                 return
  */
-    __pyx_t_8 = PyFloat_FromDouble(__pyx_v_LimDist); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 2981, __pyx_L1_error)
+    __pyx_t_8 = PyFloat_FromDouble(__pyx_v_LimDist); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 2965, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = __Pyx_PyInt_From_int(__pyx_v_LimCycle); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 2981, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyInt_From_int(__pyx_v_LimCycle); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 2965, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_10 = PyFloat_FromDouble(__pyx_v_DistMul); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 2981, __pyx_L1_error)
+    __pyx_t_10 = PyFloat_FromDouble(__pyx_v_DistMul); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 2965, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __pyx_t_11 = NULL;
     __pyx_t_3 = 0;
@@ -40327,23 +40327,23 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2979, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2963, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
 
-    /* "graph.pyx":2979
+    /* "graph.pyx":2963
  *         # check distmin
  *         if DistMin == -1.0:
  *             DistMin = self.PathDist_AStar_VirtuEntry(EntryOrigin,             # <<<<<<<<<<<<<<
  *                                                     EntryDestination,
  *                                                     LimDist, LimCycle, DistMul)
  */
-    __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 2979, __pyx_L1_error)
+    __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 2963, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_DistMin = __pyx_t_2;
 
-    /* "graph.pyx":2982
+    /* "graph.pyx":2966
  *                                                     EntryDestination,
  *                                                     LimDist, LimCycle, DistMul)
  *             if DistMin == -1.0:             # <<<<<<<<<<<<<<
@@ -40353,7 +40353,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
     __pyx_t_4 = (__pyx_v_DistMin == -1.0);
     if (__pyx_t_4) {
 
-      /* "graph.pyx":2983
+      /* "graph.pyx":2967
  *                                                     LimDist, LimCycle, DistMul)
  *             if DistMin == -1.0:
  *                 return             # <<<<<<<<<<<<<<
@@ -40362,7 +40362,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
       goto __pyx_L0;
 
-      /* "graph.pyx":2982
+      /* "graph.pyx":2966
  *                                                     EntryDestination,
  *                                                     LimDist, LimCycle, DistMul)
  *             if DistMin == -1.0:             # <<<<<<<<<<<<<<
@@ -40371,7 +40371,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
     }
 
-    /* "graph.pyx":2978
+    /* "graph.pyx":2962
  * 
  *         # check distmin
  *         if DistMin == -1.0:             # <<<<<<<<<<<<<<
@@ -40380,7 +40380,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
   }
 
-  /* "graph.pyx":2985
+  /* "graph.pyx":2969
  *                 return
  * 
  *         DistMin = DistMin * DistMulLim             # <<<<<<<<<<<<<<
@@ -40389,7 +40389,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
   __pyx_v_DistMin = (__pyx_v_DistMin * __pyx_v_DistMulLim);
 
-  /* "graph.pyx":2987
+  /* "graph.pyx":2971
  *         DistMin = DistMin * DistMulLim
  * 
  *         while keepGoing:             # <<<<<<<<<<<<<<
@@ -40399,7 +40399,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
   while (1) {
     if (!__pyx_v_keepGoing) break;
 
-    /* "graph.pyx":2988
+    /* "graph.pyx":2972
  * 
  *         while keepGoing:
  *             cycles += 1             # <<<<<<<<<<<<<<
@@ -40408,17 +40408,17 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
     __pyx_v_cycles = (__pyx_v_cycles + 1);
 
-    /* "graph.pyx":2990
+    /* "graph.pyx":2974
  *             cycles += 1
  *             # check paths from OpenNodes
  *             NodeCheck = OpenNodes.pop_top()             # <<<<<<<<<<<<<<
  * 
  *             for i in range(self.EidN):
  */
-    __pyx_t_12 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->pop_top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2990, __pyx_L1_error)
+    __pyx_t_12 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->pop_top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 2974, __pyx_L1_error)
     __pyx_v_NodeCheck = __pyx_t_12;
 
-    /* "graph.pyx":2992
+    /* "graph.pyx":2976
  *             NodeCheck = OpenNodes.pop_top()
  * 
  *             for i in range(self.EidN):             # <<<<<<<<<<<<<<
@@ -40430,7 +40430,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
     for (__pyx_t_14 = 0; __pyx_t_14 < __pyx_t_13; __pyx_t_14+=1) {
       __pyx_v_i = __pyx_t_14;
 
-      /* "graph.pyx":2993
+      /* "graph.pyx":2977
  * 
  *             for i in range(self.EidN):
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]             # <<<<<<<<<<<<<<
@@ -40439,7 +40439,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
       __pyx_v_Eid = ((__pyx_v_self->nodes[__pyx_v_NodeCheck.Nid]).Eid[__pyx_v_i]);
 
-      /* "graph.pyx":2994
+      /* "graph.pyx":2978
  *             for i in range(self.EidN):
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                 if Eid == -1:             # <<<<<<<<<<<<<<
@@ -40449,7 +40449,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
       __pyx_t_4 = (__pyx_v_Eid == -1L);
       if (__pyx_t_4) {
 
-        /* "graph.pyx":2995
+        /* "graph.pyx":2979
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                 if Eid == -1:
  *                     break             # <<<<<<<<<<<<<<
@@ -40458,7 +40458,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
         goto __pyx_L8_break;
 
-        /* "graph.pyx":2994
+        /* "graph.pyx":2978
  *             for i in range(self.EidN):
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                 if Eid == -1:             # <<<<<<<<<<<<<<
@@ -40467,7 +40467,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
       }
 
-      /* "graph.pyx":2996
+      /* "graph.pyx":2980
  *                 if Eid == -1:
  *                     break
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:             # <<<<<<<<<<<<<<
@@ -40485,7 +40485,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
       __pyx_L11_bool_binop_done:;
       if (__pyx_t_4) {
 
-        /* "graph.pyx":2997
+        /* "graph.pyx":2981
  *                     break
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:
  *                     continue             # <<<<<<<<<<<<<<
@@ -40494,7 +40494,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
         goto __pyx_L7_continue;
 
-        /* "graph.pyx":2996
+        /* "graph.pyx":2980
  *                 if Eid == -1:
  *                     break
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:             # <<<<<<<<<<<<<<
@@ -40503,7 +40503,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
       }
 
-      /* "graph.pyx":3000
+      /* "graph.pyx":2984
  *                 # possible new path
  *                 # new node?
  *                 EdgeC = self.edges[Eid]             # <<<<<<<<<<<<<<
@@ -40512,7 +40512,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
       __pyx_v_EdgeC = (__pyx_v_self->edges[__pyx_v_Eid]);
 
-      /* "graph.pyx":3001
+      /* "graph.pyx":2985
  *                 # new node?
  *                 EdgeC = self.edges[Eid]
  *                 if not ReverseEdge:             # <<<<<<<<<<<<<<
@@ -40522,7 +40522,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
       __pyx_t_4 = (!__pyx_v_ReverseEdge);
       if (__pyx_t_4) {
 
-        /* "graph.pyx":3002
+        /* "graph.pyx":2986
  *                 EdgeC = self.edges[Eid]
  *                 if not ReverseEdge:
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -40532,7 +40532,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
         __pyx_t_4 = (__pyx_v_EdgeC.NidO == __pyx_v_NodeCheck.Nid);
         if (__pyx_t_4) {
 
-          /* "graph.pyx":3003
+          /* "graph.pyx":2987
  *                 if not ReverseEdge:
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         len = EdgeC.len             # <<<<<<<<<<<<<<
@@ -40542,7 +40542,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
           __pyx_t_2 = __pyx_v_EdgeC.len;
           __pyx_v_len = __pyx_t_2;
 
-          /* "graph.pyx":3004
+          /* "graph.pyx":2988
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         len = EdgeC.len
  *                         NidF = EdgeC.NidD             # <<<<<<<<<<<<<<
@@ -40552,7 +40552,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
           __pyx_t_16 = __pyx_v_EdgeC.NidD;
           __pyx_v_NidF = __pyx_t_16;
 
-          /* "graph.pyx":3002
+          /* "graph.pyx":2986
  *                 EdgeC = self.edges[Eid]
  *                 if not ReverseEdge:
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -40562,7 +40562,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
           goto __pyx_L14;
         }
 
-        /* "graph.pyx":3006
+        /* "graph.pyx":2990
  *                         NidF = EdgeC.NidD
  *                     else :
  *                         len = EdgeC.lenR             # <<<<<<<<<<<<<<
@@ -40573,7 +40573,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
           __pyx_t_2 = __pyx_v_EdgeC.lenR;
           __pyx_v_len = __pyx_t_2;
 
-          /* "graph.pyx":3007
+          /* "graph.pyx":2991
  *                     else :
  *                         len = EdgeC.lenR
  *                         NidF = EdgeC.NidO             # <<<<<<<<<<<<<<
@@ -40585,7 +40585,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
         }
         __pyx_L14:;
 
-        /* "graph.pyx":3001
+        /* "graph.pyx":2985
  *                 # new node?
  *                 EdgeC = self.edges[Eid]
  *                 if not ReverseEdge:             # <<<<<<<<<<<<<<
@@ -40595,7 +40595,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
         goto __pyx_L13;
       }
 
-      /* "graph.pyx":3009
+      /* "graph.pyx":2993
  *                         NidF = EdgeC.NidO
  *                 else:
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -40606,7 +40606,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
         __pyx_t_4 = (__pyx_v_EdgeC.NidO == __pyx_v_NodeCheck.Nid);
         if (__pyx_t_4) {
 
-          /* "graph.pyx":3010
+          /* "graph.pyx":2994
  *                 else:
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         len = EdgeC.lenR             # <<<<<<<<<<<<<<
@@ -40616,7 +40616,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
           __pyx_t_2 = __pyx_v_EdgeC.lenR;
           __pyx_v_len = __pyx_t_2;
 
-          /* "graph.pyx":3011
+          /* "graph.pyx":2995
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         len = EdgeC.lenR
  *                         NidF = EdgeC.NidD             # <<<<<<<<<<<<<<
@@ -40626,7 +40626,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
           __pyx_t_16 = __pyx_v_EdgeC.NidD;
           __pyx_v_NidF = __pyx_t_16;
 
-          /* "graph.pyx":3009
+          /* "graph.pyx":2993
  *                         NidF = EdgeC.NidO
  *                 else:
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -40636,7 +40636,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
           goto __pyx_L15;
         }
 
-        /* "graph.pyx":3013
+        /* "graph.pyx":2997
  *                         NidF = EdgeC.NidD
  *                     else :
  *                         len = EdgeC.len             # <<<<<<<<<<<<<<
@@ -40647,7 +40647,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
           __pyx_t_2 = __pyx_v_EdgeC.len;
           __pyx_v_len = __pyx_t_2;
 
-          /* "graph.pyx":3014
+          /* "graph.pyx":2998
  *                     else :
  *                         len = EdgeC.len
  *                         NidF = EdgeC.NidO             # <<<<<<<<<<<<<<
@@ -40661,7 +40661,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
       }
       __pyx_L13:;
 
-      /* "graph.pyx":3016
+      /* "graph.pyx":3000
  *                         NidF = EdgeC.NidO
  * 
  *                 len += NodeCheck.Dist + self.nodes[NidF].c             # <<<<<<<<<<<<<<
@@ -40670,17 +40670,17 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
       __pyx_v_len = (__pyx_v_len + (__pyx_v_NodeCheck.Dist + (__pyx_v_self->nodes[__pyx_v_NidF]).c));
 
-      /* "graph.pyx":3017
+      /* "graph.pyx":3001
  * 
  *                 len += NodeCheck.Dist + self.nodes[NidF].c
  *                 DistC_Target = dist3d_ar(self.nodes[NidF].pt, EntryD.ixPt)             # <<<<<<<<<<<<<<
  * 
  *                 if (len + DistC_Target*EdgeCmin) > DistMin: # check if there is still a propable remaining distance to target
  */
-      __pyx_t_2 = __pyx_f_5graph_dist3d_ar((__pyx_v_self->nodes[__pyx_v_NidF]).pt, __pyx_v_EntryD.ixPt); if (unlikely(__pyx_t_2 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3017, __pyx_L1_error)
+      __pyx_t_2 = __pyx_f_5graph_dist3d_ar((__pyx_v_self->nodes[__pyx_v_NidF]).pt, __pyx_v_EntryD.ixPt); if (unlikely(__pyx_t_2 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3001, __pyx_L1_error)
       __pyx_v_DistC_Target = __pyx_t_2;
 
-      /* "graph.pyx":3019
+      /* "graph.pyx":3003
  *                 DistC_Target = dist3d_ar(self.nodes[NidF].pt, EntryD.ixPt)
  * 
  *                 if (len + DistC_Target*EdgeCmin) > DistMin: # check if there is still a propable remaining distance to target             # <<<<<<<<<<<<<<
@@ -40690,7 +40690,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
       __pyx_t_4 = ((__pyx_v_len + (__pyx_v_DistC_Target * __pyx_v_EdgeCmin)) > __pyx_v_DistMin);
       if (__pyx_t_4) {
 
-        /* "graph.pyx":3020
+        /* "graph.pyx":3004
  * 
  *                 if (len + DistC_Target*EdgeCmin) > DistMin: # check if there is still a propable remaining distance to target
  *                     continue             # <<<<<<<<<<<<<<
@@ -40699,7 +40699,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
         goto __pyx_L7_continue;
 
-        /* "graph.pyx":3019
+        /* "graph.pyx":3003
  *                 DistC_Target = dist3d_ar(self.nodes[NidF].pt, EntryD.ixPt)
  * 
  *                 if (len + DistC_Target*EdgeCmin) > DistMin: # check if there is still a propable remaining distance to target             # <<<<<<<<<<<<<<
@@ -40708,7 +40708,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
       }
 
-      /* "graph.pyx":3022
+      /* "graph.pyx":3006
  *                     continue
  * 
  *                 NodeReach_T.Nid = NidF             # <<<<<<<<<<<<<<
@@ -40717,7 +40717,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
       __pyx_v_NodeReach_T.Nid = __pyx_v_NidF;
 
-      /* "graph.pyx":3023
+      /* "graph.pyx":3007
  * 
  *                 NodeReach_T.Nid = NidF
  *                 NodeReach_T.Dist = len             # <<<<<<<<<<<<<<
@@ -40726,7 +40726,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
       __pyx_v_NodeReach_T.Dist = __pyx_v_len;
 
-      /* "graph.pyx":3024
+      /* "graph.pyx":3008
  *                 NodeReach_T.Nid = NidF
  *                 NodeReach_T.Dist = len
  *                 NodeReach_T.Eid = Eid             # <<<<<<<<<<<<<<
@@ -40735,7 +40735,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
       __pyx_v_NodeReach_T.Eid = __pyx_v_Eid;
 
-      /* "graph.pyx":3025
+      /* "graph.pyx":3009
  *                 NodeReach_T.Dist = len
  *                 NodeReach_T.Eid = Eid
  *                 NodeReach_T.NidO = NodeCheck.Nid             # <<<<<<<<<<<<<<
@@ -40745,7 +40745,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
       __pyx_t_16 = __pyx_v_NodeCheck.Nid;
       __pyx_v_NodeReach_T.NidO = __pyx_t_16;
 
-      /* "graph.pyx":3026
+      /* "graph.pyx":3010
  *                 NodeReach_T.Eid = Eid
  *                 NodeReach_T.NidO = NodeCheck.Nid
  *                 NodeReach_T.Weight = len + (DistC_Target-BaseDist) * DistMul             # <<<<<<<<<<<<<<
@@ -40754,7 +40754,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
       __pyx_v_NodeReach_T.Weight = (__pyx_v_len + ((__pyx_v_DistC_Target - __pyx_v_BaseDist) * __pyx_v_DistMul));
 
-      /* "graph.pyx":3029
+      /* "graph.pyx":3013
  * 
  *                 # check to visited nodes
  *                 if self.nodeVisited[NidF].Nid == -1 or self.nodeVisited[NidF].Dist > len: # if node havent been visited             # <<<<<<<<<<<<<<
@@ -40772,7 +40772,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
       __pyx_L18_bool_binop_done:;
       if (__pyx_t_4) {
 
-        /* "graph.pyx":3030
+        /* "graph.pyx":3014
  *                 # check to visited nodes
  *                 if self.nodeVisited[NidF].Nid == -1 or self.nodeVisited[NidF].Dist > len: # if node havent been visited
  *                     self.nodeVisited[NidF] = NodeReach_T             # <<<<<<<<<<<<<<
@@ -40781,16 +40781,16 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
         (__pyx_v_self->nodeVisited[__pyx_v_NidF]) = __pyx_v_NodeReach_T;
 
-        /* "graph.pyx":3031
+        /* "graph.pyx":3015
  *                 if self.nodeVisited[NidF].Nid == -1 or self.nodeVisited[NidF].Dist > len: # if node havent been visited
  *                     self.nodeVisited[NidF] = NodeReach_T
  *                     OpenNodes.push(NodeReach_T)             # <<<<<<<<<<<<<<
  *             if OpenNodes.empty():
  *                 break
  */
-        ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3031, __pyx_L1_error)
+        ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3015, __pyx_L1_error)
 
-        /* "graph.pyx":3029
+        /* "graph.pyx":3013
  * 
  *                 # check to visited nodes
  *                 if self.nodeVisited[NidF].Nid == -1 or self.nodeVisited[NidF].Dist > len: # if node havent been visited             # <<<<<<<<<<<<<<
@@ -40802,17 +40802,17 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
     }
     __pyx_L8_break:;
 
-    /* "graph.pyx":3032
+    /* "graph.pyx":3016
  *                     self.nodeVisited[NidF] = NodeReach_T
  *                     OpenNodes.push(NodeReach_T)
  *             if OpenNodes.empty():             # <<<<<<<<<<<<<<
  *                 break
  *             elif cycles > LimCycle:
  */
-    __pyx_t_4 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->empty(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3032, __pyx_L1_error)
+    __pyx_t_4 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->empty(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3016, __pyx_L1_error)
     if (__pyx_t_4) {
 
-      /* "graph.pyx":3033
+      /* "graph.pyx":3017
  *                     OpenNodes.push(NodeReach_T)
  *             if OpenNodes.empty():
  *                 break             # <<<<<<<<<<<<<<
@@ -40821,7 +40821,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
       goto __pyx_L6_break;
 
-      /* "graph.pyx":3032
+      /* "graph.pyx":3016
  *                     self.nodeVisited[NidF] = NodeReach_T
  *                     OpenNodes.push(NodeReach_T)
  *             if OpenNodes.empty():             # <<<<<<<<<<<<<<
@@ -40830,7 +40830,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
     }
 
-    /* "graph.pyx":3034
+    /* "graph.pyx":3018
  *             if OpenNodes.empty():
  *                 break
  *             elif cycles > LimCycle:             # <<<<<<<<<<<<<<
@@ -40840,7 +40840,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
     __pyx_t_4 = (__pyx_v_cycles > __pyx_v_LimCycle);
     if (__pyx_t_4) {
 
-      /* "graph.pyx":3035
+      /* "graph.pyx":3019
  *                 break
  *             elif cycles > LimCycle:
  *                 break             # <<<<<<<<<<<<<<
@@ -40849,7 +40849,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
       goto __pyx_L6_break;
 
-      /* "graph.pyx":3034
+      /* "graph.pyx":3018
  *             if OpenNodes.empty():
  *                 break
  *             elif cycles > LimCycle:             # <<<<<<<<<<<<<<
@@ -40860,7 +40860,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
   }
   __pyx_L6_break:;
 
-  /* "graph.pyx":3036
+  /* "graph.pyx":3020
  *             elif cycles > LimCycle:
  *                 break
  *         return             # <<<<<<<<<<<<<<
@@ -40869,7 +40869,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
  */
   goto __pyx_L0;
 
-  /* "graph.pyx":2887
+  /* "graph.pyx":2871
  *         return
  * 
  *     cdef void C_NodeMap_AStar_VirtuEntry(             # <<<<<<<<<<<<<<
@@ -40893,7 +40893,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_AStar_VirtuEntry(struct __pyx_obj_
   __Pyx_RefNannyFinishContext();
 }
 
-/* "graph.pyx":3038
+/* "graph.pyx":3022
  *         return
  * 
  *     cdef void C_NodeMap_VirtuEntry(             # <<<<<<<<<<<<<<
@@ -40944,16 +40944,16 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
     }
   }
 
-  /* "graph.pyx":3080
+  /* "graph.pyx":3064
  *         """
  *         # cdef NodeReach* nodeMapped = <NodeReach*>malloc(self.Nnodes * sizeof(NodeReach))
  *         self.C_Reset_NodeVisited()             # <<<<<<<<<<<<<<
  *         # for n in range(self.Nnodes):
  *         #     nodeMapped[n].Nid = -1
  */
-  __pyx_f_5graph_7GraphCy_C_Reset_NodeVisited(__pyx_v_self, NULL); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3080, __pyx_L1_error)
+  __pyx_f_5graph_7GraphCy_C_Reset_NodeVisited(__pyx_v_self, NULL); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3064, __pyx_L1_error)
 
-  /* "graph.pyx":3086
+  /* "graph.pyx":3070
  *         # START
  *         cdef int cycles
  *         cycles = 1             # <<<<<<<<<<<<<<
@@ -40962,7 +40962,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
   __pyx_v_cycles = 1;
 
-  /* "graph.pyx":3088
+  /* "graph.pyx":3072
  *         cycles = 1
  *         cdef bint keepGoing
  *         keepGoing = True             # <<<<<<<<<<<<<<
@@ -40971,19 +40971,19 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
   __pyx_v_keepGoing = 1;
 
-  /* "graph.pyx":3092
+  /* "graph.pyx":3076
  *         cdef PriorityQueue_NR OpenNodes
  *         cdef NodeReach startNode
  *         OpenNodes = PriorityQueue_NR()             # <<<<<<<<<<<<<<
  *         cdef Entry EntryO = self.EntryDt[EntryOrigin]
  *         cdef int EidO = EntryO.Eid
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5graph_PriorityQueue_NR)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3092, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5graph_PriorityQueue_NR)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3076, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_OpenNodes = ((struct __pyx_obj_5graph_PriorityQueue_NR *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "graph.pyx":3093
+  /* "graph.pyx":3077
  *         cdef NodeReach startNode
  *         OpenNodes = PriorityQueue_NR()
  *         cdef Entry EntryO = self.EntryDt[EntryOrigin]             # <<<<<<<<<<<<<<
@@ -40992,7 +40992,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
   __pyx_v_EntryO = (__pyx_v_self->EntryDt[__pyx_v_EntryOrigin]);
 
-  /* "graph.pyx":3094
+  /* "graph.pyx":3078
  *         OpenNodes = PriorityQueue_NR()
  *         cdef Entry EntryO = self.EntryDt[EntryOrigin]
  *         cdef int EidO = EntryO.Eid             # <<<<<<<<<<<<<<
@@ -41002,7 +41002,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
   __pyx_t_2 = __pyx_v_EntryO.Eid;
   __pyx_v_EidO = __pyx_t_2;
 
-  /* "graph.pyx":3097
+  /* "graph.pyx":3081
  * 
  *         # for Oriding edgeorigin
  *         startNode.Nid = self.edges[EidO].NidO             # <<<<<<<<<<<<<<
@@ -41012,7 +41012,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
   __pyx_t_2 = (__pyx_v_self->edges[__pyx_v_EidO]).NidO;
   __pyx_v_startNode.Nid = __pyx_t_2;
 
-  /* "graph.pyx":3098
+  /* "graph.pyx":3082
  *         # for Oriding edgeorigin
  *         startNode.Nid = self.edges[EidO].NidO
  *         startNode.Eid = EidO             # <<<<<<<<<<<<<<
@@ -41021,7 +41021,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
   __pyx_v_startNode.Eid = __pyx_v_EidO;
 
-  /* "graph.pyx":3099
+  /* "graph.pyx":3083
  *         startNode.Nid = self.edges[EidO].NidO
  *         startNode.Eid = EidO
  *         startNode.Dist = EntryO.EDist[0]             # <<<<<<<<<<<<<<
@@ -41030,7 +41030,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
   __pyx_v_startNode.Dist = (__pyx_v_EntryO.EDist[0]);
 
-  /* "graph.pyx":3100
+  /* "graph.pyx":3084
  *         startNode.Eid = EidO
  *         startNode.Dist = EntryO.EDist[0]
  *         startNode.NidO = -1             # <<<<<<<<<<<<<<
@@ -41039,7 +41039,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
   __pyx_v_startNode.NidO = -1;
 
-  /* "graph.pyx":3101
+  /* "graph.pyx":3085
  *         startNode.Dist = EntryO.EDist[0]
  *         startNode.NidO = -1
  *         startNode.Weight = EntryO.EDist[0]             # <<<<<<<<<<<<<<
@@ -41048,7 +41048,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
   __pyx_v_startNode.Weight = (__pyx_v_EntryO.EDist[0]);
 
-  /* "graph.pyx":3102
+  /* "graph.pyx":3086
  *         startNode.NidO = -1
  *         startNode.Weight = EntryO.EDist[0]
  *         self.nodeVisited[startNode.Nid] = startNode             # <<<<<<<<<<<<<<
@@ -41057,16 +41057,16 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
   (__pyx_v_self->nodeVisited[__pyx_v_startNode.Nid]) = __pyx_v_startNode;
 
-  /* "graph.pyx":3103
+  /* "graph.pyx":3087
  *         startNode.Weight = EntryO.EDist[0]
  *         self.nodeVisited[startNode.Nid] = startNode
  *         OpenNodes.push(startNode)             # <<<<<<<<<<<<<<
  *         # for destination edgeorigin
  *         startNode.Nid = self.edges[EidO].NidD
  */
-  ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3103, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3087, __pyx_L1_error)
 
-  /* "graph.pyx":3105
+  /* "graph.pyx":3089
  *         OpenNodes.push(startNode)
  *         # for destination edgeorigin
  *         startNode.Nid = self.edges[EidO].NidD             # <<<<<<<<<<<<<<
@@ -41076,7 +41076,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
   __pyx_t_2 = (__pyx_v_self->edges[__pyx_v_EidO]).NidD;
   __pyx_v_startNode.Nid = __pyx_t_2;
 
-  /* "graph.pyx":3106
+  /* "graph.pyx":3090
  *         # for destination edgeorigin
  *         startNode.Nid = self.edges[EidO].NidD
  *         startNode.Eid = EidO             # <<<<<<<<<<<<<<
@@ -41085,7 +41085,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
   __pyx_v_startNode.Eid = __pyx_v_EidO;
 
-  /* "graph.pyx":3107
+  /* "graph.pyx":3091
  *         startNode.Nid = self.edges[EidO].NidD
  *         startNode.Eid = EidO
  *         startNode.Dist = EntryO.EDist[1]             # <<<<<<<<<<<<<<
@@ -41094,7 +41094,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
   __pyx_v_startNode.Dist = (__pyx_v_EntryO.EDist[1]);
 
-  /* "graph.pyx":3108
+  /* "graph.pyx":3092
  *         startNode.Eid = EidO
  *         startNode.Dist = EntryO.EDist[1]
  *         startNode.NidO = -1             # <<<<<<<<<<<<<<
@@ -41103,7 +41103,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
   __pyx_v_startNode.NidO = -1;
 
-  /* "graph.pyx":3109
+  /* "graph.pyx":3093
  *         startNode.Dist = EntryO.EDist[1]
  *         startNode.NidO = -1
  *         startNode.Weight = EntryO.EDist[1]             # <<<<<<<<<<<<<<
@@ -41112,7 +41112,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
   __pyx_v_startNode.Weight = (__pyx_v_EntryO.EDist[1]);
 
-  /* "graph.pyx":3110
+  /* "graph.pyx":3094
  *         startNode.NidO = -1
  *         startNode.Weight = EntryO.EDist[1]
  *         self.nodeVisited[startNode.Nid] = startNode             # <<<<<<<<<<<<<<
@@ -41121,16 +41121,16 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
   (__pyx_v_self->nodeVisited[__pyx_v_startNode.Nid]) = __pyx_v_startNode;
 
-  /* "graph.pyx":3111
+  /* "graph.pyx":3095
  *         startNode.Weight = EntryO.EDist[1]
  *         self.nodeVisited[startNode.Nid] = startNode
  *         OpenNodes.push(startNode)             # <<<<<<<<<<<<<<
  * 
  *         cdef NodeReach NodeReach_T
  */
-  ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3111, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3095, __pyx_L1_error)
 
-  /* "graph.pyx":3122
+  /* "graph.pyx":3106
  *         cdef int i
  * 
  *         while keepGoing:             # <<<<<<<<<<<<<<
@@ -41140,7 +41140,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
   while (1) {
     if (!__pyx_v_keepGoing) break;
 
-    /* "graph.pyx":3123
+    /* "graph.pyx":3107
  * 
  *         while keepGoing:
  *             cycles += 1             # <<<<<<<<<<<<<<
@@ -41149,17 +41149,17 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
     __pyx_v_cycles = (__pyx_v_cycles + 1);
 
-    /* "graph.pyx":3125
+    /* "graph.pyx":3109
  *             cycles += 1
  *             # check paths from OpenNodes
  *             NodeCheck = OpenNodes.pop_top()             # <<<<<<<<<<<<<<
  * 
  *             for i in range(self.EidN):
  */
-    __pyx_t_3 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->pop_top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3125, __pyx_L1_error)
+    __pyx_t_3 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->pop_top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3109, __pyx_L1_error)
     __pyx_v_NodeCheck = __pyx_t_3;
 
-    /* "graph.pyx":3127
+    /* "graph.pyx":3111
  *             NodeCheck = OpenNodes.pop_top()
  * 
  *             for i in range(self.EidN):             # <<<<<<<<<<<<<<
@@ -41171,7 +41171,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
     for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
       __pyx_v_i = __pyx_t_5;
 
-      /* "graph.pyx":3128
+      /* "graph.pyx":3112
  * 
  *             for i in range(self.EidN):
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]             # <<<<<<<<<<<<<<
@@ -41180,7 +41180,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
       __pyx_v_Eid = ((__pyx_v_self->nodes[__pyx_v_NodeCheck.Nid]).Eid[__pyx_v_i]);
 
-      /* "graph.pyx":3129
+      /* "graph.pyx":3113
  *             for i in range(self.EidN):
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                 if Eid == -1:             # <<<<<<<<<<<<<<
@@ -41190,7 +41190,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
       __pyx_t_6 = (__pyx_v_Eid == -1L);
       if (__pyx_t_6) {
 
-        /* "graph.pyx":3130
+        /* "graph.pyx":3114
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                 if Eid == -1:
  *                     break             # <<<<<<<<<<<<<<
@@ -41199,7 +41199,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
         goto __pyx_L6_break;
 
-        /* "graph.pyx":3129
+        /* "graph.pyx":3113
  *             for i in range(self.EidN):
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                 if Eid == -1:             # <<<<<<<<<<<<<<
@@ -41208,7 +41208,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
       }
 
-      /* "graph.pyx":3131
+      /* "graph.pyx":3115
  *                 if Eid == -1:
  *                     break
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:             # <<<<<<<<<<<<<<
@@ -41226,7 +41226,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
       __pyx_L9_bool_binop_done:;
       if (__pyx_t_6) {
 
-        /* "graph.pyx":3132
+        /* "graph.pyx":3116
  *                     break
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:
  *                     continue             # <<<<<<<<<<<<<<
@@ -41235,7 +41235,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
         goto __pyx_L5_continue;
 
-        /* "graph.pyx":3131
+        /* "graph.pyx":3115
  *                 if Eid == -1:
  *                     break
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:             # <<<<<<<<<<<<<<
@@ -41244,7 +41244,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
       }
 
-      /* "graph.pyx":3135
+      /* "graph.pyx":3119
  *                 # possible new path
  *                 # new node?
  *                 EdgeC = self.edges[Eid]             # <<<<<<<<<<<<<<
@@ -41253,7 +41253,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
       __pyx_v_EdgeC = (__pyx_v_self->edges[__pyx_v_Eid]);
 
-      /* "graph.pyx":3136
+      /* "graph.pyx":3120
  *                 # new node?
  *                 EdgeC = self.edges[Eid]
  *                 if not ReverseEdge:             # <<<<<<<<<<<<<<
@@ -41263,7 +41263,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
       __pyx_t_6 = (!__pyx_v_ReverseEdge);
       if (__pyx_t_6) {
 
-        /* "graph.pyx":3137
+        /* "graph.pyx":3121
  *                 EdgeC = self.edges[Eid]
  *                 if not ReverseEdge:
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -41273,7 +41273,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
         __pyx_t_6 = (__pyx_v_EdgeC.NidO == __pyx_v_NodeCheck.Nid);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3138
+          /* "graph.pyx":3122
  *                 if not ReverseEdge:
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         len = EdgeC.len             # <<<<<<<<<<<<<<
@@ -41283,7 +41283,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
           __pyx_t_8 = __pyx_v_EdgeC.len;
           __pyx_v_len = __pyx_t_8;
 
-          /* "graph.pyx":3139
+          /* "graph.pyx":3123
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         len = EdgeC.len
  *                         NidF = EdgeC.NidD             # <<<<<<<<<<<<<<
@@ -41293,7 +41293,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
           __pyx_t_9 = __pyx_v_EdgeC.NidD;
           __pyx_v_NidF = __pyx_t_9;
 
-          /* "graph.pyx":3137
+          /* "graph.pyx":3121
  *                 EdgeC = self.edges[Eid]
  *                 if not ReverseEdge:
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -41303,7 +41303,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
           goto __pyx_L12;
         }
 
-        /* "graph.pyx":3141
+        /* "graph.pyx":3125
  *                         NidF = EdgeC.NidD
  *                     else :
  *                         len = EdgeC.lenR             # <<<<<<<<<<<<<<
@@ -41314,7 +41314,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
           __pyx_t_8 = __pyx_v_EdgeC.lenR;
           __pyx_v_len = __pyx_t_8;
 
-          /* "graph.pyx":3142
+          /* "graph.pyx":3126
  *                     else :
  *                         len = EdgeC.lenR
  *                         NidF = EdgeC.NidO             # <<<<<<<<<<<<<<
@@ -41326,7 +41326,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
         }
         __pyx_L12:;
 
-        /* "graph.pyx":3136
+        /* "graph.pyx":3120
  *                 # new node?
  *                 EdgeC = self.edges[Eid]
  *                 if not ReverseEdge:             # <<<<<<<<<<<<<<
@@ -41336,7 +41336,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
         goto __pyx_L11;
       }
 
-      /* "graph.pyx":3144
+      /* "graph.pyx":3128
  *                         NidF = EdgeC.NidO
  *                 else:
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -41347,7 +41347,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
         __pyx_t_6 = (__pyx_v_EdgeC.NidO == __pyx_v_NodeCheck.Nid);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3145
+          /* "graph.pyx":3129
  *                 else:
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         len = EdgeC.lenR             # <<<<<<<<<<<<<<
@@ -41357,7 +41357,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
           __pyx_t_8 = __pyx_v_EdgeC.lenR;
           __pyx_v_len = __pyx_t_8;
 
-          /* "graph.pyx":3146
+          /* "graph.pyx":3130
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         len = EdgeC.lenR
  *                         NidF = EdgeC.NidD             # <<<<<<<<<<<<<<
@@ -41367,7 +41367,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
           __pyx_t_9 = __pyx_v_EdgeC.NidD;
           __pyx_v_NidF = __pyx_t_9;
 
-          /* "graph.pyx":3144
+          /* "graph.pyx":3128
  *                         NidF = EdgeC.NidO
  *                 else:
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -41377,7 +41377,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
           goto __pyx_L13;
         }
 
-        /* "graph.pyx":3148
+        /* "graph.pyx":3132
  *                         NidF = EdgeC.NidD
  *                     else :
  *                         len = EdgeC.len             # <<<<<<<<<<<<<<
@@ -41388,7 +41388,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
           __pyx_t_8 = __pyx_v_EdgeC.len;
           __pyx_v_len = __pyx_t_8;
 
-          /* "graph.pyx":3149
+          /* "graph.pyx":3133
  *                     else :
  *                         len = EdgeC.len
  *                         NidF = EdgeC.NidO             # <<<<<<<<<<<<<<
@@ -41402,7 +41402,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
       }
       __pyx_L11:;
 
-      /* "graph.pyx":3151
+      /* "graph.pyx":3135
  *                         NidF = EdgeC.NidO
  * 
  *                 len += NodeCheck.Dist + self.nodes[NidF].c             # <<<<<<<<<<<<<<
@@ -41411,7 +41411,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
       __pyx_v_len = (__pyx_v_len + (__pyx_v_NodeCheck.Dist + (__pyx_v_self->nodes[__pyx_v_NidF]).c));
 
-      /* "graph.pyx":3153
+      /* "graph.pyx":3137
  *                 len += NodeCheck.Dist + self.nodes[NidF].c
  * 
  *                 if len > LimDist: # check if there is still a propable remaining distance to target             # <<<<<<<<<<<<<<
@@ -41421,7 +41421,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
       __pyx_t_6 = (__pyx_v_len > __pyx_v_LimDist);
       if (__pyx_t_6) {
 
-        /* "graph.pyx":3154
+        /* "graph.pyx":3138
  * 
  *                 if len > LimDist: # check if there is still a propable remaining distance to target
  *                     continue             # <<<<<<<<<<<<<<
@@ -41430,7 +41430,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
         goto __pyx_L5_continue;
 
-        /* "graph.pyx":3153
+        /* "graph.pyx":3137
  *                 len += NodeCheck.Dist + self.nodes[NidF].c
  * 
  *                 if len > LimDist: # check if there is still a propable remaining distance to target             # <<<<<<<<<<<<<<
@@ -41439,7 +41439,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
       }
 
-      /* "graph.pyx":3156
+      /* "graph.pyx":3140
  *                     continue
  * 
  *                 len += self.nodes[NidF].c             # <<<<<<<<<<<<<<
@@ -41448,7 +41448,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
       __pyx_v_len = (__pyx_v_len + (__pyx_v_self->nodes[__pyx_v_NidF]).c);
 
-      /* "graph.pyx":3158
+      /* "graph.pyx":3142
  *                 len += self.nodes[NidF].c
  * 
  *                 NodeReach_T.Nid = NidF             # <<<<<<<<<<<<<<
@@ -41457,7 +41457,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
       __pyx_v_NodeReach_T.Nid = __pyx_v_NidF;
 
-      /* "graph.pyx":3159
+      /* "graph.pyx":3143
  * 
  *                 NodeReach_T.Nid = NidF
  *                 NodeReach_T.Dist = len             # <<<<<<<<<<<<<<
@@ -41466,7 +41466,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
       __pyx_v_NodeReach_T.Dist = __pyx_v_len;
 
-      /* "graph.pyx":3160
+      /* "graph.pyx":3144
  *                 NodeReach_T.Nid = NidF
  *                 NodeReach_T.Dist = len
  *                 NodeReach_T.Eid = Eid             # <<<<<<<<<<<<<<
@@ -41475,7 +41475,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
       __pyx_v_NodeReach_T.Eid = __pyx_v_Eid;
 
-      /* "graph.pyx":3161
+      /* "graph.pyx":3145
  *                 NodeReach_T.Dist = len
  *                 NodeReach_T.Eid = Eid
  *                 NodeReach_T.NidO = NodeCheck.Nid             # <<<<<<<<<<<<<<
@@ -41485,7 +41485,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
       __pyx_t_9 = __pyx_v_NodeCheck.Nid;
       __pyx_v_NodeReach_T.NidO = __pyx_t_9;
 
-      /* "graph.pyx":3162
+      /* "graph.pyx":3146
  *                 NodeReach_T.Eid = Eid
  *                 NodeReach_T.NidO = NodeCheck.Nid
  *                 NodeReach_T.Weight = len             # <<<<<<<<<<<<<<
@@ -41494,7 +41494,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
       __pyx_v_NodeReach_T.Weight = __pyx_v_len;
 
-      /* "graph.pyx":3165
+      /* "graph.pyx":3149
  * 
  *                 # check to visited nodes
  *                 if self.nodeVisited[NidF].Nid == -1 or self.nodeVisited[NidF].Dist > len: # if node havent been visited             # <<<<<<<<<<<<<<
@@ -41512,7 +41512,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
       __pyx_L16_bool_binop_done:;
       if (__pyx_t_6) {
 
-        /* "graph.pyx":3166
+        /* "graph.pyx":3150
  *                 # check to visited nodes
  *                 if self.nodeVisited[NidF].Nid == -1 or self.nodeVisited[NidF].Dist > len: # if node havent been visited
  *                     self.nodeVisited[NidF] = NodeReach_T             # <<<<<<<<<<<<<<
@@ -41521,16 +41521,16 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
         (__pyx_v_self->nodeVisited[__pyx_v_NidF]) = __pyx_v_NodeReach_T;
 
-        /* "graph.pyx":3167
+        /* "graph.pyx":3151
  *                 if self.nodeVisited[NidF].Nid == -1 or self.nodeVisited[NidF].Dist > len: # if node havent been visited
  *                     self.nodeVisited[NidF] = NodeReach_T
  *                     OpenNodes.push(NodeReach_T)             # <<<<<<<<<<<<<<
  *             if OpenNodes.empty() or cycles > LimCycle:
  *                 break
  */
-        ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3167, __pyx_L1_error)
+        ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3151, __pyx_L1_error)
 
-        /* "graph.pyx":3165
+        /* "graph.pyx":3149
  * 
  *                 # check to visited nodes
  *                 if self.nodeVisited[NidF].Nid == -1 or self.nodeVisited[NidF].Dist > len: # if node havent been visited             # <<<<<<<<<<<<<<
@@ -41542,14 +41542,14 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
     }
     __pyx_L6_break:;
 
-    /* "graph.pyx":3168
+    /* "graph.pyx":3152
  *                     self.nodeVisited[NidF] = NodeReach_T
  *                     OpenNodes.push(NodeReach_T)
  *             if OpenNodes.empty() or cycles > LimCycle:             # <<<<<<<<<<<<<<
  *                 break
  *         return
  */
-    __pyx_t_7 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->empty(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3168, __pyx_L1_error)
+    __pyx_t_7 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->empty(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3152, __pyx_L1_error)
     if (!__pyx_t_7) {
     } else {
       __pyx_t_6 = __pyx_t_7;
@@ -41560,7 +41560,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
     __pyx_L19_bool_binop_done:;
     if (__pyx_t_6) {
 
-      /* "graph.pyx":3169
+      /* "graph.pyx":3153
  *                     OpenNodes.push(NodeReach_T)
  *             if OpenNodes.empty() or cycles > LimCycle:
  *                 break             # <<<<<<<<<<<<<<
@@ -41569,7 +41569,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
       goto __pyx_L4_break;
 
-      /* "graph.pyx":3168
+      /* "graph.pyx":3152
  *                     self.nodeVisited[NidF] = NodeReach_T
  *                     OpenNodes.push(NodeReach_T)
  *             if OpenNodes.empty() or cycles > LimCycle:             # <<<<<<<<<<<<<<
@@ -41580,7 +41580,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
   }
   __pyx_L4_break:;
 
-  /* "graph.pyx":3170
+  /* "graph.pyx":3154
  *             if OpenNodes.empty() or cycles > LimCycle:
  *                 break
  *         return             # <<<<<<<<<<<<<<
@@ -41589,7 +41589,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
  */
   goto __pyx_L0;
 
-  /* "graph.pyx":3038
+  /* "graph.pyx":3022
  *         return
  * 
  *     cdef void C_NodeMap_VirtuEntry(             # <<<<<<<<<<<<<<
@@ -41606,7 +41606,7 @@ static void __pyx_f_5graph_7GraphCy_C_NodeMap_VirtuEntry(struct __pyx_obj_5graph
   __Pyx_RefNannyFinishContext();
 }
 
-/* "graph.pyx":3172
+/* "graph.pyx":3156
  *         return
  * 
  *     def PathFind_Multi(             # <<<<<<<<<<<<<<
@@ -41695,7 +41695,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3172, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3156, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -41703,70 +41703,70 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3172, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3156, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("PathFind_Multi", 0, 2, 10, 1); __PYX_ERR(0, 3172, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("PathFind_Multi", 0, 2, 10, 1); __PYX_ERR(0, 3156, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_DistMulLim);
           if (value) { values[2] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3172, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3156, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_LimDist);
           if (value) { values[3] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3172, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3156, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_LimCycle);
           if (value) { values[4] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3172, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3156, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_DistMul);
           if (value) { values[5] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3172, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3156, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_EdgeCmin);
           if (value) { values[6] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3172, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3156, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  7:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_ForceOri);
           if (value) { values[7] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3172, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3156, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  8:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_ForceDst);
           if (value) { values[8] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3172, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3156, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  9:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_PathLim);
           if (value) { values[9] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3172, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3156, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "PathFind_Multi") < 0)) __PYX_ERR(0, 3172, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "PathFind_Multi") < 0)) __PYX_ERR(0, 3156, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -41792,52 +41792,52 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_NidO = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_NidO == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3174, __pyx_L3_error)
-    __pyx_v_NidD = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_NidD == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3174, __pyx_L3_error)
+    __pyx_v_NidO = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_NidO == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3158, __pyx_L3_error)
+    __pyx_v_NidD = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_NidD == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3158, __pyx_L3_error)
     if (values[2]) {
-      __pyx_v_DistMulLim = __pyx_PyFloat_AsFloat(values[2]); if (unlikely((__pyx_v_DistMulLim == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3175, __pyx_L3_error)
+      __pyx_v_DistMulLim = __pyx_PyFloat_AsFloat(values[2]); if (unlikely((__pyx_v_DistMulLim == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3159, __pyx_L3_error)
     } else {
       __pyx_v_DistMulLim = ((float)1.1);
     }
     if (values[3]) {
-      __pyx_v_LimDist = __pyx_PyFloat_AsFloat(values[3]); if (unlikely((__pyx_v_LimDist == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3176, __pyx_L3_error)
+      __pyx_v_LimDist = __pyx_PyFloat_AsFloat(values[3]); if (unlikely((__pyx_v_LimDist == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3160, __pyx_L3_error)
     } else {
       __pyx_v_LimDist = ((float)10000.0);
     }
     if (values[4]) {
-      __pyx_v_LimCycle = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_LimCycle == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3177, __pyx_L3_error)
+      __pyx_v_LimCycle = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_LimCycle == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3161, __pyx_L3_error)
     } else {
       __pyx_v_LimCycle = ((int)0x3B9ACA00);
     }
     if (values[5]) {
-      __pyx_v_DistMul = __pyx_PyFloat_AsFloat(values[5]); if (unlikely((__pyx_v_DistMul == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3178, __pyx_L3_error)
+      __pyx_v_DistMul = __pyx_PyFloat_AsFloat(values[5]); if (unlikely((__pyx_v_DistMul == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3162, __pyx_L3_error)
     } else {
       __pyx_v_DistMul = ((float)2.0);
     }
     if (values[6]) {
-      __pyx_v_EdgeCmin = __pyx_PyFloat_AsFloat(values[6]); if (unlikely((__pyx_v_EdgeCmin == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3179, __pyx_L3_error)
+      __pyx_v_EdgeCmin = __pyx_PyFloat_AsFloat(values[6]); if (unlikely((__pyx_v_EdgeCmin == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3163, __pyx_L3_error)
     } else {
       __pyx_v_EdgeCmin = ((float)0.9);
     }
     if (values[7]) {
-      __pyx_v_ForceOri = __Pyx_PyInt_As_int(values[7]); if (unlikely((__pyx_v_ForceOri == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3180, __pyx_L3_error)
+      __pyx_v_ForceOri = __Pyx_PyInt_As_int(values[7]); if (unlikely((__pyx_v_ForceOri == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3164, __pyx_L3_error)
     } else {
       __pyx_v_ForceOri = ((int)-1);
     }
     if (values[8]) {
-      __pyx_v_ForceDst = __Pyx_PyInt_As_int(values[8]); if (unlikely((__pyx_v_ForceDst == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3181, __pyx_L3_error)
+      __pyx_v_ForceDst = __Pyx_PyInt_As_int(values[8]); if (unlikely((__pyx_v_ForceDst == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3165, __pyx_L3_error)
     } else {
       __pyx_v_ForceDst = ((int)-1);
     }
     if (values[9]) {
-      __pyx_v_PathLim = __Pyx_PyInt_As_int(values[9]); if (unlikely((__pyx_v_PathLim == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3182, __pyx_L3_error)
+      __pyx_v_PathLim = __Pyx_PyInt_As_int(values[9]); if (unlikely((__pyx_v_PathLim == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3166, __pyx_L3_error)
     } else {
       __pyx_v_PathLim = ((int)0x989680);
     }
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("PathFind_Multi", 0, 2, 10, __pyx_nargs); __PYX_ERR(0, 3172, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("PathFind_Multi", 0, 2, 10, __pyx_nargs); __PYX_ERR(0, 3156, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -41908,17 +41908,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PathFind_Multi", 1);
 
-  /* "graph.pyx":3214
+  /* "graph.pyx":3198
  *         """
  *         # checking minimum distance
  *         cdef float BaseDist = dist3d(self.nodes[NidO], self.nodes[NidD])             # <<<<<<<<<<<<<<
  *         if BaseDist*EdgeCmin > LimDist:
  *             return None
  */
-  __pyx_t_1 = __pyx_f_5graph_dist3d((__pyx_v_self->nodes[__pyx_v_NidO]), (__pyx_v_self->nodes[__pyx_v_NidD])); if (unlikely(__pyx_t_1 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3214, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5graph_dist3d((__pyx_v_self->nodes[__pyx_v_NidO]), (__pyx_v_self->nodes[__pyx_v_NidD])); if (unlikely(__pyx_t_1 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3198, __pyx_L1_error)
   __pyx_v_BaseDist = __pyx_t_1;
 
-  /* "graph.pyx":3215
+  /* "graph.pyx":3199
  *         # checking minimum distance
  *         cdef float BaseDist = dist3d(self.nodes[NidO], self.nodes[NidD])
  *         if BaseDist*EdgeCmin > LimDist:             # <<<<<<<<<<<<<<
@@ -41928,7 +41928,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
   __pyx_t_2 = ((__pyx_v_BaseDist * __pyx_v_EdgeCmin) > __pyx_v_LimDist);
   if (__pyx_t_2) {
 
-    /* "graph.pyx":3216
+    /* "graph.pyx":3200
  *         cdef float BaseDist = dist3d(self.nodes[NidO], self.nodes[NidD])
  *         if BaseDist*EdgeCmin > LimDist:
  *             return None             # <<<<<<<<<<<<<<
@@ -41939,7 +41939,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "graph.pyx":3215
+    /* "graph.pyx":3199
  *         # checking minimum distance
  *         cdef float BaseDist = dist3d(self.nodes[NidO], self.nodes[NidD])
  *         if BaseDist*EdgeCmin > LimDist:             # <<<<<<<<<<<<<<
@@ -41948,24 +41948,24 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
   }
 
-  /* "graph.pyx":3218
+  /* "graph.pyx":3202
  *             return None
  * 
  *         cdef float MinimumDistance = self.PathDist_AStar(NidO, NidD, LimDist, LimCycle, DistMul)             # <<<<<<<<<<<<<<
  *         if MinimumDistance == -1.0 or MinimumDistance > LimDist:
  *             return None
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_PathDist_AStar); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 3218, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_PathDist_AStar); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 3202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_NidO); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 3218, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_NidO); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 3202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_NidD); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 3218, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_NidD); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 3202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_LimDist); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 3218, __pyx_L1_error)
+  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_LimDist); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 3202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_LimCycle); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 3218, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_LimCycle); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 3202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = PyFloat_FromDouble(__pyx_v_DistMul); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 3218, __pyx_L1_error)
+  __pyx_t_9 = PyFloat_FromDouble(__pyx_v_DistMul); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 3202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __pyx_t_10 = NULL;
   __pyx_t_11 = 0;
@@ -41990,15 +41990,15 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3218, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3202, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
-  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_t_3); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3218, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_t_3); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3202, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_MinimumDistance = __pyx_t_1;
 
-  /* "graph.pyx":3219
+  /* "graph.pyx":3203
  * 
  *         cdef float MinimumDistance = self.PathDist_AStar(NidO, NidD, LimDist, LimCycle, DistMul)
  *         if MinimumDistance == -1.0 or MinimumDistance > LimDist:             # <<<<<<<<<<<<<<
@@ -42016,7 +42016,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
   __pyx_L5_bool_binop_done:;
   if (__pyx_t_2) {
 
-    /* "graph.pyx":3220
+    /* "graph.pyx":3204
  *         cdef float MinimumDistance = self.PathDist_AStar(NidO, NidD, LimDist, LimCycle, DistMul)
  *         if MinimumDistance == -1.0 or MinimumDistance > LimDist:
  *             return None             # <<<<<<<<<<<<<<
@@ -42027,7 +42027,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "graph.pyx":3219
+    /* "graph.pyx":3203
  * 
  *         cdef float MinimumDistance = self.PathDist_AStar(NidO, NidD, LimDist, LimCycle, DistMul)
  *         if MinimumDistance == -1.0 or MinimumDistance > LimDist:             # <<<<<<<<<<<<<<
@@ -42036,7 +42036,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
   }
 
-  /* "graph.pyx":3223
+  /* "graph.pyx":3207
  * 
  *         # mapping pathcast
  *         cdef float LimitDistance = MinimumDistance * DistMulLim             # <<<<<<<<<<<<<<
@@ -42045,7 +42045,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
   __pyx_v_LimitDistance = (__pyx_v_MinimumDistance * __pyx_v_DistMulLim);
 
-  /* "graph.pyx":3225
+  /* "graph.pyx":3209
  *         cdef float LimitDistance = MinimumDistance * DistMulLim
  *         # cdef NodeReach* PathCast_To = self.C_NodeMap_AStar(NidD, NidO, MinimumDistance*1.5, DistMulLim, 1, LimDist, LimCycle, DistMul, EdgeCmin)
  *         self.C_NodeMap_AStar(NidD, NidO, LimitDistance, DistMulLim, 1, LimDist, LimCycle, DistMul, EdgeCmin)             # <<<<<<<<<<<<<<
@@ -42060,9 +42060,9 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
   __pyx_t_13.LimCycle = __pyx_v_LimCycle;
   __pyx_t_13.DistMul = __pyx_v_DistMul;
   __pyx_t_13.EdgeCmin = __pyx_v_EdgeCmin;
-  ((struct __pyx_vtabstruct_5graph_GraphCy *)__pyx_v_self->__pyx_vtab)->C_NodeMap_AStar(__pyx_v_self, __pyx_v_NidD, __pyx_v_NidO, &__pyx_t_13); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3225, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_5graph_GraphCy *)__pyx_v_self->__pyx_vtab)->C_NodeMap_AStar(__pyx_v_self, __pyx_v_NidD, __pyx_v_NidO, &__pyx_t_13); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3209, __pyx_L1_error)
 
-  /* "graph.pyx":3231
+  /* "graph.pyx":3215
  *         cdef vector[float] FoundDistance
  * 
  *         cdef bint keepGoing = True             # <<<<<<<<<<<<<<
@@ -42071,7 +42071,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
   __pyx_v_keepGoing = 1;
 
-  /* "graph.pyx":3235
+  /* "graph.pyx":3219
  *         cdef PriorityQueue_NR OpenNodes
  *         cdef NodeReach startNode
  *         startNode.Nid = NidO             # <<<<<<<<<<<<<<
@@ -42080,7 +42080,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
   __pyx_v_startNode.Nid = __pyx_v_NidO;
 
-  /* "graph.pyx":3236
+  /* "graph.pyx":3220
  *         cdef NodeReach startNode
  *         startNode.Nid = NidO
  *         startNode.Eid = -1             # <<<<<<<<<<<<<<
@@ -42089,7 +42089,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
   __pyx_v_startNode.Eid = -1;
 
-  /* "graph.pyx":3237
+  /* "graph.pyx":3221
  *         startNode.Nid = NidO
  *         startNode.Eid = -1
  *         startNode.Dist = 0.0             # <<<<<<<<<<<<<<
@@ -42098,7 +42098,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
   __pyx_v_startNode.Dist = 0.0;
 
-  /* "graph.pyx":3238
+  /* "graph.pyx":3222
  *         startNode.Eid = -1
  *         startNode.Dist = 0.0
  *         startNode.NidO = -1             # <<<<<<<<<<<<<<
@@ -42107,7 +42107,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
   __pyx_v_startNode.NidO = -1;
 
-  /* "graph.pyx":3239
+  /* "graph.pyx":3223
  *         startNode.Dist = 0.0
  *         startNode.NidO = -1
  *         startNode.Weight = 0.0             # <<<<<<<<<<<<<<
@@ -42116,7 +42116,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
   __pyx_v_startNode.Weight = 0.0;
 
-  /* "graph.pyx":3240
+  /* "graph.pyx":3224
  *         startNode.NidO = -1
  *         startNode.Weight = 0.0
  *         startNode.pathindex = 0             # <<<<<<<<<<<<<<
@@ -42125,28 +42125,28 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
   __pyx_v_startNode.pathindex = 0;
 
-  /* "graph.pyx":3241
+  /* "graph.pyx":3225
  *         startNode.Weight = 0.0
  *         startNode.pathindex = 0
  *         OpenNodes = PriorityQueue_NR()             # <<<<<<<<<<<<<<
  *         OpenNodes.push(startNode)
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5graph_PriorityQueue_NR)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3241, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5graph_PriorityQueue_NR)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_OpenNodes = ((struct __pyx_obj_5graph_PriorityQueue_NR *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "graph.pyx":3242
+  /* "graph.pyx":3226
  *         startNode.pathindex = 0
  *         OpenNodes = PriorityQueue_NR()
  *         OpenNodes.push(startNode)             # <<<<<<<<<<<<<<
  * 
  *         cdef Node NodeTarget
  */
-  ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3242, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3226, __pyx_L1_error)
 
-  /* "graph.pyx":3253
+  /* "graph.pyx":3237
  *         cdef int i
  * 
  *         cycles = 0             # <<<<<<<<<<<<<<
@@ -42155,7 +42155,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
   __pyx_v_cycles = 0;
 
-  /* "graph.pyx":3254
+  /* "graph.pyx":3238
  * 
  *         cycles = 0
  *         MappedPath_T.push_back(-1)             # <<<<<<<<<<<<<<
@@ -42166,10 +42166,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
     __pyx_v_MappedPath_T.push_back(-1);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 3254, __pyx_L1_error)
+    __PYX_ERR(0, 3238, __pyx_L1_error)
   }
 
-  /* "graph.pyx":3255
+  /* "graph.pyx":3239
  *         cycles = 0
  *         MappedPath_T.push_back(-1)
  *         MappedPaths.push_back(MappedPath_T)             # <<<<<<<<<<<<<<
@@ -42180,10 +42180,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
     __pyx_v_MappedPaths.push_back(__pyx_v_MappedPath_T);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 3255, __pyx_L1_error)
+    __PYX_ERR(0, 3239, __pyx_L1_error)
   }
 
-  /* "graph.pyx":3257
+  /* "graph.pyx":3241
  *         MappedPaths.push_back(MappedPath_T)
  * 
  *         while keepGoing:             # <<<<<<<<<<<<<<
@@ -42193,7 +42193,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
   while (1) {
     if (!__pyx_v_keepGoing) break;
 
-    /* "graph.pyx":3258
+    /* "graph.pyx":3242
  * 
  *         while keepGoing:
  *             cycles += 1             # <<<<<<<<<<<<<<
@@ -42202,17 +42202,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
     __pyx_v_cycles = (__pyx_v_cycles + 1);
 
-    /* "graph.pyx":3259
+    /* "graph.pyx":3243
  *         while keepGoing:
  *             cycles += 1
  *             if OpenNodes.empty():             # <<<<<<<<<<<<<<
  *                 keepGoing = False
  *                 break
  */
-    __pyx_t_2 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->empty(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3259, __pyx_L1_error)
+    __pyx_t_2 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->empty(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3243, __pyx_L1_error)
     if (__pyx_t_2) {
 
-      /* "graph.pyx":3260
+      /* "graph.pyx":3244
  *             cycles += 1
  *             if OpenNodes.empty():
  *                 keepGoing = False             # <<<<<<<<<<<<<<
@@ -42221,7 +42221,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       __pyx_v_keepGoing = 0;
 
-      /* "graph.pyx":3261
+      /* "graph.pyx":3245
  *             if OpenNodes.empty():
  *                 keepGoing = False
  *                 break             # <<<<<<<<<<<<<<
@@ -42230,7 +42230,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       goto __pyx_L8_break;
 
-      /* "graph.pyx":3259
+      /* "graph.pyx":3243
  *         while keepGoing:
  *             cycles += 1
  *             if OpenNodes.empty():             # <<<<<<<<<<<<<<
@@ -42239,17 +42239,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
     }
 
-    /* "graph.pyx":3262
+    /* "graph.pyx":3246
  *                 keepGoing = False
  *                 break
  *             NodeCheck = OpenNodes.pop_top()             # <<<<<<<<<<<<<<
  *             if NodeCheck.Dist > LimitDistance:
  *                 break
  */
-    __pyx_t_14 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->pop_top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3262, __pyx_L1_error)
+    __pyx_t_14 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->pop_top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3246, __pyx_L1_error)
     __pyx_v_NodeCheck = __pyx_t_14;
 
-    /* "graph.pyx":3263
+    /* "graph.pyx":3247
  *                 break
  *             NodeCheck = OpenNodes.pop_top()
  *             if NodeCheck.Dist > LimitDistance:             # <<<<<<<<<<<<<<
@@ -42259,7 +42259,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
     __pyx_t_2 = (__pyx_v_NodeCheck.Dist > __pyx_v_LimitDistance);
     if (__pyx_t_2) {
 
-      /* "graph.pyx":3264
+      /* "graph.pyx":3248
  *             NodeCheck = OpenNodes.pop_top()
  *             if NodeCheck.Dist > LimitDistance:
  *                 break             # <<<<<<<<<<<<<<
@@ -42268,7 +42268,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       goto __pyx_L8_break;
 
-      /* "graph.pyx":3263
+      /* "graph.pyx":3247
  *                 break
  *             NodeCheck = OpenNodes.pop_top()
  *             if NodeCheck.Dist > LimitDistance:             # <<<<<<<<<<<<<<
@@ -42277,7 +42277,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
     }
 
-    /* "graph.pyx":3265
+    /* "graph.pyx":3249
  *             if NodeCheck.Dist > LimitDistance:
  *                 break
  *             if NodeCheck.Nid == NidD:             # <<<<<<<<<<<<<<
@@ -42287,7 +42287,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
     __pyx_t_2 = (__pyx_v_NodeCheck.Nid == __pyx_v_NidD);
     if (__pyx_t_2) {
 
-      /* "graph.pyx":3266
+      /* "graph.pyx":3250
  *                 break
  *             if NodeCheck.Nid == NidD:
  *                 MappedPaths[NodeCheck.pathindex].erase(MappedPaths[NodeCheck.pathindex].begin()) # erases the first -1 value of path             # <<<<<<<<<<<<<<
@@ -42296,7 +42296,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       (void)((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]).erase((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]).begin()));
 
-      /* "graph.pyx":3267
+      /* "graph.pyx":3251
  *             if NodeCheck.Nid == NidD:
  *                 MappedPaths[NodeCheck.pathindex].erase(MappedPaths[NodeCheck.pathindex].begin()) # erases the first -1 value of path
  *                 if ForceOri != -1:             # <<<<<<<<<<<<<<
@@ -42306,7 +42306,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
       __pyx_t_2 = (__pyx_v_ForceOri != -1L);
       if (__pyx_t_2) {
 
-        /* "graph.pyx":3268
+        /* "graph.pyx":3252
  *                 MappedPaths[NodeCheck.pathindex].erase(MappedPaths[NodeCheck.pathindex].begin()) # erases the first -1 value of path
  *                 if ForceOri != -1:
  *                     MappedPaths[NodeCheck.pathindex][0] = ForceOri             # <<<<<<<<<<<<<<
@@ -42315,7 +42315,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
         ((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex])[0]) = __pyx_v_ForceOri;
 
-        /* "graph.pyx":3267
+        /* "graph.pyx":3251
  *             if NodeCheck.Nid == NidD:
  *                 MappedPaths[NodeCheck.pathindex].erase(MappedPaths[NodeCheck.pathindex].begin()) # erases the first -1 value of path
  *                 if ForceOri != -1:             # <<<<<<<<<<<<<<
@@ -42324,7 +42324,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       }
 
-      /* "graph.pyx":3269
+      /* "graph.pyx":3253
  *                 if ForceOri != -1:
  *                     MappedPaths[NodeCheck.pathindex][0] = ForceOri
  *                 if ForceDst != -1:             # <<<<<<<<<<<<<<
@@ -42334,7 +42334,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
       __pyx_t_2 = (__pyx_v_ForceDst != -1L);
       if (__pyx_t_2) {
 
-        /* "graph.pyx":3270
+        /* "graph.pyx":3254
  *                     MappedPaths[NodeCheck.pathindex][0] = ForceOri
  *                 if ForceDst != -1:
  *                     i = <int>MappedPaths[NodeCheck.pathindex].size() - 1             # <<<<<<<<<<<<<<
@@ -42343,7 +42343,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
         __pyx_v_i = (((int)(__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]).size()) - 1);
 
-        /* "graph.pyx":3271
+        /* "graph.pyx":3255
  *                 if ForceDst != -1:
  *                     i = <int>MappedPaths[NodeCheck.pathindex].size() - 1
  *                     MappedPaths[NodeCheck.pathindex][i] = ForceDst             # <<<<<<<<<<<<<<
@@ -42352,7 +42352,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
         ((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex])[__pyx_v_i]) = __pyx_v_ForceDst;
 
-        /* "graph.pyx":3269
+        /* "graph.pyx":3253
  *                 if ForceOri != -1:
  *                     MappedPaths[NodeCheck.pathindex][0] = ForceOri
  *                 if ForceDst != -1:             # <<<<<<<<<<<<<<
@@ -42361,7 +42361,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       }
 
-      /* "graph.pyx":3272
+      /* "graph.pyx":3256
  *                     i = <int>MappedPaths[NodeCheck.pathindex].size() - 1
  *                     MappedPaths[NodeCheck.pathindex][i] = ForceDst
  *                 FoundPaths.push_back(MappedPaths[NodeCheck.pathindex])             # <<<<<<<<<<<<<<
@@ -42372,10 +42372,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
         __pyx_v_FoundPaths.push_back((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]));
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(0, 3272, __pyx_L1_error)
+        __PYX_ERR(0, 3256, __pyx_L1_error)
       }
 
-      /* "graph.pyx":3273
+      /* "graph.pyx":3257
  *                     MappedPaths[NodeCheck.pathindex][i] = ForceDst
  *                 FoundPaths.push_back(MappedPaths[NodeCheck.pathindex])
  *                 FoundDistance.push_back(NodeCheck.Dist)             # <<<<<<<<<<<<<<
@@ -42386,10 +42386,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
         __pyx_v_FoundDistance.push_back(__pyx_v_NodeCheck.Dist);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(0, 3273, __pyx_L1_error)
+        __PYX_ERR(0, 3257, __pyx_L1_error)
       }
 
-      /* "graph.pyx":3274
+      /* "graph.pyx":3258
  *                 FoundPaths.push_back(MappedPaths[NodeCheck.pathindex])
  *                 FoundDistance.push_back(NodeCheck.Dist)
  *                 PathLim -= 1             # <<<<<<<<<<<<<<
@@ -42398,7 +42398,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       __pyx_v_PathLim = (__pyx_v_PathLim - 1);
 
-      /* "graph.pyx":3275
+      /* "graph.pyx":3259
  *                 FoundDistance.push_back(NodeCheck.Dist)
  *                 PathLim -= 1
  *                 if PathLim == 0:             # <<<<<<<<<<<<<<
@@ -42408,7 +42408,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
       __pyx_t_2 = (__pyx_v_PathLim == 0);
       if (__pyx_t_2) {
 
-        /* "graph.pyx":3276
+        /* "graph.pyx":3260
  *                 PathLim -= 1
  *                 if PathLim == 0:
  *                     keepGoing = False             # <<<<<<<<<<<<<<
@@ -42417,7 +42417,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
         __pyx_v_keepGoing = 0;
 
-        /* "graph.pyx":3277
+        /* "graph.pyx":3261
  *                 if PathLim == 0:
  *                     keepGoing = False
  *                     break             # <<<<<<<<<<<<<<
@@ -42426,7 +42426,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
         goto __pyx_L8_break;
 
-        /* "graph.pyx":3275
+        /* "graph.pyx":3259
  *                 FoundDistance.push_back(NodeCheck.Dist)
  *                 PathLim -= 1
  *                 if PathLim == 0:             # <<<<<<<<<<<<<<
@@ -42435,7 +42435,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       }
 
-      /* "graph.pyx":3278
+      /* "graph.pyx":3262
  *                     keepGoing = False
  *                     break
  *                 continue             # <<<<<<<<<<<<<<
@@ -42444,7 +42444,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       goto __pyx_L7_continue;
 
-      /* "graph.pyx":3265
+      /* "graph.pyx":3249
  *             if NodeCheck.Dist > LimitDistance:
  *                 break
  *             if NodeCheck.Nid == NidD:             # <<<<<<<<<<<<<<
@@ -42453,7 +42453,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
     }
 
-    /* "graph.pyx":3280
+    /* "graph.pyx":3264
  *                 continue
  * 
  *             MappedPath_T = MappedPaths[NodeCheck.pathindex] # getting mapped path from nodecheck index             # <<<<<<<<<<<<<<
@@ -42462,7 +42462,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
     __pyx_v_MappedPath_T = (__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]);
 
-    /* "graph.pyx":3282
+    /* "graph.pyx":3266
  *             MappedPath_T = MappedPaths[NodeCheck.pathindex] # getting mapped path from nodecheck index
  * 
  *             for i in range(self.EidN):             # <<<<<<<<<<<<<<
@@ -42474,7 +42474,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
     for (__pyx_t_16 = 0; __pyx_t_16 < __pyx_t_15; __pyx_t_16+=1) {
       __pyx_v_i = __pyx_t_16;
 
-      /* "graph.pyx":3283
+      /* "graph.pyx":3267
  * 
  *             for i in range(self.EidN):
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]             # <<<<<<<<<<<<<<
@@ -42483,7 +42483,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       __pyx_v_Eid = ((__pyx_v_self->nodes[__pyx_v_NodeCheck.Nid]).Eid[__pyx_v_i]);
 
-      /* "graph.pyx":3284
+      /* "graph.pyx":3268
  *             for i in range(self.EidN):
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                 if Eid == -1:             # <<<<<<<<<<<<<<
@@ -42493,7 +42493,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
       __pyx_t_2 = (__pyx_v_Eid == -1L);
       if (__pyx_t_2) {
 
-        /* "graph.pyx":3285
+        /* "graph.pyx":3269
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                 if Eid == -1:
  *                     break             # <<<<<<<<<<<<<<
@@ -42502,7 +42502,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
         goto __pyx_L16_break;
 
-        /* "graph.pyx":3284
+        /* "graph.pyx":3268
  *             for i in range(self.EidN):
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                 if Eid == -1:             # <<<<<<<<<<<<<<
@@ -42511,7 +42511,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       }
 
-      /* "graph.pyx":3286
+      /* "graph.pyx":3270
  *                 if Eid == -1:
  *                     break
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:             # <<<<<<<<<<<<<<
@@ -42529,7 +42529,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
       __pyx_L19_bool_binop_done:;
       if (__pyx_t_2) {
 
-        /* "graph.pyx":3287
+        /* "graph.pyx":3271
  *                     break
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:
  *                     continue             # <<<<<<<<<<<<<<
@@ -42538,7 +42538,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
         goto __pyx_L15_continue;
 
-        /* "graph.pyx":3286
+        /* "graph.pyx":3270
  *                 if Eid == -1:
  *                     break
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:             # <<<<<<<<<<<<<<
@@ -42547,17 +42547,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       }
 
-      /* "graph.pyx":3288
+      /* "graph.pyx":3272
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:
  *                     continue
  *                 if Find_IntVector(MappedPaths[NodeCheck.pathindex], Eid): # if Eid already in mapped paths             # <<<<<<<<<<<<<<
  *                     continue
  *                 EdgeC = self.edges[Eid]
  */
-      __pyx_t_2 = __pyx_f_5graph_Find_IntVector((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]), __pyx_v_Eid); if (unlikely(__pyx_t_2 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3288, __pyx_L1_error)
+      __pyx_t_2 = __pyx_f_5graph_Find_IntVector((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]), __pyx_v_Eid); if (unlikely(__pyx_t_2 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3272, __pyx_L1_error)
       if (__pyx_t_2) {
 
-        /* "graph.pyx":3289
+        /* "graph.pyx":3273
  *                     continue
  *                 if Find_IntVector(MappedPaths[NodeCheck.pathindex], Eid): # if Eid already in mapped paths
  *                     continue             # <<<<<<<<<<<<<<
@@ -42566,7 +42566,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
         goto __pyx_L15_continue;
 
-        /* "graph.pyx":3288
+        /* "graph.pyx":3272
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:
  *                     continue
  *                 if Find_IntVector(MappedPaths[NodeCheck.pathindex], Eid): # if Eid already in mapped paths             # <<<<<<<<<<<<<<
@@ -42575,7 +42575,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       }
 
-      /* "graph.pyx":3290
+      /* "graph.pyx":3274
  *                 if Find_IntVector(MappedPaths[NodeCheck.pathindex], Eid): # if Eid already in mapped paths
  *                     continue
  *                 EdgeC = self.edges[Eid]             # <<<<<<<<<<<<<<
@@ -42584,7 +42584,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       __pyx_v_EdgeC = (__pyx_v_self->edges[__pyx_v_Eid]);
 
-      /* "graph.pyx":3291
+      /* "graph.pyx":3275
  *                     continue
  *                 EdgeC = self.edges[Eid]
  *                 if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -42594,7 +42594,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
       __pyx_t_2 = (__pyx_v_EdgeC.NidO == __pyx_v_NodeCheck.Nid);
       if (__pyx_t_2) {
 
-        /* "graph.pyx":3292
+        /* "graph.pyx":3276
  *                 EdgeC = self.edges[Eid]
  *                 if EdgeC.NidO == NodeCheck.Nid:
  *                     pathlength = EdgeC.len             # <<<<<<<<<<<<<<
@@ -42604,7 +42604,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
         __pyx_t_1 = __pyx_v_EdgeC.len;
         __pyx_v_pathlength = __pyx_t_1;
 
-        /* "graph.pyx":3293
+        /* "graph.pyx":3277
  *                 if EdgeC.NidO == NodeCheck.Nid:
  *                     pathlength = EdgeC.len
  *                     NidF = EdgeC.NidD             # <<<<<<<<<<<<<<
@@ -42614,7 +42614,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
         __pyx_t_17 = __pyx_v_EdgeC.NidD;
         __pyx_v_NidF = __pyx_t_17;
 
-        /* "graph.pyx":3291
+        /* "graph.pyx":3275
  *                     continue
  *                 EdgeC = self.edges[Eid]
  *                 if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -42624,7 +42624,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
         goto __pyx_L22;
       }
 
-      /* "graph.pyx":3295
+      /* "graph.pyx":3279
  *                     NidF = EdgeC.NidD
  *                 else:
  *                     pathlength = EdgeC.lenR             # <<<<<<<<<<<<<<
@@ -42635,7 +42635,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
         __pyx_t_1 = __pyx_v_EdgeC.lenR;
         __pyx_v_pathlength = __pyx_t_1;
 
-        /* "graph.pyx":3296
+        /* "graph.pyx":3280
  *                 else:
  *                     pathlength = EdgeC.lenR
  *                     NidF = EdgeC.NidO             # <<<<<<<<<<<<<<
@@ -42647,7 +42647,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
       }
       __pyx_L22:;
 
-      /* "graph.pyx":3298
+      /* "graph.pyx":3282
  *                     NidF = EdgeC.NidO
  * 
  *                 pathlength += NodeCheck.Dist + self.nodes[NidF].c             # <<<<<<<<<<<<<<
@@ -42656,7 +42656,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       __pyx_v_pathlength = (__pyx_v_pathlength + (__pyx_v_NodeCheck.Dist + (__pyx_v_self->nodes[__pyx_v_NidF]).c));
 
-      /* "graph.pyx":3299
+      /* "graph.pyx":3283
  * 
  *                 pathlength += NodeCheck.Dist + self.nodes[NidF].c
  *                 if self.nodeVisited[NidF].Nid != -1:             # <<<<<<<<<<<<<<
@@ -42666,7 +42666,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
       __pyx_t_2 = ((__pyx_v_self->nodeVisited[__pyx_v_NidF]).Nid != -1L);
       if (__pyx_t_2) {
 
-        /* "graph.pyx":3300
+        /* "graph.pyx":3284
  *                 pathlength += NodeCheck.Dist + self.nodes[NidF].c
  *                 if self.nodeVisited[NidF].Nid != -1:
  *                     if (pathlength + self.nodeVisited[NidF].Dist) > LimitDistance:             # <<<<<<<<<<<<<<
@@ -42676,7 +42676,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
         __pyx_t_2 = ((__pyx_v_pathlength + (__pyx_v_self->nodeVisited[__pyx_v_NidF]).Dist) > __pyx_v_LimitDistance);
         if (__pyx_t_2) {
 
-          /* "graph.pyx":3301
+          /* "graph.pyx":3285
  *                 if self.nodeVisited[NidF].Nid != -1:
  *                     if (pathlength + self.nodeVisited[NidF].Dist) > LimitDistance:
  *                         continue             # <<<<<<<<<<<<<<
@@ -42685,7 +42685,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
           goto __pyx_L15_continue;
 
-          /* "graph.pyx":3300
+          /* "graph.pyx":3284
  *                 pathlength += NodeCheck.Dist + self.nodes[NidF].c
  *                 if self.nodeVisited[NidF].Nid != -1:
  *                     if (pathlength + self.nodeVisited[NidF].Dist) > LimitDistance:             # <<<<<<<<<<<<<<
@@ -42694,7 +42694,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
         }
 
-        /* "graph.pyx":3303
+        /* "graph.pyx":3287
  *                         continue
  *                     else:
  *                         NodeReach_T.Weight = pathlength + (self.nodeVisited[NidF].Dist-BaseDist) * DistMul             # <<<<<<<<<<<<<<
@@ -42705,7 +42705,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
           __pyx_v_NodeReach_T.Weight = (__pyx_v_pathlength + (((__pyx_v_self->nodeVisited[__pyx_v_NidF]).Dist - __pyx_v_BaseDist) * __pyx_v_DistMul));
         }
 
-        /* "graph.pyx":3299
+        /* "graph.pyx":3283
  * 
  *                 pathlength += NodeCheck.Dist + self.nodes[NidF].c
  *                 if self.nodeVisited[NidF].Nid != -1:             # <<<<<<<<<<<<<<
@@ -42715,7 +42715,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
         goto __pyx_L23;
       }
 
-      /* "graph.pyx":3305
+      /* "graph.pyx":3289
  *                         NodeReach_T.Weight = pathlength + (self.nodeVisited[NidF].Dist-BaseDist) * DistMul
  *                 else:
  *                     continue             # <<<<<<<<<<<<<<
@@ -42727,7 +42727,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
       }
       __pyx_L23:;
 
-      /* "graph.pyx":3306
+      /* "graph.pyx":3290
  *                 else:
  *                     continue
  *                 MappedPath_T2 = MappedPath_T             # <<<<<<<<<<<<<<
@@ -42736,7 +42736,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       __pyx_v_MappedPath_T2 = __pyx_v_MappedPath_T;
 
-      /* "graph.pyx":3307
+      /* "graph.pyx":3291
  *                     continue
  *                 MappedPath_T2 = MappedPath_T
  *                 MappedPath_T2.push_back(Eid)             # <<<<<<<<<<<<<<
@@ -42747,10 +42747,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
         __pyx_v_MappedPath_T2.push_back(__pyx_v_Eid);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(0, 3307, __pyx_L1_error)
+        __PYX_ERR(0, 3291, __pyx_L1_error)
       }
 
-      /* "graph.pyx":3308
+      /* "graph.pyx":3292
  *                 MappedPath_T2 = MappedPath_T
  *                 MappedPath_T2.push_back(Eid)
  *                 NodeReach_T.Nid = NidF             # <<<<<<<<<<<<<<
@@ -42759,7 +42759,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       __pyx_v_NodeReach_T.Nid = __pyx_v_NidF;
 
-      /* "graph.pyx":3309
+      /* "graph.pyx":3293
  *                 MappedPath_T2.push_back(Eid)
  *                 NodeReach_T.Nid = NidF
  *                 NodeReach_T.Dist = pathlength             # <<<<<<<<<<<<<<
@@ -42768,7 +42768,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       __pyx_v_NodeReach_T.Dist = __pyx_v_pathlength;
 
-      /* "graph.pyx":3310
+      /* "graph.pyx":3294
  *                 NodeReach_T.Nid = NidF
  *                 NodeReach_T.Dist = pathlength
  *                 NodeReach_T.Eid = Eid             # <<<<<<<<<<<<<<
@@ -42777,7 +42777,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       __pyx_v_NodeReach_T.Eid = __pyx_v_Eid;
 
-      /* "graph.pyx":3313
+      /* "graph.pyx":3297
  *                 # NodeReach_T.NidO = NodeCheck.Nid
  * 
  *                 if MappedPaths[NodeCheck.pathindex] == MappedPath_T:             # <<<<<<<<<<<<<<
@@ -42787,7 +42787,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
       __pyx_t_2 = ((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]) == __pyx_v_MappedPath_T);
       if (__pyx_t_2) {
 
-        /* "graph.pyx":3314
+        /* "graph.pyx":3298
  * 
  *                 if MappedPaths[NodeCheck.pathindex] == MappedPath_T:
  *                     NodeReach_T.pathindex = NodeCheck.pathindex             # <<<<<<<<<<<<<<
@@ -42797,7 +42797,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
         __pyx_t_17 = __pyx_v_NodeCheck.pathindex;
         __pyx_v_NodeReach_T.pathindex = __pyx_t_17;
 
-        /* "graph.pyx":3315
+        /* "graph.pyx":3299
  *                 if MappedPaths[NodeCheck.pathindex] == MappedPath_T:
  *                     NodeReach_T.pathindex = NodeCheck.pathindex
  *                     MappedPaths[NodeCheck.pathindex] = MappedPath_T2             # <<<<<<<<<<<<<<
@@ -42806,7 +42806,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
         (__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]) = __pyx_v_MappedPath_T2;
 
-        /* "graph.pyx":3313
+        /* "graph.pyx":3297
  *                 # NodeReach_T.NidO = NodeCheck.Nid
  * 
  *                 if MappedPaths[NodeCheck.pathindex] == MappedPath_T:             # <<<<<<<<<<<<<<
@@ -42816,7 +42816,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
         goto __pyx_L25;
       }
 
-      /* "graph.pyx":3317
+      /* "graph.pyx":3301
  *                     MappedPaths[NodeCheck.pathindex] = MappedPath_T2
  *                 else:
  *                     NodeReach_T.pathindex = <int>MappedPaths.size()             # <<<<<<<<<<<<<<
@@ -42826,7 +42826,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
       /*else*/ {
         __pyx_v_NodeReach_T.pathindex = ((int)__pyx_v_MappedPaths.size());
 
-        /* "graph.pyx":3318
+        /* "graph.pyx":3302
  *                 else:
  *                     NodeReach_T.pathindex = <int>MappedPaths.size()
  *                     MappedPaths.push_back(MappedPath_T2)             # <<<<<<<<<<<<<<
@@ -42837,24 +42837,24 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
           __pyx_v_MappedPaths.push_back(__pyx_v_MappedPath_T2);
         } catch(...) {
           __Pyx_CppExn2PyErr();
-          __PYX_ERR(0, 3318, __pyx_L1_error)
+          __PYX_ERR(0, 3302, __pyx_L1_error)
         }
       }
       __pyx_L25:;
 
-      /* "graph.pyx":3319
+      /* "graph.pyx":3303
  *                     NodeReach_T.pathindex = <int>MappedPaths.size()
  *                     MappedPaths.push_back(MappedPath_T2)
  *                 OpenNodes.push(NodeReach_T)             # <<<<<<<<<<<<<<
  * 
  *             if cycles > LimCycle:
  */
-      ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3319, __pyx_L1_error)
+      ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3303, __pyx_L1_error)
       __pyx_L15_continue:;
     }
     __pyx_L16_break:;
 
-    /* "graph.pyx":3321
+    /* "graph.pyx":3305
  *                 OpenNodes.push(NodeReach_T)
  * 
  *             if cycles > LimCycle:             # <<<<<<<<<<<<<<
@@ -42864,7 +42864,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
     __pyx_t_2 = (__pyx_v_cycles > __pyx_v_LimCycle);
     if (__pyx_t_2) {
 
-      /* "graph.pyx":3322
+      /* "graph.pyx":3306
  * 
  *             if cycles > LimCycle:
  *                 break             # <<<<<<<<<<<<<<
@@ -42873,7 +42873,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  */
       goto __pyx_L8_break;
 
-      /* "graph.pyx":3321
+      /* "graph.pyx":3305
  *                 OpenNodes.push(NodeReach_T)
  * 
  *             if cycles > LimCycle:             # <<<<<<<<<<<<<<
@@ -42885,7 +42885,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
   }
   __pyx_L8_break:;
 
-  /* "graph.pyx":3324
+  /* "graph.pyx":3308
  *                 break
  * 
  *         return tuple(FoundDistance), tuple(FoundPaths)             # <<<<<<<<<<<<<<
@@ -42893,29 +42893,29 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
  *     def PathFind_Multi_VirtuEntry(
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __pyx_convert_vector_to_py_float(__pyx_v_FoundDistance); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3324, __pyx_L1_error)
+  __pyx_t_3 = __pyx_convert_vector_to_py_float(__pyx_v_FoundDistance); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PySequence_Tuple(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 3324, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PySequence_Tuple(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 3308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_int_3e___(__pyx_v_FoundPaths); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3324, __pyx_L1_error)
+  __pyx_t_3 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_int_3e___(__pyx_v_FoundPaths); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_9 = __Pyx_PySequence_Tuple(__pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 3324, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PySequence_Tuple(__pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 3308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3324, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_4);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4)) __PYX_ERR(0, 3324, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4)) __PYX_ERR(0, 3308, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_9);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_9)) __PYX_ERR(0, 3324, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_9)) __PYX_ERR(0, 3308, __pyx_L1_error);
   __pyx_t_4 = 0;
   __pyx_t_9 = 0;
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "graph.pyx":3172
+  /* "graph.pyx":3156
  *         return
  * 
  *     def PathFind_Multi(             # <<<<<<<<<<<<<<
@@ -42942,7 +42942,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_82PathFind_Multi(struct __pyx_obj_5gra
   return __pyx_r;
 }
 
-/* "graph.pyx":3326
+/* "graph.pyx":3310
  *         return tuple(FoundDistance), tuple(FoundPaths)
  * 
  *     def PathFind_Multi_VirtuEntry(             # <<<<<<<<<<<<<<
@@ -43025,7 +43025,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3326, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3310, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -43033,56 +43033,56 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3326, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3310, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("PathFind_Multi_VirtuEntry", 0, 2, 8, 1); __PYX_ERR(0, 3326, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("PathFind_Multi_VirtuEntry", 0, 2, 8, 1); __PYX_ERR(0, 3310, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_DistMulLim);
           if (value) { values[2] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3326, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3310, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_LimDist);
           if (value) { values[3] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3326, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3310, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_LimCycle);
           if (value) { values[4] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3326, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3310, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_DistMul);
           if (value) { values[5] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3326, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3310, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_EdgeCmin);
           if (value) { values[6] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3326, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3310, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  7:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_PathLim);
           if (value) { values[7] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3326, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3310, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "PathFind_Multi_VirtuEntry") < 0)) __PYX_ERR(0, 3326, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "PathFind_Multi_VirtuEntry") < 0)) __PYX_ERR(0, 3310, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -43104,42 +43104,42 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_EntryOrigin = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_EntryOrigin == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3328, __pyx_L3_error)
-    __pyx_v_EntryDestination = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_EntryDestination == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3329, __pyx_L3_error)
+    __pyx_v_EntryOrigin = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_EntryOrigin == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3312, __pyx_L3_error)
+    __pyx_v_EntryDestination = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_EntryDestination == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3313, __pyx_L3_error)
     if (values[2]) {
-      __pyx_v_DistMulLim = __pyx_PyFloat_AsFloat(values[2]); if (unlikely((__pyx_v_DistMulLim == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3330, __pyx_L3_error)
+      __pyx_v_DistMulLim = __pyx_PyFloat_AsFloat(values[2]); if (unlikely((__pyx_v_DistMulLim == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3314, __pyx_L3_error)
     } else {
       __pyx_v_DistMulLim = ((float)1.1);
     }
     if (values[3]) {
-      __pyx_v_LimDist = __pyx_PyFloat_AsFloat(values[3]); if (unlikely((__pyx_v_LimDist == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3331, __pyx_L3_error)
+      __pyx_v_LimDist = __pyx_PyFloat_AsFloat(values[3]); if (unlikely((__pyx_v_LimDist == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3315, __pyx_L3_error)
     } else {
       __pyx_v_LimDist = ((float)10000.0);
     }
     if (values[4]) {
-      __pyx_v_LimCycle = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_LimCycle == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3332, __pyx_L3_error)
+      __pyx_v_LimCycle = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_LimCycle == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3316, __pyx_L3_error)
     } else {
       __pyx_v_LimCycle = ((int)0x3B9ACA00);
     }
     if (values[5]) {
-      __pyx_v_DistMul = __pyx_PyFloat_AsFloat(values[5]); if (unlikely((__pyx_v_DistMul == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3333, __pyx_L3_error)
+      __pyx_v_DistMul = __pyx_PyFloat_AsFloat(values[5]); if (unlikely((__pyx_v_DistMul == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3317, __pyx_L3_error)
     } else {
       __pyx_v_DistMul = ((float)1.0);
     }
     if (values[6]) {
-      __pyx_v_EdgeCmin = __pyx_PyFloat_AsFloat(values[6]); if (unlikely((__pyx_v_EdgeCmin == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3334, __pyx_L3_error)
+      __pyx_v_EdgeCmin = __pyx_PyFloat_AsFloat(values[6]); if (unlikely((__pyx_v_EdgeCmin == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3318, __pyx_L3_error)
     } else {
       __pyx_v_EdgeCmin = ((float)0.9);
     }
     if (values[7]) {
-      __pyx_v_PathLim = __Pyx_PyInt_As_int(values[7]); if (unlikely((__pyx_v_PathLim == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3335, __pyx_L3_error)
+      __pyx_v_PathLim = __Pyx_PyInt_As_int(values[7]); if (unlikely((__pyx_v_PathLim == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3319, __pyx_L3_error)
     } else {
       __pyx_v_PathLim = ((int)0x186A0);
     }
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("PathFind_Multi_VirtuEntry", 0, 2, 8, __pyx_nargs); __PYX_ERR(0, 3326, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("PathFind_Multi_VirtuEntry", 0, 2, 8, __pyx_nargs); __PYX_ERR(0, 3310, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -43213,7 +43213,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PathFind_Multi_VirtuEntry", 1);
 
-  /* "graph.pyx":3367
+  /* "graph.pyx":3351
  *         Modified alternative paths algorithm, with an operation cost near O(2K+?)
  *         """
  *         cdef Entry EntryO = self.EntryDt[EntryOrigin]             # <<<<<<<<<<<<<<
@@ -43222,7 +43222,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
   __pyx_v_EntryO = (__pyx_v_self->EntryDt[__pyx_v_EntryOrigin]);
 
-  /* "graph.pyx":3368
+  /* "graph.pyx":3352
  *         """
  *         cdef Entry EntryO = self.EntryDt[EntryOrigin]
  *         cdef Entry EntryD = self.EntryDt[EntryDestination]             # <<<<<<<<<<<<<<
@@ -43231,40 +43231,40 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
   __pyx_v_EntryD = (__pyx_v_self->EntryDt[__pyx_v_EntryDestination]);
 
-  /* "graph.pyx":3370
+  /* "graph.pyx":3354
  *         cdef Entry EntryD = self.EntryDt[EntryDestination]
  * 
  *         cdef float MinimumDistance = self.PathDist_AStar_VirtuEntry(EntryOrigin ,             # <<<<<<<<<<<<<<
  *                                                                     EntryDestination,
  *                                                                     LimDist, LimCycle, DistMul)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_PathDist_AStar_VirtuEntry); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3370, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_PathDist_AStar_VirtuEntry); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3354, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_EntryOrigin); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3370, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_EntryOrigin); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3354, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "graph.pyx":3371
+  /* "graph.pyx":3355
  * 
  *         cdef float MinimumDistance = self.PathDist_AStar_VirtuEntry(EntryOrigin ,
  *                                                                     EntryDestination,             # <<<<<<<<<<<<<<
  *                                                                     LimDist, LimCycle, DistMul)
  * 
  */
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_EntryDestination); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 3371, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_EntryDestination); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 3355, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "graph.pyx":3372
+  /* "graph.pyx":3356
  *         cdef float MinimumDistance = self.PathDist_AStar_VirtuEntry(EntryOrigin ,
  *                                                                     EntryDestination,
  *                                                                     LimDist, LimCycle, DistMul)             # <<<<<<<<<<<<<<
  * 
  *         if MinimumDistance == -1.0 or MinimumDistance > LimDist:
  */
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_LimDist); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 3372, __pyx_L1_error)
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_LimDist); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 3356, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_LimCycle); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 3372, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_LimCycle); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 3356, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_DistMul); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 3372, __pyx_L1_error)
+  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_DistMul); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 3356, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_8 = NULL;
   __pyx_t_9 = 0;
@@ -43289,23 +43289,23 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3370, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3354, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
 
-  /* "graph.pyx":3370
+  /* "graph.pyx":3354
  *         cdef Entry EntryD = self.EntryDt[EntryDestination]
  * 
  *         cdef float MinimumDistance = self.PathDist_AStar_VirtuEntry(EntryOrigin ,             # <<<<<<<<<<<<<<
  *                                                                     EntryDestination,
  *                                                                     LimDist, LimCycle, DistMul)
  */
-  __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3370, __pyx_L1_error)
+  __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3354, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_MinimumDistance = __pyx_t_10;
 
-  /* "graph.pyx":3374
+  /* "graph.pyx":3358
  *                                                                     LimDist, LimCycle, DistMul)
  * 
  *         if MinimumDistance == -1.0 or MinimumDistance > LimDist:             # <<<<<<<<<<<<<<
@@ -43323,7 +43323,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_11) {
 
-    /* "graph.pyx":3375
+    /* "graph.pyx":3359
  * 
  *         if MinimumDistance == -1.0 or MinimumDistance > LimDist:
  *             return None             # <<<<<<<<<<<<<<
@@ -43334,7 +43334,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "graph.pyx":3374
+    /* "graph.pyx":3358
  *                                                                     LimDist, LimCycle, DistMul)
  * 
  *         if MinimumDistance == -1.0 or MinimumDistance > LimDist:             # <<<<<<<<<<<<<<
@@ -43343,7 +43343,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
   }
 
-  /* "graph.pyx":3378
+  /* "graph.pyx":3362
  * 
  *         # mapping pathcast
  *         cdef float LimitDistance = MinimumDistance * DistMulLim             # <<<<<<<<<<<<<<
@@ -43352,17 +43352,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
   __pyx_v_LimitDistance = (__pyx_v_MinimumDistance * __pyx_v_DistMulLim);
 
-  /* "graph.pyx":3379
+  /* "graph.pyx":3363
  *         # mapping pathcast
  *         cdef float LimitDistance = MinimumDistance * DistMulLim
  *         cdef float BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)             # <<<<<<<<<<<<<<
  *         if BaseDist*1.1 > LimDist:
  *             return None
  */
-  __pyx_t_10 = __pyx_f_5graph_dist3d_ar(__pyx_v_EntryO.ixPt, __pyx_v_EntryD.ixPt); if (unlikely(__pyx_t_10 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3379, __pyx_L1_error)
+  __pyx_t_10 = __pyx_f_5graph_dist3d_ar(__pyx_v_EntryO.ixPt, __pyx_v_EntryD.ixPt); if (unlikely(__pyx_t_10 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3363, __pyx_L1_error)
   __pyx_v_BaseDist = __pyx_t_10;
 
-  /* "graph.pyx":3380
+  /* "graph.pyx":3364
  *         cdef float LimitDistance = MinimumDistance * DistMulLim
  *         cdef float BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)
  *         if BaseDist*1.1 > LimDist:             # <<<<<<<<<<<<<<
@@ -43372,7 +43372,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
   __pyx_t_11 = ((__pyx_v_BaseDist * 1.1) > __pyx_v_LimDist);
   if (__pyx_t_11) {
 
-    /* "graph.pyx":3381
+    /* "graph.pyx":3365
  *         cdef float BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)
  *         if BaseDist*1.1 > LimDist:
  *             return None             # <<<<<<<<<<<<<<
@@ -43383,7 +43383,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "graph.pyx":3380
+    /* "graph.pyx":3364
  *         cdef float LimitDistance = MinimumDistance * DistMulLim
  *         cdef float BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)
  *         if BaseDist*1.1 > LimDist:             # <<<<<<<<<<<<<<
@@ -43392,7 +43392,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
   }
 
-  /* "graph.pyx":3383
+  /* "graph.pyx":3367
  *             return None
  * 
  *         self.C_NodeMap_AStar_VirtuEntry(             # <<<<<<<<<<<<<<
@@ -43407,9 +43407,9 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
   __pyx_t_13.LimCycle = __pyx_v_LimCycle;
   __pyx_t_13.DistMul = __pyx_v_DistMul;
   __pyx_t_13.EdgeCmin = __pyx_v_EdgeCmin;
-  ((struct __pyx_vtabstruct_5graph_GraphCy *)__pyx_v_self->__pyx_vtab)->C_NodeMap_AStar_VirtuEntry(__pyx_v_self, __pyx_v_EntryDestination, __pyx_v_EntryOrigin, &__pyx_t_13); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3383, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_5graph_GraphCy *)__pyx_v_self->__pyx_vtab)->C_NodeMap_AStar_VirtuEntry(__pyx_v_self, __pyx_v_EntryDestination, __pyx_v_EntryOrigin, &__pyx_t_13); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3367, __pyx_L1_error)
 
-  /* "graph.pyx":3392
+  /* "graph.pyx":3376
  *         cdef vector[float] FoundDistance
  * 
  *         cdef bint keepGoing = True             # <<<<<<<<<<<<<<
@@ -43418,19 +43418,19 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
   __pyx_v_keepGoing = 1;
 
-  /* "graph.pyx":3396
+  /* "graph.pyx":3380
  *         cdef PriorityQueue_NR OpenNodes
  *         cdef NodeReach startNode
  *         OpenNodes = PriorityQueue_NR()             # <<<<<<<<<<<<<<
  * 
  *         # print(f'\tstartB {startNode.Dist} || {self.nodeVisited[startNode.Nid].Dist} || {LimitDistance}')
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5graph_PriorityQueue_NR)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3396, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5graph_PriorityQueue_NR)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3380, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_OpenNodes = ((struct __pyx_obj_5graph_PriorityQueue_NR *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "graph.pyx":3406
+  /* "graph.pyx":3390
  *         cdef int cycles
  *         cdef int i
  *         cdef int pathN = 0             # <<<<<<<<<<<<<<
@@ -43439,7 +43439,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
   __pyx_v_pathN = 0;
 
-  /* "graph.pyx":3408
+  /* "graph.pyx":3392
  *         cdef int pathN = 0
  * 
  *         cycles = 0             # <<<<<<<<<<<<<<
@@ -43448,7 +43448,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
   __pyx_v_cycles = 0;
 
-  /* "graph.pyx":3409
+  /* "graph.pyx":3393
  * 
  *         cycles = 0
  *         MappedPath_T.push_back(EntryO.Eid)             # <<<<<<<<<<<<<<
@@ -43459,10 +43459,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
     __pyx_v_MappedPath_T.push_back(__pyx_v_EntryO.Eid);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 3409, __pyx_L1_error)
+    __PYX_ERR(0, 3393, __pyx_L1_error)
   }
 
-  /* "graph.pyx":3410
+  /* "graph.pyx":3394
  *         cycles = 0
  *         MappedPath_T.push_back(EntryO.Eid)
  *         MappedPaths.push_back(MappedPath_T)             # <<<<<<<<<<<<<<
@@ -43473,10 +43473,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
     __pyx_v_MappedPaths.push_back(__pyx_v_MappedPath_T);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 3410, __pyx_L1_error)
+    __PYX_ERR(0, 3394, __pyx_L1_error)
   }
 
-  /* "graph.pyx":3412
+  /* "graph.pyx":3396
  *         MappedPaths.push_back(MappedPath_T)
  * 
  *         if EntryD.Eid == EntryO.Eid: # checks if same edge             # <<<<<<<<<<<<<<
@@ -43486,7 +43486,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
   __pyx_t_11 = (__pyx_v_EntryD.Eid == __pyx_v_EntryO.Eid);
   if (__pyx_t_11) {
 
-    /* "graph.pyx":3413
+    /* "graph.pyx":3397
  * 
  *         if EntryD.Eid == EntryO.Eid: # checks if same edge
  *             MinimumDistance = abs(EntryD.EDist[0] - EntryO.EDist[0])             # <<<<<<<<<<<<<<
@@ -43495,7 +43495,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
     __pyx_v_MinimumDistance = fabsf(((__pyx_v_EntryD.EDist[0]) - (__pyx_v_EntryO.EDist[0])));
 
-    /* "graph.pyx":3414
+    /* "graph.pyx":3398
  *         if EntryD.Eid == EntryO.Eid: # checks if same edge
  *             MinimumDistance = abs(EntryD.EDist[0] - EntryO.EDist[0])
  *             FoundPaths.push_back(MappedPath_T)             # <<<<<<<<<<<<<<
@@ -43506,10 +43506,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
       __pyx_v_FoundPaths.push_back(__pyx_v_MappedPath_T);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 3414, __pyx_L1_error)
+      __PYX_ERR(0, 3398, __pyx_L1_error)
     }
 
-    /* "graph.pyx":3415
+    /* "graph.pyx":3399
  *             MinimumDistance = abs(EntryD.EDist[0] - EntryO.EDist[0])
  *             FoundPaths.push_back(MappedPath_T)
  *             if MinimumDistance == 0.0:             # <<<<<<<<<<<<<<
@@ -43519,7 +43519,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
     __pyx_t_11 = (__pyx_v_MinimumDistance == 0.0);
     if (__pyx_t_11) {
 
-      /* "graph.pyx":3416
+      /* "graph.pyx":3400
  *             FoundPaths.push_back(MappedPath_T)
  *             if MinimumDistance == 0.0:
  *                 MinimumDistance = <float>0.1             # <<<<<<<<<<<<<<
@@ -43528,7 +43528,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
       __pyx_v_MinimumDistance = ((float)0.1);
 
-      /* "graph.pyx":3415
+      /* "graph.pyx":3399
  *             MinimumDistance = abs(EntryD.EDist[0] - EntryO.EDist[0])
  *             FoundPaths.push_back(MappedPath_T)
  *             if MinimumDistance == 0.0:             # <<<<<<<<<<<<<<
@@ -43537,7 +43537,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
     }
 
-    /* "graph.pyx":3417
+    /* "graph.pyx":3401
  *             if MinimumDistance == 0.0:
  *                 MinimumDistance = <float>0.1
  *             FoundDistance.push_back(MinimumDistance)             # <<<<<<<<<<<<<<
@@ -43548,10 +43548,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
       __pyx_v_FoundDistance.push_back(__pyx_v_MinimumDistance);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 3417, __pyx_L1_error)
+      __PYX_ERR(0, 3401, __pyx_L1_error)
     }
 
-    /* "graph.pyx":3412
+    /* "graph.pyx":3396
  *         MappedPaths.push_back(MappedPath_T)
  * 
  *         if EntryD.Eid == EntryO.Eid: # checks if same edge             # <<<<<<<<<<<<<<
@@ -43560,7 +43560,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
   }
 
-  /* "graph.pyx":3420
+  /* "graph.pyx":3404
  * 
  *         # for Origin EdgeOrigin
  *         if self.nodeVisited[self.edges[EntryO.Eid].NidO].Nid != -1:             # <<<<<<<<<<<<<<
@@ -43570,7 +43570,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
   __pyx_t_11 = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryO.Eid]).NidO]).Nid != -1L);
   if (__pyx_t_11) {
 
-    /* "graph.pyx":3421
+    /* "graph.pyx":3405
  *         # for Origin EdgeOrigin
  *         if self.nodeVisited[self.edges[EntryO.Eid].NidO].Nid != -1:
  *             startNode.Nid = self.edges[EntryO.Eid].NidO             # <<<<<<<<<<<<<<
@@ -43580,7 +43580,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
     __pyx_t_9 = (__pyx_v_self->edges[__pyx_v_EntryO.Eid]).NidO;
     __pyx_v_startNode.Nid = __pyx_t_9;
 
-    /* "graph.pyx":3422
+    /* "graph.pyx":3406
  *         if self.nodeVisited[self.edges[EntryO.Eid].NidO].Nid != -1:
  *             startNode.Nid = self.edges[EntryO.Eid].NidO
  *             startNode.Eid = EntryO.Eid             # <<<<<<<<<<<<<<
@@ -43590,7 +43590,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
     __pyx_t_9 = __pyx_v_EntryO.Eid;
     __pyx_v_startNode.Eid = __pyx_t_9;
 
-    /* "graph.pyx":3423
+    /* "graph.pyx":3407
  *             startNode.Nid = self.edges[EntryO.Eid].NidO
  *             startNode.Eid = EntryO.Eid
  *             startNode.Dist = EntryO.EDist[0]             # <<<<<<<<<<<<<<
@@ -43599,7 +43599,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
     __pyx_v_startNode.Dist = (__pyx_v_EntryO.EDist[0]);
 
-    /* "graph.pyx":3424
+    /* "graph.pyx":3408
  *             startNode.Eid = EntryO.Eid
  *             startNode.Dist = EntryO.EDist[0]
  *             startNode.NidO = -1             # <<<<<<<<<<<<<<
@@ -43608,7 +43608,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
     __pyx_v_startNode.NidO = -1;
 
-    /* "graph.pyx":3425
+    /* "graph.pyx":3409
  *             startNode.Dist = EntryO.EDist[0]
  *             startNode.NidO = -1
  *             startNode.pathindex = 0             # <<<<<<<<<<<<<<
@@ -43617,7 +43617,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
     __pyx_v_startNode.pathindex = 0;
 
-    /* "graph.pyx":3426
+    /* "graph.pyx":3410
  *             startNode.NidO = -1
  *             startNode.pathindex = 0
  *             startNode.Weight = EntryO.EDist[0] + (self.nodeVisited[startNode.Nid].Dist - MinimumDistance) * DistMul             # <<<<<<<<<<<<<<
@@ -43626,16 +43626,16 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
     __pyx_v_startNode.Weight = ((__pyx_v_EntryO.EDist[0]) + (((__pyx_v_self->nodeVisited[__pyx_v_startNode.Nid]).Dist - __pyx_v_MinimumDistance) * __pyx_v_DistMul));
 
-    /* "graph.pyx":3427
+    /* "graph.pyx":3411
  *             startNode.pathindex = 0
  *             startNode.Weight = EntryO.EDist[0] + (self.nodeVisited[startNode.Nid].Dist - MinimumDistance) * DistMul
  *             OpenNodes.push(startNode)             # <<<<<<<<<<<<<<
  *         # for destination edgeorigin
  *         if self.nodeVisited[self.edges[EntryO.Eid].NidD].Nid != -1:
  */
-    ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3427, __pyx_L1_error)
+    ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3411, __pyx_L1_error)
 
-    /* "graph.pyx":3420
+    /* "graph.pyx":3404
  * 
  *         # for Origin EdgeOrigin
  *         if self.nodeVisited[self.edges[EntryO.Eid].NidO].Nid != -1:             # <<<<<<<<<<<<<<
@@ -43644,7 +43644,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
   }
 
-  /* "graph.pyx":3429
+  /* "graph.pyx":3413
  *             OpenNodes.push(startNode)
  *         # for destination edgeorigin
  *         if self.nodeVisited[self.edges[EntryO.Eid].NidD].Nid != -1:             # <<<<<<<<<<<<<<
@@ -43654,7 +43654,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
   __pyx_t_11 = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryO.Eid]).NidD]).Nid != -1L);
   if (__pyx_t_11) {
 
-    /* "graph.pyx":3430
+    /* "graph.pyx":3414
  *         # for destination edgeorigin
  *         if self.nodeVisited[self.edges[EntryO.Eid].NidD].Nid != -1:
  *             startNode.Nid = self.edges[EntryO.Eid].NidD             # <<<<<<<<<<<<<<
@@ -43664,7 +43664,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
     __pyx_t_9 = (__pyx_v_self->edges[__pyx_v_EntryO.Eid]).NidD;
     __pyx_v_startNode.Nid = __pyx_t_9;
 
-    /* "graph.pyx":3431
+    /* "graph.pyx":3415
  *         if self.nodeVisited[self.edges[EntryO.Eid].NidD].Nid != -1:
  *             startNode.Nid = self.edges[EntryO.Eid].NidD
  *             startNode.Eid = EntryO.Eid             # <<<<<<<<<<<<<<
@@ -43674,7 +43674,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
     __pyx_t_9 = __pyx_v_EntryO.Eid;
     __pyx_v_startNode.Eid = __pyx_t_9;
 
-    /* "graph.pyx":3432
+    /* "graph.pyx":3416
  *             startNode.Nid = self.edges[EntryO.Eid].NidD
  *             startNode.Eid = EntryO.Eid
  *             startNode.Dist = EntryO.EDist[1]             # <<<<<<<<<<<<<<
@@ -43683,7 +43683,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
     __pyx_v_startNode.Dist = (__pyx_v_EntryO.EDist[1]);
 
-    /* "graph.pyx":3433
+    /* "graph.pyx":3417
  *             startNode.Eid = EntryO.Eid
  *             startNode.Dist = EntryO.EDist[1]
  *             startNode.NidO = -1             # <<<<<<<<<<<<<<
@@ -43692,7 +43692,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
     __pyx_v_startNode.NidO = -1;
 
-    /* "graph.pyx":3434
+    /* "graph.pyx":3418
  *             startNode.Dist = EntryO.EDist[1]
  *             startNode.NidO = -1
  *             startNode.pathindex = 0             # <<<<<<<<<<<<<<
@@ -43701,7 +43701,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
     __pyx_v_startNode.pathindex = 0;
 
-    /* "graph.pyx":3435
+    /* "graph.pyx":3419
  *             startNode.NidO = -1
  *             startNode.pathindex = 0
  *             startNode.Weight = EntryO.EDist[1] + (self.nodeVisited[startNode.Nid].Dist - MinimumDistance) * DistMul             # <<<<<<<<<<<<<<
@@ -43710,16 +43710,16 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
     __pyx_v_startNode.Weight = ((__pyx_v_EntryO.EDist[1]) + (((__pyx_v_self->nodeVisited[__pyx_v_startNode.Nid]).Dist - __pyx_v_MinimumDistance) * __pyx_v_DistMul));
 
-    /* "graph.pyx":3436
+    /* "graph.pyx":3420
  *             startNode.pathindex = 0
  *             startNode.Weight = EntryO.EDist[1] + (self.nodeVisited[startNode.Nid].Dist - MinimumDistance) * DistMul
  *             OpenNodes.push(startNode)             # <<<<<<<<<<<<<<
  * 
  *         # cdef float RemainDist
  */
-    ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3436, __pyx_L1_error)
+    ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3420, __pyx_L1_error)
 
-    /* "graph.pyx":3429
+    /* "graph.pyx":3413
  *             OpenNodes.push(startNode)
  *         # for destination edgeorigin
  *         if self.nodeVisited[self.edges[EntryO.Eid].NidD].Nid != -1:             # <<<<<<<<<<<<<<
@@ -43728,7 +43728,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
   }
 
-  /* "graph.pyx":3439
+  /* "graph.pyx":3423
  * 
  *         # cdef float RemainDist
  *         while keepGoing:             # <<<<<<<<<<<<<<
@@ -43738,7 +43738,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
   while (1) {
     if (!__pyx_v_keepGoing) break;
 
-    /* "graph.pyx":3440
+    /* "graph.pyx":3424
  *         # cdef float RemainDist
  *         while keepGoing:
  *             cycles += 1             # <<<<<<<<<<<<<<
@@ -43747,17 +43747,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
     __pyx_v_cycles = (__pyx_v_cycles + 1);
 
-    /* "graph.pyx":3441
+    /* "graph.pyx":3425
  *         while keepGoing:
  *             cycles += 1
  *             if OpenNodes.empty():             # <<<<<<<<<<<<<<
  *                 break
  *             NodeCheck = OpenNodes.pop_top()
  */
-    __pyx_t_11 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->empty(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3441, __pyx_L1_error)
+    __pyx_t_11 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->empty(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3425, __pyx_L1_error)
     if (__pyx_t_11) {
 
-      /* "graph.pyx":3442
+      /* "graph.pyx":3426
  *             cycles += 1
  *             if OpenNodes.empty():
  *                 break             # <<<<<<<<<<<<<<
@@ -43766,7 +43766,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
       goto __pyx_L12_break;
 
-      /* "graph.pyx":3441
+      /* "graph.pyx":3425
  *         while keepGoing:
  *             cycles += 1
  *             if OpenNodes.empty():             # <<<<<<<<<<<<<<
@@ -43775,17 +43775,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
     }
 
-    /* "graph.pyx":3443
+    /* "graph.pyx":3427
  *             if OpenNodes.empty():
  *                 break
  *             NodeCheck = OpenNodes.pop_top()             # <<<<<<<<<<<<<<
  *             MappedPath_T = MappedPaths[NodeCheck.pathindex] # getting mapped path from nodecheck index
  * 
  */
-    __pyx_t_14 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->pop_top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3443, __pyx_L1_error)
+    __pyx_t_14 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->pop_top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3427, __pyx_L1_error)
     __pyx_v_NodeCheck = __pyx_t_14;
 
-    /* "graph.pyx":3444
+    /* "graph.pyx":3428
  *                 break
  *             NodeCheck = OpenNodes.pop_top()
  *             MappedPath_T = MappedPaths[NodeCheck.pathindex] # getting mapped path from nodecheck index             # <<<<<<<<<<<<<<
@@ -43794,7 +43794,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
     __pyx_v_MappedPath_T = (__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]);
 
-    /* "graph.pyx":3446
+    /* "graph.pyx":3430
  *             MappedPath_T = MappedPaths[NodeCheck.pathindex] # getting mapped path from nodecheck index
  * 
  *             for i in range(self.EidN):             # <<<<<<<<<<<<<<
@@ -43806,7 +43806,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
     for (__pyx_t_16 = 0; __pyx_t_16 < __pyx_t_15; __pyx_t_16+=1) {
       __pyx_v_i = __pyx_t_16;
 
-      /* "graph.pyx":3447
+      /* "graph.pyx":3431
  * 
  *             for i in range(self.EidN):
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]             # <<<<<<<<<<<<<<
@@ -43815,7 +43815,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
       __pyx_v_Eid = ((__pyx_v_self->nodes[__pyx_v_NodeCheck.Nid]).Eid[__pyx_v_i]);
 
-      /* "graph.pyx":3448
+      /* "graph.pyx":3432
  *             for i in range(self.EidN):
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                 if Eid == -1:             # <<<<<<<<<<<<<<
@@ -43825,7 +43825,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
       __pyx_t_11 = (__pyx_v_Eid == -1L);
       if (__pyx_t_11) {
 
-        /* "graph.pyx":3450
+        /* "graph.pyx":3434
  *                 if Eid == -1:
  *                     # print(f'\t\tOut Edge {cycles} {Eid}')
  *                     break             # <<<<<<<<<<<<<<
@@ -43834,7 +43834,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
         goto __pyx_L15_break;
 
-        /* "graph.pyx":3448
+        /* "graph.pyx":3432
  *             for i in range(self.EidN):
  *                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                 if Eid == -1:             # <<<<<<<<<<<<<<
@@ -43843,7 +43843,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
       }
 
-      /* "graph.pyx":3451
+      /* "graph.pyx":3435
  *                     # print(f'\t\tOut Edge {cycles} {Eid}')
  *                     break
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:             # <<<<<<<<<<<<<<
@@ -43861,7 +43861,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
       __pyx_L18_bool_binop_done:;
       if (__pyx_t_11) {
 
-        /* "graph.pyx":3453
+        /* "graph.pyx":3437
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:
  *                     # print(f'\t\tOut similar Edge {cycles} {Eid}')
  *                     continue             # <<<<<<<<<<<<<<
@@ -43870,7 +43870,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
         goto __pyx_L14_continue;
 
-        /* "graph.pyx":3451
+        /* "graph.pyx":3435
  *                     # print(f'\t\tOut Edge {cycles} {Eid}')
  *                     break
  *                 if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:             # <<<<<<<<<<<<<<
@@ -43879,17 +43879,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
       }
 
-      /* "graph.pyx":3455
+      /* "graph.pyx":3439
  *                     continue
  * 
  *                 if Find_IntVector(MappedPaths[NodeCheck.pathindex], Eid): # if Eid already in mapped paths             # <<<<<<<<<<<<<<
  *                     # print(f'\t\tOut Dupe {cycles}')
  *                     continue
  */
-      __pyx_t_11 = __pyx_f_5graph_Find_IntVector((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]), __pyx_v_Eid); if (unlikely(__pyx_t_11 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3455, __pyx_L1_error)
+      __pyx_t_11 = __pyx_f_5graph_Find_IntVector((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]), __pyx_v_Eid); if (unlikely(__pyx_t_11 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3439, __pyx_L1_error)
       if (__pyx_t_11) {
 
-        /* "graph.pyx":3457
+        /* "graph.pyx":3441
  *                 if Find_IntVector(MappedPaths[NodeCheck.pathindex], Eid): # if Eid already in mapped paths
  *                     # print(f'\t\tOut Dupe {cycles}')
  *                     continue             # <<<<<<<<<<<<<<
@@ -43898,7 +43898,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
         goto __pyx_L14_continue;
 
-        /* "graph.pyx":3455
+        /* "graph.pyx":3439
  *                     continue
  * 
  *                 if Find_IntVector(MappedPaths[NodeCheck.pathindex], Eid): # if Eid already in mapped paths             # <<<<<<<<<<<<<<
@@ -43907,7 +43907,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
       }
 
-      /* "graph.pyx":3459
+      /* "graph.pyx":3443
  *                     continue
  * 
  *                 if Eid == EntryD.Eid:             # <<<<<<<<<<<<<<
@@ -43917,7 +43917,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
       __pyx_t_11 = (__pyx_v_Eid == __pyx_v_EntryD.Eid);
       if (__pyx_t_11) {
 
-        /* "graph.pyx":3460
+        /* "graph.pyx":3444
  * 
  *                 if Eid == EntryD.Eid:
  *                     if NodeCheck.Nid == self.edges[EntryD.Eid].NidO:             # <<<<<<<<<<<<<<
@@ -43927,7 +43927,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
         __pyx_t_11 = (__pyx_v_NodeCheck.Nid == (__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidO);
         if (__pyx_t_11) {
 
-          /* "graph.pyx":3461
+          /* "graph.pyx":3445
  *                 if Eid == EntryD.Eid:
  *                     if NodeCheck.Nid == self.edges[EntryD.Eid].NidO:
  *                         pathlength = NodeCheck.Dist + EntryD.EDist[0]             # <<<<<<<<<<<<<<
@@ -43936,7 +43936,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
           __pyx_v_pathlength = (__pyx_v_NodeCheck.Dist + (__pyx_v_EntryD.EDist[0]));
 
-          /* "graph.pyx":3460
+          /* "graph.pyx":3444
  * 
  *                 if Eid == EntryD.Eid:
  *                     if NodeCheck.Nid == self.edges[EntryD.Eid].NidO:             # <<<<<<<<<<<<<<
@@ -43946,7 +43946,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
           goto __pyx_L22;
         }
 
-        /* "graph.pyx":3463
+        /* "graph.pyx":3447
  *                         pathlength = NodeCheck.Dist + EntryD.EDist[0]
  *                     else:
  *                         pathlength = NodeCheck.Dist + EntryD.EDist[1]             # <<<<<<<<<<<<<<
@@ -43958,7 +43958,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
         }
         __pyx_L22:;
 
-        /* "graph.pyx":3464
+        /* "graph.pyx":3448
  *                     else:
  *                         pathlength = NodeCheck.Dist + EntryD.EDist[1]
  *                     if pathlength < LimitDistance:             # <<<<<<<<<<<<<<
@@ -43968,7 +43968,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
         __pyx_t_11 = (__pyx_v_pathlength < __pyx_v_LimitDistance);
         if (__pyx_t_11) {
 
-          /* "graph.pyx":3465
+          /* "graph.pyx":3449
  *                         pathlength = NodeCheck.Dist + EntryD.EDist[1]
  *                     if pathlength < LimitDistance:
  *                         FoundDistance.push_back(pathlength)             # <<<<<<<<<<<<<<
@@ -43979,10 +43979,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
             __pyx_v_FoundDistance.push_back(__pyx_v_pathlength);
           } catch(...) {
             __Pyx_CppExn2PyErr();
-            __PYX_ERR(0, 3465, __pyx_L1_error)
+            __PYX_ERR(0, 3449, __pyx_L1_error)
           }
 
-          /* "graph.pyx":3466
+          /* "graph.pyx":3450
  *                     if pathlength < LimitDistance:
  *                         FoundDistance.push_back(pathlength)
  *                         MappedPaths[NodeCheck.pathindex].push_back(Eid)             # <<<<<<<<<<<<<<
@@ -43993,10 +43993,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
             (__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]).push_back(__pyx_v_Eid);
           } catch(...) {
             __Pyx_CppExn2PyErr();
-            __PYX_ERR(0, 3466, __pyx_L1_error)
+            __PYX_ERR(0, 3450, __pyx_L1_error)
           }
 
-          /* "graph.pyx":3467
+          /* "graph.pyx":3451
  *                         FoundDistance.push_back(pathlength)
  *                         MappedPaths[NodeCheck.pathindex].push_back(Eid)
  *                         FoundPaths.push_back(MappedPaths[NodeCheck.pathindex])             # <<<<<<<<<<<<<<
@@ -44007,10 +44007,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
             __pyx_v_FoundPaths.push_back((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]));
           } catch(...) {
             __Pyx_CppExn2PyErr();
-            __PYX_ERR(0, 3467, __pyx_L1_error)
+            __PYX_ERR(0, 3451, __pyx_L1_error)
           }
 
-          /* "graph.pyx":3468
+          /* "graph.pyx":3452
  *                         MappedPaths[NodeCheck.pathindex].push_back(Eid)
  *                         FoundPaths.push_back(MappedPaths[NodeCheck.pathindex])
  *                         pathN += 1             # <<<<<<<<<<<<<<
@@ -44019,7 +44019,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
           __pyx_v_pathN = (__pyx_v_pathN + 1);
 
-          /* "graph.pyx":3469
+          /* "graph.pyx":3453
  *                         FoundPaths.push_back(MappedPaths[NodeCheck.pathindex])
  *                         pathN += 1
  *                         if PathLim <= pathN:             # <<<<<<<<<<<<<<
@@ -44029,7 +44029,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
           __pyx_t_11 = (__pyx_v_PathLim <= __pyx_v_pathN);
           if (__pyx_t_11) {
 
-            /* "graph.pyx":3470
+            /* "graph.pyx":3454
  *                         pathN += 1
  *                         if PathLim <= pathN:
  *                             keepGoing = False             # <<<<<<<<<<<<<<
@@ -44038,7 +44038,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
             __pyx_v_keepGoing = 0;
 
-            /* "graph.pyx":3471
+            /* "graph.pyx":3455
  *                         if PathLim <= pathN:
  *                             keepGoing = False
  *                             break             # <<<<<<<<<<<<<<
@@ -44047,7 +44047,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
             goto __pyx_L15_break;
 
-            /* "graph.pyx":3469
+            /* "graph.pyx":3453
  *                         FoundPaths.push_back(MappedPaths[NodeCheck.pathindex])
  *                         pathN += 1
  *                         if PathLim <= pathN:             # <<<<<<<<<<<<<<
@@ -44056,7 +44056,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
           }
 
-          /* "graph.pyx":3464
+          /* "graph.pyx":3448
  *                     else:
  *                         pathlength = NodeCheck.Dist + EntryD.EDist[1]
  *                     if pathlength < LimitDistance:             # <<<<<<<<<<<<<<
@@ -44065,7 +44065,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
         }
 
-        /* "graph.pyx":3473
+        /* "graph.pyx":3457
  *                             break
  *                     # else: print(f'\t\tOut didnt quite made it {cycles} {pathlength}')
  *                     continue             # <<<<<<<<<<<<<<
@@ -44074,7 +44074,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
         goto __pyx_L14_continue;
 
-        /* "graph.pyx":3459
+        /* "graph.pyx":3443
  *                     continue
  * 
  *                 if Eid == EntryD.Eid:             # <<<<<<<<<<<<<<
@@ -44083,7 +44083,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
       }
 
-      /* "graph.pyx":3475
+      /* "graph.pyx":3459
  *                     continue
  * 
  *                 EdgeC = self.edges[Eid]             # <<<<<<<<<<<<<<
@@ -44092,7 +44092,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
       __pyx_v_EdgeC = (__pyx_v_self->edges[__pyx_v_Eid]);
 
-      /* "graph.pyx":3476
+      /* "graph.pyx":3460
  * 
  *                 EdgeC = self.edges[Eid]
  *                 if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -44102,7 +44102,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
       __pyx_t_11 = (__pyx_v_EdgeC.NidO == __pyx_v_NodeCheck.Nid);
       if (__pyx_t_11) {
 
-        /* "graph.pyx":3477
+        /* "graph.pyx":3461
  *                 EdgeC = self.edges[Eid]
  *                 if EdgeC.NidO == NodeCheck.Nid:
  *                     pathlength = EdgeC.len             # <<<<<<<<<<<<<<
@@ -44112,7 +44112,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
         __pyx_t_10 = __pyx_v_EdgeC.len;
         __pyx_v_pathlength = __pyx_t_10;
 
-        /* "graph.pyx":3478
+        /* "graph.pyx":3462
  *                 if EdgeC.NidO == NodeCheck.Nid:
  *                     pathlength = EdgeC.len
  *                     NidF = EdgeC.NidD             # <<<<<<<<<<<<<<
@@ -44122,7 +44122,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
         __pyx_t_17 = __pyx_v_EdgeC.NidD;
         __pyx_v_NidF = __pyx_t_17;
 
-        /* "graph.pyx":3476
+        /* "graph.pyx":3460
  * 
  *                 EdgeC = self.edges[Eid]
  *                 if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -44132,7 +44132,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
         goto __pyx_L25;
       }
 
-      /* "graph.pyx":3480
+      /* "graph.pyx":3464
  *                     NidF = EdgeC.NidD
  *                 else:
  *                     pathlength = EdgeC.lenR             # <<<<<<<<<<<<<<
@@ -44143,7 +44143,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
         __pyx_t_10 = __pyx_v_EdgeC.lenR;
         __pyx_v_pathlength = __pyx_t_10;
 
-        /* "graph.pyx":3481
+        /* "graph.pyx":3465
  *                 else:
  *                     pathlength = EdgeC.lenR
  *                     NidF = EdgeC.NidO             # <<<<<<<<<<<<<<
@@ -44155,7 +44155,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
       }
       __pyx_L25:;
 
-      /* "graph.pyx":3483
+      /* "graph.pyx":3467
  *                     NidF = EdgeC.NidO
  * 
  *                 pathlength += NodeCheck.Dist + self.nodes[NidF].c             # <<<<<<<<<<<<<<
@@ -44164,7 +44164,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
       __pyx_v_pathlength = (__pyx_v_pathlength + (__pyx_v_NodeCheck.Dist + (__pyx_v_self->nodes[__pyx_v_NidF]).c));
 
-      /* "graph.pyx":3484
+      /* "graph.pyx":3468
  * 
  *                 pathlength += NodeCheck.Dist + self.nodes[NidF].c
  *                 if self.nodeVisited[NidF].Nid != -1:             # <<<<<<<<<<<<<<
@@ -44174,7 +44174,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
       __pyx_t_11 = ((__pyx_v_self->nodeVisited[__pyx_v_NidF]).Nid != -1L);
       if (__pyx_t_11) {
 
-        /* "graph.pyx":3485
+        /* "graph.pyx":3469
  *                 pathlength += NodeCheck.Dist + self.nodes[NidF].c
  *                 if self.nodeVisited[NidF].Nid != -1:
  *                     if (pathlength + self.nodeVisited[NidF].Dist) > LimitDistance:             # <<<<<<<<<<<<<<
@@ -44184,7 +44184,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
         __pyx_t_11 = ((__pyx_v_pathlength + (__pyx_v_self->nodeVisited[__pyx_v_NidF]).Dist) > __pyx_v_LimitDistance);
         if (__pyx_t_11) {
 
-          /* "graph.pyx":3487
+          /* "graph.pyx":3471
  *                     if (pathlength + self.nodeVisited[NidF].Dist) > LimitDistance:
  *                         # print(f'\t\tOut {cycles} - {Eid} {pathlength} | {self.nodeVisited[NidF].Dist}')
  *                         continue             # <<<<<<<<<<<<<<
@@ -44193,7 +44193,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
           goto __pyx_L14_continue;
 
-          /* "graph.pyx":3485
+          /* "graph.pyx":3469
  *                 pathlength += NodeCheck.Dist + self.nodes[NidF].c
  *                 if self.nodeVisited[NidF].Nid != -1:
  *                     if (pathlength + self.nodeVisited[NidF].Dist) > LimitDistance:             # <<<<<<<<<<<<<<
@@ -44202,7 +44202,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
         }
 
-        /* "graph.pyx":3489
+        /* "graph.pyx":3473
  *                         continue
  *                     else:
  *                         NodeReach_T.Weight = pathlength + (self.nodeVisited[NidF].Dist-MinimumDistance)* DistMul             # <<<<<<<<<<<<<<
@@ -44213,7 +44213,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
           __pyx_v_NodeReach_T.Weight = (__pyx_v_pathlength + (((__pyx_v_self->nodeVisited[__pyx_v_NidF]).Dist - __pyx_v_MinimumDistance) * __pyx_v_DistMul));
         }
 
-        /* "graph.pyx":3484
+        /* "graph.pyx":3468
  * 
  *                 pathlength += NodeCheck.Dist + self.nodes[NidF].c
  *                 if self.nodeVisited[NidF].Nid != -1:             # <<<<<<<<<<<<<<
@@ -44223,7 +44223,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
         goto __pyx_L26;
       }
 
-      /* "graph.pyx":3492
+      /* "graph.pyx":3476
  *                 else:
  *                     # print(f'\t\tOut {cycles} - Nid-1')
  *                     continue             # <<<<<<<<<<<<<<
@@ -44235,7 +44235,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
       }
       __pyx_L26:;
 
-      /* "graph.pyx":3493
+      /* "graph.pyx":3477
  *                     # print(f'\t\tOut {cycles} - Nid-1')
  *                     continue
  *                 MappedPath_T2 = MappedPath_T             # <<<<<<<<<<<<<<
@@ -44244,7 +44244,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
       __pyx_v_MappedPath_T2 = __pyx_v_MappedPath_T;
 
-      /* "graph.pyx":3494
+      /* "graph.pyx":3478
  *                     continue
  *                 MappedPath_T2 = MappedPath_T
  *                 MappedPath_T2.push_back(Eid)             # <<<<<<<<<<<<<<
@@ -44255,10 +44255,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
         __pyx_v_MappedPath_T2.push_back(__pyx_v_Eid);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(0, 3494, __pyx_L1_error)
+        __PYX_ERR(0, 3478, __pyx_L1_error)
       }
 
-      /* "graph.pyx":3495
+      /* "graph.pyx":3479
  *                 MappedPath_T2 = MappedPath_T
  *                 MappedPath_T2.push_back(Eid)
  *                 NodeReach_T.Nid = NidF             # <<<<<<<<<<<<<<
@@ -44267,7 +44267,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
       __pyx_v_NodeReach_T.Nid = __pyx_v_NidF;
 
-      /* "graph.pyx":3496
+      /* "graph.pyx":3480
  *                 MappedPath_T2.push_back(Eid)
  *                 NodeReach_T.Nid = NidF
  *                 NodeReach_T.Dist = pathlength             # <<<<<<<<<<<<<<
@@ -44276,7 +44276,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
       __pyx_v_NodeReach_T.Dist = __pyx_v_pathlength;
 
-      /* "graph.pyx":3497
+      /* "graph.pyx":3481
  *                 NodeReach_T.Nid = NidF
  *                 NodeReach_T.Dist = pathlength
  *                 NodeReach_T.Eid = Eid             # <<<<<<<<<<<<<<
@@ -44285,7 +44285,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
       __pyx_v_NodeReach_T.Eid = __pyx_v_Eid;
 
-      /* "graph.pyx":3499
+      /* "graph.pyx":3483
  *                 NodeReach_T.Eid = Eid
  * 
  *                 if MappedPaths[NodeCheck.pathindex] == MappedPath_T:             # <<<<<<<<<<<<<<
@@ -44295,7 +44295,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
       __pyx_t_11 = ((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]) == __pyx_v_MappedPath_T);
       if (__pyx_t_11) {
 
-        /* "graph.pyx":3500
+        /* "graph.pyx":3484
  * 
  *                 if MappedPaths[NodeCheck.pathindex] == MappedPath_T:
  *                     NodeReach_T.pathindex = NodeCheck.pathindex             # <<<<<<<<<<<<<<
@@ -44305,7 +44305,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
         __pyx_t_17 = __pyx_v_NodeCheck.pathindex;
         __pyx_v_NodeReach_T.pathindex = __pyx_t_17;
 
-        /* "graph.pyx":3501
+        /* "graph.pyx":3485
  *                 if MappedPaths[NodeCheck.pathindex] == MappedPath_T:
  *                     NodeReach_T.pathindex = NodeCheck.pathindex
  *                     MappedPaths[NodeCheck.pathindex] = MappedPath_T2             # <<<<<<<<<<<<<<
@@ -44314,7 +44314,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
         (__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]) = __pyx_v_MappedPath_T2;
 
-        /* "graph.pyx":3499
+        /* "graph.pyx":3483
  *                 NodeReach_T.Eid = Eid
  * 
  *                 if MappedPaths[NodeCheck.pathindex] == MappedPath_T:             # <<<<<<<<<<<<<<
@@ -44324,7 +44324,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
         goto __pyx_L28;
       }
 
-      /* "graph.pyx":3503
+      /* "graph.pyx":3487
  *                     MappedPaths[NodeCheck.pathindex] = MappedPath_T2
  *                 else:
  *                     NodeReach_T.pathindex = <int>MappedPaths.size()             # <<<<<<<<<<<<<<
@@ -44334,7 +44334,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
       /*else*/ {
         __pyx_v_NodeReach_T.pathindex = ((int)__pyx_v_MappedPaths.size());
 
-        /* "graph.pyx":3504
+        /* "graph.pyx":3488
  *                 else:
  *                     NodeReach_T.pathindex = <int>MappedPaths.size()
  *                     MappedPaths.push_back(MappedPath_T2)             # <<<<<<<<<<<<<<
@@ -44345,24 +44345,24 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
           __pyx_v_MappedPaths.push_back(__pyx_v_MappedPath_T2);
         } catch(...) {
           __Pyx_CppExn2PyErr();
-          __PYX_ERR(0, 3504, __pyx_L1_error)
+          __PYX_ERR(0, 3488, __pyx_L1_error)
         }
       }
       __pyx_L28:;
 
-      /* "graph.pyx":3505
+      /* "graph.pyx":3489
  *                     NodeReach_T.pathindex = <int>MappedPaths.size()
  *                     MappedPaths.push_back(MappedPath_T2)
  *                 OpenNodes.push(NodeReach_T)             # <<<<<<<<<<<<<<
  * 
  *             if cycles > LimCycle:
  */
-      ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3505, __pyx_L1_error)
+      ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3489, __pyx_L1_error)
       __pyx_L14_continue:;
     }
     __pyx_L15_break:;
 
-    /* "graph.pyx":3507
+    /* "graph.pyx":3491
  *                 OpenNodes.push(NodeReach_T)
  * 
  *             if cycles > LimCycle:             # <<<<<<<<<<<<<<
@@ -44372,7 +44372,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
     __pyx_t_11 = (__pyx_v_cycles > __pyx_v_LimCycle);
     if (__pyx_t_11) {
 
-      /* "graph.pyx":3508
+      /* "graph.pyx":3492
  * 
  *             if cycles > LimCycle:
  *                 break             # <<<<<<<<<<<<<<
@@ -44381,7 +44381,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  */
       goto __pyx_L12_break;
 
-      /* "graph.pyx":3507
+      /* "graph.pyx":3491
  *                 OpenNodes.push(NodeReach_T)
  * 
  *             if cycles > LimCycle:             # <<<<<<<<<<<<<<
@@ -44392,7 +44392,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
   }
   __pyx_L12_break:;
 
-  /* "graph.pyx":3510
+  /* "graph.pyx":3494
  *                 break
  *         # print(f'\t{EidO} to {EidD} - c{cycles} || p{pathN}')
  *         return tuple(FoundDistance), tuple(FoundPaths)             # <<<<<<<<<<<<<<
@@ -44400,29 +44400,29 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_float(__pyx_v_FoundDistance); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3510, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_float(__pyx_v_FoundDistance); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3494, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3510, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3494, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_int_3e___(__pyx_v_FoundPaths); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3510, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_int_3e___(__pyx_v_FoundPaths); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3494, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = __Pyx_PySequence_Tuple(__pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 3510, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PySequence_Tuple(__pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 3494, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3510, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3494, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_2);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2)) __PYX_ERR(0, 3510, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2)) __PYX_ERR(0, 3494, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_7);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_7)) __PYX_ERR(0, 3510, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_7)) __PYX_ERR(0, 3494, __pyx_L1_error);
   __pyx_t_2 = 0;
   __pyx_t_7 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "graph.pyx":3326
+  /* "graph.pyx":3310
  *         return tuple(FoundDistance), tuple(FoundPaths)
  * 
  *     def PathFind_Multi_VirtuEntry(             # <<<<<<<<<<<<<<
@@ -44449,7 +44449,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_84PathFind_Multi_VirtuEntry(struct __p
   return __pyx_r;
 }
 
-/* "graph.pyx":3513
+/* "graph.pyx":3497
  * 
  * 
  *     def PathFind_Multi_MultiDest_VirtuEntry(             # <<<<<<<<<<<<<<
@@ -44529,7 +44529,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3513, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3497, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -44537,49 +44537,49 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3513, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3497, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("PathFind_Multi_MultiDest_VirtuEntry", 0, 2, 7, 1); __PYX_ERR(0, 3513, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("PathFind_Multi_MultiDest_VirtuEntry", 0, 2, 7, 1); __PYX_ERR(0, 3497, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_DistMulLim);
           if (value) { values[2] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3513, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3497, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_LimDist);
           if (value) { values[3] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3513, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3497, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_LimCycle);
           if (value) { values[4] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3513, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3497, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_DistMul);
           if (value) { values[5] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3513, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3497, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_PathLim);
           if (value) { values[6] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3513, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3497, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "PathFind_Multi_MultiDest_VirtuEntry") < 0)) __PYX_ERR(0, 3513, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "PathFind_Multi_MultiDest_VirtuEntry") < 0)) __PYX_ERR(0, 3497, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -44599,37 +44599,37 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_EntryOrigin = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_EntryOrigin == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3515, __pyx_L3_error)
+    __pyx_v_EntryOrigin = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_EntryOrigin == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3499, __pyx_L3_error)
     __pyx_v_EntryDests = ((PyObject*)values[1]);
     if (values[2]) {
-      __pyx_v_DistMulLim = __pyx_PyFloat_AsFloat(values[2]); if (unlikely((__pyx_v_DistMulLim == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3517, __pyx_L3_error)
+      __pyx_v_DistMulLim = __pyx_PyFloat_AsFloat(values[2]); if (unlikely((__pyx_v_DistMulLim == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3501, __pyx_L3_error)
     } else {
       __pyx_v_DistMulLim = ((float)1.1);
     }
     if (values[3]) {
-      __pyx_v_LimDist = __pyx_PyFloat_AsFloat(values[3]); if (unlikely((__pyx_v_LimDist == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3518, __pyx_L3_error)
+      __pyx_v_LimDist = __pyx_PyFloat_AsFloat(values[3]); if (unlikely((__pyx_v_LimDist == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3502, __pyx_L3_error)
     } else {
       __pyx_v_LimDist = ((float)10000.0);
     }
     if (values[4]) {
-      __pyx_v_LimCycle = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_LimCycle == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3519, __pyx_L3_error)
+      __pyx_v_LimCycle = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_LimCycle == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3503, __pyx_L3_error)
     } else {
       __pyx_v_LimCycle = ((int)0xF4240);
     }
     if (values[5]) {
-      __pyx_v_DistMul = __pyx_PyFloat_AsFloat(values[5]); if (unlikely((__pyx_v_DistMul == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3520, __pyx_L3_error)
+      __pyx_v_DistMul = __pyx_PyFloat_AsFloat(values[5]); if (unlikely((__pyx_v_DistMul == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3504, __pyx_L3_error)
     } else {
       __pyx_v_DistMul = ((float)2.0);
     }
     if (values[6]) {
-      __pyx_v_PathLim = __Pyx_PyInt_As_int(values[6]); if (unlikely((__pyx_v_PathLim == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3521, __pyx_L3_error)
+      __pyx_v_PathLim = __Pyx_PyInt_As_int(values[6]); if (unlikely((__pyx_v_PathLim == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3505, __pyx_L3_error)
     } else {
       __pyx_v_PathLim = ((int)0x186A0);
     }
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("PathFind_Multi_MultiDest_VirtuEntry", 0, 2, 7, __pyx_nargs); __PYX_ERR(0, 3513, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("PathFind_Multi_MultiDest_VirtuEntry", 0, 2, 7, __pyx_nargs); __PYX_ERR(0, 3497, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -44643,7 +44643,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_EntryDests), (&PyTuple_Type), 1, "EntryDests", 1))) __PYX_ERR(0, 3516, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_EntryDests), (&PyTuple_Type), 1, "EntryDests", 1))) __PYX_ERR(0, 3500, __pyx_L1_error)
   __pyx_r = __pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(((struct __pyx_obj_5graph_GraphCy *)__pyx_v_self), __pyx_v_EntryOrigin, __pyx_v_EntryDests, __pyx_v_DistMulLim, __pyx_v_LimDist, __pyx_v_LimCycle, __pyx_v_DistMul, __pyx_v_PathLim);
 
   /* function exit code */
@@ -44708,7 +44708,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PathFind_Multi_MultiDest_VirtuEntry", 1);
 
-  /* "graph.pyx":3560
+  /* "graph.pyx":3544
  *         # cdef float[2] DistO = (DstO[0], DstO[1])
  *         # cdef float[2] DistD
  *         cdef Entry EntryO = self.EntryDt[EntryOrigin]             # <<<<<<<<<<<<<<
@@ -44717,7 +44717,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
   __pyx_v_EntryO = (__pyx_v_self->EntryDt[__pyx_v_EntryOrigin]);
 
-  /* "graph.pyx":3564
+  /* "graph.pyx":3548
  *         cdef float BaseDist
  *         cdef float MinimumDistance
  *         self.C_NodeMap_VirtuEntry(             # <<<<<<<<<<<<<<
@@ -44728,21 +44728,21 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
   __pyx_t_1.ReverseEdge = 0;
   __pyx_t_1.LimDist = (__pyx_v_LimDist * __pyx_v_DistMulLim);
   __pyx_t_1.LimCycle = (__pyx_v_LimCycle * 2);
-  ((struct __pyx_vtabstruct_5graph_GraphCy *)__pyx_v_self->__pyx_vtab)->C_NodeMap_VirtuEntry(__pyx_v_self, __pyx_v_EntryOrigin, &__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3564, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_5graph_GraphCy *)__pyx_v_self->__pyx_vtab)->C_NodeMap_VirtuEntry(__pyx_v_self, __pyx_v_EntryOrigin, &__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3548, __pyx_L1_error)
 
-  /* "graph.pyx":3576
+  /* "graph.pyx":3560
  *         cdef bint keepGoing
  *         cdef NodeReach NodeCheck
  *         cdef PriorityQueue_NR OpenNodes = PriorityQueue_NR()             # <<<<<<<<<<<<<<
  *         cdef NodeReach startNode
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5graph_PriorityQueue_NR)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3576, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5graph_PriorityQueue_NR)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3560, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_OpenNodes = ((struct __pyx_obj_5graph_PriorityQueue_NR *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "graph.pyx":3591
+  /* "graph.pyx":3575
  *         cdef float compdist
  *         # cycles per destination
  *         for EntryDestination in EntryDests:             # <<<<<<<<<<<<<<
@@ -44751,7 +44751,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
   if (unlikely(__pyx_v_EntryDests == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 3591, __pyx_L1_error)
+    __PYX_ERR(0, 3575, __pyx_L1_error)
   }
   __pyx_t_2 = __pyx_v_EntryDests; __Pyx_INCREF(__pyx_t_2);
   __pyx_t_3 = 0;
@@ -44759,21 +44759,21 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
     {
       Py_ssize_t __pyx_temp = __Pyx_PyTuple_GET_SIZE(__pyx_t_2);
       #if !CYTHON_ASSUME_SAFE_MACROS
-      if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 3591, __pyx_L1_error)
+      if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 3575, __pyx_L1_error)
       #endif
       if (__pyx_t_3 >= __pyx_temp) break;
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely((0 < 0))) __PYX_ERR(0, 3591, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely((0 < 0))) __PYX_ERR(0, 3575, __pyx_L1_error)
     #else
-    __pyx_t_4 = __Pyx_PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 3591, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 3575, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     #endif
-    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3591, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3575, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_EntryDestination = __pyx_t_5;
 
-    /* "graph.pyx":3592
+    /* "graph.pyx":3576
  *         # cycles per destination
  *         for EntryDestination in EntryDests:
  *             EntryD = self.EntryDt[EntryDestination]             # <<<<<<<<<<<<<<
@@ -44782,7 +44782,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
     __pyx_v_EntryD = (__pyx_v_self->EntryDt[__pyx_v_EntryDestination]);
 
-    /* "graph.pyx":3593
+    /* "graph.pyx":3577
  *         for EntryDestination in EntryDests:
  *             EntryD = self.EntryDt[EntryDestination]
  *             if EntryOrigin == EntryDestination:             # <<<<<<<<<<<<<<
@@ -44792,7 +44792,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
     __pyx_t_6 = (__pyx_v_EntryOrigin == __pyx_v_EntryDestination);
     if (__pyx_t_6) {
 
-      /* "graph.pyx":3594
+      /* "graph.pyx":3578
  *             EntryD = self.EntryDt[EntryDestination]
  *             if EntryOrigin == EntryDestination:
  *                 continue             # <<<<<<<<<<<<<<
@@ -44801,7 +44801,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       goto __pyx_L3_continue;
 
-      /* "graph.pyx":3593
+      /* "graph.pyx":3577
  *         for EntryDestination in EntryDests:
  *             EntryD = self.EntryDt[EntryDestination]
  *             if EntryOrigin == EntryDestination:             # <<<<<<<<<<<<<<
@@ -44810,7 +44810,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
     }
 
-    /* "graph.pyx":3596
+    /* "graph.pyx":3580
  *                 continue
  * 
  *             MappedPaths.clear()             # <<<<<<<<<<<<<<
@@ -44819,16 +44819,16 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
     __pyx_v_MappedPaths.clear();
 
-    /* "graph.pyx":3597
+    /* "graph.pyx":3581
  * 
  *             MappedPaths.clear()
  *             OpenNodes.clear()             # <<<<<<<<<<<<<<
  *             MappedPath_T.clear()
  *             MappedPath_T2.clear()
  */
-    ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->clear(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3597, __pyx_L1_error)
+    ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->clear(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3581, __pyx_L1_error)
 
-    /* "graph.pyx":3598
+    /* "graph.pyx":3582
  *             MappedPaths.clear()
  *             OpenNodes.clear()
  *             MappedPath_T.clear()             # <<<<<<<<<<<<<<
@@ -44837,7 +44837,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
     __pyx_v_MappedPath_T.clear();
 
-    /* "graph.pyx":3599
+    /* "graph.pyx":3583
  *             OpenNodes.clear()
  *             MappedPath_T.clear()
  *             MappedPath_T2.clear()             # <<<<<<<<<<<<<<
@@ -44846,7 +44846,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
     __pyx_v_MappedPath_T2.clear();
 
-    /* "graph.pyx":3600
+    /* "graph.pyx":3584
  *             MappedPath_T.clear()
  *             MappedPath_T2.clear()
  *             keepGoing = True             # <<<<<<<<<<<<<<
@@ -44855,7 +44855,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
     __pyx_v_keepGoing = 1;
 
-    /* "graph.pyx":3601
+    /* "graph.pyx":3585
  *             MappedPath_T2.clear()
  *             keepGoing = True
  *             pathN = 0             # <<<<<<<<<<<<<<
@@ -44864,7 +44864,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
     __pyx_v_pathN = 0;
 
-    /* "graph.pyx":3602
+    /* "graph.pyx":3586
  *             keepGoing = True
  *             pathN = 0
  *             MinimumDistance = -1.0             # <<<<<<<<<<<<<<
@@ -44873,17 +44873,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
     __pyx_v_MinimumDistance = -1.0;
 
-    /* "graph.pyx":3604
+    /* "graph.pyx":3588
  *             MinimumDistance = -1.0
  * 
  *             BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)             # <<<<<<<<<<<<<<
  *             if BaseDist*1.1 > LimDist:
  *                 continue
  */
-    __pyx_t_7 = __pyx_f_5graph_dist3d_ar(__pyx_v_EntryO.ixPt, __pyx_v_EntryD.ixPt); if (unlikely(__pyx_t_7 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3604, __pyx_L1_error)
+    __pyx_t_7 = __pyx_f_5graph_dist3d_ar(__pyx_v_EntryO.ixPt, __pyx_v_EntryD.ixPt); if (unlikely(__pyx_t_7 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3588, __pyx_L1_error)
     __pyx_v_BaseDist = __pyx_t_7;
 
-    /* "graph.pyx":3605
+    /* "graph.pyx":3589
  * 
  *             BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)
  *             if BaseDist*1.1 > LimDist:             # <<<<<<<<<<<<<<
@@ -44893,7 +44893,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
     __pyx_t_6 = ((__pyx_v_BaseDist * 1.1) > __pyx_v_LimDist);
     if (__pyx_t_6) {
 
-      /* "graph.pyx":3606
+      /* "graph.pyx":3590
  *             BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)
  *             if BaseDist*1.1 > LimDist:
  *                 continue             # <<<<<<<<<<<<<<
@@ -44902,7 +44902,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       goto __pyx_L3_continue;
 
-      /* "graph.pyx":3605
+      /* "graph.pyx":3589
  * 
  *             BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)
  *             if BaseDist*1.1 > LimDist:             # <<<<<<<<<<<<<<
@@ -44911,7 +44911,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
     }
 
-    /* "graph.pyx":3607
+    /* "graph.pyx":3591
  *             if BaseDist*1.1 > LimDist:
  *                 continue
  *             cycles = 0             # <<<<<<<<<<<<<<
@@ -44920,7 +44920,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
     __pyx_v_cycles = 0;
 
-    /* "graph.pyx":3608
+    /* "graph.pyx":3592
  *                 continue
  *             cycles = 0
  *             MappedPath_T.push_back(EntryD.Eid)             # <<<<<<<<<<<<<<
@@ -44931,10 +44931,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
       __pyx_v_MappedPath_T.push_back(__pyx_v_EntryD.Eid);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 3608, __pyx_L1_error)
+      __PYX_ERR(0, 3592, __pyx_L1_error)
     }
 
-    /* "graph.pyx":3609
+    /* "graph.pyx":3593
  *             cycles = 0
  *             MappedPath_T.push_back(EntryD.Eid)
  *             MappedPaths.push_back(MappedPath_T)             # <<<<<<<<<<<<<<
@@ -44945,10 +44945,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
       __pyx_v_MappedPaths.push_back(__pyx_v_MappedPath_T);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 3609, __pyx_L1_error)
+      __PYX_ERR(0, 3593, __pyx_L1_error)
     }
 
-    /* "graph.pyx":3614
+    /* "graph.pyx":3598
  *             #                                                 LimDist, LimCycle, DistMul)
  * 
  *             if EntryD.Eid == EntryO.Eid: # checks if same edge             # <<<<<<<<<<<<<<
@@ -44958,7 +44958,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
     __pyx_t_6 = (__pyx_v_EntryD.Eid == __pyx_v_EntryO.Eid);
     if (__pyx_t_6) {
 
-      /* "graph.pyx":3615
+      /* "graph.pyx":3599
  * 
  *             if EntryD.Eid == EntryO.Eid: # checks if same edge
  *                 MinimumDistance = abs(EntryD.EDist[0] - EntryO.EDist[0])             # <<<<<<<<<<<<<<
@@ -44967,7 +44967,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       __pyx_v_MinimumDistance = fabsf(((__pyx_v_EntryD.EDist[0]) - (__pyx_v_EntryO.EDist[0])));
 
-      /* "graph.pyx":3616
+      /* "graph.pyx":3600
  *             if EntryD.Eid == EntryO.Eid: # checks if same edge
  *                 MinimumDistance = abs(EntryD.EDist[0] - EntryO.EDist[0])
  *                 FoundPaths.push_back(MappedPath_T)             # <<<<<<<<<<<<<<
@@ -44978,10 +44978,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         __pyx_v_FoundPaths.push_back(__pyx_v_MappedPath_T);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(0, 3616, __pyx_L1_error)
+        __PYX_ERR(0, 3600, __pyx_L1_error)
       }
 
-      /* "graph.pyx":3617
+      /* "graph.pyx":3601
  *                 MinimumDistance = abs(EntryD.EDist[0] - EntryO.EDist[0])
  *                 FoundPaths.push_back(MappedPath_T)
  *                 if MinimumDistance == 0.0:             # <<<<<<<<<<<<<<
@@ -44991,7 +44991,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
       __pyx_t_6 = (__pyx_v_MinimumDistance == 0.0);
       if (__pyx_t_6) {
 
-        /* "graph.pyx":3618
+        /* "graph.pyx":3602
  *                 FoundPaths.push_back(MappedPath_T)
  *                 if MinimumDistance == 0.0:
  *                     MinimumDistance = <float>0.1             # <<<<<<<<<<<<<<
@@ -45000,7 +45000,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         __pyx_v_MinimumDistance = ((float)0.1);
 
-        /* "graph.pyx":3617
+        /* "graph.pyx":3601
  *                 MinimumDistance = abs(EntryD.EDist[0] - EntryO.EDist[0])
  *                 FoundPaths.push_back(MappedPath_T)
  *                 if MinimumDistance == 0.0:             # <<<<<<<<<<<<<<
@@ -45009,7 +45009,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       }
 
-      /* "graph.pyx":3620
+      /* "graph.pyx":3604
  *                     MinimumDistance = <float>0.1
  *                 # print(f'\t\tSameLine {MinimumDistance}')
  *                 FoundDistance.push_back(MinimumDistance)             # <<<<<<<<<<<<<<
@@ -45020,10 +45020,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         __pyx_v_FoundDistance.push_back(__pyx_v_MinimumDistance);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(0, 3620, __pyx_L1_error)
+        __PYX_ERR(0, 3604, __pyx_L1_error)
       }
 
-      /* "graph.pyx":3621
+      /* "graph.pyx":3605
  *                 # print(f'\t\tSameLine {MinimumDistance}')
  *                 FoundDistance.push_back(MinimumDistance)
  *                 FoundDests.push_back(EntryDestination)             # <<<<<<<<<<<<<<
@@ -45034,10 +45034,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         __pyx_v_FoundDests.push_back(__pyx_v_EntryDestination);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(0, 3621, __pyx_L1_error)
+        __PYX_ERR(0, 3605, __pyx_L1_error)
       }
 
-      /* "graph.pyx":3622
+      /* "graph.pyx":3606
  *                 FoundDistance.push_back(MinimumDistance)
  *                 FoundDests.push_back(EntryDestination)
  *                 pathN += 1             # <<<<<<<<<<<<<<
@@ -45046,7 +45046,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       __pyx_v_pathN = (__pyx_v_pathN + 1);
 
-      /* "graph.pyx":3614
+      /* "graph.pyx":3598
  *             #                                                 LimDist, LimCycle, DistMul)
  * 
  *             if EntryD.Eid == EntryO.Eid: # checks if same edge             # <<<<<<<<<<<<<<
@@ -45056,7 +45056,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
       goto __pyx_L7;
     }
 
-    /* "graph.pyx":3624
+    /* "graph.pyx":3608
  *                 pathN += 1
  *             else: # finding minimum distance from the mapped nodes
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:             # <<<<<<<<<<<<<<
@@ -45067,7 +45067,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
       __pyx_t_6 = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidO]).Nid != -1L);
       if (__pyx_t_6) {
 
-        /* "graph.pyx":3625
+        /* "graph.pyx":3609
  *             else: # finding minimum distance from the mapped nodes
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:
  *                     MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidO].Dist + EntryD.EDist[0]             # <<<<<<<<<<<<<<
@@ -45076,7 +45076,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         __pyx_v_MinimumDistance = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidO]).Dist + (__pyx_v_EntryD.EDist[0]));
 
-        /* "graph.pyx":3624
+        /* "graph.pyx":3608
  *                 pathN += 1
  *             else: # finding minimum distance from the mapped nodes
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:             # <<<<<<<<<<<<<<
@@ -45085,7 +45085,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       }
 
-      /* "graph.pyx":3626
+      /* "graph.pyx":3610
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:
  *                     MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidO].Dist + EntryD.EDist[0]
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:             # <<<<<<<<<<<<<<
@@ -45095,7 +45095,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
       __pyx_t_6 = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidD]).Nid != -1L);
       if (__pyx_t_6) {
 
-        /* "graph.pyx":3627
+        /* "graph.pyx":3611
  *                     MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidO].Dist + EntryD.EDist[0]
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:
  *                     if MinimumDistance == -1.0:             # <<<<<<<<<<<<<<
@@ -45105,7 +45105,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         __pyx_t_6 = (__pyx_v_MinimumDistance == -1.0);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3628
+          /* "graph.pyx":3612
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:
  *                     if MinimumDistance == -1.0:
  *                         MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidD].Dist + EntryD.EDist[1]             # <<<<<<<<<<<<<<
@@ -45114,7 +45114,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
           __pyx_v_MinimumDistance = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidD]).Dist + (__pyx_v_EntryD.EDist[1]));
 
-          /* "graph.pyx":3627
+          /* "graph.pyx":3611
  *                     MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidO].Dist + EntryD.EDist[0]
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:
  *                     if MinimumDistance == -1.0:             # <<<<<<<<<<<<<<
@@ -45124,7 +45124,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
           goto __pyx_L11;
         }
 
-        /* "graph.pyx":3630
+        /* "graph.pyx":3614
  *                         MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidD].Dist + EntryD.EDist[1]
  *                     else:
  *                         compdist = self.nodeVisited[self.edges[EntryD.Eid].NidD].Dist + EntryD.EDist[1]             # <<<<<<<<<<<<<<
@@ -45134,7 +45134,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         /*else*/ {
           __pyx_v_compdist = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidD]).Dist + (__pyx_v_EntryD.EDist[1]));
 
-          /* "graph.pyx":3631
+          /* "graph.pyx":3615
  *                     else:
  *                         compdist = self.nodeVisited[self.edges[EntryD.Eid].NidD].Dist + EntryD.EDist[1]
  *                         if compdist < MinimumDistance:             # <<<<<<<<<<<<<<
@@ -45144,7 +45144,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
           __pyx_t_6 = (__pyx_v_compdist < __pyx_v_MinimumDistance);
           if (__pyx_t_6) {
 
-            /* "graph.pyx":3632
+            /* "graph.pyx":3616
  *                         compdist = self.nodeVisited[self.edges[EntryD.Eid].NidD].Dist + EntryD.EDist[1]
  *                         if compdist < MinimumDistance:
  *                             MinimumDistance = compdist             # <<<<<<<<<<<<<<
@@ -45153,7 +45153,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
             __pyx_v_MinimumDistance = __pyx_v_compdist;
 
-            /* "graph.pyx":3631
+            /* "graph.pyx":3615
  *                     else:
  *                         compdist = self.nodeVisited[self.edges[EntryD.Eid].NidD].Dist + EntryD.EDist[1]
  *                         if compdist < MinimumDistance:             # <<<<<<<<<<<<<<
@@ -45164,7 +45164,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         }
         __pyx_L11:;
 
-        /* "graph.pyx":3626
+        /* "graph.pyx":3610
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:
  *                     MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidO].Dist + EntryD.EDist[0]
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:             # <<<<<<<<<<<<<<
@@ -45175,7 +45175,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
     }
     __pyx_L7:;
 
-    /* "graph.pyx":3635
+    /* "graph.pyx":3619
  * 
  *             # print(dest, MinimumDistance)
  *             if MinimumDistance == -1.0 or MinimumDistance > LimDist:             # <<<<<<<<<<<<<<
@@ -45193,7 +45193,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
     __pyx_L14_bool_binop_done:;
     if (__pyx_t_6) {
 
-      /* "graph.pyx":3636
+      /* "graph.pyx":3620
  *             # print(dest, MinimumDistance)
  *             if MinimumDistance == -1.0 or MinimumDistance > LimDist:
  *                 continue             # <<<<<<<<<<<<<<
@@ -45202,7 +45202,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       goto __pyx_L3_continue;
 
-      /* "graph.pyx":3635
+      /* "graph.pyx":3619
  * 
  *             # print(dest, MinimumDistance)
  *             if MinimumDistance == -1.0 or MinimumDistance > LimDist:             # <<<<<<<<<<<<<<
@@ -45211,7 +45211,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
     }
 
-    /* "graph.pyx":3637
+    /* "graph.pyx":3621
  *             if MinimumDistance == -1.0 or MinimumDistance > LimDist:
  *                 continue
  *             LimitDistance = MinimumDistance * DistMulLim             # <<<<<<<<<<<<<<
@@ -45220,7 +45220,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
     __pyx_v_LimitDistance = (__pyx_v_MinimumDistance * __pyx_v_DistMulLim);
 
-    /* "graph.pyx":3639
+    /* "graph.pyx":3623
  *             LimitDistance = MinimumDistance * DistMulLim
  *             # for Origin EdgeOrigin
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:             # <<<<<<<<<<<<<<
@@ -45230,7 +45230,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
     __pyx_t_6 = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidO]).Nid != -1L);
     if (__pyx_t_6) {
 
-      /* "graph.pyx":3640
+      /* "graph.pyx":3624
  *             # for Origin EdgeOrigin
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:
  *                 startNode.Nid = self.edges[EntryD.Eid].NidO             # <<<<<<<<<<<<<<
@@ -45240,7 +45240,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
       __pyx_t_5 = (__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidO;
       __pyx_v_startNode.Nid = __pyx_t_5;
 
-      /* "graph.pyx":3641
+      /* "graph.pyx":3625
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:
  *                 startNode.Nid = self.edges[EntryD.Eid].NidO
  *                 startNode.Eid = EntryD.Eid             # <<<<<<<<<<<<<<
@@ -45250,7 +45250,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
       __pyx_t_5 = __pyx_v_EntryD.Eid;
       __pyx_v_startNode.Eid = __pyx_t_5;
 
-      /* "graph.pyx":3642
+      /* "graph.pyx":3626
  *                 startNode.Nid = self.edges[EntryD.Eid].NidO
  *                 startNode.Eid = EntryD.Eid
  *                 startNode.Dist = EntryD.EDist[0]             # <<<<<<<<<<<<<<
@@ -45259,7 +45259,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       __pyx_v_startNode.Dist = (__pyx_v_EntryD.EDist[0]);
 
-      /* "graph.pyx":3643
+      /* "graph.pyx":3627
  *                 startNode.Eid = EntryD.Eid
  *                 startNode.Dist = EntryD.EDist[0]
  *                 startNode.NidO = -1             # <<<<<<<<<<<<<<
@@ -45268,7 +45268,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       __pyx_v_startNode.NidO = -1;
 
-      /* "graph.pyx":3644
+      /* "graph.pyx":3628
  *                 startNode.Dist = EntryD.EDist[0]
  *                 startNode.NidO = -1
  *                 startNode.pathindex = 0             # <<<<<<<<<<<<<<
@@ -45277,7 +45277,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       __pyx_v_startNode.pathindex = 0;
 
-      /* "graph.pyx":3645
+      /* "graph.pyx":3629
  *                 startNode.NidO = -1
  *                 startNode.pathindex = 0
  *                 startNode.Weight = EntryD.EDist[0] + (self.nodeVisited[startNode.Nid].Dist - MinimumDistance) * DistMul             # <<<<<<<<<<<<<<
@@ -45286,16 +45286,16 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       __pyx_v_startNode.Weight = ((__pyx_v_EntryD.EDist[0]) + (((__pyx_v_self->nodeVisited[__pyx_v_startNode.Nid]).Dist - __pyx_v_MinimumDistance) * __pyx_v_DistMul));
 
-      /* "graph.pyx":3646
+      /* "graph.pyx":3630
  *                 startNode.pathindex = 0
  *                 startNode.Weight = EntryD.EDist[0] + (self.nodeVisited[startNode.Nid].Dist - MinimumDistance) * DistMul
  *                 OpenNodes.push(startNode)             # <<<<<<<<<<<<<<
  *             # print(f'\tstartA {startNode.Dist} || {nodeMapped[startNode.Nid].Dist} || {LimitDistance}')
  *             # for destination edgeorigin
  */
-      ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3646, __pyx_L1_error)
+      ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3630, __pyx_L1_error)
 
-      /* "graph.pyx":3639
+      /* "graph.pyx":3623
  *             LimitDistance = MinimumDistance * DistMulLim
  *             # for Origin EdgeOrigin
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:             # <<<<<<<<<<<<<<
@@ -45304,7 +45304,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
     }
 
-    /* "graph.pyx":3649
+    /* "graph.pyx":3633
  *             # print(f'\tstartA {startNode.Dist} || {nodeMapped[startNode.Nid].Dist} || {LimitDistance}')
  *             # for destination edgeorigin
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:             # <<<<<<<<<<<<<<
@@ -45314,7 +45314,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
     __pyx_t_6 = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidD]).Nid != -1L);
     if (__pyx_t_6) {
 
-      /* "graph.pyx":3650
+      /* "graph.pyx":3634
  *             # for destination edgeorigin
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:
  *                 startNode.Nid = self.edges[EntryD.Eid].NidD             # <<<<<<<<<<<<<<
@@ -45324,7 +45324,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
       __pyx_t_5 = (__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidD;
       __pyx_v_startNode.Nid = __pyx_t_5;
 
-      /* "graph.pyx":3651
+      /* "graph.pyx":3635
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:
  *                 startNode.Nid = self.edges[EntryD.Eid].NidD
  *                 startNode.Eid = EntryD.Eid             # <<<<<<<<<<<<<<
@@ -45334,7 +45334,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
       __pyx_t_5 = __pyx_v_EntryD.Eid;
       __pyx_v_startNode.Eid = __pyx_t_5;
 
-      /* "graph.pyx":3652
+      /* "graph.pyx":3636
  *                 startNode.Nid = self.edges[EntryD.Eid].NidD
  *                 startNode.Eid = EntryD.Eid
  *                 startNode.Dist = EntryD.EDist[1]             # <<<<<<<<<<<<<<
@@ -45343,7 +45343,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       __pyx_v_startNode.Dist = (__pyx_v_EntryD.EDist[1]);
 
-      /* "graph.pyx":3653
+      /* "graph.pyx":3637
  *                 startNode.Eid = EntryD.Eid
  *                 startNode.Dist = EntryD.EDist[1]
  *                 startNode.NidO = -1             # <<<<<<<<<<<<<<
@@ -45352,7 +45352,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       __pyx_v_startNode.NidO = -1;
 
-      /* "graph.pyx":3654
+      /* "graph.pyx":3638
  *                 startNode.Dist = EntryD.EDist[1]
  *                 startNode.NidO = -1
  *                 startNode.pathindex = 0             # <<<<<<<<<<<<<<
@@ -45361,7 +45361,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       __pyx_v_startNode.pathindex = 0;
 
-      /* "graph.pyx":3655
+      /* "graph.pyx":3639
  *                 startNode.NidO = -1
  *                 startNode.pathindex = 0
  *                 startNode.Weight = EntryD.EDist[1] + (self.nodeVisited[startNode.Nid].Dist - MinimumDistance) * DistMul             # <<<<<<<<<<<<<<
@@ -45370,16 +45370,16 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       __pyx_v_startNode.Weight = ((__pyx_v_EntryD.EDist[1]) + (((__pyx_v_self->nodeVisited[__pyx_v_startNode.Nid]).Dist - __pyx_v_MinimumDistance) * __pyx_v_DistMul));
 
-      /* "graph.pyx":3656
+      /* "graph.pyx":3640
  *                 startNode.pathindex = 0
  *                 startNode.Weight = EntryD.EDist[1] + (self.nodeVisited[startNode.Nid].Dist - MinimumDistance) * DistMul
  *                 OpenNodes.push(startNode)             # <<<<<<<<<<<<<<
  *             # print(f'\tstartB {startNode.Dist} || {nodeMapped[startNode.Nid].Dist} || {LimitDistance}')
  *             # cdef float RemainDist
  */
-      ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3656, __pyx_L1_error)
+      ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3640, __pyx_L1_error)
 
-      /* "graph.pyx":3649
+      /* "graph.pyx":3633
  *             # print(f'\tstartA {startNode.Dist} || {nodeMapped[startNode.Nid].Dist} || {LimitDistance}')
  *             # for destination edgeorigin
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:             # <<<<<<<<<<<<<<
@@ -45388,7 +45388,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
     }
 
-    /* "graph.pyx":3659
+    /* "graph.pyx":3643
  *             # print(f'\tstartB {startNode.Dist} || {nodeMapped[startNode.Nid].Dist} || {LimitDistance}')
  *             # cdef float RemainDist
  *             while keepGoing:             # <<<<<<<<<<<<<<
@@ -45398,7 +45398,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
     while (1) {
       if (!__pyx_v_keepGoing) break;
 
-      /* "graph.pyx":3660
+      /* "graph.pyx":3644
  *             # cdef float RemainDist
  *             while keepGoing:
  *                 cycles += 1             # <<<<<<<<<<<<<<
@@ -45407,17 +45407,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       __pyx_v_cycles = (__pyx_v_cycles + 1);
 
-      /* "graph.pyx":3661
+      /* "graph.pyx":3645
  *             while keepGoing:
  *                 cycles += 1
  *                 if OpenNodes.empty():             # <<<<<<<<<<<<<<
  *                     break
  *                 NodeCheck = OpenNodes.pop_top()
  */
-      __pyx_t_6 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->empty(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3661, __pyx_L1_error)
+      __pyx_t_6 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->empty(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3645, __pyx_L1_error)
       if (__pyx_t_6) {
 
-        /* "graph.pyx":3662
+        /* "graph.pyx":3646
  *                 cycles += 1
  *                 if OpenNodes.empty():
  *                     break             # <<<<<<<<<<<<<<
@@ -45426,7 +45426,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         goto __pyx_L19_break;
 
-        /* "graph.pyx":3661
+        /* "graph.pyx":3645
  *             while keepGoing:
  *                 cycles += 1
  *                 if OpenNodes.empty():             # <<<<<<<<<<<<<<
@@ -45435,17 +45435,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       }
 
-      /* "graph.pyx":3663
+      /* "graph.pyx":3647
  *                 if OpenNodes.empty():
  *                     break
  *                 NodeCheck = OpenNodes.pop_top()             # <<<<<<<<<<<<<<
  *                 MappedPath_T = MappedPaths[NodeCheck.pathindex] # getting mapped path from nodecheck index
  *                 # print(f'\tC - {cycles} || {NodeCheck}')
  */
-      __pyx_t_9 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->pop_top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3663, __pyx_L1_error)
+      __pyx_t_9 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->pop_top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3647, __pyx_L1_error)
       __pyx_v_NodeCheck = __pyx_t_9;
 
-      /* "graph.pyx":3664
+      /* "graph.pyx":3648
  *                     break
  *                 NodeCheck = OpenNodes.pop_top()
  *                 MappedPath_T = MappedPaths[NodeCheck.pathindex] # getting mapped path from nodecheck index             # <<<<<<<<<<<<<<
@@ -45454,7 +45454,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
       __pyx_v_MappedPath_T = (__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]);
 
-      /* "graph.pyx":3666
+      /* "graph.pyx":3650
  *                 MappedPath_T = MappedPaths[NodeCheck.pathindex] # getting mapped path from nodecheck index
  *                 # print(f'\tC - {cycles} || {NodeCheck}')
  *                 for i in range(self.EidN):             # <<<<<<<<<<<<<<
@@ -45466,7 +45466,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
       for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
         __pyx_v_i = __pyx_t_11;
 
-        /* "graph.pyx":3667
+        /* "graph.pyx":3651
  *                 # print(f'\tC - {cycles} || {NodeCheck}')
  *                 for i in range(self.EidN):
  *                     Eid = self.nodes[NodeCheck.Nid].Eid[i]             # <<<<<<<<<<<<<<
@@ -45475,7 +45475,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         __pyx_v_Eid = ((__pyx_v_self->nodes[__pyx_v_NodeCheck.Nid]).Eid[__pyx_v_i]);
 
-        /* "graph.pyx":3668
+        /* "graph.pyx":3652
  *                 for i in range(self.EidN):
  *                     Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                     if Eid == -1:             # <<<<<<<<<<<<<<
@@ -45485,7 +45485,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         __pyx_t_6 = (__pyx_v_Eid == -1L);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3670
+          /* "graph.pyx":3654
  *                     if Eid == -1:
  *                         # print(f'\t\t{cycles} - Out Edge{Eid}')
  *                         break             # <<<<<<<<<<<<<<
@@ -45494,7 +45494,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
           goto __pyx_L22_break;
 
-          /* "graph.pyx":3668
+          /* "graph.pyx":3652
  *                 for i in range(self.EidN):
  *                     Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                     if Eid == -1:             # <<<<<<<<<<<<<<
@@ -45503,7 +45503,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         }
 
-        /* "graph.pyx":3671
+        /* "graph.pyx":3655
  *                         # print(f'\t\t{cycles} - Out Edge{Eid}')
  *                         break
  *                     if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:             # <<<<<<<<<<<<<<
@@ -45521,7 +45521,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         __pyx_L25_bool_binop_done:;
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3673
+          /* "graph.pyx":3657
  *                     if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:
  *                         # print(f'\t\t{cycles} - Out similar Edge{Eid}')
  *                         continue             # <<<<<<<<<<<<<<
@@ -45530,7 +45530,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
           goto __pyx_L21_continue;
 
-          /* "graph.pyx":3671
+          /* "graph.pyx":3655
  *                         # print(f'\t\t{cycles} - Out Edge{Eid}')
  *                         break
  *                     if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:             # <<<<<<<<<<<<<<
@@ -45539,17 +45539,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         }
 
-        /* "graph.pyx":3674
+        /* "graph.pyx":3658
  *                         # print(f'\t\t{cycles} - Out similar Edge{Eid}')
  *                         continue
  *                     if Find_IntVector(MappedPaths[NodeCheck.pathindex], Eid): # if Eid already in mapped paths             # <<<<<<<<<<<<<<
  *                         continue
  * 
  */
-        __pyx_t_6 = __pyx_f_5graph_Find_IntVector((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]), __pyx_v_Eid); if (unlikely(__pyx_t_6 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3674, __pyx_L1_error)
+        __pyx_t_6 = __pyx_f_5graph_Find_IntVector((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]), __pyx_v_Eid); if (unlikely(__pyx_t_6 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3658, __pyx_L1_error)
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3675
+          /* "graph.pyx":3659
  *                         continue
  *                     if Find_IntVector(MappedPaths[NodeCheck.pathindex], Eid): # if Eid already in mapped paths
  *                         continue             # <<<<<<<<<<<<<<
@@ -45558,7 +45558,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
           goto __pyx_L21_continue;
 
-          /* "graph.pyx":3674
+          /* "graph.pyx":3658
  *                         # print(f'\t\t{cycles} - Out similar Edge{Eid}')
  *                         continue
  *                     if Find_IntVector(MappedPaths[NodeCheck.pathindex], Eid): # if Eid already in mapped paths             # <<<<<<<<<<<<<<
@@ -45567,7 +45567,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         }
 
-        /* "graph.pyx":3677
+        /* "graph.pyx":3661
  *                         continue
  * 
  *                     if Eid == EntryO.Eid:             # <<<<<<<<<<<<<<
@@ -45577,7 +45577,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         __pyx_t_6 = (__pyx_v_Eid == __pyx_v_EntryO.Eid);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3678
+          /* "graph.pyx":3662
  * 
  *                     if Eid == EntryO.Eid:
  *                         if NodeCheck.Nid == self.edges[EntryO.Eid].NidO:             # <<<<<<<<<<<<<<
@@ -45587,7 +45587,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
           __pyx_t_6 = (__pyx_v_NodeCheck.Nid == (__pyx_v_self->edges[__pyx_v_EntryO.Eid]).NidO);
           if (__pyx_t_6) {
 
-            /* "graph.pyx":3679
+            /* "graph.pyx":3663
  *                     if Eid == EntryO.Eid:
  *                         if NodeCheck.Nid == self.edges[EntryO.Eid].NidO:
  *                             pathlength = NodeCheck.Dist + EntryO.EDist[0]             # <<<<<<<<<<<<<<
@@ -45596,7 +45596,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
             __pyx_v_pathlength = (__pyx_v_NodeCheck.Dist + (__pyx_v_EntryO.EDist[0]));
 
-            /* "graph.pyx":3678
+            /* "graph.pyx":3662
  * 
  *                     if Eid == EntryO.Eid:
  *                         if NodeCheck.Nid == self.edges[EntryO.Eid].NidO:             # <<<<<<<<<<<<<<
@@ -45606,7 +45606,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
             goto __pyx_L29;
           }
 
-          /* "graph.pyx":3681
+          /* "graph.pyx":3665
  *                             pathlength = NodeCheck.Dist + EntryO.EDist[0]
  *                         else:
  *                             pathlength = NodeCheck.Dist + EntryO.EDist[1]             # <<<<<<<<<<<<<<
@@ -45618,7 +45618,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
           }
           __pyx_L29:;
 
-          /* "graph.pyx":3682
+          /* "graph.pyx":3666
  *                         else:
  *                             pathlength = NodeCheck.Dist + EntryO.EDist[1]
  *                         if pathlength < LimitDistance:             # <<<<<<<<<<<<<<
@@ -45628,7 +45628,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
           __pyx_t_6 = (__pyx_v_pathlength < __pyx_v_LimitDistance);
           if (__pyx_t_6) {
 
-            /* "graph.pyx":3683
+            /* "graph.pyx":3667
  *                             pathlength = NodeCheck.Dist + EntryO.EDist[1]
  *                         if pathlength < LimitDistance:
  *                             FoundDistance.push_back(pathlength)             # <<<<<<<<<<<<<<
@@ -45639,10 +45639,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
               __pyx_v_FoundDistance.push_back(__pyx_v_pathlength);
             } catch(...) {
               __Pyx_CppExn2PyErr();
-              __PYX_ERR(0, 3683, __pyx_L1_error)
+              __PYX_ERR(0, 3667, __pyx_L1_error)
             }
 
-            /* "graph.pyx":3684
+            /* "graph.pyx":3668
  *                         if pathlength < LimitDistance:
  *                             FoundDistance.push_back(pathlength)
  *                             MappedPaths[NodeCheck.pathindex].push_back(Eid)             # <<<<<<<<<<<<<<
@@ -45653,10 +45653,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
               (__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]).push_back(__pyx_v_Eid);
             } catch(...) {
               __Pyx_CppExn2PyErr();
-              __PYX_ERR(0, 3684, __pyx_L1_error)
+              __PYX_ERR(0, 3668, __pyx_L1_error)
             }
 
-            /* "graph.pyx":3685
+            /* "graph.pyx":3669
  *                             FoundDistance.push_back(pathlength)
  *                             MappedPaths[NodeCheck.pathindex].push_back(Eid)
  *                             FoundPaths.push_back(MappedPaths[NodeCheck.pathindex])             # <<<<<<<<<<<<<<
@@ -45667,10 +45667,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
               __pyx_v_FoundPaths.push_back((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]));
             } catch(...) {
               __Pyx_CppExn2PyErr();
-              __PYX_ERR(0, 3685, __pyx_L1_error)
+              __PYX_ERR(0, 3669, __pyx_L1_error)
             }
 
-            /* "graph.pyx":3686
+            /* "graph.pyx":3670
  *                             MappedPaths[NodeCheck.pathindex].push_back(Eid)
  *                             FoundPaths.push_back(MappedPaths[NodeCheck.pathindex])
  *                             FoundDests.push_back(EntryDestination)             # <<<<<<<<<<<<<<
@@ -45681,10 +45681,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
               __pyx_v_FoundDests.push_back(__pyx_v_EntryDestination);
             } catch(...) {
               __Pyx_CppExn2PyErr();
-              __PYX_ERR(0, 3686, __pyx_L1_error)
+              __PYX_ERR(0, 3670, __pyx_L1_error)
             }
 
-            /* "graph.pyx":3687
+            /* "graph.pyx":3671
  *                             FoundPaths.push_back(MappedPaths[NodeCheck.pathindex])
  *                             FoundDests.push_back(EntryDestination)
  *                             pathN += 1             # <<<<<<<<<<<<<<
@@ -45693,7 +45693,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
             __pyx_v_pathN = (__pyx_v_pathN + 1);
 
-            /* "graph.pyx":3688
+            /* "graph.pyx":3672
  *                             FoundDests.push_back(EntryDestination)
  *                             pathN += 1
  *                             if PathLim <= pathN:             # <<<<<<<<<<<<<<
@@ -45703,7 +45703,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
             __pyx_t_6 = (__pyx_v_PathLim <= __pyx_v_pathN);
             if (__pyx_t_6) {
 
-              /* "graph.pyx":3689
+              /* "graph.pyx":3673
  *                             pathN += 1
  *                             if PathLim <= pathN:
  *                                 keepGoing = False             # <<<<<<<<<<<<<<
@@ -45712,7 +45712,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
               __pyx_v_keepGoing = 0;
 
-              /* "graph.pyx":3690
+              /* "graph.pyx":3674
  *                             if PathLim <= pathN:
  *                                 keepGoing = False
  *                                 break             # <<<<<<<<<<<<<<
@@ -45721,7 +45721,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
               goto __pyx_L22_break;
 
-              /* "graph.pyx":3688
+              /* "graph.pyx":3672
  *                             FoundDests.push_back(EntryDestination)
  *                             pathN += 1
  *                             if PathLim <= pathN:             # <<<<<<<<<<<<<<
@@ -45730,7 +45730,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
             }
 
-            /* "graph.pyx":3682
+            /* "graph.pyx":3666
  *                         else:
  *                             pathlength = NodeCheck.Dist + EntryO.EDist[1]
  *                         if pathlength < LimitDistance:             # <<<<<<<<<<<<<<
@@ -45739,7 +45739,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
           }
 
-          /* "graph.pyx":3691
+          /* "graph.pyx":3675
  *                                 keepGoing = False
  *                                 break
  *                         continue             # <<<<<<<<<<<<<<
@@ -45748,7 +45748,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
           goto __pyx_L21_continue;
 
-          /* "graph.pyx":3677
+          /* "graph.pyx":3661
  *                         continue
  * 
  *                     if Eid == EntryO.Eid:             # <<<<<<<<<<<<<<
@@ -45757,7 +45757,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         }
 
-        /* "graph.pyx":3693
+        /* "graph.pyx":3677
  *                         continue
  * 
  *                     EdgeC = self.edges[Eid]             # <<<<<<<<<<<<<<
@@ -45766,7 +45766,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         __pyx_v_EdgeC = (__pyx_v_self->edges[__pyx_v_Eid]);
 
-        /* "graph.pyx":3694
+        /* "graph.pyx":3678
  * 
  *                     EdgeC = self.edges[Eid]
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -45776,7 +45776,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         __pyx_t_6 = (__pyx_v_EdgeC.NidO == __pyx_v_NodeCheck.Nid);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3695
+          /* "graph.pyx":3679
  *                     EdgeC = self.edges[Eid]
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         pathlength = EdgeC.lenR             # <<<<<<<<<<<<<<
@@ -45786,7 +45786,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
           __pyx_t_7 = __pyx_v_EdgeC.lenR;
           __pyx_v_pathlength = __pyx_t_7;
 
-          /* "graph.pyx":3696
+          /* "graph.pyx":3680
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         pathlength = EdgeC.lenR
  *                         NidF = EdgeC.NidD             # <<<<<<<<<<<<<<
@@ -45796,7 +45796,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
           __pyx_t_12 = __pyx_v_EdgeC.NidD;
           __pyx_v_NidF = __pyx_t_12;
 
-          /* "graph.pyx":3694
+          /* "graph.pyx":3678
  * 
  *                     EdgeC = self.edges[Eid]
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -45806,7 +45806,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
           goto __pyx_L32;
         }
 
-        /* "graph.pyx":3698
+        /* "graph.pyx":3682
  *                         NidF = EdgeC.NidD
  *                     else:
  *                         pathlength = EdgeC.len             # <<<<<<<<<<<<<<
@@ -45817,7 +45817,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
           __pyx_t_7 = __pyx_v_EdgeC.len;
           __pyx_v_pathlength = __pyx_t_7;
 
-          /* "graph.pyx":3699
+          /* "graph.pyx":3683
  *                     else:
  *                         pathlength = EdgeC.len
  *                         NidF = EdgeC.NidO             # <<<<<<<<<<<<<<
@@ -45829,7 +45829,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         }
         __pyx_L32:;
 
-        /* "graph.pyx":3701
+        /* "graph.pyx":3685
  *                         NidF = EdgeC.NidO
  * 
  *                     pathlength += NodeCheck.Dist + self.nodes[NidF].c             # <<<<<<<<<<<<<<
@@ -45838,7 +45838,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         __pyx_v_pathlength = (__pyx_v_pathlength + (__pyx_v_NodeCheck.Dist + (__pyx_v_self->nodes[__pyx_v_NidF]).c));
 
-        /* "graph.pyx":3702
+        /* "graph.pyx":3686
  * 
  *                     pathlength += NodeCheck.Dist + self.nodes[NidF].c
  *                     if self.nodeVisited[NidF].Nid == -1:             # <<<<<<<<<<<<<<
@@ -45848,7 +45848,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         __pyx_t_6 = ((__pyx_v_self->nodeVisited[__pyx_v_NidF]).Nid == -1L);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3703
+          /* "graph.pyx":3687
  *                     pathlength += NodeCheck.Dist + self.nodes[NidF].c
  *                     if self.nodeVisited[NidF].Nid == -1:
  *                         continue             # <<<<<<<<<<<<<<
@@ -45857,7 +45857,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
           goto __pyx_L21_continue;
 
-          /* "graph.pyx":3702
+          /* "graph.pyx":3686
  * 
  *                     pathlength += NodeCheck.Dist + self.nodes[NidF].c
  *                     if self.nodeVisited[NidF].Nid == -1:             # <<<<<<<<<<<<<<
@@ -45866,7 +45866,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         }
 
-        /* "graph.pyx":3704
+        /* "graph.pyx":3688
  *                     if self.nodeVisited[NidF].Nid == -1:
  *                         continue
  *                     if self.nodeVisited[NidF].Dist > self.nodeVisited[NodeCheck.Nid].Dist:             # <<<<<<<<<<<<<<
@@ -45876,7 +45876,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         __pyx_t_6 = ((__pyx_v_self->nodeVisited[__pyx_v_NidF]).Dist > (__pyx_v_self->nodeVisited[__pyx_v_NodeCheck.Nid]).Dist);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3705
+          /* "graph.pyx":3689
  *                         continue
  *                     if self.nodeVisited[NidF].Dist > self.nodeVisited[NodeCheck.Nid].Dist:
  *                         continue             # <<<<<<<<<<<<<<
@@ -45885,7 +45885,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
           goto __pyx_L21_continue;
 
-          /* "graph.pyx":3704
+          /* "graph.pyx":3688
  *                     if self.nodeVisited[NidF].Nid == -1:
  *                         continue
  *                     if self.nodeVisited[NidF].Dist > self.nodeVisited[NodeCheck.Nid].Dist:             # <<<<<<<<<<<<<<
@@ -45894,7 +45894,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         }
 
-        /* "graph.pyx":3706
+        /* "graph.pyx":3690
  *                     if self.nodeVisited[NidF].Dist > self.nodeVisited[NodeCheck.Nid].Dist:
  *                         continue
  *                     if (pathlength + self.nodeVisited[NidF].Dist) > LimitDistance:             # <<<<<<<<<<<<<<
@@ -45904,7 +45904,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         __pyx_t_6 = ((__pyx_v_pathlength + (__pyx_v_self->nodeVisited[__pyx_v_NidF]).Dist) > __pyx_v_LimitDistance);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3707
+          /* "graph.pyx":3691
  *                         continue
  *                     if (pathlength + self.nodeVisited[NidF].Dist) > LimitDistance:
  *                         continue             # <<<<<<<<<<<<<<
@@ -45913,7 +45913,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
           goto __pyx_L21_continue;
 
-          /* "graph.pyx":3706
+          /* "graph.pyx":3690
  *                     if self.nodeVisited[NidF].Dist > self.nodeVisited[NodeCheck.Nid].Dist:
  *                         continue
  *                     if (pathlength + self.nodeVisited[NidF].Dist) > LimitDistance:             # <<<<<<<<<<<<<<
@@ -45922,7 +45922,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         }
 
-        /* "graph.pyx":3708
+        /* "graph.pyx":3692
  *                     if (pathlength + self.nodeVisited[NidF].Dist) > LimitDistance:
  *                         continue
  *                     NodeReach_T.Weight = pathlength + (self.nodeVisited[NidF].Dist-MinimumDistance) * DistMul             # <<<<<<<<<<<<<<
@@ -45931,7 +45931,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         __pyx_v_NodeReach_T.Weight = (__pyx_v_pathlength + (((__pyx_v_self->nodeVisited[__pyx_v_NidF]).Dist - __pyx_v_MinimumDistance) * __pyx_v_DistMul));
 
-        /* "graph.pyx":3709
+        /* "graph.pyx":3693
  *                         continue
  *                     NodeReach_T.Weight = pathlength + (self.nodeVisited[NidF].Dist-MinimumDistance) * DistMul
  *                     MappedPath_T2 = MappedPath_T             # <<<<<<<<<<<<<<
@@ -45940,7 +45940,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         __pyx_v_MappedPath_T2 = __pyx_v_MappedPath_T;
 
-        /* "graph.pyx":3710
+        /* "graph.pyx":3694
  *                     NodeReach_T.Weight = pathlength + (self.nodeVisited[NidF].Dist-MinimumDistance) * DistMul
  *                     MappedPath_T2 = MappedPath_T
  *                     MappedPath_T2.push_back(Eid)             # <<<<<<<<<<<<<<
@@ -45951,10 +45951,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
           __pyx_v_MappedPath_T2.push_back(__pyx_v_Eid);
         } catch(...) {
           __Pyx_CppExn2PyErr();
-          __PYX_ERR(0, 3710, __pyx_L1_error)
+          __PYX_ERR(0, 3694, __pyx_L1_error)
         }
 
-        /* "graph.pyx":3711
+        /* "graph.pyx":3695
  *                     MappedPath_T2 = MappedPath_T
  *                     MappedPath_T2.push_back(Eid)
  *                     NodeReach_T.Nid = NidF             # <<<<<<<<<<<<<<
@@ -45963,7 +45963,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         __pyx_v_NodeReach_T.Nid = __pyx_v_NidF;
 
-        /* "graph.pyx":3712
+        /* "graph.pyx":3696
  *                     MappedPath_T2.push_back(Eid)
  *                     NodeReach_T.Nid = NidF
  *                     NodeReach_T.Dist = pathlength             # <<<<<<<<<<<<<<
@@ -45972,7 +45972,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         __pyx_v_NodeReach_T.Dist = __pyx_v_pathlength;
 
-        /* "graph.pyx":3713
+        /* "graph.pyx":3697
  *                     NodeReach_T.Nid = NidF
  *                     NodeReach_T.Dist = pathlength
  *                     NodeReach_T.Eid = Eid             # <<<<<<<<<<<<<<
@@ -45981,7 +45981,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         __pyx_v_NodeReach_T.Eid = __pyx_v_Eid;
 
-        /* "graph.pyx":3715
+        /* "graph.pyx":3699
  *                     NodeReach_T.Eid = Eid
  * 
  *                     if MappedPaths[NodeCheck.pathindex] == MappedPath_T:             # <<<<<<<<<<<<<<
@@ -45991,7 +45991,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         __pyx_t_6 = ((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]) == __pyx_v_MappedPath_T);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3716
+          /* "graph.pyx":3700
  * 
  *                     if MappedPaths[NodeCheck.pathindex] == MappedPath_T:
  *                         NodeReach_T.pathindex = NodeCheck.pathindex             # <<<<<<<<<<<<<<
@@ -46001,7 +46001,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
           __pyx_t_12 = __pyx_v_NodeCheck.pathindex;
           __pyx_v_NodeReach_T.pathindex = __pyx_t_12;
 
-          /* "graph.pyx":3717
+          /* "graph.pyx":3701
  *                     if MappedPaths[NodeCheck.pathindex] == MappedPath_T:
  *                         NodeReach_T.pathindex = NodeCheck.pathindex
  *                         MappedPaths[NodeCheck.pathindex] = MappedPath_T2             # <<<<<<<<<<<<<<
@@ -46010,7 +46010,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
           (__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]) = __pyx_v_MappedPath_T2;
 
-          /* "graph.pyx":3715
+          /* "graph.pyx":3699
  *                     NodeReach_T.Eid = Eid
  * 
  *                     if MappedPaths[NodeCheck.pathindex] == MappedPath_T:             # <<<<<<<<<<<<<<
@@ -46020,7 +46020,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
           goto __pyx_L36;
         }
 
-        /* "graph.pyx":3719
+        /* "graph.pyx":3703
  *                         MappedPaths[NodeCheck.pathindex] = MappedPath_T2
  *                     else:
  *                         NodeReach_T.pathindex = <int>MappedPaths.size()             # <<<<<<<<<<<<<<
@@ -46030,7 +46030,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
         /*else*/ {
           __pyx_v_NodeReach_T.pathindex = ((int)__pyx_v_MappedPaths.size());
 
-          /* "graph.pyx":3720
+          /* "graph.pyx":3704
  *                     else:
  *                         NodeReach_T.pathindex = <int>MappedPaths.size()
  *                         MappedPaths.push_back(MappedPath_T2)             # <<<<<<<<<<<<<<
@@ -46041,24 +46041,24 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
             __pyx_v_MappedPaths.push_back(__pyx_v_MappedPath_T2);
           } catch(...) {
             __Pyx_CppExn2PyErr();
-            __PYX_ERR(0, 3720, __pyx_L1_error)
+            __PYX_ERR(0, 3704, __pyx_L1_error)
           }
         }
         __pyx_L36:;
 
-        /* "graph.pyx":3721
+        /* "graph.pyx":3705
  *                         NodeReach_T.pathindex = <int>MappedPaths.size()
  *                         MappedPaths.push_back(MappedPath_T2)
  *                     OpenNodes.push(NodeReach_T)             # <<<<<<<<<<<<<<
  * 
  *                 if cycles > LimCycle:
  */
-        ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3721, __pyx_L1_error)
+        ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3705, __pyx_L1_error)
         __pyx_L21_continue:;
       }
       __pyx_L22_break:;
 
-      /* "graph.pyx":3723
+      /* "graph.pyx":3707
  *                     OpenNodes.push(NodeReach_T)
  * 
  *                 if cycles > LimCycle:             # <<<<<<<<<<<<<<
@@ -46068,7 +46068,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
       __pyx_t_6 = (__pyx_v_cycles > __pyx_v_LimCycle);
       if (__pyx_t_6) {
 
-        /* "graph.pyx":3724
+        /* "graph.pyx":3708
  * 
  *                 if cycles > LimCycle:
  *                     break             # <<<<<<<<<<<<<<
@@ -46077,7 +46077,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  */
         goto __pyx_L19_break;
 
-        /* "graph.pyx":3723
+        /* "graph.pyx":3707
  *                     OpenNodes.push(NodeReach_T)
  * 
  *                 if cycles > LimCycle:             # <<<<<<<<<<<<<<
@@ -46088,7 +46088,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
     }
     __pyx_L19_break:;
 
-    /* "graph.pyx":3591
+    /* "graph.pyx":3575
  *         cdef float compdist
  *         # cycles per destination
  *         for EntryDestination in EntryDests:             # <<<<<<<<<<<<<<
@@ -46099,7 +46099,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "graph.pyx":3726
+  /* "graph.pyx":3710
  *                     break
  *             # print(f'\t{EidO} to {EidD} - c{cycles} || p{pathN}')
  *         return tuple(FoundDistance), tuple(FoundPaths), tuple(FoundDests)             # <<<<<<<<<<<<<<
@@ -46107,29 +46107,29 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __pyx_convert_vector_to_py_float(__pyx_v_FoundDistance); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3726, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_to_py_float(__pyx_v_FoundDistance); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3710, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 3726, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 3710, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_int_3e___(__pyx_v_FoundPaths); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3726, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_int_3e___(__pyx_v_FoundPaths); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3710, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_13 = __Pyx_PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 3726, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 3710, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __pyx_convert_vector_to_py_int(__pyx_v_FoundDests); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3726, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_to_py_int(__pyx_v_FoundDests); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3710, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_14 = __Pyx_PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 3726, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 3710, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3726, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3710, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_4);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4)) __PYX_ERR(0, 3726, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4)) __PYX_ERR(0, 3710, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_13);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_13)) __PYX_ERR(0, 3726, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_13)) __PYX_ERR(0, 3710, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_14);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_t_14)) __PYX_ERR(0, 3726, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_t_14)) __PYX_ERR(0, 3710, __pyx_L1_error);
   __pyx_t_4 = 0;
   __pyx_t_13 = 0;
   __pyx_t_14 = 0;
@@ -46137,7 +46137,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "graph.pyx":3513
+  /* "graph.pyx":3497
  * 
  * 
  *     def PathFind_Multi_MultiDest_VirtuEntry(             # <<<<<<<<<<<<<<
@@ -46160,7 +46160,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_86PathFind_Multi_MultiDest_VirtuEntry(
   return __pyx_r;
 }
 
-/* "graph.pyx":3729
+/* "graph.pyx":3713
  * 
  * 
  *     def PathFind_Multi_MultiDest_VirtuEntry_True(             # <<<<<<<<<<<<<<
@@ -46240,7 +46240,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3729, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3713, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -46248,49 +46248,49 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3729, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3713, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("PathFind_Multi_MultiDest_VirtuEntry_True", 0, 2, 7, 1); __PYX_ERR(0, 3729, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("PathFind_Multi_MultiDest_VirtuEntry_True", 0, 2, 7, 1); __PYX_ERR(0, 3713, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_DistMulLim);
           if (value) { values[2] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3729, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3713, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_LimDist);
           if (value) { values[3] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3729, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3713, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_LimCycle);
           if (value) { values[4] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3729, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3713, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_DistMul);
           if (value) { values[5] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3729, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3713, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_PathLim);
           if (value) { values[6] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3729, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3713, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "PathFind_Multi_MultiDest_VirtuEntry_True") < 0)) __PYX_ERR(0, 3729, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "PathFind_Multi_MultiDest_VirtuEntry_True") < 0)) __PYX_ERR(0, 3713, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -46310,37 +46310,37 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_EntryOrigin = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_EntryOrigin == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3731, __pyx_L3_error)
+    __pyx_v_EntryOrigin = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_EntryOrigin == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3715, __pyx_L3_error)
     __pyx_v_EntryDests = ((PyObject*)values[1]);
     if (values[2]) {
-      __pyx_v_DistMulLim = __pyx_PyFloat_AsFloat(values[2]); if (unlikely((__pyx_v_DistMulLim == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3733, __pyx_L3_error)
+      __pyx_v_DistMulLim = __pyx_PyFloat_AsFloat(values[2]); if (unlikely((__pyx_v_DistMulLim == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3717, __pyx_L3_error)
     } else {
       __pyx_v_DistMulLim = ((float)1.1);
     }
     if (values[3]) {
-      __pyx_v_LimDist = __pyx_PyFloat_AsFloat(values[3]); if (unlikely((__pyx_v_LimDist == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3734, __pyx_L3_error)
+      __pyx_v_LimDist = __pyx_PyFloat_AsFloat(values[3]); if (unlikely((__pyx_v_LimDist == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3718, __pyx_L3_error)
     } else {
       __pyx_v_LimDist = ((float)10000.0);
     }
     if (values[4]) {
-      __pyx_v_LimCycle = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_LimCycle == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3735, __pyx_L3_error)
+      __pyx_v_LimCycle = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_LimCycle == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3719, __pyx_L3_error)
     } else {
       __pyx_v_LimCycle = ((int)0xF4240);
     }
     if (values[5]) {
-      __pyx_v_DistMul = __pyx_PyFloat_AsFloat(values[5]); if (unlikely((__pyx_v_DistMul == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3736, __pyx_L3_error)
+      __pyx_v_DistMul = __pyx_PyFloat_AsFloat(values[5]); if (unlikely((__pyx_v_DistMul == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3720, __pyx_L3_error)
     } else {
       __pyx_v_DistMul = ((float)2.0);
     }
     if (values[6]) {
-      __pyx_v_PathLim = __Pyx_PyInt_As_int(values[6]); if (unlikely((__pyx_v_PathLim == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3737, __pyx_L3_error)
+      __pyx_v_PathLim = __Pyx_PyInt_As_int(values[6]); if (unlikely((__pyx_v_PathLim == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3721, __pyx_L3_error)
     } else {
       __pyx_v_PathLim = ((int)0x186A0);
     }
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("PathFind_Multi_MultiDest_VirtuEntry_True", 0, 2, 7, __pyx_nargs); __PYX_ERR(0, 3729, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("PathFind_Multi_MultiDest_VirtuEntry_True", 0, 2, 7, __pyx_nargs); __PYX_ERR(0, 3713, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -46354,7 +46354,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_EntryDests), (&PyTuple_Type), 1, "EntryDests", 1))) __PYX_ERR(0, 3732, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_EntryDests), (&PyTuple_Type), 1, "EntryDests", 1))) __PYX_ERR(0, 3716, __pyx_L1_error)
   __pyx_r = __pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_True(((struct __pyx_obj_5graph_GraphCy *)__pyx_v_self), __pyx_v_EntryOrigin, __pyx_v_EntryDests, __pyx_v_DistMulLim, __pyx_v_LimDist, __pyx_v_LimCycle, __pyx_v_DistMul, __pyx_v_PathLim);
 
   /* function exit code */
@@ -46419,7 +46419,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PathFind_Multi_MultiDest_VirtuEntry_True", 1);
 
-  /* "graph.pyx":3776
+  /* "graph.pyx":3760
  *         # cdef float[2] DistO = (DstO[0], DstO[1])
  *         # cdef float[2] DistD
  *         cdef Entry EntryO = self.EntryDt[EntryOrigin]             # <<<<<<<<<<<<<<
@@ -46428,7 +46428,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
   __pyx_v_EntryO = (__pyx_v_self->EntryDt[__pyx_v_EntryOrigin]);
 
-  /* "graph.pyx":3780
+  /* "graph.pyx":3764
  *         cdef float BaseDist
  *         cdef float MinimumDistance
  *         self.C_NodeMap_VirtuEntry(             # <<<<<<<<<<<<<<
@@ -46439,21 +46439,21 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
   __pyx_t_1.ReverseEdge = 0;
   __pyx_t_1.LimDist = (__pyx_v_LimDist * __pyx_v_DistMulLim);
   __pyx_t_1.LimCycle = (__pyx_v_LimCycle * 2);
-  ((struct __pyx_vtabstruct_5graph_GraphCy *)__pyx_v_self->__pyx_vtab)->C_NodeMap_VirtuEntry(__pyx_v_self, __pyx_v_EntryOrigin, &__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3780, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_5graph_GraphCy *)__pyx_v_self->__pyx_vtab)->C_NodeMap_VirtuEntry(__pyx_v_self, __pyx_v_EntryOrigin, &__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3764, __pyx_L1_error)
 
-  /* "graph.pyx":3792
+  /* "graph.pyx":3776
  *         cdef bint keepGoing
  *         cdef NodeReach NodeCheck
  *         cdef PriorityQueue_NR OpenNodes = PriorityQueue_NR()             # <<<<<<<<<<<<<<
  *         cdef NodeReach startNode
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5graph_PriorityQueue_NR)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3792, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5graph_PriorityQueue_NR)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3776, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_OpenNodes = ((struct __pyx_obj_5graph_PriorityQueue_NR *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "graph.pyx":3807
+  /* "graph.pyx":3791
  *         cdef float compdist
  *         # cycles per destination
  *         for EntryDestination in EntryDests:             # <<<<<<<<<<<<<<
@@ -46462,7 +46462,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
   if (unlikely(__pyx_v_EntryDests == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 3807, __pyx_L1_error)
+    __PYX_ERR(0, 3791, __pyx_L1_error)
   }
   __pyx_t_2 = __pyx_v_EntryDests; __Pyx_INCREF(__pyx_t_2);
   __pyx_t_3 = 0;
@@ -46470,21 +46470,21 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
     {
       Py_ssize_t __pyx_temp = __Pyx_PyTuple_GET_SIZE(__pyx_t_2);
       #if !CYTHON_ASSUME_SAFE_MACROS
-      if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 3807, __pyx_L1_error)
+      if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 3791, __pyx_L1_error)
       #endif
       if (__pyx_t_3 >= __pyx_temp) break;
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely((0 < 0))) __PYX_ERR(0, 3807, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely((0 < 0))) __PYX_ERR(0, 3791, __pyx_L1_error)
     #else
-    __pyx_t_4 = __Pyx_PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 3807, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 3791, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     #endif
-    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3807, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3791, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_EntryDestination = __pyx_t_5;
 
-    /* "graph.pyx":3808
+    /* "graph.pyx":3792
  *         # cycles per destination
  *         for EntryDestination in EntryDests:
  *             EntryD = self.EntryDt[EntryDestination]             # <<<<<<<<<<<<<<
@@ -46493,7 +46493,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
     __pyx_v_EntryD = (__pyx_v_self->EntryDt[__pyx_v_EntryDestination]);
 
-    /* "graph.pyx":3809
+    /* "graph.pyx":3793
  *         for EntryDestination in EntryDests:
  *             EntryD = self.EntryDt[EntryDestination]
  *             if EntryOrigin == EntryDestination:             # <<<<<<<<<<<<<<
@@ -46503,7 +46503,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
     __pyx_t_6 = (__pyx_v_EntryOrigin == __pyx_v_EntryDestination);
     if (__pyx_t_6) {
 
-      /* "graph.pyx":3810
+      /* "graph.pyx":3794
  *             EntryD = self.EntryDt[EntryDestination]
  *             if EntryOrigin == EntryDestination:
  *                 continue             # <<<<<<<<<<<<<<
@@ -46512,7 +46512,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       goto __pyx_L3_continue;
 
-      /* "graph.pyx":3809
+      /* "graph.pyx":3793
  *         for EntryDestination in EntryDests:
  *             EntryD = self.EntryDt[EntryDestination]
  *             if EntryOrigin == EntryDestination:             # <<<<<<<<<<<<<<
@@ -46521,7 +46521,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
     }
 
-    /* "graph.pyx":3812
+    /* "graph.pyx":3796
  *                 continue
  * 
  *             MappedPaths.clear()             # <<<<<<<<<<<<<<
@@ -46530,16 +46530,16 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
     __pyx_v_MappedPaths.clear();
 
-    /* "graph.pyx":3813
+    /* "graph.pyx":3797
  * 
  *             MappedPaths.clear()
  *             OpenNodes.clear()             # <<<<<<<<<<<<<<
  *             MappedPath_T.clear()
  *             MappedPath_T2.clear()
  */
-    ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->clear(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3813, __pyx_L1_error)
+    ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->clear(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3797, __pyx_L1_error)
 
-    /* "graph.pyx":3814
+    /* "graph.pyx":3798
  *             MappedPaths.clear()
  *             OpenNodes.clear()
  *             MappedPath_T.clear()             # <<<<<<<<<<<<<<
@@ -46548,7 +46548,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
     __pyx_v_MappedPath_T.clear();
 
-    /* "graph.pyx":3815
+    /* "graph.pyx":3799
  *             OpenNodes.clear()
  *             MappedPath_T.clear()
  *             MappedPath_T2.clear()             # <<<<<<<<<<<<<<
@@ -46557,7 +46557,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
     __pyx_v_MappedPath_T2.clear();
 
-    /* "graph.pyx":3816
+    /* "graph.pyx":3800
  *             MappedPath_T.clear()
  *             MappedPath_T2.clear()
  *             keepGoing = True             # <<<<<<<<<<<<<<
@@ -46566,7 +46566,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
     __pyx_v_keepGoing = 1;
 
-    /* "graph.pyx":3817
+    /* "graph.pyx":3801
  *             MappedPath_T2.clear()
  *             keepGoing = True
  *             pathN = 0             # <<<<<<<<<<<<<<
@@ -46575,7 +46575,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
     __pyx_v_pathN = 0;
 
-    /* "graph.pyx":3818
+    /* "graph.pyx":3802
  *             keepGoing = True
  *             pathN = 0
  *             MinimumDistance = -1.0             # <<<<<<<<<<<<<<
@@ -46584,17 +46584,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
     __pyx_v_MinimumDistance = -1.0;
 
-    /* "graph.pyx":3820
+    /* "graph.pyx":3804
  *             MinimumDistance = -1.0
  * 
  *             BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)             # <<<<<<<<<<<<<<
  *             if BaseDist*1.1 > LimDist:
  *                 continue
  */
-    __pyx_t_7 = __pyx_f_5graph_dist3d_ar(__pyx_v_EntryO.ixPt, __pyx_v_EntryD.ixPt); if (unlikely(__pyx_t_7 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3820, __pyx_L1_error)
+    __pyx_t_7 = __pyx_f_5graph_dist3d_ar(__pyx_v_EntryO.ixPt, __pyx_v_EntryD.ixPt); if (unlikely(__pyx_t_7 == ((float)-1) && PyErr_Occurred())) __PYX_ERR(0, 3804, __pyx_L1_error)
     __pyx_v_BaseDist = __pyx_t_7;
 
-    /* "graph.pyx":3821
+    /* "graph.pyx":3805
  * 
  *             BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)
  *             if BaseDist*1.1 > LimDist:             # <<<<<<<<<<<<<<
@@ -46604,7 +46604,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
     __pyx_t_6 = ((__pyx_v_BaseDist * 1.1) > __pyx_v_LimDist);
     if (__pyx_t_6) {
 
-      /* "graph.pyx":3822
+      /* "graph.pyx":3806
  *             BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)
  *             if BaseDist*1.1 > LimDist:
  *                 continue             # <<<<<<<<<<<<<<
@@ -46613,7 +46613,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       goto __pyx_L3_continue;
 
-      /* "graph.pyx":3821
+      /* "graph.pyx":3805
  * 
  *             BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)
  *             if BaseDist*1.1 > LimDist:             # <<<<<<<<<<<<<<
@@ -46622,7 +46622,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
     }
 
-    /* "graph.pyx":3823
+    /* "graph.pyx":3807
  *             if BaseDist*1.1 > LimDist:
  *                 continue
  *             cycles = 0             # <<<<<<<<<<<<<<
@@ -46631,7 +46631,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
     __pyx_v_cycles = 0;
 
-    /* "graph.pyx":3824
+    /* "graph.pyx":3808
  *                 continue
  *             cycles = 0
  *             MappedPath_T.push_back(EntryD.Eid)             # <<<<<<<<<<<<<<
@@ -46642,10 +46642,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
       __pyx_v_MappedPath_T.push_back(__pyx_v_EntryD.Eid);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 3824, __pyx_L1_error)
+      __PYX_ERR(0, 3808, __pyx_L1_error)
     }
 
-    /* "graph.pyx":3825
+    /* "graph.pyx":3809
  *             cycles = 0
  *             MappedPath_T.push_back(EntryD.Eid)
  *             MappedPaths.push_back(MappedPath_T)             # <<<<<<<<<<<<<<
@@ -46656,10 +46656,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
       __pyx_v_MappedPaths.push_back(__pyx_v_MappedPath_T);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 3825, __pyx_L1_error)
+      __PYX_ERR(0, 3809, __pyx_L1_error)
     }
 
-    /* "graph.pyx":3830
+    /* "graph.pyx":3814
  *             #                                                 LimDist, LimCycle, DistMul)
  * 
  *             if EntryD.Eid == EntryO.Eid: # checks if same edge             # <<<<<<<<<<<<<<
@@ -46669,7 +46669,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
     __pyx_t_6 = (__pyx_v_EntryD.Eid == __pyx_v_EntryO.Eid);
     if (__pyx_t_6) {
 
-      /* "graph.pyx":3831
+      /* "graph.pyx":3815
  * 
  *             if EntryD.Eid == EntryO.Eid: # checks if same edge
  *                 MinimumDistance = abs(EntryD.EDist[0] - EntryO.EDist[0])             # <<<<<<<<<<<<<<
@@ -46678,7 +46678,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       __pyx_v_MinimumDistance = fabsf(((__pyx_v_EntryD.EDist[0]) - (__pyx_v_EntryO.EDist[0])));
 
-      /* "graph.pyx":3832
+      /* "graph.pyx":3816
  *             if EntryD.Eid == EntryO.Eid: # checks if same edge
  *                 MinimumDistance = abs(EntryD.EDist[0] - EntryO.EDist[0])
  *                 FoundPaths.push_back(MappedPath_T)             # <<<<<<<<<<<<<<
@@ -46689,10 +46689,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
         __pyx_v_FoundPaths.push_back(__pyx_v_MappedPath_T);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(0, 3832, __pyx_L1_error)
+        __PYX_ERR(0, 3816, __pyx_L1_error)
       }
 
-      /* "graph.pyx":3833
+      /* "graph.pyx":3817
  *                 MinimumDistance = abs(EntryD.EDist[0] - EntryO.EDist[0])
  *                 FoundPaths.push_back(MappedPath_T)
  *                 if MinimumDistance == 0.0:             # <<<<<<<<<<<<<<
@@ -46702,7 +46702,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
       __pyx_t_6 = (__pyx_v_MinimumDistance == 0.0);
       if (__pyx_t_6) {
 
-        /* "graph.pyx":3834
+        /* "graph.pyx":3818
  *                 FoundPaths.push_back(MappedPath_T)
  *                 if MinimumDistance == 0.0:
  *                     MinimumDistance = <float>0.1             # <<<<<<<<<<<<<<
@@ -46711,7 +46711,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         __pyx_v_MinimumDistance = ((float)0.1);
 
-        /* "graph.pyx":3833
+        /* "graph.pyx":3817
  *                 MinimumDistance = abs(EntryD.EDist[0] - EntryO.EDist[0])
  *                 FoundPaths.push_back(MappedPath_T)
  *                 if MinimumDistance == 0.0:             # <<<<<<<<<<<<<<
@@ -46720,7 +46720,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       }
 
-      /* "graph.pyx":3836
+      /* "graph.pyx":3820
  *                     MinimumDistance = <float>0.1
  *                 # print(f'\t\tSameLine {MinimumDistance}')
  *                 FoundDistance.push_back(MinimumDistance)             # <<<<<<<<<<<<<<
@@ -46731,10 +46731,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
         __pyx_v_FoundDistance.push_back(__pyx_v_MinimumDistance);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(0, 3836, __pyx_L1_error)
+        __PYX_ERR(0, 3820, __pyx_L1_error)
       }
 
-      /* "graph.pyx":3837
+      /* "graph.pyx":3821
  *                 # print(f'\t\tSameLine {MinimumDistance}')
  *                 FoundDistance.push_back(MinimumDistance)
  *                 FoundDests.push_back(EntryDestination)             # <<<<<<<<<<<<<<
@@ -46745,10 +46745,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
         __pyx_v_FoundDests.push_back(__pyx_v_EntryDestination);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(0, 3837, __pyx_L1_error)
+        __PYX_ERR(0, 3821, __pyx_L1_error)
       }
 
-      /* "graph.pyx":3838
+      /* "graph.pyx":3822
  *                 FoundDistance.push_back(MinimumDistance)
  *                 FoundDests.push_back(EntryDestination)
  *                 pathN += 1             # <<<<<<<<<<<<<<
@@ -46757,7 +46757,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       __pyx_v_pathN = (__pyx_v_pathN + 1);
 
-      /* "graph.pyx":3830
+      /* "graph.pyx":3814
  *             #                                                 LimDist, LimCycle, DistMul)
  * 
  *             if EntryD.Eid == EntryO.Eid: # checks if same edge             # <<<<<<<<<<<<<<
@@ -46767,7 +46767,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
       goto __pyx_L7;
     }
 
-    /* "graph.pyx":3840
+    /* "graph.pyx":3824
  *                 pathN += 1
  *             else: # finding minimum distance from the mapped nodes
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:             # <<<<<<<<<<<<<<
@@ -46778,7 +46778,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
       __pyx_t_6 = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidO]).Nid != -1L);
       if (__pyx_t_6) {
 
-        /* "graph.pyx":3841
+        /* "graph.pyx":3825
  *             else: # finding minimum distance from the mapped nodes
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:
  *                     MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidO].Dist + EntryD.EDist[0]             # <<<<<<<<<<<<<<
@@ -46787,7 +46787,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         __pyx_v_MinimumDistance = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidO]).Dist + (__pyx_v_EntryD.EDist[0]));
 
-        /* "graph.pyx":3840
+        /* "graph.pyx":3824
  *                 pathN += 1
  *             else: # finding minimum distance from the mapped nodes
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:             # <<<<<<<<<<<<<<
@@ -46796,7 +46796,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       }
 
-      /* "graph.pyx":3842
+      /* "graph.pyx":3826
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:
  *                     MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidO].Dist + EntryD.EDist[0]
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:             # <<<<<<<<<<<<<<
@@ -46806,7 +46806,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
       __pyx_t_6 = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidD]).Nid != -1L);
       if (__pyx_t_6) {
 
-        /* "graph.pyx":3843
+        /* "graph.pyx":3827
  *                     MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidO].Dist + EntryD.EDist[0]
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:
  *                     if MinimumDistance == -1.0:             # <<<<<<<<<<<<<<
@@ -46816,7 +46816,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
         __pyx_t_6 = (__pyx_v_MinimumDistance == -1.0);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3844
+          /* "graph.pyx":3828
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:
  *                     if MinimumDistance == -1.0:
  *                         MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidD].Dist + EntryD.EDist[1]             # <<<<<<<<<<<<<<
@@ -46825,7 +46825,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
           __pyx_v_MinimumDistance = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidD]).Dist + (__pyx_v_EntryD.EDist[1]));
 
-          /* "graph.pyx":3843
+          /* "graph.pyx":3827
  *                     MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidO].Dist + EntryD.EDist[0]
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:
  *                     if MinimumDistance == -1.0:             # <<<<<<<<<<<<<<
@@ -46835,7 +46835,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
           goto __pyx_L11;
         }
 
-        /* "graph.pyx":3846
+        /* "graph.pyx":3830
  *                         MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidD].Dist + EntryD.EDist[1]
  *                     else:
  *                         compdist = self.nodeVisited[self.edges[EntryD.Eid].NidD].Dist + EntryD.EDist[1]             # <<<<<<<<<<<<<<
@@ -46845,7 +46845,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
         /*else*/ {
           __pyx_v_compdist = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidD]).Dist + (__pyx_v_EntryD.EDist[1]));
 
-          /* "graph.pyx":3847
+          /* "graph.pyx":3831
  *                     else:
  *                         compdist = self.nodeVisited[self.edges[EntryD.Eid].NidD].Dist + EntryD.EDist[1]
  *                         if compdist < MinimumDistance:             # <<<<<<<<<<<<<<
@@ -46855,7 +46855,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
           __pyx_t_6 = (__pyx_v_compdist < __pyx_v_MinimumDistance);
           if (__pyx_t_6) {
 
-            /* "graph.pyx":3848
+            /* "graph.pyx":3832
  *                         compdist = self.nodeVisited[self.edges[EntryD.Eid].NidD].Dist + EntryD.EDist[1]
  *                         if compdist < MinimumDistance:
  *                             MinimumDistance = compdist             # <<<<<<<<<<<<<<
@@ -46864,7 +46864,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
             __pyx_v_MinimumDistance = __pyx_v_compdist;
 
-            /* "graph.pyx":3847
+            /* "graph.pyx":3831
  *                     else:
  *                         compdist = self.nodeVisited[self.edges[EntryD.Eid].NidD].Dist + EntryD.EDist[1]
  *                         if compdist < MinimumDistance:             # <<<<<<<<<<<<<<
@@ -46875,7 +46875,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
         }
         __pyx_L11:;
 
-        /* "graph.pyx":3842
+        /* "graph.pyx":3826
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:
  *                     MinimumDistance = self.nodeVisited[self.edges[EntryD.Eid].NidO].Dist + EntryD.EDist[0]
  *                 if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:             # <<<<<<<<<<<<<<
@@ -46886,7 +46886,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
     }
     __pyx_L7:;
 
-    /* "graph.pyx":3851
+    /* "graph.pyx":3835
  * 
  *             # print(dest, MinimumDistance)
  *             if MinimumDistance == -1.0 or MinimumDistance > LimDist:             # <<<<<<<<<<<<<<
@@ -46904,7 +46904,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
     __pyx_L14_bool_binop_done:;
     if (__pyx_t_6) {
 
-      /* "graph.pyx":3852
+      /* "graph.pyx":3836
  *             # print(dest, MinimumDistance)
  *             if MinimumDistance == -1.0 or MinimumDistance > LimDist:
  *                 continue             # <<<<<<<<<<<<<<
@@ -46913,7 +46913,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       goto __pyx_L3_continue;
 
-      /* "graph.pyx":3851
+      /* "graph.pyx":3835
  * 
  *             # print(dest, MinimumDistance)
  *             if MinimumDistance == -1.0 or MinimumDistance > LimDist:             # <<<<<<<<<<<<<<
@@ -46922,7 +46922,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
     }
 
-    /* "graph.pyx":3853
+    /* "graph.pyx":3837
  *             if MinimumDistance == -1.0 or MinimumDistance > LimDist:
  *                 continue
  *             LimitDistance = MinimumDistance * DistMulLim             # <<<<<<<<<<<<<<
@@ -46931,7 +46931,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
     __pyx_v_LimitDistance = (__pyx_v_MinimumDistance * __pyx_v_DistMulLim);
 
-    /* "graph.pyx":3855
+    /* "graph.pyx":3839
  *             LimitDistance = MinimumDistance * DistMulLim
  *             # for Origin EdgeOrigin
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:             # <<<<<<<<<<<<<<
@@ -46941,7 +46941,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
     __pyx_t_6 = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidO]).Nid != -1L);
     if (__pyx_t_6) {
 
-      /* "graph.pyx":3856
+      /* "graph.pyx":3840
  *             # for Origin EdgeOrigin
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:
  *                 startNode.Nid = self.edges[EntryD.Eid].NidO             # <<<<<<<<<<<<<<
@@ -46951,7 +46951,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
       __pyx_t_5 = (__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidO;
       __pyx_v_startNode.Nid = __pyx_t_5;
 
-      /* "graph.pyx":3857
+      /* "graph.pyx":3841
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:
  *                 startNode.Nid = self.edges[EntryD.Eid].NidO
  *                 startNode.Eid = EntryD.Eid             # <<<<<<<<<<<<<<
@@ -46961,7 +46961,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
       __pyx_t_5 = __pyx_v_EntryD.Eid;
       __pyx_v_startNode.Eid = __pyx_t_5;
 
-      /* "graph.pyx":3858
+      /* "graph.pyx":3842
  *                 startNode.Nid = self.edges[EntryD.Eid].NidO
  *                 startNode.Eid = EntryD.Eid
  *                 startNode.Dist = EntryD.EDist[0]             # <<<<<<<<<<<<<<
@@ -46970,7 +46970,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       __pyx_v_startNode.Dist = (__pyx_v_EntryD.EDist[0]);
 
-      /* "graph.pyx":3859
+      /* "graph.pyx":3843
  *                 startNode.Eid = EntryD.Eid
  *                 startNode.Dist = EntryD.EDist[0]
  *                 startNode.NidO = -1             # <<<<<<<<<<<<<<
@@ -46979,7 +46979,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       __pyx_v_startNode.NidO = -1;
 
-      /* "graph.pyx":3860
+      /* "graph.pyx":3844
  *                 startNode.Dist = EntryD.EDist[0]
  *                 startNode.NidO = -1
  *                 startNode.pathindex = 0             # <<<<<<<<<<<<<<
@@ -46988,7 +46988,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       __pyx_v_startNode.pathindex = 0;
 
-      /* "graph.pyx":3861
+      /* "graph.pyx":3845
  *                 startNode.NidO = -1
  *                 startNode.pathindex = 0
  *                 startNode.Weight = EntryD.EDist[0] + (self.nodeVisited[startNode.Nid].Dist - MinimumDistance) * DistMul             # <<<<<<<<<<<<<<
@@ -46997,16 +46997,16 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       __pyx_v_startNode.Weight = ((__pyx_v_EntryD.EDist[0]) + (((__pyx_v_self->nodeVisited[__pyx_v_startNode.Nid]).Dist - __pyx_v_MinimumDistance) * __pyx_v_DistMul));
 
-      /* "graph.pyx":3862
+      /* "graph.pyx":3846
  *                 startNode.pathindex = 0
  *                 startNode.Weight = EntryD.EDist[0] + (self.nodeVisited[startNode.Nid].Dist - MinimumDistance) * DistMul
  *                 OpenNodes.push(startNode)             # <<<<<<<<<<<<<<
  *             # print(f'\tstartA {startNode.Dist} || {nodeMapped[startNode.Nid].Dist} || {LimitDistance}')
  *             # for destination edgeorigin
  */
-      ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3862, __pyx_L1_error)
+      ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3846, __pyx_L1_error)
 
-      /* "graph.pyx":3855
+      /* "graph.pyx":3839
  *             LimitDistance = MinimumDistance * DistMulLim
  *             # for Origin EdgeOrigin
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidO].Nid != -1:             # <<<<<<<<<<<<<<
@@ -47015,7 +47015,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
     }
 
-    /* "graph.pyx":3865
+    /* "graph.pyx":3849
  *             # print(f'\tstartA {startNode.Dist} || {nodeMapped[startNode.Nid].Dist} || {LimitDistance}')
  *             # for destination edgeorigin
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:             # <<<<<<<<<<<<<<
@@ -47025,7 +47025,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
     __pyx_t_6 = ((__pyx_v_self->nodeVisited[(__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidD]).Nid != -1L);
     if (__pyx_t_6) {
 
-      /* "graph.pyx":3866
+      /* "graph.pyx":3850
  *             # for destination edgeorigin
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:
  *                 startNode.Nid = self.edges[EntryD.Eid].NidD             # <<<<<<<<<<<<<<
@@ -47035,7 +47035,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
       __pyx_t_5 = (__pyx_v_self->edges[__pyx_v_EntryD.Eid]).NidD;
       __pyx_v_startNode.Nid = __pyx_t_5;
 
-      /* "graph.pyx":3867
+      /* "graph.pyx":3851
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:
  *                 startNode.Nid = self.edges[EntryD.Eid].NidD
  *                 startNode.Eid = EntryD.Eid             # <<<<<<<<<<<<<<
@@ -47045,7 +47045,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
       __pyx_t_5 = __pyx_v_EntryD.Eid;
       __pyx_v_startNode.Eid = __pyx_t_5;
 
-      /* "graph.pyx":3868
+      /* "graph.pyx":3852
  *                 startNode.Nid = self.edges[EntryD.Eid].NidD
  *                 startNode.Eid = EntryD.Eid
  *                 startNode.Dist = EntryD.EDist[1]             # <<<<<<<<<<<<<<
@@ -47054,7 +47054,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       __pyx_v_startNode.Dist = (__pyx_v_EntryD.EDist[1]);
 
-      /* "graph.pyx":3869
+      /* "graph.pyx":3853
  *                 startNode.Eid = EntryD.Eid
  *                 startNode.Dist = EntryD.EDist[1]
  *                 startNode.NidO = -1             # <<<<<<<<<<<<<<
@@ -47063,7 +47063,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       __pyx_v_startNode.NidO = -1;
 
-      /* "graph.pyx":3870
+      /* "graph.pyx":3854
  *                 startNode.Dist = EntryD.EDist[1]
  *                 startNode.NidO = -1
  *                 startNode.pathindex = 0             # <<<<<<<<<<<<<<
@@ -47072,7 +47072,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       __pyx_v_startNode.pathindex = 0;
 
-      /* "graph.pyx":3871
+      /* "graph.pyx":3855
  *                 startNode.NidO = -1
  *                 startNode.pathindex = 0
  *                 startNode.Weight = EntryD.EDist[1] + (self.nodeVisited[startNode.Nid].Dist - MinimumDistance) * DistMul             # <<<<<<<<<<<<<<
@@ -47081,16 +47081,16 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       __pyx_v_startNode.Weight = ((__pyx_v_EntryD.EDist[1]) + (((__pyx_v_self->nodeVisited[__pyx_v_startNode.Nid]).Dist - __pyx_v_MinimumDistance) * __pyx_v_DistMul));
 
-      /* "graph.pyx":3872
+      /* "graph.pyx":3856
  *                 startNode.pathindex = 0
  *                 startNode.Weight = EntryD.EDist[1] + (self.nodeVisited[startNode.Nid].Dist - MinimumDistance) * DistMul
  *                 OpenNodes.push(startNode)             # <<<<<<<<<<<<<<
  *             # print(f'\tstartB {startNode.Dist} || {nodeMapped[startNode.Nid].Dist} || {LimitDistance}')
  *             # cdef float RemainDist
  */
-      ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3872, __pyx_L1_error)
+      ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_startNode); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3856, __pyx_L1_error)
 
-      /* "graph.pyx":3865
+      /* "graph.pyx":3849
  *             # print(f'\tstartA {startNode.Dist} || {nodeMapped[startNode.Nid].Dist} || {LimitDistance}')
  *             # for destination edgeorigin
  *             if self.nodeVisited[self.edges[EntryD.Eid].NidD].Nid != -1:             # <<<<<<<<<<<<<<
@@ -47099,7 +47099,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
     }
 
-    /* "graph.pyx":3875
+    /* "graph.pyx":3859
  *             # print(f'\tstartB {startNode.Dist} || {nodeMapped[startNode.Nid].Dist} || {LimitDistance}')
  *             # cdef float RemainDist
  *             while keepGoing:             # <<<<<<<<<<<<<<
@@ -47109,7 +47109,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
     while (1) {
       if (!__pyx_v_keepGoing) break;
 
-      /* "graph.pyx":3876
+      /* "graph.pyx":3860
  *             # cdef float RemainDist
  *             while keepGoing:
  *                 cycles += 1             # <<<<<<<<<<<<<<
@@ -47118,17 +47118,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       __pyx_v_cycles = (__pyx_v_cycles + 1);
 
-      /* "graph.pyx":3877
+      /* "graph.pyx":3861
  *             while keepGoing:
  *                 cycles += 1
  *                 if OpenNodes.empty():             # <<<<<<<<<<<<<<
  *                     break
  *                 NodeCheck = OpenNodes.pop_top()
  */
-      __pyx_t_6 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->empty(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3877, __pyx_L1_error)
+      __pyx_t_6 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->empty(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3861, __pyx_L1_error)
       if (__pyx_t_6) {
 
-        /* "graph.pyx":3878
+        /* "graph.pyx":3862
  *                 cycles += 1
  *                 if OpenNodes.empty():
  *                     break             # <<<<<<<<<<<<<<
@@ -47137,7 +47137,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         goto __pyx_L19_break;
 
-        /* "graph.pyx":3877
+        /* "graph.pyx":3861
  *             while keepGoing:
  *                 cycles += 1
  *                 if OpenNodes.empty():             # <<<<<<<<<<<<<<
@@ -47146,17 +47146,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       }
 
-      /* "graph.pyx":3879
+      /* "graph.pyx":3863
  *                 if OpenNodes.empty():
  *                     break
  *                 NodeCheck = OpenNodes.pop_top()             # <<<<<<<<<<<<<<
  *                 MappedPath_T = MappedPaths[NodeCheck.pathindex] # getting mapped path from nodecheck index
  *                 # print(f'\tC - {cycles} || {NodeCheck}')
  */
-      __pyx_t_9 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->pop_top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3879, __pyx_L1_error)
+      __pyx_t_9 = ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->pop_top(__pyx_v_OpenNodes); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3863, __pyx_L1_error)
       __pyx_v_NodeCheck = __pyx_t_9;
 
-      /* "graph.pyx":3880
+      /* "graph.pyx":3864
  *                     break
  *                 NodeCheck = OpenNodes.pop_top()
  *                 MappedPath_T = MappedPaths[NodeCheck.pathindex] # getting mapped path from nodecheck index             # <<<<<<<<<<<<<<
@@ -47165,7 +47165,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
       __pyx_v_MappedPath_T = (__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]);
 
-      /* "graph.pyx":3882
+      /* "graph.pyx":3866
  *                 MappedPath_T = MappedPaths[NodeCheck.pathindex] # getting mapped path from nodecheck index
  *                 # print(f'\tC - {cycles} || {NodeCheck}')
  *                 for i in range(self.EidN):             # <<<<<<<<<<<<<<
@@ -47177,7 +47177,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
       for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
         __pyx_v_i = __pyx_t_11;
 
-        /* "graph.pyx":3883
+        /* "graph.pyx":3867
  *                 # print(f'\tC - {cycles} || {NodeCheck}')
  *                 for i in range(self.EidN):
  *                     Eid = self.nodes[NodeCheck.Nid].Eid[i]             # <<<<<<<<<<<<<<
@@ -47186,7 +47186,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         __pyx_v_Eid = ((__pyx_v_self->nodes[__pyx_v_NodeCheck.Nid]).Eid[__pyx_v_i]);
 
-        /* "graph.pyx":3884
+        /* "graph.pyx":3868
  *                 for i in range(self.EidN):
  *                     Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                     if Eid == -1:             # <<<<<<<<<<<<<<
@@ -47196,7 +47196,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
         __pyx_t_6 = (__pyx_v_Eid == -1L);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3886
+          /* "graph.pyx":3870
  *                     if Eid == -1:
  *                         # print(f'\t\t{cycles} - Out Edge{Eid}')
  *                         break             # <<<<<<<<<<<<<<
@@ -47205,7 +47205,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
           goto __pyx_L22_break;
 
-          /* "graph.pyx":3884
+          /* "graph.pyx":3868
  *                 for i in range(self.EidN):
  *                     Eid = self.nodes[NodeCheck.Nid].Eid[i]
  *                     if Eid == -1:             # <<<<<<<<<<<<<<
@@ -47214,7 +47214,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         }
 
-        /* "graph.pyx":3887
+        /* "graph.pyx":3871
  *                         # print(f'\t\t{cycles} - Out Edge{Eid}')
  *                         break
  *                     if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:             # <<<<<<<<<<<<<<
@@ -47232,7 +47232,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
         __pyx_L25_bool_binop_done:;
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3889
+          /* "graph.pyx":3873
  *                     if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:
  *                         # print(f'\t\t{cycles} - Out similar Edge{Eid}')
  *                         continue             # <<<<<<<<<<<<<<
@@ -47241,7 +47241,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
           goto __pyx_L21_continue;
 
-          /* "graph.pyx":3887
+          /* "graph.pyx":3871
  *                         # print(f'\t\t{cycles} - Out Edge{Eid}')
  *                         break
  *                     if Eid == NodeCheck.Eid or self._edgesIds[Eid] == -1:             # <<<<<<<<<<<<<<
@@ -47250,17 +47250,17 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         }
 
-        /* "graph.pyx":3890
+        /* "graph.pyx":3874
  *                         # print(f'\t\t{cycles} - Out similar Edge{Eid}')
  *                         continue
  *                     if Find_IntVector(MappedPaths[NodeCheck.pathindex], Eid): # if Eid already in mapped paths             # <<<<<<<<<<<<<<
  *                         continue
  * 
  */
-        __pyx_t_6 = __pyx_f_5graph_Find_IntVector((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]), __pyx_v_Eid); if (unlikely(__pyx_t_6 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3890, __pyx_L1_error)
+        __pyx_t_6 = __pyx_f_5graph_Find_IntVector((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]), __pyx_v_Eid); if (unlikely(__pyx_t_6 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 3874, __pyx_L1_error)
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3891
+          /* "graph.pyx":3875
  *                         continue
  *                     if Find_IntVector(MappedPaths[NodeCheck.pathindex], Eid): # if Eid already in mapped paths
  *                         continue             # <<<<<<<<<<<<<<
@@ -47269,7 +47269,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
           goto __pyx_L21_continue;
 
-          /* "graph.pyx":3890
+          /* "graph.pyx":3874
  *                         # print(f'\t\t{cycles} - Out similar Edge{Eid}')
  *                         continue
  *                     if Find_IntVector(MappedPaths[NodeCheck.pathindex], Eid): # if Eid already in mapped paths             # <<<<<<<<<<<<<<
@@ -47278,7 +47278,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         }
 
-        /* "graph.pyx":3893
+        /* "graph.pyx":3877
  *                         continue
  * 
  *                     if Eid == EntryO.Eid:             # <<<<<<<<<<<<<<
@@ -47288,7 +47288,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
         __pyx_t_6 = (__pyx_v_Eid == __pyx_v_EntryO.Eid);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3894
+          /* "graph.pyx":3878
  * 
  *                     if Eid == EntryO.Eid:
  *                         if NodeCheck.Nid == self.edges[EntryO.Eid].NidO:             # <<<<<<<<<<<<<<
@@ -47298,7 +47298,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
           __pyx_t_6 = (__pyx_v_NodeCheck.Nid == (__pyx_v_self->edges[__pyx_v_EntryO.Eid]).NidO);
           if (__pyx_t_6) {
 
-            /* "graph.pyx":3895
+            /* "graph.pyx":3879
  *                     if Eid == EntryO.Eid:
  *                         if NodeCheck.Nid == self.edges[EntryO.Eid].NidO:
  *                             pathlength = NodeCheck.Dist + EntryO.EDist[0]             # <<<<<<<<<<<<<<
@@ -47307,7 +47307,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
             __pyx_v_pathlength = (__pyx_v_NodeCheck.Dist + (__pyx_v_EntryO.EDist[0]));
 
-            /* "graph.pyx":3894
+            /* "graph.pyx":3878
  * 
  *                     if Eid == EntryO.Eid:
  *                         if NodeCheck.Nid == self.edges[EntryO.Eid].NidO:             # <<<<<<<<<<<<<<
@@ -47317,7 +47317,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
             goto __pyx_L29;
           }
 
-          /* "graph.pyx":3897
+          /* "graph.pyx":3881
  *                             pathlength = NodeCheck.Dist + EntryO.EDist[0]
  *                         else:
  *                             pathlength = NodeCheck.Dist + EntryO.EDist[1]             # <<<<<<<<<<<<<<
@@ -47329,7 +47329,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
           }
           __pyx_L29:;
 
-          /* "graph.pyx":3898
+          /* "graph.pyx":3882
  *                         else:
  *                             pathlength = NodeCheck.Dist + EntryO.EDist[1]
  *                         if pathlength < LimitDistance:             # <<<<<<<<<<<<<<
@@ -47339,7 +47339,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
           __pyx_t_6 = (__pyx_v_pathlength < __pyx_v_LimitDistance);
           if (__pyx_t_6) {
 
-            /* "graph.pyx":3899
+            /* "graph.pyx":3883
  *                             pathlength = NodeCheck.Dist + EntryO.EDist[1]
  *                         if pathlength < LimitDistance:
  *                             FoundDistance.push_back(pathlength)             # <<<<<<<<<<<<<<
@@ -47350,10 +47350,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
               __pyx_v_FoundDistance.push_back(__pyx_v_pathlength);
             } catch(...) {
               __Pyx_CppExn2PyErr();
-              __PYX_ERR(0, 3899, __pyx_L1_error)
+              __PYX_ERR(0, 3883, __pyx_L1_error)
             }
 
-            /* "graph.pyx":3900
+            /* "graph.pyx":3884
  *                         if pathlength < LimitDistance:
  *                             FoundDistance.push_back(pathlength)
  *                             MappedPaths[NodeCheck.pathindex].push_back(Eid)             # <<<<<<<<<<<<<<
@@ -47364,10 +47364,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
               (__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]).push_back(__pyx_v_Eid);
             } catch(...) {
               __Pyx_CppExn2PyErr();
-              __PYX_ERR(0, 3900, __pyx_L1_error)
+              __PYX_ERR(0, 3884, __pyx_L1_error)
             }
 
-            /* "graph.pyx":3901
+            /* "graph.pyx":3885
  *                             FoundDistance.push_back(pathlength)
  *                             MappedPaths[NodeCheck.pathindex].push_back(Eid)
  *                             FoundPaths.push_back(MappedPaths[NodeCheck.pathindex])             # <<<<<<<<<<<<<<
@@ -47378,10 +47378,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
               __pyx_v_FoundPaths.push_back((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]));
             } catch(...) {
               __Pyx_CppExn2PyErr();
-              __PYX_ERR(0, 3901, __pyx_L1_error)
+              __PYX_ERR(0, 3885, __pyx_L1_error)
             }
 
-            /* "graph.pyx":3902
+            /* "graph.pyx":3886
  *                             MappedPaths[NodeCheck.pathindex].push_back(Eid)
  *                             FoundPaths.push_back(MappedPaths[NodeCheck.pathindex])
  *                             FoundDests.push_back(EntryDestination)             # <<<<<<<<<<<<<<
@@ -47392,10 +47392,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
               __pyx_v_FoundDests.push_back(__pyx_v_EntryDestination);
             } catch(...) {
               __Pyx_CppExn2PyErr();
-              __PYX_ERR(0, 3902, __pyx_L1_error)
+              __PYX_ERR(0, 3886, __pyx_L1_error)
             }
 
-            /* "graph.pyx":3903
+            /* "graph.pyx":3887
  *                             FoundPaths.push_back(MappedPaths[NodeCheck.pathindex])
  *                             FoundDests.push_back(EntryDestination)
  *                             pathN += 1             # <<<<<<<<<<<<<<
@@ -47404,7 +47404,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
             __pyx_v_pathN = (__pyx_v_pathN + 1);
 
-            /* "graph.pyx":3904
+            /* "graph.pyx":3888
  *                             FoundDests.push_back(EntryDestination)
  *                             pathN += 1
  *                             if PathLim <= pathN:             # <<<<<<<<<<<<<<
@@ -47414,7 +47414,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
             __pyx_t_6 = (__pyx_v_PathLim <= __pyx_v_pathN);
             if (__pyx_t_6) {
 
-              /* "graph.pyx":3905
+              /* "graph.pyx":3889
  *                             pathN += 1
  *                             if PathLim <= pathN:
  *                                 keepGoing = False             # <<<<<<<<<<<<<<
@@ -47423,7 +47423,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
               __pyx_v_keepGoing = 0;
 
-              /* "graph.pyx":3906
+              /* "graph.pyx":3890
  *                             if PathLim <= pathN:
  *                                 keepGoing = False
  *                                 break             # <<<<<<<<<<<<<<
@@ -47432,7 +47432,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
               goto __pyx_L22_break;
 
-              /* "graph.pyx":3904
+              /* "graph.pyx":3888
  *                             FoundDests.push_back(EntryDestination)
  *                             pathN += 1
  *                             if PathLim <= pathN:             # <<<<<<<<<<<<<<
@@ -47441,7 +47441,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
             }
 
-            /* "graph.pyx":3898
+            /* "graph.pyx":3882
  *                         else:
  *                             pathlength = NodeCheck.Dist + EntryO.EDist[1]
  *                         if pathlength < LimitDistance:             # <<<<<<<<<<<<<<
@@ -47450,7 +47450,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
           }
 
-          /* "graph.pyx":3907
+          /* "graph.pyx":3891
  *                                 keepGoing = False
  *                                 break
  *                         continue             # <<<<<<<<<<<<<<
@@ -47459,7 +47459,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
           goto __pyx_L21_continue;
 
-          /* "graph.pyx":3893
+          /* "graph.pyx":3877
  *                         continue
  * 
  *                     if Eid == EntryO.Eid:             # <<<<<<<<<<<<<<
@@ -47468,7 +47468,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         }
 
-        /* "graph.pyx":3909
+        /* "graph.pyx":3893
  *                         continue
  * 
  *                     EdgeC = self.edges[Eid]             # <<<<<<<<<<<<<<
@@ -47477,7 +47477,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         __pyx_v_EdgeC = (__pyx_v_self->edges[__pyx_v_Eid]);
 
-        /* "graph.pyx":3910
+        /* "graph.pyx":3894
  * 
  *                     EdgeC = self.edges[Eid]
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -47487,7 +47487,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
         __pyx_t_6 = (__pyx_v_EdgeC.NidO == __pyx_v_NodeCheck.Nid);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3911
+          /* "graph.pyx":3895
  *                     EdgeC = self.edges[Eid]
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         pathlength = EdgeC.lenR             # <<<<<<<<<<<<<<
@@ -47497,7 +47497,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
           __pyx_t_7 = __pyx_v_EdgeC.lenR;
           __pyx_v_pathlength = __pyx_t_7;
 
-          /* "graph.pyx":3912
+          /* "graph.pyx":3896
  *                     if EdgeC.NidO == NodeCheck.Nid:
  *                         pathlength = EdgeC.lenR
  *                         NidF = EdgeC.NidD             # <<<<<<<<<<<<<<
@@ -47507,7 +47507,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
           __pyx_t_12 = __pyx_v_EdgeC.NidD;
           __pyx_v_NidF = __pyx_t_12;
 
-          /* "graph.pyx":3910
+          /* "graph.pyx":3894
  * 
  *                     EdgeC = self.edges[Eid]
  *                     if EdgeC.NidO == NodeCheck.Nid:             # <<<<<<<<<<<<<<
@@ -47517,7 +47517,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
           goto __pyx_L32;
         }
 
-        /* "graph.pyx":3914
+        /* "graph.pyx":3898
  *                         NidF = EdgeC.NidD
  *                     else:
  *                         pathlength = EdgeC.len             # <<<<<<<<<<<<<<
@@ -47528,7 +47528,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
           __pyx_t_7 = __pyx_v_EdgeC.len;
           __pyx_v_pathlength = __pyx_t_7;
 
-          /* "graph.pyx":3915
+          /* "graph.pyx":3899
  *                     else:
  *                         pathlength = EdgeC.len
  *                         NidF = EdgeC.NidO             # <<<<<<<<<<<<<<
@@ -47540,7 +47540,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
         }
         __pyx_L32:;
 
-        /* "graph.pyx":3917
+        /* "graph.pyx":3901
  *                         NidF = EdgeC.NidO
  * 
  *                     pathlength += NodeCheck.Dist + self.nodes[NidF].c             # <<<<<<<<<<<<<<
@@ -47549,7 +47549,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         __pyx_v_pathlength = (__pyx_v_pathlength + (__pyx_v_NodeCheck.Dist + (__pyx_v_self->nodes[__pyx_v_NidF]).c));
 
-        /* "graph.pyx":3918
+        /* "graph.pyx":3902
  * 
  *                     pathlength += NodeCheck.Dist + self.nodes[NidF].c
  *                     if self.nodeVisited[NidF].Nid == -1:             # <<<<<<<<<<<<<<
@@ -47559,7 +47559,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
         __pyx_t_6 = ((__pyx_v_self->nodeVisited[__pyx_v_NidF]).Nid == -1L);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3919
+          /* "graph.pyx":3903
  *                     pathlength += NodeCheck.Dist + self.nodes[NidF].c
  *                     if self.nodeVisited[NidF].Nid == -1:
  *                         continue             # <<<<<<<<<<<<<<
@@ -47568,7 +47568,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
           goto __pyx_L21_continue;
 
-          /* "graph.pyx":3918
+          /* "graph.pyx":3902
  * 
  *                     pathlength += NodeCheck.Dist + self.nodes[NidF].c
  *                     if self.nodeVisited[NidF].Nid == -1:             # <<<<<<<<<<<<<<
@@ -47577,7 +47577,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         }
 
-        /* "graph.pyx":3920
+        /* "graph.pyx":3904
  *                     if self.nodeVisited[NidF].Nid == -1:
  *                         continue
  *                     if (pathlength + self.nodeVisited[NidF].Dist) > LimitDistance:             # <<<<<<<<<<<<<<
@@ -47587,7 +47587,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
         __pyx_t_6 = ((__pyx_v_pathlength + (__pyx_v_self->nodeVisited[__pyx_v_NidF]).Dist) > __pyx_v_LimitDistance);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3921
+          /* "graph.pyx":3905
  *                         continue
  *                     if (pathlength + self.nodeVisited[NidF].Dist) > LimitDistance:
  *                         continue             # <<<<<<<<<<<<<<
@@ -47596,7 +47596,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
           goto __pyx_L21_continue;
 
-          /* "graph.pyx":3920
+          /* "graph.pyx":3904
  *                     if self.nodeVisited[NidF].Nid == -1:
  *                         continue
  *                     if (pathlength + self.nodeVisited[NidF].Dist) > LimitDistance:             # <<<<<<<<<<<<<<
@@ -47605,7 +47605,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         }
 
-        /* "graph.pyx":3922
+        /* "graph.pyx":3906
  *                     if (pathlength + self.nodeVisited[NidF].Dist) > LimitDistance:
  *                         continue
  *                     NodeReach_T.Weight = pathlength + (self.nodeVisited[NidF].Dist-MinimumDistance) * DistMul             # <<<<<<<<<<<<<<
@@ -47614,7 +47614,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         __pyx_v_NodeReach_T.Weight = (__pyx_v_pathlength + (((__pyx_v_self->nodeVisited[__pyx_v_NidF]).Dist - __pyx_v_MinimumDistance) * __pyx_v_DistMul));
 
-        /* "graph.pyx":3923
+        /* "graph.pyx":3907
  *                         continue
  *                     NodeReach_T.Weight = pathlength + (self.nodeVisited[NidF].Dist-MinimumDistance) * DistMul
  *                     MappedPath_T2 = MappedPath_T             # <<<<<<<<<<<<<<
@@ -47623,7 +47623,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         __pyx_v_MappedPath_T2 = __pyx_v_MappedPath_T;
 
-        /* "graph.pyx":3924
+        /* "graph.pyx":3908
  *                     NodeReach_T.Weight = pathlength + (self.nodeVisited[NidF].Dist-MinimumDistance) * DistMul
  *                     MappedPath_T2 = MappedPath_T
  *                     MappedPath_T2.push_back(Eid)             # <<<<<<<<<<<<<<
@@ -47634,10 +47634,10 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
           __pyx_v_MappedPath_T2.push_back(__pyx_v_Eid);
         } catch(...) {
           __Pyx_CppExn2PyErr();
-          __PYX_ERR(0, 3924, __pyx_L1_error)
+          __PYX_ERR(0, 3908, __pyx_L1_error)
         }
 
-        /* "graph.pyx":3925
+        /* "graph.pyx":3909
  *                     MappedPath_T2 = MappedPath_T
  *                     MappedPath_T2.push_back(Eid)
  *                     NodeReach_T.Nid = NidF             # <<<<<<<<<<<<<<
@@ -47646,7 +47646,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         __pyx_v_NodeReach_T.Nid = __pyx_v_NidF;
 
-        /* "graph.pyx":3926
+        /* "graph.pyx":3910
  *                     MappedPath_T2.push_back(Eid)
  *                     NodeReach_T.Nid = NidF
  *                     NodeReach_T.Dist = pathlength             # <<<<<<<<<<<<<<
@@ -47655,7 +47655,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         __pyx_v_NodeReach_T.Dist = __pyx_v_pathlength;
 
-        /* "graph.pyx":3927
+        /* "graph.pyx":3911
  *                     NodeReach_T.Nid = NidF
  *                     NodeReach_T.Dist = pathlength
  *                     NodeReach_T.Eid = Eid             # <<<<<<<<<<<<<<
@@ -47664,7 +47664,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         __pyx_v_NodeReach_T.Eid = __pyx_v_Eid;
 
-        /* "graph.pyx":3929
+        /* "graph.pyx":3913
  *                     NodeReach_T.Eid = Eid
  * 
  *                     if MappedPaths[NodeCheck.pathindex] == MappedPath_T:             # <<<<<<<<<<<<<<
@@ -47674,7 +47674,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
         __pyx_t_6 = ((__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]) == __pyx_v_MappedPath_T);
         if (__pyx_t_6) {
 
-          /* "graph.pyx":3930
+          /* "graph.pyx":3914
  * 
  *                     if MappedPaths[NodeCheck.pathindex] == MappedPath_T:
  *                         NodeReach_T.pathindex = NodeCheck.pathindex             # <<<<<<<<<<<<<<
@@ -47684,7 +47684,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
           __pyx_t_12 = __pyx_v_NodeCheck.pathindex;
           __pyx_v_NodeReach_T.pathindex = __pyx_t_12;
 
-          /* "graph.pyx":3931
+          /* "graph.pyx":3915
  *                     if MappedPaths[NodeCheck.pathindex] == MappedPath_T:
  *                         NodeReach_T.pathindex = NodeCheck.pathindex
  *                         MappedPaths[NodeCheck.pathindex] = MappedPath_T2             # <<<<<<<<<<<<<<
@@ -47693,7 +47693,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
           (__pyx_v_MappedPaths[__pyx_v_NodeCheck.pathindex]) = __pyx_v_MappedPath_T2;
 
-          /* "graph.pyx":3929
+          /* "graph.pyx":3913
  *                     NodeReach_T.Eid = Eid
  * 
  *                     if MappedPaths[NodeCheck.pathindex] == MappedPath_T:             # <<<<<<<<<<<<<<
@@ -47703,7 +47703,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
           goto __pyx_L35;
         }
 
-        /* "graph.pyx":3933
+        /* "graph.pyx":3917
  *                         MappedPaths[NodeCheck.pathindex] = MappedPath_T2
  *                     else:
  *                         NodeReach_T.pathindex = <int>MappedPaths.size()             # <<<<<<<<<<<<<<
@@ -47713,7 +47713,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
         /*else*/ {
           __pyx_v_NodeReach_T.pathindex = ((int)__pyx_v_MappedPaths.size());
 
-          /* "graph.pyx":3934
+          /* "graph.pyx":3918
  *                     else:
  *                         NodeReach_T.pathindex = <int>MappedPaths.size()
  *                         MappedPaths.push_back(MappedPath_T2)             # <<<<<<<<<<<<<<
@@ -47724,24 +47724,24 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
             __pyx_v_MappedPaths.push_back(__pyx_v_MappedPath_T2);
           } catch(...) {
             __Pyx_CppExn2PyErr();
-            __PYX_ERR(0, 3934, __pyx_L1_error)
+            __PYX_ERR(0, 3918, __pyx_L1_error)
           }
         }
         __pyx_L35:;
 
-        /* "graph.pyx":3935
+        /* "graph.pyx":3919
  *                         NodeReach_T.pathindex = <int>MappedPaths.size()
  *                         MappedPaths.push_back(MappedPath_T2)
  *                     OpenNodes.push(NodeReach_T)             # <<<<<<<<<<<<<<
  * 
  *                 if cycles > LimCycle:
  */
-        ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3935, __pyx_L1_error)
+        ((struct __pyx_vtabstruct_5graph_PriorityQueue_NR *)__pyx_v_OpenNodes->__pyx_vtab)->push(__pyx_v_OpenNodes, __pyx_v_NodeReach_T); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 3919, __pyx_L1_error)
         __pyx_L21_continue:;
       }
       __pyx_L22_break:;
 
-      /* "graph.pyx":3937
+      /* "graph.pyx":3921
  *                     OpenNodes.push(NodeReach_T)
  * 
  *                 if cycles > LimCycle:             # <<<<<<<<<<<<<<
@@ -47751,7 +47751,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
       __pyx_t_6 = (__pyx_v_cycles > __pyx_v_LimCycle);
       if (__pyx_t_6) {
 
-        /* "graph.pyx":3938
+        /* "graph.pyx":3922
  * 
  *                 if cycles > LimCycle:
  *                     break             # <<<<<<<<<<<<<<
@@ -47760,7 +47760,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
  */
         goto __pyx_L19_break;
 
-        /* "graph.pyx":3937
+        /* "graph.pyx":3921
  *                     OpenNodes.push(NodeReach_T)
  * 
  *                 if cycles > LimCycle:             # <<<<<<<<<<<<<<
@@ -47771,7 +47771,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
     }
     __pyx_L19_break:;
 
-    /* "graph.pyx":3807
+    /* "graph.pyx":3791
  *         cdef float compdist
  *         # cycles per destination
  *         for EntryDestination in EntryDests:             # <<<<<<<<<<<<<<
@@ -47782,35 +47782,35 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "graph.pyx":3940
+  /* "graph.pyx":3924
  *                     break
  *             # print(f'\t{EidO} to {EidD} - c{cycles} || p{pathN}')
  *         return tuple(FoundDistance), tuple(FoundPaths), tuple(FoundDests)             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __pyx_convert_vector_to_py_float(__pyx_v_FoundDistance); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3940, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_to_py_float(__pyx_v_FoundDistance); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3924, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 3940, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 3924, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_int_3e___(__pyx_v_FoundPaths); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3940, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_int_3e___(__pyx_v_FoundPaths); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3924, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_13 = __Pyx_PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 3940, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 3924, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __pyx_convert_vector_to_py_int(__pyx_v_FoundDests); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3940, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_to_py_int(__pyx_v_FoundDests); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3924, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_14 = __Pyx_PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 3940, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 3924, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3940, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3924, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_4);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4)) __PYX_ERR(0, 3940, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4)) __PYX_ERR(0, 3924, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_13);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_13)) __PYX_ERR(0, 3940, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_13)) __PYX_ERR(0, 3924, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_14);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_t_14)) __PYX_ERR(0, 3940, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_t_14)) __PYX_ERR(0, 3924, __pyx_L1_error);
   __pyx_t_4 = 0;
   __pyx_t_13 = 0;
   __pyx_t_14 = 0;
@@ -47818,7 +47818,7 @@ static PyObject *__pyx_pf_5graph_7GraphCy_88PathFind_Multi_MultiDest_VirtuEntry_
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "graph.pyx":3729
+  /* "graph.pyx":3713
  * 
  * 
  *     def PathFind_Multi_MultiDest_VirtuEntry_True(             # <<<<<<<<<<<<<<
@@ -51516,59 +51516,59 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__124);
   __Pyx_GIVEREF(__pyx_tuple__124);
 
-  /* "graph.pyx":3172
+  /* "graph.pyx":3156
  *         return
  * 
  *     def PathFind_Multi(             # <<<<<<<<<<<<<<
  *             self,
  *             const int& NidO, const int& NidD,
  */
-  __pyx_tuple__125 = PyTuple_Pack(31, __pyx_n_s_self, __pyx_n_s_NidO, __pyx_n_s_NidD, __pyx_n_s_DistMulLim, __pyx_n_s_LimDist, __pyx_n_s_LimCycle, __pyx_n_s_DistMul, __pyx_n_s_EdgeCmin, __pyx_n_s_ForceOri, __pyx_n_s_ForceDst, __pyx_n_s_PathLim, __pyx_n_s_BaseDist, __pyx_n_s_MinimumDistance, __pyx_n_s_LimitDistance, __pyx_n_s_MappedPaths, __pyx_n_s_FoundPaths, __pyx_n_s_FoundDistance, __pyx_n_s_keepGoing, __pyx_n_s_NodeCheck, __pyx_n_s_OpenNodes, __pyx_n_s_startNode, __pyx_n_s_NodeTarget, __pyx_n_s_NodeReach_T, __pyx_n_s_pathlength, __pyx_n_s_EdgeC, __pyx_n_s_MappedPath_T, __pyx_n_s_MappedPath_T2, __pyx_n_s_cycles, __pyx_n_s_i, __pyx_n_s_Eid, __pyx_n_s_NidF); if (unlikely(!__pyx_tuple__125)) __PYX_ERR(0, 3172, __pyx_L1_error)
+  __pyx_tuple__125 = PyTuple_Pack(31, __pyx_n_s_self, __pyx_n_s_NidO, __pyx_n_s_NidD, __pyx_n_s_DistMulLim, __pyx_n_s_LimDist, __pyx_n_s_LimCycle, __pyx_n_s_DistMul, __pyx_n_s_EdgeCmin, __pyx_n_s_ForceOri, __pyx_n_s_ForceDst, __pyx_n_s_PathLim, __pyx_n_s_BaseDist, __pyx_n_s_MinimumDistance, __pyx_n_s_LimitDistance, __pyx_n_s_MappedPaths, __pyx_n_s_FoundPaths, __pyx_n_s_FoundDistance, __pyx_n_s_keepGoing, __pyx_n_s_NodeCheck, __pyx_n_s_OpenNodes, __pyx_n_s_startNode, __pyx_n_s_NodeTarget, __pyx_n_s_NodeReach_T, __pyx_n_s_pathlength, __pyx_n_s_EdgeC, __pyx_n_s_MappedPath_T, __pyx_n_s_MappedPath_T2, __pyx_n_s_cycles, __pyx_n_s_i, __pyx_n_s_Eid, __pyx_n_s_NidF); if (unlikely(!__pyx_tuple__125)) __PYX_ERR(0, 3156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__125);
   __Pyx_GIVEREF(__pyx_tuple__125);
-  __pyx_codeobj__126 = (PyObject*)__Pyx_PyCode_New(11, 0, 0, 31, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__125, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_graph_pyx, __pyx_n_s_PathFind_Multi, 3172, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__126)) __PYX_ERR(0, 3172, __pyx_L1_error)
-  __pyx_tuple__127 = PyTuple_Pack(8, __pyx_float_1_1, __pyx_float_10000_0, __pyx_int_1000000000, __pyx_float_2_0, __pyx_float_0_9, __pyx_int_neg_1, __pyx_int_neg_1, __pyx_int_10000000); if (unlikely(!__pyx_tuple__127)) __PYX_ERR(0, 3172, __pyx_L1_error)
+  __pyx_codeobj__126 = (PyObject*)__Pyx_PyCode_New(11, 0, 0, 31, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__125, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_graph_pyx, __pyx_n_s_PathFind_Multi, 3156, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__126)) __PYX_ERR(0, 3156, __pyx_L1_error)
+  __pyx_tuple__127 = PyTuple_Pack(8, __pyx_float_1_1, __pyx_float_10000_0, __pyx_int_1000000000, __pyx_float_2_0, __pyx_float_0_9, __pyx_int_neg_1, __pyx_int_neg_1, __pyx_int_10000000); if (unlikely(!__pyx_tuple__127)) __PYX_ERR(0, 3156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__127);
   __Pyx_GIVEREF(__pyx_tuple__127);
 
-  /* "graph.pyx":3326
+  /* "graph.pyx":3310
  *         return tuple(FoundDistance), tuple(FoundPaths)
  * 
  *     def PathFind_Multi_VirtuEntry(             # <<<<<<<<<<<<<<
  *             self,
  *             const int& EntryOrigin,
  */
-  __pyx_tuple__128 = PyTuple_Pack(31, __pyx_n_s_self, __pyx_n_s_EntryOrigin, __pyx_n_s_EntryDestination, __pyx_n_s_DistMulLim, __pyx_n_s_LimDist, __pyx_n_s_LimCycle, __pyx_n_s_DistMul, __pyx_n_s_EdgeCmin, __pyx_n_s_PathLim, __pyx_n_s_EntryO, __pyx_n_s_EntryD, __pyx_n_s_MinimumDistance, __pyx_n_s_LimitDistance, __pyx_n_s_BaseDist, __pyx_n_s_MappedPaths, __pyx_n_s_FoundPaths, __pyx_n_s_FoundDistance, __pyx_n_s_keepGoing, __pyx_n_s_NodeCheck, __pyx_n_s_OpenNodes, __pyx_n_s_startNode, __pyx_n_s_NodeReach_T, __pyx_n_s_pathlength, __pyx_n_s_EdgeC, __pyx_n_s_MappedPath_T, __pyx_n_s_MappedPath_T2, __pyx_n_s_cycles, __pyx_n_s_i, __pyx_n_s_pathN, __pyx_n_s_Eid, __pyx_n_s_NidF); if (unlikely(!__pyx_tuple__128)) __PYX_ERR(0, 3326, __pyx_L1_error)
+  __pyx_tuple__128 = PyTuple_Pack(31, __pyx_n_s_self, __pyx_n_s_EntryOrigin, __pyx_n_s_EntryDestination, __pyx_n_s_DistMulLim, __pyx_n_s_LimDist, __pyx_n_s_LimCycle, __pyx_n_s_DistMul, __pyx_n_s_EdgeCmin, __pyx_n_s_PathLim, __pyx_n_s_EntryO, __pyx_n_s_EntryD, __pyx_n_s_MinimumDistance, __pyx_n_s_LimitDistance, __pyx_n_s_BaseDist, __pyx_n_s_MappedPaths, __pyx_n_s_FoundPaths, __pyx_n_s_FoundDistance, __pyx_n_s_keepGoing, __pyx_n_s_NodeCheck, __pyx_n_s_OpenNodes, __pyx_n_s_startNode, __pyx_n_s_NodeReach_T, __pyx_n_s_pathlength, __pyx_n_s_EdgeC, __pyx_n_s_MappedPath_T, __pyx_n_s_MappedPath_T2, __pyx_n_s_cycles, __pyx_n_s_i, __pyx_n_s_pathN, __pyx_n_s_Eid, __pyx_n_s_NidF); if (unlikely(!__pyx_tuple__128)) __PYX_ERR(0, 3310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__128);
   __Pyx_GIVEREF(__pyx_tuple__128);
-  __pyx_codeobj__129 = (PyObject*)__Pyx_PyCode_New(9, 0, 0, 31, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__128, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_graph_pyx, __pyx_n_s_PathFind_Multi_VirtuEntry, 3326, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__129)) __PYX_ERR(0, 3326, __pyx_L1_error)
-  __pyx_tuple__130 = PyTuple_Pack(6, __pyx_float_1_1, __pyx_float_10000_0, __pyx_int_1000000000, __pyx_float_1_0, __pyx_float_0_9, __pyx_int_100000); if (unlikely(!__pyx_tuple__130)) __PYX_ERR(0, 3326, __pyx_L1_error)
+  __pyx_codeobj__129 = (PyObject*)__Pyx_PyCode_New(9, 0, 0, 31, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__128, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_graph_pyx, __pyx_n_s_PathFind_Multi_VirtuEntry, 3310, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__129)) __PYX_ERR(0, 3310, __pyx_L1_error)
+  __pyx_tuple__130 = PyTuple_Pack(6, __pyx_float_1_1, __pyx_float_10000_0, __pyx_int_1000000000, __pyx_float_1_0, __pyx_float_0_9, __pyx_int_100000); if (unlikely(!__pyx_tuple__130)) __PYX_ERR(0, 3310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__130);
   __Pyx_GIVEREF(__pyx_tuple__130);
 
-  /* "graph.pyx":3513
+  /* "graph.pyx":3497
  * 
  * 
  *     def PathFind_Multi_MultiDest_VirtuEntry(             # <<<<<<<<<<<<<<
  *             self,
  *             int EntryOrigin,
  */
-  __pyx_tuple__131 = PyTuple_Pack(33, __pyx_n_s_self, __pyx_n_s_EntryOrigin, __pyx_n_s_EntryDests, __pyx_n_s_DistMulLim, __pyx_n_s_LimDist, __pyx_n_s_LimCycle, __pyx_n_s_DistMul, __pyx_n_s_PathLim, __pyx_n_s_LimitDistance, __pyx_n_s_EntryO, __pyx_n_s_EntryD, __pyx_n_s_BaseDist, __pyx_n_s_MinimumDistance, __pyx_n_s_MappedPaths, __pyx_n_s_FoundPaths, __pyx_n_s_FoundDistance, __pyx_n_s_FoundDests, __pyx_n_s_keepGoing, __pyx_n_s_NodeCheck, __pyx_n_s_OpenNodes, __pyx_n_s_startNode, __pyx_n_s_NodeReach_T, __pyx_n_s_pathlength, __pyx_n_s_EdgeC, __pyx_n_s_MappedPath_T, __pyx_n_s_MappedPath_T2, __pyx_n_s_cycles, __pyx_n_s_i, __pyx_n_s_pathN, __pyx_n_s_EntryDestination, __pyx_n_s_compdist, __pyx_n_s_Eid, __pyx_n_s_NidF); if (unlikely(!__pyx_tuple__131)) __PYX_ERR(0, 3513, __pyx_L1_error)
+  __pyx_tuple__131 = PyTuple_Pack(33, __pyx_n_s_self, __pyx_n_s_EntryOrigin, __pyx_n_s_EntryDests, __pyx_n_s_DistMulLim, __pyx_n_s_LimDist, __pyx_n_s_LimCycle, __pyx_n_s_DistMul, __pyx_n_s_PathLim, __pyx_n_s_LimitDistance, __pyx_n_s_EntryO, __pyx_n_s_EntryD, __pyx_n_s_BaseDist, __pyx_n_s_MinimumDistance, __pyx_n_s_MappedPaths, __pyx_n_s_FoundPaths, __pyx_n_s_FoundDistance, __pyx_n_s_FoundDests, __pyx_n_s_keepGoing, __pyx_n_s_NodeCheck, __pyx_n_s_OpenNodes, __pyx_n_s_startNode, __pyx_n_s_NodeReach_T, __pyx_n_s_pathlength, __pyx_n_s_EdgeC, __pyx_n_s_MappedPath_T, __pyx_n_s_MappedPath_T2, __pyx_n_s_cycles, __pyx_n_s_i, __pyx_n_s_pathN, __pyx_n_s_EntryDestination, __pyx_n_s_compdist, __pyx_n_s_Eid, __pyx_n_s_NidF); if (unlikely(!__pyx_tuple__131)) __PYX_ERR(0, 3497, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__131);
   __Pyx_GIVEREF(__pyx_tuple__131);
-  __pyx_codeobj__132 = (PyObject*)__Pyx_PyCode_New(8, 0, 0, 33, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__131, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_graph_pyx, __pyx_n_s_PathFind_Multi_MultiDest_VirtuEn, 3513, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__132)) __PYX_ERR(0, 3513, __pyx_L1_error)
-  __pyx_tuple__133 = PyTuple_Pack(5, __pyx_float_1_1, __pyx_float_10000_0, __pyx_int_1000000, __pyx_float_2_0, __pyx_int_100000); if (unlikely(!__pyx_tuple__133)) __PYX_ERR(0, 3513, __pyx_L1_error)
+  __pyx_codeobj__132 = (PyObject*)__Pyx_PyCode_New(8, 0, 0, 33, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__131, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_graph_pyx, __pyx_n_s_PathFind_Multi_MultiDest_VirtuEn, 3497, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__132)) __PYX_ERR(0, 3497, __pyx_L1_error)
+  __pyx_tuple__133 = PyTuple_Pack(5, __pyx_float_1_1, __pyx_float_10000_0, __pyx_int_1000000, __pyx_float_2_0, __pyx_int_100000); if (unlikely(!__pyx_tuple__133)) __PYX_ERR(0, 3497, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__133);
   __Pyx_GIVEREF(__pyx_tuple__133);
 
-  /* "graph.pyx":3729
+  /* "graph.pyx":3713
  * 
  * 
  *     def PathFind_Multi_MultiDest_VirtuEntry_True(             # <<<<<<<<<<<<<<
  *             self,
  *             int EntryOrigin,
  */
-  __pyx_codeobj__134 = (PyObject*)__Pyx_PyCode_New(8, 0, 0, 33, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__131, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_graph_pyx, __pyx_n_s_PathFind_Multi_MultiDest_VirtuEn_2, 3729, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__134)) __PYX_ERR(0, 3729, __pyx_L1_error)
+  __pyx_codeobj__134 = (PyObject*)__Pyx_PyCode_New(8, 0, 0, 33, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__131, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_graph_pyx, __pyx_n_s_PathFind_Multi_MultiDest_VirtuEn_2, 3713, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__134)) __PYX_ERR(0, 3713, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -51953,15 +51953,15 @@ static int __Pyx_modinit_type_init_code(void) {
   }
   #endif
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_ptype_5graph___pyx_scope_struct_11_genexpr = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_5graph___pyx_scope_struct_11_genexpr_spec, NULL); if (unlikely(!__pyx_ptype_5graph___pyx_scope_struct_11_genexpr)) __PYX_ERR(0, 2738, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_5graph___pyx_scope_struct_11_genexpr_spec, __pyx_ptype_5graph___pyx_scope_struct_11_genexpr) < 0) __PYX_ERR(0, 2738, __pyx_L1_error)
+  __pyx_ptype_5graph___pyx_scope_struct_11_genexpr = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_5graph___pyx_scope_struct_11_genexpr_spec, NULL); if (unlikely(!__pyx_ptype_5graph___pyx_scope_struct_11_genexpr)) __PYX_ERR(0, 2722, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_5graph___pyx_scope_struct_11_genexpr_spec, __pyx_ptype_5graph___pyx_scope_struct_11_genexpr) < 0) __PYX_ERR(0, 2722, __pyx_L1_error)
   #else
   __pyx_ptype_5graph___pyx_scope_struct_11_genexpr = &__pyx_type_5graph___pyx_scope_struct_11_genexpr;
   #endif
   #if !CYTHON_COMPILING_IN_LIMITED_API
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_ptype_5graph___pyx_scope_struct_11_genexpr) < 0) __PYX_ERR(0, 2738, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_ptype_5graph___pyx_scope_struct_11_genexpr) < 0) __PYX_ERR(0, 2722, __pyx_L1_error)
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_5graph___pyx_scope_struct_11_genexpr->tp_print = 0;
@@ -51972,15 +51972,15 @@ static int __Pyx_modinit_type_init_code(void) {
   }
   #endif
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_ptype_5graph___pyx_scope_struct_12_genexpr = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_5graph___pyx_scope_struct_12_genexpr_spec, NULL); if (unlikely(!__pyx_ptype_5graph___pyx_scope_struct_12_genexpr)) __PYX_ERR(0, 2743, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_5graph___pyx_scope_struct_12_genexpr_spec, __pyx_ptype_5graph___pyx_scope_struct_12_genexpr) < 0) __PYX_ERR(0, 2743, __pyx_L1_error)
+  __pyx_ptype_5graph___pyx_scope_struct_12_genexpr = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_5graph___pyx_scope_struct_12_genexpr_spec, NULL); if (unlikely(!__pyx_ptype_5graph___pyx_scope_struct_12_genexpr)) __PYX_ERR(0, 2727, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_5graph___pyx_scope_struct_12_genexpr_spec, __pyx_ptype_5graph___pyx_scope_struct_12_genexpr) < 0) __PYX_ERR(0, 2727, __pyx_L1_error)
   #else
   __pyx_ptype_5graph___pyx_scope_struct_12_genexpr = &__pyx_type_5graph___pyx_scope_struct_12_genexpr;
   #endif
   #if !CYTHON_COMPILING_IN_LIMITED_API
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_ptype_5graph___pyx_scope_struct_12_genexpr) < 0) __PYX_ERR(0, 2743, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_ptype_5graph___pyx_scope_struct_12_genexpr) < 0) __PYX_ERR(0, 2727, __pyx_L1_error)
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_5graph___pyx_scope_struct_12_genexpr->tp_print = 0;
@@ -53209,7 +53209,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   PyType_Modified(__pyx_ptype_5graph_GraphCy);
 
-  /* "graph.pyx":2751
+  /* "graph.pyx":2735
  *                 self,
  *                 const int& NidO, const int& NidD,
  *                 float DistMin = -1.0,             # <<<<<<<<<<<<<<
@@ -53218,7 +53218,7 @@ if (!__Pyx_RefNanny) {
  */
   __pyx_k__38 = (-1.0);
 
-  /* "graph.pyx":2891
+  /* "graph.pyx":2875
  *                 const int& EntryOrigin,
  *                 const int& EntryDestination,
  *                 float DistMin = -1.0,             # <<<<<<<<<<<<<<
@@ -53227,79 +53227,79 @@ if (!__Pyx_RefNanny) {
  */
   __pyx_k__39 = (-1.0);
 
-  /* "graph.pyx":3172
+  /* "graph.pyx":3156
  *         return
  * 
  *     def PathFind_Multi(             # <<<<<<<<<<<<<<
  *             self,
  *             const int& NidO, const int& NidD,
  */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3172, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_return, __pyx_kp_s_tuple_tuple_float_tuple_int_None) < 0) __PYX_ERR(0, 3172, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_5graph_7GraphCy_83PathFind_Multi, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_GraphCy_PathFind_Multi, NULL, __pyx_n_s_graph, __pyx_d, ((PyObject *)__pyx_codeobj__126)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3172, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_return, __pyx_kp_s_tuple_tuple_float_tuple_int_None) < 0) __PYX_ERR(0, 3156, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_5graph_7GraphCy_83PathFind_Multi, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_GraphCy_PathFind_Multi, NULL, __pyx_n_s_graph, __pyx_d, ((PyObject *)__pyx_codeobj__126)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__127);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_2, __pyx_t_3);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_5graph_GraphCy, __pyx_n_s_PathFind_Multi, __pyx_t_2) < 0) __PYX_ERR(0, 3172, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_5graph_GraphCy, __pyx_n_s_PathFind_Multi, __pyx_t_2) < 0) __PYX_ERR(0, 3156, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_5graph_GraphCy);
 
-  /* "graph.pyx":3326
+  /* "graph.pyx":3310
  *         return tuple(FoundDistance), tuple(FoundPaths)
  * 
  *     def PathFind_Multi_VirtuEntry(             # <<<<<<<<<<<<<<
  *             self,
  *             const int& EntryOrigin,
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3326, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_return, __pyx_kp_s_tuple_tuple_float_tuple_int_None) < 0) __PYX_ERR(0, 3326, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5graph_7GraphCy_85PathFind_Multi_VirtuEntry, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_GraphCy_PathFind_Multi_VirtuEntr, NULL, __pyx_n_s_graph, __pyx_d, ((PyObject *)__pyx_codeobj__129)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3326, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_return, __pyx_kp_s_tuple_tuple_float_tuple_int_None) < 0) __PYX_ERR(0, 3310, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5graph_7GraphCy_85PathFind_Multi_VirtuEntry, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_GraphCy_PathFind_Multi_VirtuEntr, NULL, __pyx_n_s_graph, __pyx_d, ((PyObject *)__pyx_codeobj__129)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_3, __pyx_tuple__130);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_3, __pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_5graph_GraphCy, __pyx_n_s_PathFind_Multi_VirtuEntry, __pyx_t_3) < 0) __PYX_ERR(0, 3326, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_5graph_GraphCy, __pyx_n_s_PathFind_Multi_VirtuEntry, __pyx_t_3) < 0) __PYX_ERR(0, 3310, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   PyType_Modified(__pyx_ptype_5graph_GraphCy);
 
-  /* "graph.pyx":3513
+  /* "graph.pyx":3497
  * 
  * 
  *     def PathFind_Multi_MultiDest_VirtuEntry(             # <<<<<<<<<<<<<<
  *             self,
  *             int EntryOrigin,
  */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3513, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3497, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_return, __pyx_kp_s_tuple_tuple_float_tuple_int_None) < 0) __PYX_ERR(0, 3513, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_5graph_7GraphCy_87PathFind_Multi_MultiDest_VirtuEntry, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_GraphCy_PathFind_Multi_MultiDest, NULL, __pyx_n_s_graph, __pyx_d, ((PyObject *)__pyx_codeobj__132)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3513, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_return, __pyx_kp_s_tuple_tuple_float_tuple_int_None) < 0) __PYX_ERR(0, 3497, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_5graph_7GraphCy_87PathFind_Multi_MultiDest_VirtuEntry, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_GraphCy_PathFind_Multi_MultiDest, NULL, __pyx_n_s_graph, __pyx_d, ((PyObject *)__pyx_codeobj__132)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3497, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__133);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_2, __pyx_t_3);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_5graph_GraphCy, __pyx_n_s_PathFind_Multi_MultiDest_VirtuEn, __pyx_t_2) < 0) __PYX_ERR(0, 3513, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_5graph_GraphCy, __pyx_n_s_PathFind_Multi_MultiDest_VirtuEn, __pyx_t_2) < 0) __PYX_ERR(0, 3497, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_5graph_GraphCy);
 
-  /* "graph.pyx":3729
+  /* "graph.pyx":3713
  * 
  * 
  *     def PathFind_Multi_MultiDest_VirtuEntry_True(             # <<<<<<<<<<<<<<
  *             self,
  *             int EntryOrigin,
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3729, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3713, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_return, __pyx_kp_s_tuple_tuple_float_tuple_int_None) < 0) __PYX_ERR(0, 3729, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5graph_7GraphCy_89PathFind_Multi_MultiDest_VirtuEntry_True, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_GraphCy_PathFind_Multi_MultiDest_2, NULL, __pyx_n_s_graph, __pyx_d, ((PyObject *)__pyx_codeobj__134)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3729, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_return, __pyx_kp_s_tuple_tuple_float_tuple_int_None) < 0) __PYX_ERR(0, 3713, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5graph_7GraphCy_89PathFind_Multi_MultiDest_VirtuEntry_True, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_GraphCy_PathFind_Multi_MultiDest_2, NULL, __pyx_n_s_graph, __pyx_d, ((PyObject *)__pyx_codeobj__134)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 3713, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_3, __pyx_tuple__133);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_3, __pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_5graph_GraphCy, __pyx_n_s_PathFind_Multi_MultiDest_VirtuEn_2, __pyx_t_3) < 0) __PYX_ERR(0, 3729, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_5graph_GraphCy, __pyx_n_s_PathFind_Multi_MultiDest_VirtuEn_2, __pyx_t_3) < 0) __PYX_ERR(0, 3713, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   PyType_Modified(__pyx_ptype_5graph_GraphCy);
 

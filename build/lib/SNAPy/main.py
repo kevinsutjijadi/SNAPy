@@ -90,10 +90,23 @@ class GraphSims:
         ixpt = NetworkCompileIntersections(NetworkDf)
         if (np.sum(ixpt['JunctCnt'] == 1)/len(ixpt)) > 0.3:
             print("Warning, more than 30% of endpoints are dead ends, segment intersections first?")
-            inpt = input('segment intersections: (y/[n])')
+            inpt = input('1/3   segment intersections: (y/[n]) (default n-no)')
             if inpt == 'y':
+                extln = input('2/3  Extend line ends? (default 0.5)')
+                if extln == '': 
+                    extln = 0.5 
+                else: 
+                    try: extln = float(extln)
+                    except: extln = 0.5
+
+                dpass = input('3/3  DoublePass check? (y/[n]) (default n-no)')
+                if dpass == '': 
+                    dpass = False 
+                else: 
+                    dpass = True
+
                 print("segmenting intersections")
-                NetworkDf, self.NodeDf = NetworkSegmentIntersections(NetworkDf, True)
+                NetworkDf, self.NodeDf = NetworkSegmentIntersections(NetworkDf, True, ExtendLines=extln, DoublePass=dpass)
                 NetworkDf.set_crs(self.epsg)
                 self.NodeDf.set_crs(self.epsg)
                 print("Access segmented network at GraphSims.NetworkDf and GraphSims.ixDf, recommended to save both dataframes, future GraphSims runs use segmented datasets")
@@ -675,7 +688,7 @@ class GraphSims:
                     self.EntriesDf.at[i, RsltAttr] = v
         return self.EntriesDf
 
-    def PathReach(self, OriID:list, distance:float=800, joined:bool=False, incl_nodes=False, showmap=False, skip_layerinit=False, **kwargs):
+    def PathReach(self, OriID:list, distance:float=800, joined:bool=False, incl_nodes=False, showmap=False, skip_layerinit=True, pdkupdate=False, **kwargs):
         """
         PathReach(OriID:list, Distance:float=800, **kwargs)\n
         Returning dataframe of edges\n
@@ -756,11 +769,10 @@ class GraphSims:
             nodedf.set_crs(self.epsg, inplace=True, allow_override=True)
         
         if showmap:
-            print('showing map')
             if len(self.pdkLyrNm) == 0 and not skip_layerinit:
                 print('setting base init layer')
                 self.Map_BaseLayerInit()
-            MapLayers = self.pdkLayers
+            MapLayers = self.pdkLayers.copy()
             edt = edf.copy().to_crs(4326)
             lyr = pdk.Layer(
                     type="GeoJsonLayer",
@@ -788,7 +800,7 @@ class GraphSims:
                     pickable=False,
                     get_position='coords',
                     get_text='Distance',
-                    get_size=14,
+                    get_size=8,
                     get_color=[0,0,0],
                     background=True,
                     get_background_color = [255, 255, 255, 180],
@@ -807,9 +819,11 @@ class GraphSims:
                     get_radius=4,
                 )
             MapLayers.append(lyr)
+            if pdkupdate:
+                return MapLayers
             if self.pdkCenter is None:
                 self.pdkCenter = entO.geometry.unary_union.centroid
-            view_state = pdk.ViewState(latitude=self.pdkCenter.y, longitude=self.pdkCenter.x, zoom=17)
+            view_state = pdk.ViewState(latitude=self.pdkCenter.y, longitude=self.pdkCenter.x, zoom=15)
             pdkmap = pdk.Deck(layers=MapLayers, initial_view_state=view_state, map_style='light')
             print('to see map, please set/access index 0 of result')
             return pdkmap, edf, nodedf

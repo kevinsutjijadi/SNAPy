@@ -20,7 +20,9 @@ from libc.string cimport memset
 from shapely.geometry import LineString, MultiLineString, Point, mapping, shape
 from shapely.ops import nearest_points, split, linemerge
 import numpy as np
+cimport numpy as cnp
 from collections import defaultdict
+import warnings
 
 # Main graph class, 
 
@@ -162,26 +164,36 @@ def geom_linesplits(line:LineString, point:Point, tol:float=1e-3):
                 coorn.append(LineString(lnc))
     return coorn
 
-def geom_closestline(point:Point, lineset:gpd.GeoDataFrame, searchlim:float=200, AttrIDx:int=0):
-    """
-    geom_closestline(point:gpd.GeoDataFrame.geometry, lineset:gpd.GeoDataFrame, searchlim:float=200)\n
-    Calculating closest line to a point\n
-    returns lineid, point, and distance to entry point\n
-    search limit is set to 200\n
-    """
-    # filter by box dimensions
+ctypedef cnp.float64_t DTYPE_t
 
-    # plim = (point[0]-searchlim, point[0]+searchlim, point[1]-searchlim, point[1]+searchlim)
-    plim = np.array((point.x-searchlim, point.y-searchlim, point.x+searchlim, point.y+searchlim), dtype=float)
-    dfx = lineset[lineset.apply(lambda x: bbox_intersects(plim, x.bbox), axis=1)]
-    if len(dfx) == 0:
-        return None, None, None
-    nrLn, ixPt, ixDs = geom_pointtoline(point, tuple(dfx.geometry))
-    if nrLn is None:
-        return None, None, None
-    lnID = dfx.iat[nrLn, AttrIDx]
+cdef DTYPE_t norm(DTYPE_t[:] vec):
+    cdef DTYPE_t sum_sq = 0
+    cdef int i
+    for i in range(vec.shape[0]):
+        sum_sq += vec[i] * vec[i]
+    return sqrt(sum_sq)
+
+def extend_linestring_cy(object line, double distance):
+    cdef cnp.ndarray[DTYPE_t, ndim=2] coords = np.array(line.coords, dtype=np.float64)
+    cdef int n = coords.shape[0]
+    cdef cnp.ndarray[DTYPE_t, ndim=1] start_direction = coords[1] - coords[0]
+    cdef cnp.ndarray[DTYPE_t, ndim=1] end_direction = coords[-1] - coords[-2]
     
-    return lnID, ixPt, ixDs
+    cdef DTYPE_t start_norm = norm(start_direction)
+    cdef DTYPE_t end_norm = norm(end_direction)
+    
+    start_direction /= start_norm
+    end_direction /= end_norm
+    
+    cdef cnp.ndarray[DTYPE_t, ndim=1] new_start = coords[0] - distance * start_direction
+    cdef cnp.ndarray[DTYPE_t, ndim=1] new_end = coords[-1] + distance * end_direction
+    
+    cdef cnp.ndarray[DTYPE_t, ndim=2] new_coords = np.empty((n + 2, 2), dtype=np.float64)
+    new_coords[0] = new_start
+    new_coords[1:n+1] = coords
+    new_coords[-1] = new_end
+    
+    return LineString(new_coords)
 
 def FlattenLineString(gdf):
     """
@@ -310,49 +322,100 @@ def NetworkCompileIntersections(df, tol=3):
     return dfpt
 
 
-def NetworkSegmentIntersections(df, EndPoints=True, tol=3):
+def NetworkSegmentIntersections(df, EndPoints=True, tol=3, ExtendLines=0.1, DoublePass=False, ForceCull=False):
     """
     NetworkSegment(df:GeoDataFrame, Endpoints:bool)\n
     intersect lines from a single geodataframe. Returns segmented lines in geopandas, and end points geopandas that contains boolean attributes as intersections or end points.
     """
+    warnings.filterwarnings('ignore')
     df = df.copy()
-
+    dfo = df.copy()
     if 'MultiLineString' in tuple(df.geometry.type):
-        print('DataFrame contains MultiLineString, exploding to LineString')
+        print('\tDataFrame contains MultiLineString, exploding to LineString')
         df = multilinestring_to_linestring(df)
 
+    if ExtendLines > 0.0 and not ForceCull:
+        df['geometry'] = df.geometry.apply(lambda x: extend_linestring_cy(x, ExtendLines))
+    ExtendLinesB = ExtendLines * 1.05
     dfNw = df['geometry']
     ar, ds = dfNw.geometry.sindex.nearest(dfNw.geometry, return_all=True, return_distance=True, exclusive=True)
-    dfNw.geometry.type
-    # for a, x, y in zip(ar[1], ar[0][0], ar[0][1]):
-    #     print(a, x, y)
-    ptr = ds < 1e-3
+    cdef float ctol = 10**(-tol)
+    ptr = ds < ctol
     arac = ar[0][ptr]
     arbc = ar[1][ptr]
     gp = defaultdict(list)
     for first, second in zip(arac, arbc):
         gp[first].append(second)
-
+    cdef bint cycle = True
+    cdef int cidx
+    cdef int stidx
+    cdef int cnt = 0
+    cdef int numg = len(gp)
+    print('\tSplitting lines')
     for k, v in gp.items():
+        print(f'\t{cnt}/{numg} | {(cnt/numg*100):.1f}%', end='\r')
+        cnt += 1
         vg = dfNw[dfNw.index.isin(v)]
         kg = dfNw.loc[k]
         # print('\t', k, v, kg.length)
         ixpt = kg.intersection(vg).explode(ignore_index=False)
+        ixpt = ixpt[ixpt.geom_type =='Point']
         ixpj = np.array(kg.project(ixpt))
-        ixpt = np.array(ixpt[(ixpj > 0.0)*(kg.length > ixpj)])
+        ixfl = (ixpj > 0)*(kg.length > ixpj)
+        ixpt = np.array(ixpt[ixfl])
+        ixpj = ixpj[ixfl]
         # print(ixpt)
         if len(ixpt) == 0:
             continue
-        for p in ixpt:
-            kg = MultiLineString(split(kg, p).geoms)
-        df.loc[k, 'geometry'] = kg
+        ixsort = np.argsort(ixpj)
+        ixpt = ixpt[ixsort]
+        ixpj = ixpj[ixsort]
 
-    nwdf = multilinestring_to_linestring(df)
-    print(f'NetworkSegmentIntersection splits from {len(dfNw)} lines to {len(nwdf)} lines')
+        lns = []
+        coords = list(kg.coords)
+        Ncoords = len(coords)
+        cidx = 0
+        stidx = 0
+        prevpt = None
+        try:
+            for p, j in zip(ixpt, ixpj):
+                while cycle:
+                    if cidx == Ncoords:
+                        break
+                    pd = kg.project(Point(coords[cidx]))
+                    if pd > j:
+                        if prevpt is None:
+                            lns.append(LineString(coords[:cidx] + [(p.x, p.y)]))
+                        elif stidx == cidx:
+                            lns.append(LineString([(prevpt.x, prevpt.y), (p.x, p.y)]))
+                        else:
+                            lns.append(LineString([(prevpt.x, prevpt.y)] + coords[stidx:cidx] + [(p.x, p.y)]))
+                        stidx = cidx
+                        prevpt = p
+                        break
+                    cidx += 1
+            if prevpt is not None:
+                lns.append(LineString([(prevpt.x, prevpt.y)] + coords[stidx:]))
+            if ExtendLines > 0.0:
+                if lns[0].length < ExtendLinesB:
+                    lns.pop(0)
+                if lns[-1].length < ExtendLinesB:
+                    lns.pop(-1)
+            dfo.loc[k, 'geometry'] = MultiLineString(lns)
+        except:
+            pass
+    print(f'\t{cnt}/{numg} | {(cnt/numg):.1f}%')
+    dfo = multilinestring_to_linestring(dfo)
+
+    print(f'\tNetworkSegmentIntersection splits from {len(dfNw)} lines to {len(dfo)} lines')
+    if DoublePass:
+        print('\tRunning double pass')
+        dfo = NetworkSegmentIntersections(dfo, EndPoints=False, tol=tol, ExtendLines=ExtendLines, DoublePass=False, ForceCull=True)
+
     if EndPoints:
-        ixdf = NetworkCompileIntersections(nwdf, tol)
-        return nwdf, ixdf
-    return nwdf
+        ixdf = NetworkCompileIntersections(dfo, tol)
+        return dfo, ixdf
+    return dfo
     
     
 
