@@ -5,7 +5,7 @@
 __author__ = "Kevin Sutjijadi"
 __copyright__ = "Copyright 2023, Kevin Sutjijadi"
 __credits__ = ["Kevin Sutjijadi"]
-__version__ = "0.2.10"
+__version__ = "0.2.13"
 
 """
 Spatial Network Analysis (SNA) module
@@ -72,13 +72,16 @@ class GraphSims:
             issues.append("NetworkDf projection is geographic (degrees), please conver to projected")
         if EntriesDf.crs.to_epsg() != self.epsg:
             issues.append("EntriesDf and NetworkDf have different projections, please match them using gdb.to_crs()")
-        if NetworkDf.geometry[0].type != 'LineString':
+        if tuple(NetworkDf.geometry.type.unique()) != ('LineString',):
             if 'MultiLineString' in tuple(NetworkDf.geometry.type):
-                print('DataFrame contains MultiLineString, exploding to LineString')
-                NetworkDf = multilinestring_to_linestring(NetworkDf)
+                try:
+                    print('DataFrame contains MultiLineString, exploding to LineString')
+                    NetworkDf = multilinestring_to_linestring(NetworkDf)
+                except:
+                    issues.append("NetworkDf geometry type contains other than LineString and/or MultiLineString, convert it to LineString first")
             else:
-                issues.append("NetworkDf geometry type is not LineString, if it is MultiLineString, convert it to LineString first")
-        if EntriesDf.geometry[0].type != 'Point':
+                issues.append("NetworkDf geometry type contains other than LineString and/or MultiLineString, convert it to LineString first")
+        if tuple(EntriesDf.geometry.type.unique()) != ('Point',):
             issues.append("EntriesDf geoemtry type is not Point, convert it to point")
         if len(issues) > 0:
             for n, i in enumerate(issues):
@@ -92,23 +95,23 @@ class GraphSims:
             print("Warning, more than 30% of endpoints are dead ends, segment intersections first?")
             inpt = input('1/3   segment intersections: (y/[n]) (default n-no)')
             if inpt == 'y':
-                extln = input('2/3  Extend line ends? (default 0.5)')
+                extln = input('2/3  Extend line ends? (default 0.0)')
                 if extln == '': 
-                    extln = 0.5 
+                    extln = 0.0 
                 else: 
                     try: extln = float(extln)
-                    except: extln = 0.5
+                    except: extln = 0.0
 
                 dpass = input('3/3  DoublePass check? (y/[n]) (default n-no)')
-                if dpass == '': 
-                    dpass = False 
+                if dpass == 'y': 
+                    dpass = True 
                 else: 
-                    dpass = True
+                    dpass = False
 
                 print("segmenting intersections")
                 NetworkDf, self.NodeDf = NetworkSegmentIntersections(NetworkDf, True, ExtendLines=extln, DoublePass=dpass)
-                NetworkDf.set_crs(self.epsg)
-                self.NodeDf.set_crs(self.epsg)
+                NetworkDf = NetworkDf.set_crs(self.epsg, allow_override=True)
+                self.NodeDf = self.NodeDf.set_crs(self.epsg, allow_override=True)
                 print("Access segmented network at GraphSims.NetworkDf and GraphSims.ixDf, recommended to save both dataframes, future GraphSims runs use segmented datasets")
             else:
                 print("ignoring segmentation")

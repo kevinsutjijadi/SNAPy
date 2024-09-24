@@ -5,7 +5,6 @@
 __author__ = "Kevin Sutjijadi"
 __copyright__ = "Copyright 2023, Kevin Sutjijadi"
 __credits__ = ["Kevin Sutjijadi"]
-__version__ = "0.2.0"
 
 """
 Spatial Network Analysis (SNA) module
@@ -27,7 +26,7 @@ from shapely.ops import nearest_points
 
 # importing internal stuff
 # from .prcs_geom import *
-from .SGACy.geom import *
+from .SGACy.geom import MapEntries
 from .SGACy.graph import GraphCy
 
 # functions

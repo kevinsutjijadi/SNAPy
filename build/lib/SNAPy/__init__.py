@@ -5,7 +5,7 @@
 __author__ = "Kevin Sutjijadi"
 __copyright__ = "Copyright 2023, Kevin Sutjijadi"
 __credits__ = ["Kevin Sutjijadi"]
-__version__ = "0.2.10"
+__version__ = "0.2.13"
 
 """
 Spatial Network Analysis (SNA) module

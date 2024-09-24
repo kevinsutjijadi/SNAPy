@@ -5,7 +5,6 @@
 __author__ = "Kevin Sutjijadi"
 __copyright__ = "Copyright 2023, Kevin Sutjijadi"
 __credits__ = ["Kevin Sutjijadi"]
-__version__ = "0.1.0"
 
 # importing standard libraries
 import pandas as pd

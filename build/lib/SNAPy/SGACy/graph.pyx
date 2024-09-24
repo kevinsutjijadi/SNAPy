@@ -418,8 +418,9 @@ cdef inline void arrAppendInt(int* ary, int arysize, int value):
     cdef int n
     for n in range(arysize):
         if ary[n] == -1:
-            break
-    ary[n] = value
+            ary[n] = value
+            return
+    return
 
 @cython.boundscheck(False)
 @cython.wraparound(False)

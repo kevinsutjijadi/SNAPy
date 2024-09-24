@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: snapy-toolbox
-Version: 0.2.12
+Version: 0.2.13
 Summary: Spatial Network Analysis Python Module
 Home-page: https://github.com/kevinsutjijadi/SNAPy
 Author: kevinsutjijadi
@@ -9,7 +9,7 @@ License: MIT
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Programming Language :: Python :: 3.11
 Classifier: Operating System :: OS Independent
-Requires-Python: >=3.11
+Requires-Python: ~=3.11
 Description-Content-Type: text/markdown
 Provides-Extra: dev
 License-File: LICENSE

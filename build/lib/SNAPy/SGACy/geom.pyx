@@ -336,7 +336,10 @@ def NetworkSegmentIntersections(df, EndPoints=True, tol=3, ExtendLines=0.1, Doub
 
     if ExtendLines > 0.0 and not ForceCull:
         df['geometry'] = df.geometry.apply(lambda x: extend_linestring_cy(x, ExtendLines))
-    ExtendLinesB = ExtendLines * 1.05
+        ExtendLinesB = ExtendLines * 1.1
+    if ExtendLines == 0.0:
+        ExtendLinesB = 0.1
+    
     dfNw = df['geometry']
     ar, ds = dfNw.geometry.sindex.nearest(dfNw.geometry, return_all=True, return_distance=True, exclusive=True)
     cdef float ctol = 10**(-tol)
@@ -396,22 +399,20 @@ def NetworkSegmentIntersections(df, EndPoints=True, tol=3, ExtendLines=0.1, Doub
                     cidx += 1
             if prevpt is not None:
                 lns.append(LineString([(prevpt.x, prevpt.y)] + coords[stidx:]))
-            if ExtendLines > 0.0:
-                if lns[0].length < ExtendLinesB:
-                    lns.pop(0)
-                if lns[-1].length < ExtendLinesB:
-                    lns.pop(-1)
+            if lns[0].length < ExtendLinesB:
+                lns.pop(0)
+            if lns[-1].length < ExtendLinesB:
+                lns.pop(-1)
             dfo.loc[k, 'geometry'] = MultiLineString(lns)
         except:
             pass
-    print(f'\t{cnt}/{numg} | {(cnt/numg):.1f}%')
+    print(f'\t{cnt}/{numg} | {(cnt/numg*100):.1f}%')
     dfo = multilinestring_to_linestring(dfo)
-
     print(f'\tNetworkSegmentIntersection splits from {len(dfNw)} lines to {len(dfo)} lines')
     if DoublePass:
         print('\tRunning double pass')
         dfo = NetworkSegmentIntersections(dfo, EndPoints=False, tol=tol, ExtendLines=ExtendLines, DoublePass=False, ForceCull=True)
-
+    dfo = dfo[dfo.geometry.length > 0.05].reset_index()
     if EndPoints:
         ixdf = NetworkCompileIntersections(dfo, tol)
         return dfo, ixdf

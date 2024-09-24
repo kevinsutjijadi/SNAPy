@@ -2960,6 +2960,14 @@ static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key);
 /* RaiseClosureNameError.proto */
 static CYTHON_INLINE void __Pyx_RaiseClosureNameError(const char *varname);
 
+/* PyFloatBinop.proto */
+#if !CYTHON_COMPILING_IN_PYPY
+static int __Pyx_PyFloat_BoolEqObjC(PyObject *op1, PyObject *op2, double floatval, int inplace, int zerodivision_check);
+#else
+#define __Pyx_PyFloat_BoolEqObjC(op1, op2, floatval, inplace, zerodivision_check)\
+    __Pyx_PyObject_IsTrueAndDecref(PyObject_RichCompare(op1, op2, Py_EQ))
+    #endif
+
 /* PyObjectCallNoArg.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
 
@@ -4354,7 +4362,7 @@ typedef struct {
   PyObject *__pyx_float_1_0;
   PyObject *__pyx_float_1_1;
   PyObject *__pyx_float_1_5;
-  PyObject *__pyx_float_1_05;
+  PyObject *__pyx_float_0_05;
   PyObject *__pyx_float_1eneg_3;
   PyObject *__pyx_int_0;
   PyObject *__pyx_int_1;
@@ -4867,7 +4875,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_float_1_0);
   Py_CLEAR(clear_module_state->__pyx_float_1_1);
   Py_CLEAR(clear_module_state->__pyx_float_1_5);
-  Py_CLEAR(clear_module_state->__pyx_float_1_05);
+  Py_CLEAR(clear_module_state->__pyx_float_0_05);
   Py_CLEAR(clear_module_state->__pyx_float_1eneg_3);
   Py_CLEAR(clear_module_state->__pyx_int_0);
   Py_CLEAR(clear_module_state->__pyx_int_1);
@@ -5358,7 +5366,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_float_1_0);
   Py_VISIT(traverse_module_state->__pyx_float_1_1);
   Py_VISIT(traverse_module_state->__pyx_float_1_5);
-  Py_VISIT(traverse_module_state->__pyx_float_1_05);
+  Py_VISIT(traverse_module_state->__pyx_float_0_05);
   Py_VISIT(traverse_module_state->__pyx_float_1eneg_3);
   Py_VISIT(traverse_module_state->__pyx_int_0);
   Py_VISIT(traverse_module_state->__pyx_int_1);
@@ -5901,7 +5909,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_float_1_0 __pyx_mstate_global->__pyx_float_1_0
 #define __pyx_float_1_1 __pyx_mstate_global->__pyx_float_1_1
 #define __pyx_float_1_5 __pyx_mstate_global->__pyx_float_1_5
-#define __pyx_float_1_05 __pyx_mstate_global->__pyx_float_1_05
+#define __pyx_float_0_05 __pyx_mstate_global->__pyx_float_0_05
 #define __pyx_float_1eneg_3 __pyx_mstate_global->__pyx_float_1eneg_3
 #define __pyx_int_0 __pyx_mstate_global->__pyx_int_0
 #define __pyx_int_1 __pyx_mstate_global->__pyx_int_1
@@ -29844,8 +29852,8 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
  * 
  *     if ExtendLines > 0.0 and not ForceCull:
  *         df['geometry'] = df.geometry.apply(lambda x: extend_linestring_cy(x, ExtendLines))             # <<<<<<<<<<<<<<
- *     ExtendLinesB = ExtendLines * 1.05
- *     dfNw = df['geometry']
+ *         ExtendLinesB = ExtendLines * 1.1
+ *     if ExtendLines == 0.0:
  */
 
 /* Python wrapper */
@@ -30270,7 +30278,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
  * 
  *     if ExtendLines > 0.0 and not ForceCull:             # <<<<<<<<<<<<<<
  *         df['geometry'] = df.geometry.apply(lambda x: extend_linestring_cy(x, ExtendLines))
- *     ExtendLinesB = ExtendLines * 1.05
+ *         ExtendLinesB = ExtendLines * 1.1
  */
   __pyx_t_1 = PyObject_RichCompare(__pyx_cur_scope->__pyx_v_ExtendLines, __pyx_float_0_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 337, __pyx_L1_error)
   __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 337, __pyx_L1_error)
@@ -30290,8 +30298,8 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
  * 
  *     if ExtendLines > 0.0 and not ForceCull:
  *         df['geometry'] = df.geometry.apply(lambda x: extend_linestring_cy(x, ExtendLines))             # <<<<<<<<<<<<<<
- *     ExtendLinesB = ExtendLines * 1.05
- *     dfNw = df['geometry']
+ *         ExtendLinesB = ExtendLines * 1.1
+ *     if ExtendLines == 0.0:
  */
     __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_df, __pyx_n_s_geometry); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 338, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -30326,67 +30334,96 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
     if (unlikely((PyObject_SetItem(__pyx_v_df, __pyx_n_s_geometry, __pyx_t_1) < 0))) __PYX_ERR(0, 338, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
+    /* "geom.pyx":339
+ *     if ExtendLines > 0.0 and not ForceCull:
+ *         df['geometry'] = df.geometry.apply(lambda x: extend_linestring_cy(x, ExtendLines))
+ *         ExtendLinesB = ExtendLines * 1.1             # <<<<<<<<<<<<<<
+ *     if ExtendLines == 0.0:
+ *         ExtendLinesB = 0.1
+ */
+    __pyx_t_1 = PyNumber_Multiply(__pyx_cur_scope->__pyx_v_ExtendLines, __pyx_float_1_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 339, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_v_ExtendLinesB = __pyx_t_1;
+    __pyx_t_1 = 0;
+
     /* "geom.pyx":337
  *         df = multilinestring_to_linestring(df)
  * 
  *     if ExtendLines > 0.0 and not ForceCull:             # <<<<<<<<<<<<<<
  *         df['geometry'] = df.geometry.apply(lambda x: extend_linestring_cy(x, ExtendLines))
- *     ExtendLinesB = ExtendLines * 1.05
+ *         ExtendLinesB = ExtendLines * 1.1
  */
   }
 
-  /* "geom.pyx":339
- *     if ExtendLines > 0.0 and not ForceCull:
- *         df['geometry'] = df.geometry.apply(lambda x: extend_linestring_cy(x, ExtendLines))
- *     ExtendLinesB = ExtendLines * 1.05             # <<<<<<<<<<<<<<
- *     dfNw = df['geometry']
- *     ar, ds = dfNw.geometry.sindex.nearest(dfNw.geometry, return_all=True, return_distance=True, exclusive=True)
- */
-  __pyx_t_1 = PyNumber_Multiply(__pyx_cur_scope->__pyx_v_ExtendLines, __pyx_float_1_05); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 339, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_ExtendLinesB = __pyx_t_1;
-  __pyx_t_1 = 0;
-
   /* "geom.pyx":340
  *         df['geometry'] = df.geometry.apply(lambda x: extend_linestring_cy(x, ExtendLines))
- *     ExtendLinesB = ExtendLines * 1.05
+ *         ExtendLinesB = ExtendLines * 1.1
+ *     if ExtendLines == 0.0:             # <<<<<<<<<<<<<<
+ *         ExtendLinesB = 0.1
+ * 
+ */
+  __pyx_t_5 = (__Pyx_PyFloat_BoolEqObjC(__pyx_cur_scope->__pyx_v_ExtendLines, __pyx_float_0_0, 0.0, 0, 0)); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 340, __pyx_L1_error)
+  if (__pyx_t_5) {
+
+    /* "geom.pyx":341
+ *         ExtendLinesB = ExtendLines * 1.1
+ *     if ExtendLines == 0.0:
+ *         ExtendLinesB = 0.1             # <<<<<<<<<<<<<<
+ * 
+ *     dfNw = df['geometry']
+ */
+    __Pyx_INCREF(__pyx_float_0_1);
+    __Pyx_XDECREF_SET(__pyx_v_ExtendLinesB, __pyx_float_0_1);
+
+    /* "geom.pyx":340
+ *         df['geometry'] = df.geometry.apply(lambda x: extend_linestring_cy(x, ExtendLines))
+ *         ExtendLinesB = ExtendLines * 1.1
+ *     if ExtendLines == 0.0:             # <<<<<<<<<<<<<<
+ *         ExtendLinesB = 0.1
+ * 
+ */
+  }
+
+  /* "geom.pyx":343
+ *         ExtendLinesB = 0.1
+ * 
  *     dfNw = df['geometry']             # <<<<<<<<<<<<<<
  *     ar, ds = dfNw.geometry.sindex.nearest(dfNw.geometry, return_all=True, return_distance=True, exclusive=True)
  *     cdef float ctol = 10**(-tol)
  */
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_df, __pyx_n_s_geometry); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 340, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_df, __pyx_n_s_geometry); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 343, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_dfNw = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "geom.pyx":341
- *     ExtendLinesB = ExtendLines * 1.05
+  /* "geom.pyx":344
+ * 
  *     dfNw = df['geometry']
  *     ar, ds = dfNw.geometry.sindex.nearest(dfNw.geometry, return_all=True, return_distance=True, exclusive=True)             # <<<<<<<<<<<<<<
  *     cdef float ctol = 10**(-tol)
  *     ptr = ds < ctol
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_dfNw, __pyx_n_s_geometry); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 341, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_dfNw, __pyx_n_s_geometry); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 344, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_sindex); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 341, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_sindex); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 344, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_nearest); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 341, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_nearest); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 344, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_dfNw, __pyx_n_s_geometry); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 341, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_dfNw, __pyx_n_s_geometry); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 344, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 341, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 344, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2)) __PYX_ERR(0, 341, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2)) __PYX_ERR(0, 344, __pyx_L1_error);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 341, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 344, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_return_all, Py_True) < 0) __PYX_ERR(0, 341, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_return_distance, Py_True) < 0) __PYX_ERR(0, 341, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_exclusive, Py_True) < 0) __PYX_ERR(0, 341, __pyx_L1_error)
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 341, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_return_all, Py_True) < 0) __PYX_ERR(0, 344, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_return_distance, Py_True) < 0) __PYX_ERR(0, 344, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_exclusive, Py_True) < 0) __PYX_ERR(0, 344, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 344, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -30397,7 +30434,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 341, __pyx_L1_error)
+      __PYX_ERR(0, 344, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
@@ -30410,106 +30447,106 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_t_3);
     #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 341, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 344, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 341, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 344, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_1 = PyObject_GetIter(__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 341, __pyx_L1_error)
+    __pyx_t_1 = PyObject_GetIter(__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 344, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_1);
-    index = 0; __pyx_t_2 = __pyx_t_9(__pyx_t_1); if (unlikely(!__pyx_t_2)) goto __pyx_L7_unpacking_failed;
+    index = 0; __pyx_t_2 = __pyx_t_9(__pyx_t_1); if (unlikely(!__pyx_t_2)) goto __pyx_L8_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_2);
-    index = 1; __pyx_t_3 = __pyx_t_9(__pyx_t_1); if (unlikely(!__pyx_t_3)) goto __pyx_L7_unpacking_failed;
+    index = 1; __pyx_t_3 = __pyx_t_9(__pyx_t_1); if (unlikely(!__pyx_t_3)) goto __pyx_L8_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_1), 2) < 0) __PYX_ERR(0, 341, __pyx_L1_error)
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_1), 2) < 0) __PYX_ERR(0, 344, __pyx_L1_error)
     __pyx_t_9 = NULL;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    goto __pyx_L8_unpacking_done;
-    __pyx_L7_unpacking_failed:;
+    goto __pyx_L9_unpacking_done;
+    __pyx_L8_unpacking_failed:;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_9 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 341, __pyx_L1_error)
-    __pyx_L8_unpacking_done:;
+    __PYX_ERR(0, 344, __pyx_L1_error)
+    __pyx_L9_unpacking_done:;
   }
   __pyx_v_ar = __pyx_t_2;
   __pyx_t_2 = 0;
   __pyx_v_ds = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "geom.pyx":342
+  /* "geom.pyx":345
  *     dfNw = df['geometry']
  *     ar, ds = dfNw.geometry.sindex.nearest(dfNw.geometry, return_all=True, return_distance=True, exclusive=True)
  *     cdef float ctol = 10**(-tol)             # <<<<<<<<<<<<<<
  *     ptr = ds < ctol
  *     arac = ar[0][ptr]
  */
-  __pyx_t_8 = PyNumber_Negative(__pyx_v_tol); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 342, __pyx_L1_error)
+  __pyx_t_8 = PyNumber_Negative(__pyx_v_tol); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 345, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_3 = PyNumber_Power(__pyx_int_10, __pyx_t_8, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 342, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Power(__pyx_int_10, __pyx_t_8, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 345, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_t_3); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 342, __pyx_L1_error)
+  __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_t_3); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 345, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_ctol = __pyx_t_10;
 
-  /* "geom.pyx":343
+  /* "geom.pyx":346
  *     ar, ds = dfNw.geometry.sindex.nearest(dfNw.geometry, return_all=True, return_distance=True, exclusive=True)
  *     cdef float ctol = 10**(-tol)
  *     ptr = ds < ctol             # <<<<<<<<<<<<<<
  *     arac = ar[0][ptr]
  *     arbc = ar[1][ptr]
  */
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_ctol); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_ctol); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 346, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_8 = PyObject_RichCompare(__pyx_v_ds, __pyx_t_3, Py_LT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __pyx_t_8 = PyObject_RichCompare(__pyx_v_ds, __pyx_t_3, Py_LT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 346, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_ptr = __pyx_t_8;
   __pyx_t_8 = 0;
 
-  /* "geom.pyx":344
+  /* "geom.pyx":347
  *     cdef float ctol = 10**(-tol)
  *     ptr = ds < ctol
  *     arac = ar[0][ptr]             # <<<<<<<<<<<<<<
  *     arbc = ar[1][ptr]
  *     gp = defaultdict(list)
  */
-  __pyx_t_8 = __Pyx_GetItemInt(__pyx_v_ar, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_GetItemInt(__pyx_v_ar, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 347, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_ptr); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_ptr); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 347, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __pyx_v_arac = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "geom.pyx":345
+  /* "geom.pyx":348
  *     ptr = ds < ctol
  *     arac = ar[0][ptr]
  *     arbc = ar[1][ptr]             # <<<<<<<<<<<<<<
  *     gp = defaultdict(list)
  *     for first, second in zip(arac, arbc):
  */
-  __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_ar, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 345, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_ar, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 348, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_ptr); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 345, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_ptr); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 348, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_arbc = __pyx_t_8;
   __pyx_t_8 = 0;
 
-  /* "geom.pyx":346
+  /* "geom.pyx":349
  *     arac = ar[0][ptr]
  *     arbc = ar[1][ptr]
  *     gp = defaultdict(list)             # <<<<<<<<<<<<<<
  *     for first, second in zip(arac, arbc):
  *         gp[first].append(second)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_defaultdict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_defaultdict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 349, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = NULL;
   __pyx_t_4 = 0;
@@ -30529,29 +30566,29 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
     PyObject *__pyx_callargs[2] = {__pyx_t_2, ((PyObject *)(&PyList_Type))};
     __pyx_t_8 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_4, 1+__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 346, __pyx_L1_error)
+    if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 349, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __pyx_v_gp = __pyx_t_8;
   __pyx_t_8 = 0;
 
-  /* "geom.pyx":347
+  /* "geom.pyx":350
  *     arbc = ar[1][ptr]
  *     gp = defaultdict(list)
  *     for first, second in zip(arac, arbc):             # <<<<<<<<<<<<<<
  *         gp[first].append(second)
  *     cdef bint cycle = True
  */
-  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 347, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 350, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_INCREF(__pyx_v_arac);
   __Pyx_GIVEREF(__pyx_v_arac);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_v_arac)) __PYX_ERR(0, 347, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_v_arac)) __PYX_ERR(0, 350, __pyx_L1_error);
   __Pyx_INCREF(__pyx_v_arbc);
   __Pyx_GIVEREF(__pyx_v_arbc);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_v_arbc)) __PYX_ERR(0, 347, __pyx_L1_error);
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 347, __pyx_L1_error)
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_v_arbc)) __PYX_ERR(0, 350, __pyx_L1_error);
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 350, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
@@ -30559,9 +30596,9 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
     __pyx_t_11 = 0;
     __pyx_t_12 = NULL;
   } else {
-    __pyx_t_11 = -1; __pyx_t_8 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 347, __pyx_L1_error)
+    __pyx_t_11 = -1; __pyx_t_8 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 350, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_12 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_8); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 347, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_8); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 350, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   for (;;) {
@@ -30570,28 +30607,28 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
         {
           Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_8);
           #if !CYTHON_ASSUME_SAFE_MACROS
-          if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 347, __pyx_L1_error)
+          if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 350, __pyx_L1_error)
           #endif
           if (__pyx_t_11 >= __pyx_temp) break;
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_8, __pyx_t_11); __Pyx_INCREF(__pyx_t_3); __pyx_t_11++; if (unlikely((0 < 0))) __PYX_ERR(0, 347, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_8, __pyx_t_11); __Pyx_INCREF(__pyx_t_3); __pyx_t_11++; if (unlikely((0 < 0))) __PYX_ERR(0, 350, __pyx_L1_error)
         #else
-        __pyx_t_3 = __Pyx_PySequence_ITEM(__pyx_t_8, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 347, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PySequence_ITEM(__pyx_t_8, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 350, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         {
           Py_ssize_t __pyx_temp = __Pyx_PyTuple_GET_SIZE(__pyx_t_8);
           #if !CYTHON_ASSUME_SAFE_MACROS
-          if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 347, __pyx_L1_error)
+          if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 350, __pyx_L1_error)
           #endif
           if (__pyx_t_11 >= __pyx_temp) break;
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_8, __pyx_t_11); __Pyx_INCREF(__pyx_t_3); __pyx_t_11++; if (unlikely((0 < 0))) __PYX_ERR(0, 347, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_8, __pyx_t_11); __Pyx_INCREF(__pyx_t_3); __pyx_t_11++; if (unlikely((0 < 0))) __PYX_ERR(0, 350, __pyx_L1_error)
         #else
-        __pyx_t_3 = __Pyx_PySequence_ITEM(__pyx_t_8, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 347, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PySequence_ITEM(__pyx_t_8, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 350, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -30601,7 +30638,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 347, __pyx_L1_error)
+          else __PYX_ERR(0, 350, __pyx_L1_error)
         }
         break;
       }
@@ -30613,7 +30650,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 347, __pyx_L1_error)
+        __PYX_ERR(0, 350, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -30626,51 +30663,51 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
       __Pyx_INCREF(__pyx_t_2);
       __Pyx_INCREF(__pyx_t_1);
       #else
-      __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 347, __pyx_L1_error)
+      __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 350, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 347, __pyx_L1_error)
+      __pyx_t_1 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       #endif
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_13 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 347, __pyx_L1_error)
+      __pyx_t_13 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 350, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_13);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_13);
-      index = 0; __pyx_t_2 = __pyx_t_9(__pyx_t_13); if (unlikely(!__pyx_t_2)) goto __pyx_L11_unpacking_failed;
+      index = 0; __pyx_t_2 = __pyx_t_9(__pyx_t_13); if (unlikely(!__pyx_t_2)) goto __pyx_L12_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_2);
-      index = 1; __pyx_t_1 = __pyx_t_9(__pyx_t_13); if (unlikely(!__pyx_t_1)) goto __pyx_L11_unpacking_failed;
+      index = 1; __pyx_t_1 = __pyx_t_9(__pyx_t_13); if (unlikely(!__pyx_t_1)) goto __pyx_L12_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_1);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_13), 2) < 0) __PYX_ERR(0, 347, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_13), 2) < 0) __PYX_ERR(0, 350, __pyx_L1_error)
       __pyx_t_9 = NULL;
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-      goto __pyx_L12_unpacking_done;
-      __pyx_L11_unpacking_failed:;
+      goto __pyx_L13_unpacking_done;
+      __pyx_L12_unpacking_failed:;
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       __pyx_t_9 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 347, __pyx_L1_error)
-      __pyx_L12_unpacking_done:;
+      __PYX_ERR(0, 350, __pyx_L1_error)
+      __pyx_L13_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_first, __pyx_t_2);
     __pyx_t_2 = 0;
     __Pyx_XDECREF_SET(__pyx_v_second, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "geom.pyx":348
+    /* "geom.pyx":351
  *     gp = defaultdict(list)
  *     for first, second in zip(arac, arbc):
  *         gp[first].append(second)             # <<<<<<<<<<<<<<
  *     cdef bint cycle = True
  *     cdef int cidx
  */
-    __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_gp, __pyx_v_first); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 348, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_gp, __pyx_v_first); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 351, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_14 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_v_second); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 348, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_v_second); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 351, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "geom.pyx":347
+    /* "geom.pyx":350
  *     arbc = ar[1][ptr]
  *     gp = defaultdict(list)
  *     for first, second in zip(arac, arbc):             # <<<<<<<<<<<<<<
@@ -30680,7 +30717,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
   }
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "geom.pyx":349
+  /* "geom.pyx":352
  *     for first, second in zip(arac, arbc):
  *         gp[first].append(second)
  *     cdef bint cycle = True             # <<<<<<<<<<<<<<
@@ -30689,7 +30726,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
  */
   __pyx_v_cycle = 1;
 
-  /* "geom.pyx":352
+  /* "geom.pyx":355
  *     cdef int cidx
  *     cdef int stidx
  *     cdef int cnt = 0             # <<<<<<<<<<<<<<
@@ -30698,28 +30735,28 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
  */
   __pyx_v_cnt = 0;
 
-  /* "geom.pyx":353
+  /* "geom.pyx":356
  *     cdef int stidx
  *     cdef int cnt = 0
  *     cdef int numg = len(gp)             # <<<<<<<<<<<<<<
  *     print('\tSplitting lines')
  *     for k, v in gp.items():
  */
-  __pyx_t_11 = PyObject_Length(__pyx_v_gp); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 353, __pyx_L1_error)
+  __pyx_t_11 = PyObject_Length(__pyx_v_gp); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 356, __pyx_L1_error)
   __pyx_v_numg = __pyx_t_11;
 
-  /* "geom.pyx":354
+  /* "geom.pyx":357
  *     cdef int cnt = 0
  *     cdef int numg = len(gp)
  *     print('\tSplitting lines')             # <<<<<<<<<<<<<<
  *     for k, v in gp.items():
  *         print(f'\t{cnt}/{numg} | {(cnt/numg*100):.1f}%', end='\r')
  */
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 354, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 357, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "geom.pyx":355
+  /* "geom.pyx":358
  *     cdef int numg = len(gp)
  *     print('\tSplitting lines')
  *     for k, v in gp.items():             # <<<<<<<<<<<<<<
@@ -30729,9 +30766,9 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
   __pyx_t_11 = 0;
   if (unlikely(__pyx_v_gp == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "items");
-    __PYX_ERR(0, 355, __pyx_L1_error)
+    __PYX_ERR(0, 358, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_dict_iterator(__pyx_v_gp, 0, __pyx_n_s_items, (&__pyx_t_15), (&__pyx_t_4)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 355, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_dict_iterator(__pyx_v_gp, 0, __pyx_n_s_items, (&__pyx_t_15), (&__pyx_t_4)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 358, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_8);
   __pyx_t_8 = __pyx_t_3;
@@ -30739,7 +30776,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
   while (1) {
     __pyx_t_16 = __Pyx_dict_iter_next(__pyx_t_8, __pyx_t_15, &__pyx_t_11, &__pyx_t_3, &__pyx_t_1, NULL, __pyx_t_4);
     if (unlikely(__pyx_t_16 == 0)) break;
-    if (unlikely(__pyx_t_16 == -1)) __PYX_ERR(0, 355, __pyx_L1_error)
+    if (unlikely(__pyx_t_16 == -1)) __PYX_ERR(0, 358, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_k, __pyx_t_3);
@@ -30747,14 +30784,14 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
     __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "geom.pyx":356
+    /* "geom.pyx":359
  *     print('\tSplitting lines')
  *     for k, v in gp.items():
  *         print(f'\t{cnt}/{numg} | {(cnt/numg*100):.1f}%', end='\r')             # <<<<<<<<<<<<<<
  *         cnt += 1
  *         vg = dfNw[dfNw.index.isin(v)]
  */
-    __pyx_t_1 = PyTuple_New(7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 356, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_17 = 0;
     __pyx_t_18 = 127;
@@ -30762,7 +30799,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
     __pyx_t_17 += 1;
     __Pyx_GIVEREF(__pyx_kp_u__23);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u__23);
-    __pyx_t_3 = __Pyx_PyUnicode_From_int(__pyx_v_cnt, 0, ' ', 'd'); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 356, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyUnicode_From_int(__pyx_v_cnt, 0, ' ', 'd'); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_17 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
@@ -30772,7 +30809,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
     __pyx_t_17 += 1;
     __Pyx_GIVEREF(__pyx_kp_u__24);
     PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u__24);
-    __pyx_t_3 = __Pyx_PyUnicode_From_int(__pyx_v_numg, 0, ' ', 'd'); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 356, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyUnicode_From_int(__pyx_v_numg, 0, ' ', 'd'); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_17 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
@@ -30784,11 +30821,11 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
     PyTuple_SET_ITEM(__pyx_t_1, 4, __pyx_kp_u__25);
     if (unlikely(__pyx_v_numg == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 356, __pyx_L1_error)
+      __PYX_ERR(0, 359, __pyx_L1_error)
     }
-    __pyx_t_3 = PyFloat_FromDouble(((((double)__pyx_v_cnt) / ((double)__pyx_v_numg)) * 100.0)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 356, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(((((double)__pyx_v_cnt) / ((double)__pyx_v_numg)) * 100.0)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_PyObject_Format(__pyx_t_3, __pyx_kp_u_1f); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 356, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Format(__pyx_t_3, __pyx_kp_u_1f); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_18 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_2) > __pyx_t_18) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_2) : __pyx_t_18;
@@ -30800,24 +30837,24 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
     __pyx_t_17 += 1;
     __Pyx_GIVEREF(__pyx_kp_u__26);
     PyTuple_SET_ITEM(__pyx_t_1, 6, __pyx_kp_u__26);
-    __pyx_t_2 = __Pyx_PyUnicode_Join(__pyx_t_1, 7, __pyx_t_17, __pyx_t_18); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 356, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyUnicode_Join(__pyx_t_1, 7, __pyx_t_17, __pyx_t_18); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 356, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_2);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2)) __PYX_ERR(0, 356, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2)) __PYX_ERR(0, 359, __pyx_L1_error);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 356, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_s__27) < 0) __PYX_ERR(0, 356, __pyx_L1_error)
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 356, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_s__27) < 0) __PYX_ERR(0, 359, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "geom.pyx":357
+    /* "geom.pyx":360
  *     for k, v in gp.items():
  *         print(f'\t{cnt}/{numg} | {(cnt/numg*100):.1f}%', end='\r')
  *         cnt += 1             # <<<<<<<<<<<<<<
@@ -30826,16 +30863,16 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
  */
     __pyx_v_cnt = (__pyx_v_cnt + 1);
 
-    /* "geom.pyx":358
+    /* "geom.pyx":361
  *         print(f'\t{cnt}/{numg} | {(cnt/numg*100):.1f}%', end='\r')
  *         cnt += 1
  *         vg = dfNw[dfNw.index.isin(v)]             # <<<<<<<<<<<<<<
  *         kg = dfNw.loc[k]
  *         # print('\t', k, v, kg.length)
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_dfNw, __pyx_n_s_index); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 358, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_dfNw, __pyx_n_s_index); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 361, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_isin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 358, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_isin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 361, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_2 = NULL;
@@ -30856,39 +30893,39 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
       PyObject *__pyx_callargs[2] = {__pyx_t_2, __pyx_v_v};
       __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_16, 1+__pyx_t_16);
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 358, __pyx_L1_error)
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 361, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
-    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_dfNw, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 358, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_dfNw, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 361, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_vg, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "geom.pyx":359
+    /* "geom.pyx":362
  *         cnt += 1
  *         vg = dfNw[dfNw.index.isin(v)]
  *         kg = dfNw.loc[k]             # <<<<<<<<<<<<<<
  *         # print('\t', k, v, kg.length)
  *         ixpt = kg.intersection(vg).explode(ignore_index=False)
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_dfNw, __pyx_n_s_loc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 359, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_dfNw, __pyx_n_s_loc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 362, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_k); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 359, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_k); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 362, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_XDECREF_SET(__pyx_v_kg, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "geom.pyx":361
+    /* "geom.pyx":364
  *         kg = dfNw.loc[k]
  *         # print('\t', k, v, kg.length)
  *         ixpt = kg.intersection(vg).explode(ignore_index=False)             # <<<<<<<<<<<<<<
  *         ixpt = ixpt[ixpt.geom_type =='Point']
  *         ixpj = np.array(kg.project(ixpt))
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_kg, __pyx_n_s_intersection); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 361, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_kg, __pyx_n_s_intersection); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 364, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_2 = NULL;
     __pyx_t_16 = 0;
@@ -30908,53 +30945,53 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
       PyObject *__pyx_callargs[2] = {__pyx_t_2, __pyx_v_vg};
       __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_16, 1+__pyx_t_16);
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 361, __pyx_L1_error)
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 364, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_explode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 361, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_explode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 364, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 361, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 364, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_ignore_index, Py_False) < 0) __PYX_ERR(0, 361, __pyx_L1_error)
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 361, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_ignore_index, Py_False) < 0) __PYX_ERR(0, 364, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 364, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_ixpt, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "geom.pyx":362
+    /* "geom.pyx":365
  *         # print('\t', k, v, kg.length)
  *         ixpt = kg.intersection(vg).explode(ignore_index=False)
  *         ixpt = ixpt[ixpt.geom_type =='Point']             # <<<<<<<<<<<<<<
  *         ixpj = np.array(kg.project(ixpt))
  *         ixfl = (ixpj > 0)*(kg.length > ixpj)
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_ixpt, __pyx_n_s_geom_type); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 362, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_ixpt, __pyx_n_s_geom_type); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 365, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyObject_RichCompare(__pyx_t_2, __pyx_n_s_Point, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 362, __pyx_L1_error)
+    __pyx_t_3 = PyObject_RichCompare(__pyx_t_2, __pyx_n_s_Point, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 365, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_ixpt, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 362, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_ixpt, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 365, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF_SET(__pyx_v_ixpt, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "geom.pyx":363
+    /* "geom.pyx":366
  *         ixpt = kg.intersection(vg).explode(ignore_index=False)
  *         ixpt = ixpt[ixpt.geom_type =='Point']
  *         ixpj = np.array(kg.project(ixpt))             # <<<<<<<<<<<<<<
  *         ixfl = (ixpj > 0)*(kg.length > ixpj)
  *         ixpt = np.array(ixpt[ixfl])
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 363, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 366, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 363, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 366, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_kg, __pyx_n_s_project); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 363, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_kg, __pyx_n_s_project); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 366, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
     __pyx_t_19 = NULL;
     __pyx_t_16 = 0;
@@ -30974,7 +31011,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
       PyObject *__pyx_callargs[2] = {__pyx_t_19, __pyx_v_ixpt};
       __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_13, __pyx_callargs+1-__pyx_t_16, 1+__pyx_t_16);
       __Pyx_XDECREF(__pyx_t_19); __pyx_t_19 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 363, __pyx_L1_error)
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     }
@@ -30997,45 +31034,45 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
       __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_16, 1+__pyx_t_16);
       __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 363, __pyx_L1_error)
+      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
     __Pyx_XDECREF_SET(__pyx_v_ixpj, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "geom.pyx":364
+    /* "geom.pyx":367
  *         ixpt = ixpt[ixpt.geom_type =='Point']
  *         ixpj = np.array(kg.project(ixpt))
  *         ixfl = (ixpj > 0)*(kg.length > ixpj)             # <<<<<<<<<<<<<<
  *         ixpt = np.array(ixpt[ixfl])
  *         ixpj = ixpj[ixfl]
  */
-    __pyx_t_2 = PyObject_RichCompare(__pyx_v_ixpj, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 364, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_kg, __pyx_n_s_length); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 364, __pyx_L1_error)
+    __pyx_t_2 = PyObject_RichCompare(__pyx_v_ixpj, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 367, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_kg, __pyx_n_s_length); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 367, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_v_ixpj, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 364, __pyx_L1_error)
+    __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_v_ixpj, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 367, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyNumber_Multiply(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 364, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Multiply(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 367, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_ixfl, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "geom.pyx":365
+    /* "geom.pyx":368
  *         ixpj = np.array(kg.project(ixpt))
  *         ixfl = (ixpj > 0)*(kg.length > ixpj)
  *         ixpt = np.array(ixpt[ixfl])             # <<<<<<<<<<<<<<
  *         ixpj = ixpj[ixfl]
  *         # print(ixpt)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 365, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 368, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 365, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 368, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_ixpt, __pyx_v_ixfl); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 365, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_ixpt, __pyx_v_ixfl); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 368, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_13 = NULL;
     __pyx_t_16 = 0;
@@ -31056,46 +31093,46 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
       __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_16, 1+__pyx_t_16);
       __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 365, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 368, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
     __Pyx_DECREF_SET(__pyx_v_ixpt, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "geom.pyx":366
+    /* "geom.pyx":369
  *         ixfl = (ixpj > 0)*(kg.length > ixpj)
  *         ixpt = np.array(ixpt[ixfl])
  *         ixpj = ixpj[ixfl]             # <<<<<<<<<<<<<<
  *         # print(ixpt)
  *         if len(ixpt) == 0:
  */
-    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_ixpj, __pyx_v_ixfl); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 366, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_ixpj, __pyx_v_ixfl); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 369, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_ixpj, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "geom.pyx":368
+    /* "geom.pyx":371
  *         ixpj = ixpj[ixfl]
  *         # print(ixpt)
  *         if len(ixpt) == 0:             # <<<<<<<<<<<<<<
  *             continue
  *         ixsort = np.argsort(ixpj)
  */
-    __pyx_t_17 = PyObject_Length(__pyx_v_ixpt); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 368, __pyx_L1_error)
+    __pyx_t_17 = PyObject_Length(__pyx_v_ixpt); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 371, __pyx_L1_error)
     __pyx_t_5 = (__pyx_t_17 == 0);
     if (__pyx_t_5) {
 
-      /* "geom.pyx":369
+      /* "geom.pyx":372
  *         # print(ixpt)
  *         if len(ixpt) == 0:
  *             continue             # <<<<<<<<<<<<<<
  *         ixsort = np.argsort(ixpj)
  *         ixpt = ixpt[ixsort]
  */
-      goto __pyx_L14_continue;
+      goto __pyx_L15_continue;
 
-      /* "geom.pyx":368
+      /* "geom.pyx":371
  *         ixpj = ixpj[ixfl]
  *         # print(ixpt)
  *         if len(ixpt) == 0:             # <<<<<<<<<<<<<<
@@ -31104,16 +31141,16 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
  */
     }
 
-    /* "geom.pyx":370
+    /* "geom.pyx":373
  *         if len(ixpt) == 0:
  *             continue
  *         ixsort = np.argsort(ixpj)             # <<<<<<<<<<<<<<
  *         ixpt = ixpt[ixsort]
  *         ixpj = ixpj[ixsort]
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 370, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 373, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_argsort); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 370, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_argsort); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 373, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_2 = NULL;
@@ -31134,75 +31171,75 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
       PyObject *__pyx_callargs[2] = {__pyx_t_2, __pyx_v_ixpj};
       __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_16, 1+__pyx_t_16);
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 370, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 373, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
     __Pyx_XDECREF_SET(__pyx_v_ixsort, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "geom.pyx":371
+    /* "geom.pyx":374
  *             continue
  *         ixsort = np.argsort(ixpj)
  *         ixpt = ixpt[ixsort]             # <<<<<<<<<<<<<<
  *         ixpj = ixpj[ixsort]
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_ixpt, __pyx_v_ixsort); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 371, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_ixpt, __pyx_v_ixsort); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 374, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_ixpt, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "geom.pyx":372
+    /* "geom.pyx":375
  *         ixsort = np.argsort(ixpj)
  *         ixpt = ixpt[ixsort]
  *         ixpj = ixpj[ixsort]             # <<<<<<<<<<<<<<
  * 
  *         lns = []
  */
-    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_ixpj, __pyx_v_ixsort); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 372, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_ixpj, __pyx_v_ixsort); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 375, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_ixpj, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "geom.pyx":374
+    /* "geom.pyx":377
  *         ixpj = ixpj[ixsort]
  * 
  *         lns = []             # <<<<<<<<<<<<<<
  *         coords = list(kg.coords)
  *         Ncoords = len(coords)
  */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 374, __pyx_L1_error)
+    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 377, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_lns, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "geom.pyx":375
+    /* "geom.pyx":378
  * 
  *         lns = []
  *         coords = list(kg.coords)             # <<<<<<<<<<<<<<
  *         Ncoords = len(coords)
  *         cidx = 0
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_kg, __pyx_n_s_coords); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 375, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_kg, __pyx_n_s_coords); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 378, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PySequence_ListKeepNew(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 375, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PySequence_ListKeepNew(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 378, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_XDECREF_SET(__pyx_v_coords, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "geom.pyx":376
+    /* "geom.pyx":379
  *         lns = []
  *         coords = list(kg.coords)
  *         Ncoords = len(coords)             # <<<<<<<<<<<<<<
  *         cidx = 0
  *         stidx = 0
  */
-    __pyx_t_17 = __Pyx_PyList_GET_SIZE(__pyx_v_coords); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 376, __pyx_L1_error)
+    __pyx_t_17 = __Pyx_PyList_GET_SIZE(__pyx_v_coords); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 379, __pyx_L1_error)
     __pyx_v_Ncoords = __pyx_t_17;
 
-    /* "geom.pyx":377
+    /* "geom.pyx":380
  *         coords = list(kg.coords)
  *         Ncoords = len(coords)
  *         cidx = 0             # <<<<<<<<<<<<<<
@@ -31211,7 +31248,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
  */
     __pyx_v_cidx = 0;
 
-    /* "geom.pyx":378
+    /* "geom.pyx":381
  *         Ncoords = len(coords)
  *         cidx = 0
  *         stidx = 0             # <<<<<<<<<<<<<<
@@ -31220,7 +31257,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
  */
     __pyx_v_stidx = 0;
 
-    /* "geom.pyx":379
+    /* "geom.pyx":382
  *         cidx = 0
  *         stidx = 0
  *         prevpt = None             # <<<<<<<<<<<<<<
@@ -31230,7 +31267,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
     __Pyx_INCREF(Py_None);
     __Pyx_XDECREF_SET(__pyx_v_prevpt, Py_None);
 
-    /* "geom.pyx":380
+    /* "geom.pyx":383
  *         stidx = 0
  *         prevpt = None
  *         try:             # <<<<<<<<<<<<<<
@@ -31246,22 +31283,22 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
       __Pyx_XGOTREF(__pyx_t_22);
       /*try:*/ {
 
-        /* "geom.pyx":381
+        /* "geom.pyx":384
  *         prevpt = None
  *         try:
  *             for p, j in zip(ixpt, ixpj):             # <<<<<<<<<<<<<<
  *                 while cycle:
  *                     if cidx == Ncoords:
  */
-        __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 381, __pyx_L17_error)
+        __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 384, __pyx_L18_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_v_ixpt);
         __Pyx_GIVEREF(__pyx_v_ixpt);
-        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_ixpt)) __PYX_ERR(0, 381, __pyx_L17_error);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_ixpt)) __PYX_ERR(0, 384, __pyx_L18_error);
         __Pyx_INCREF(__pyx_v_ixpj);
         __Pyx_GIVEREF(__pyx_v_ixpj);
-        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_ixpj)) __PYX_ERR(0, 381, __pyx_L17_error);
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 381, __pyx_L17_error)
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_ixpj)) __PYX_ERR(0, 384, __pyx_L18_error);
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 384, __pyx_L18_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
@@ -31269,9 +31306,9 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
           __pyx_t_17 = 0;
           __pyx_t_12 = NULL;
         } else {
-          __pyx_t_17 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 381, __pyx_L17_error)
+          __pyx_t_17 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 384, __pyx_L18_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_12 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_3); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 381, __pyx_L17_error)
+          __pyx_t_12 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_3); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 384, __pyx_L18_error)
         }
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         for (;;) {
@@ -31280,28 +31317,28 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
               {
                 Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_3);
                 #if !CYTHON_ASSUME_SAFE_MACROS
-                if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 381, __pyx_L17_error)
+                if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 384, __pyx_L18_error)
                 #endif
                 if (__pyx_t_17 >= __pyx_temp) break;
               }
               #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-              __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_17); __Pyx_INCREF(__pyx_t_1); __pyx_t_17++; if (unlikely((0 < 0))) __PYX_ERR(0, 381, __pyx_L17_error)
+              __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_17); __Pyx_INCREF(__pyx_t_1); __pyx_t_17++; if (unlikely((0 < 0))) __PYX_ERR(0, 384, __pyx_L18_error)
               #else
-              __pyx_t_1 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 381, __pyx_L17_error)
+              __pyx_t_1 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 384, __pyx_L18_error)
               __Pyx_GOTREF(__pyx_t_1);
               #endif
             } else {
               {
                 Py_ssize_t __pyx_temp = __Pyx_PyTuple_GET_SIZE(__pyx_t_3);
                 #if !CYTHON_ASSUME_SAFE_MACROS
-                if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 381, __pyx_L17_error)
+                if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 384, __pyx_L18_error)
                 #endif
                 if (__pyx_t_17 >= __pyx_temp) break;
               }
               #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-              __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_17); __Pyx_INCREF(__pyx_t_1); __pyx_t_17++; if (unlikely((0 < 0))) __PYX_ERR(0, 381, __pyx_L17_error)
+              __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_17); __Pyx_INCREF(__pyx_t_1); __pyx_t_17++; if (unlikely((0 < 0))) __PYX_ERR(0, 384, __pyx_L18_error)
               #else
-              __pyx_t_1 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 381, __pyx_L17_error)
+              __pyx_t_1 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 384, __pyx_L18_error)
               __Pyx_GOTREF(__pyx_t_1);
               #endif
             }
@@ -31311,7 +31348,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
               PyObject* exc_type = PyErr_Occurred();
               if (exc_type) {
                 if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                else __PYX_ERR(0, 381, __pyx_L17_error)
+                else __PYX_ERR(0, 384, __pyx_L18_error)
               }
               break;
             }
@@ -31323,7 +31360,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
             if (unlikely(size != 2)) {
               if (size > 2) __Pyx_RaiseTooManyValuesError(2);
               else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-              __PYX_ERR(0, 381, __pyx_L17_error)
+              __PYX_ERR(0, 384, __pyx_L18_error)
             }
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
             if (likely(PyTuple_CheckExact(sequence))) {
@@ -31336,39 +31373,39 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
             __Pyx_INCREF(__pyx_t_2);
             __Pyx_INCREF(__pyx_t_13);
             #else
-            __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 381, __pyx_L17_error)
+            __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 384, __pyx_L18_error)
             __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_13 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 381, __pyx_L17_error)
+            __pyx_t_13 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 384, __pyx_L18_error)
             __Pyx_GOTREF(__pyx_t_13);
             #endif
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           } else {
             Py_ssize_t index = -1;
-            __pyx_t_19 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 381, __pyx_L17_error)
+            __pyx_t_19 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 384, __pyx_L18_error)
             __Pyx_GOTREF(__pyx_t_19);
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_19);
-            index = 0; __pyx_t_2 = __pyx_t_9(__pyx_t_19); if (unlikely(!__pyx_t_2)) goto __pyx_L27_unpacking_failed;
+            index = 0; __pyx_t_2 = __pyx_t_9(__pyx_t_19); if (unlikely(!__pyx_t_2)) goto __pyx_L28_unpacking_failed;
             __Pyx_GOTREF(__pyx_t_2);
-            index = 1; __pyx_t_13 = __pyx_t_9(__pyx_t_19); if (unlikely(!__pyx_t_13)) goto __pyx_L27_unpacking_failed;
+            index = 1; __pyx_t_13 = __pyx_t_9(__pyx_t_19); if (unlikely(!__pyx_t_13)) goto __pyx_L28_unpacking_failed;
             __Pyx_GOTREF(__pyx_t_13);
-            if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_19), 2) < 0) __PYX_ERR(0, 381, __pyx_L17_error)
+            if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_19), 2) < 0) __PYX_ERR(0, 384, __pyx_L18_error)
             __pyx_t_9 = NULL;
             __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
-            goto __pyx_L28_unpacking_done;
-            __pyx_L27_unpacking_failed:;
+            goto __pyx_L29_unpacking_done;
+            __pyx_L28_unpacking_failed:;
             __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
             __pyx_t_9 = NULL;
             if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-            __PYX_ERR(0, 381, __pyx_L17_error)
-            __pyx_L28_unpacking_done:;
+            __PYX_ERR(0, 384, __pyx_L18_error)
+            __pyx_L29_unpacking_done:;
           }
           __Pyx_XDECREF_SET(__pyx_v_p, __pyx_t_2);
           __pyx_t_2 = 0;
           __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_13);
           __pyx_t_13 = 0;
 
-          /* "geom.pyx":382
+          /* "geom.pyx":385
  *         try:
  *             for p, j in zip(ixpt, ixpj):
  *                 while cycle:             # <<<<<<<<<<<<<<
@@ -31378,7 +31415,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
           while (1) {
             if (!__pyx_v_cycle) break;
 
-            /* "geom.pyx":383
+            /* "geom.pyx":386
  *             for p, j in zip(ixpt, ixpj):
  *                 while cycle:
  *                     if cidx == Ncoords:             # <<<<<<<<<<<<<<
@@ -31388,16 +31425,16 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
             __pyx_t_5 = (__pyx_v_cidx == __pyx_v_Ncoords);
             if (__pyx_t_5) {
 
-              /* "geom.pyx":384
+              /* "geom.pyx":387
  *                 while cycle:
  *                     if cidx == Ncoords:
  *                         break             # <<<<<<<<<<<<<<
  *                     pd = kg.project(Point(coords[cidx]))
  *                     if pd > j:
  */
-              goto __pyx_L30_break;
+              goto __pyx_L31_break;
 
-              /* "geom.pyx":383
+              /* "geom.pyx":386
  *             for p, j in zip(ixpt, ixpj):
  *                 while cycle:
  *                     if cidx == Ncoords:             # <<<<<<<<<<<<<<
@@ -31406,18 +31443,18 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
  */
             }
 
-            /* "geom.pyx":385
+            /* "geom.pyx":388
  *                     if cidx == Ncoords:
  *                         break
  *                     pd = kg.project(Point(coords[cidx]))             # <<<<<<<<<<<<<<
  *                     if pd > j:
  *                         if prevpt is None:
  */
-            __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_kg, __pyx_n_s_project); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 385, __pyx_L17_error)
+            __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_kg, __pyx_n_s_project); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 388, __pyx_L18_error)
             __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_GetModuleGlobalName(__pyx_t_19, __pyx_n_s_Point); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 385, __pyx_L17_error)
+            __Pyx_GetModuleGlobalName(__pyx_t_19, __pyx_n_s_Point); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 388, __pyx_L18_error)
             __Pyx_GOTREF(__pyx_t_19);
-            __pyx_t_23 = __Pyx_GetItemInt_List(__pyx_v_coords, __pyx_v_cidx, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 385, __pyx_L17_error)
+            __pyx_t_23 = __Pyx_GetItemInt_List(__pyx_v_coords, __pyx_v_cidx, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 388, __pyx_L18_error)
             __Pyx_GOTREF(__pyx_t_23);
             __pyx_t_24 = NULL;
             __pyx_t_16 = 0;
@@ -31438,7 +31475,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
               __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_19, __pyx_callargs+1-__pyx_t_16, 1+__pyx_t_16);
               __Pyx_XDECREF(__pyx_t_24); __pyx_t_24 = 0;
               __Pyx_DECREF(__pyx_t_23); __pyx_t_23 = 0;
-              if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 385, __pyx_L17_error)
+              if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 388, __pyx_L18_error)
               __Pyx_GOTREF(__pyx_t_2);
               __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
             }
@@ -31461,26 +31498,26 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
               __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_13, __pyx_callargs+1-__pyx_t_16, 1+__pyx_t_16);
               __Pyx_XDECREF(__pyx_t_19); __pyx_t_19 = 0;
               __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-              if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 385, __pyx_L17_error)
+              if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 388, __pyx_L18_error)
               __Pyx_GOTREF(__pyx_t_1);
               __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
             }
             __Pyx_XDECREF_SET(__pyx_v_pd, __pyx_t_1);
             __pyx_t_1 = 0;
 
-            /* "geom.pyx":386
+            /* "geom.pyx":389
  *                         break
  *                     pd = kg.project(Point(coords[cidx]))
  *                     if pd > j:             # <<<<<<<<<<<<<<
  *                         if prevpt is None:
  *                             lns.append(LineString(coords[:cidx] + [(p.x, p.y)]))
  */
-            __pyx_t_1 = PyObject_RichCompare(__pyx_v_pd, __pyx_v_j, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 386, __pyx_L17_error)
-            __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 386, __pyx_L17_error)
+            __pyx_t_1 = PyObject_RichCompare(__pyx_v_pd, __pyx_v_j, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 389, __pyx_L18_error)
+            __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 389, __pyx_L18_error)
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             if (__pyx_t_5) {
 
-              /* "geom.pyx":387
+              /* "geom.pyx":390
  *                     pd = kg.project(Point(coords[cidx]))
  *                     if pd > j:
  *                         if prevpt is None:             # <<<<<<<<<<<<<<
@@ -31490,35 +31527,35 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
               __pyx_t_5 = (__pyx_v_prevpt == Py_None);
               if (__pyx_t_5) {
 
-                /* "geom.pyx":388
+                /* "geom.pyx":391
  *                     if pd > j:
  *                         if prevpt is None:
  *                             lns.append(LineString(coords[:cidx] + [(p.x, p.y)]))             # <<<<<<<<<<<<<<
  *                         elif stidx == cidx:
  *                             lns.append(LineString([(prevpt.x, prevpt.y), (p.x, p.y)]))
  */
-                __Pyx_GetModuleGlobalName(__pyx_t_13, __pyx_n_s_LineString); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 388, __pyx_L17_error)
+                __Pyx_GetModuleGlobalName(__pyx_t_13, __pyx_n_s_LineString); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 391, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_13);
-                __pyx_t_2 = __Pyx_PyList_GetSlice(__pyx_v_coords, 0, __pyx_v_cidx); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 388, __pyx_L17_error)
+                __pyx_t_2 = __Pyx_PyList_GetSlice(__pyx_v_coords, 0, __pyx_v_cidx); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 391, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_2);
-                __pyx_t_19 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_n_s_x); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 388, __pyx_L17_error)
+                __pyx_t_19 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_n_s_x); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 391, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_19);
-                __pyx_t_23 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_n_s_y); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 388, __pyx_L17_error)
+                __pyx_t_23 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_n_s_y); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 391, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_23);
-                __pyx_t_24 = PyTuple_New(2); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 388, __pyx_L17_error)
+                __pyx_t_24 = PyTuple_New(2); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 391, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_24);
                 __Pyx_GIVEREF(__pyx_t_19);
-                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_24, 0, __pyx_t_19)) __PYX_ERR(0, 388, __pyx_L17_error);
+                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_24, 0, __pyx_t_19)) __PYX_ERR(0, 391, __pyx_L18_error);
                 __Pyx_GIVEREF(__pyx_t_23);
-                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_24, 1, __pyx_t_23)) __PYX_ERR(0, 388, __pyx_L17_error);
+                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_24, 1, __pyx_t_23)) __PYX_ERR(0, 391, __pyx_L18_error);
                 __pyx_t_19 = 0;
                 __pyx_t_23 = 0;
-                __pyx_t_23 = PyList_New(1); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 388, __pyx_L17_error)
+                __pyx_t_23 = PyList_New(1); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 391, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_23);
                 __Pyx_GIVEREF(__pyx_t_24);
-                if (__Pyx_PyList_SET_ITEM(__pyx_t_23, 0, __pyx_t_24)) __PYX_ERR(0, 388, __pyx_L17_error);
+                if (__Pyx_PyList_SET_ITEM(__pyx_t_23, 0, __pyx_t_24)) __PYX_ERR(0, 391, __pyx_L18_error);
                 __pyx_t_24 = 0;
-                __pyx_t_24 = PyNumber_Add(__pyx_t_2, __pyx_t_23); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 388, __pyx_L17_error)
+                __pyx_t_24 = PyNumber_Add(__pyx_t_2, __pyx_t_23); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 391, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_24);
                 __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
                 __Pyx_DECREF(__pyx_t_23); __pyx_t_23 = 0;
@@ -31541,24 +31578,24 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
                   __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_13, __pyx_callargs+1-__pyx_t_16, 1+__pyx_t_16);
                   __Pyx_XDECREF(__pyx_t_23); __pyx_t_23 = 0;
                   __Pyx_DECREF(__pyx_t_24); __pyx_t_24 = 0;
-                  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 388, __pyx_L17_error)
+                  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 391, __pyx_L18_error)
                   __Pyx_GOTREF(__pyx_t_1);
                   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
                 }
-                __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_lns, __pyx_t_1); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 388, __pyx_L17_error)
+                __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_lns, __pyx_t_1); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 391, __pyx_L18_error)
                 __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-                /* "geom.pyx":387
+                /* "geom.pyx":390
  *                     pd = kg.project(Point(coords[cidx]))
  *                     if pd > j:
  *                         if prevpt is None:             # <<<<<<<<<<<<<<
  *                             lns.append(LineString(coords[:cidx] + [(p.x, p.y)]))
  *                         elif stidx == cidx:
  */
-                goto __pyx_L33;
+                goto __pyx_L34;
               }
 
-              /* "geom.pyx":389
+              /* "geom.pyx":392
  *                         if prevpt is None:
  *                             lns.append(LineString(coords[:cidx] + [(p.x, p.y)]))
  *                         elif stidx == cidx:             # <<<<<<<<<<<<<<
@@ -31568,45 +31605,45 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
               __pyx_t_5 = (__pyx_v_stidx == __pyx_v_cidx);
               if (__pyx_t_5) {
 
-                /* "geom.pyx":390
+                /* "geom.pyx":393
  *                             lns.append(LineString(coords[:cidx] + [(p.x, p.y)]))
  *                         elif stidx == cidx:
  *                             lns.append(LineString([(prevpt.x, prevpt.y), (p.x, p.y)]))             # <<<<<<<<<<<<<<
  *                         else:
  *                             lns.append(LineString([(prevpt.x, prevpt.y)] + coords[stidx:cidx] + [(p.x, p.y)]))
  */
-                __Pyx_GetModuleGlobalName(__pyx_t_13, __pyx_n_s_LineString); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 390, __pyx_L17_error)
+                __Pyx_GetModuleGlobalName(__pyx_t_13, __pyx_n_s_LineString); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 393, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_13);
-                __pyx_t_24 = __Pyx_PyObject_GetAttrStr(__pyx_v_prevpt, __pyx_n_s_x); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 390, __pyx_L17_error)
+                __pyx_t_24 = __Pyx_PyObject_GetAttrStr(__pyx_v_prevpt, __pyx_n_s_x); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 393, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_24);
-                __pyx_t_23 = __Pyx_PyObject_GetAttrStr(__pyx_v_prevpt, __pyx_n_s_y); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 390, __pyx_L17_error)
+                __pyx_t_23 = __Pyx_PyObject_GetAttrStr(__pyx_v_prevpt, __pyx_n_s_y); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 393, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_23);
-                __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 390, __pyx_L17_error)
+                __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 393, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_2);
                 __Pyx_GIVEREF(__pyx_t_24);
-                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_24)) __PYX_ERR(0, 390, __pyx_L17_error);
+                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_24)) __PYX_ERR(0, 393, __pyx_L18_error);
                 __Pyx_GIVEREF(__pyx_t_23);
-                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_23)) __PYX_ERR(0, 390, __pyx_L17_error);
+                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_23)) __PYX_ERR(0, 393, __pyx_L18_error);
                 __pyx_t_24 = 0;
                 __pyx_t_23 = 0;
-                __pyx_t_23 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_n_s_x); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 390, __pyx_L17_error)
+                __pyx_t_23 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_n_s_x); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 393, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_23);
-                __pyx_t_24 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_n_s_y); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 390, __pyx_L17_error)
+                __pyx_t_24 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_n_s_y); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 393, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_24);
-                __pyx_t_19 = PyTuple_New(2); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 390, __pyx_L17_error)
+                __pyx_t_19 = PyTuple_New(2); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 393, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_19);
                 __Pyx_GIVEREF(__pyx_t_23);
-                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_19, 0, __pyx_t_23)) __PYX_ERR(0, 390, __pyx_L17_error);
+                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_19, 0, __pyx_t_23)) __PYX_ERR(0, 393, __pyx_L18_error);
                 __Pyx_GIVEREF(__pyx_t_24);
-                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_19, 1, __pyx_t_24)) __PYX_ERR(0, 390, __pyx_L17_error);
+                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_19, 1, __pyx_t_24)) __PYX_ERR(0, 393, __pyx_L18_error);
                 __pyx_t_23 = 0;
                 __pyx_t_24 = 0;
-                __pyx_t_24 = PyList_New(2); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 390, __pyx_L17_error)
+                __pyx_t_24 = PyList_New(2); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 393, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_24);
                 __Pyx_GIVEREF(__pyx_t_2);
-                if (__Pyx_PyList_SET_ITEM(__pyx_t_24, 0, __pyx_t_2)) __PYX_ERR(0, 390, __pyx_L17_error);
+                if (__Pyx_PyList_SET_ITEM(__pyx_t_24, 0, __pyx_t_2)) __PYX_ERR(0, 393, __pyx_L18_error);
                 __Pyx_GIVEREF(__pyx_t_19);
-                if (__Pyx_PyList_SET_ITEM(__pyx_t_24, 1, __pyx_t_19)) __PYX_ERR(0, 390, __pyx_L17_error);
+                if (__Pyx_PyList_SET_ITEM(__pyx_t_24, 1, __pyx_t_19)) __PYX_ERR(0, 393, __pyx_L18_error);
                 __pyx_t_2 = 0;
                 __pyx_t_19 = 0;
                 __pyx_t_19 = NULL;
@@ -31628,24 +31665,24 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
                   __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_13, __pyx_callargs+1-__pyx_t_16, 1+__pyx_t_16);
                   __Pyx_XDECREF(__pyx_t_19); __pyx_t_19 = 0;
                   __Pyx_DECREF(__pyx_t_24); __pyx_t_24 = 0;
-                  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 390, __pyx_L17_error)
+                  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 393, __pyx_L18_error)
                   __Pyx_GOTREF(__pyx_t_1);
                   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
                 }
-                __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_lns, __pyx_t_1); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 390, __pyx_L17_error)
+                __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_lns, __pyx_t_1); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 393, __pyx_L18_error)
                 __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-                /* "geom.pyx":389
+                /* "geom.pyx":392
  *                         if prevpt is None:
  *                             lns.append(LineString(coords[:cidx] + [(p.x, p.y)]))
  *                         elif stidx == cidx:             # <<<<<<<<<<<<<<
  *                             lns.append(LineString([(prevpt.x, prevpt.y), (p.x, p.y)]))
  *                         else:
  */
-                goto __pyx_L33;
+                goto __pyx_L34;
               }
 
-              /* "geom.pyx":392
+              /* "geom.pyx":395
  *                             lns.append(LineString([(prevpt.x, prevpt.y), (p.x, p.y)]))
  *                         else:
  *                             lns.append(LineString([(prevpt.x, prevpt.y)] + coords[stidx:cidx] + [(p.x, p.y)]))             # <<<<<<<<<<<<<<
@@ -31653,49 +31690,49 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
  *                         prevpt = p
  */
               /*else*/ {
-                __Pyx_GetModuleGlobalName(__pyx_t_13, __pyx_n_s_LineString); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 392, __pyx_L17_error)
+                __Pyx_GetModuleGlobalName(__pyx_t_13, __pyx_n_s_LineString); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 395, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_13);
-                __pyx_t_24 = __Pyx_PyObject_GetAttrStr(__pyx_v_prevpt, __pyx_n_s_x); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 392, __pyx_L17_error)
+                __pyx_t_24 = __Pyx_PyObject_GetAttrStr(__pyx_v_prevpt, __pyx_n_s_x); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 395, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_24);
-                __pyx_t_19 = __Pyx_PyObject_GetAttrStr(__pyx_v_prevpt, __pyx_n_s_y); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 392, __pyx_L17_error)
+                __pyx_t_19 = __Pyx_PyObject_GetAttrStr(__pyx_v_prevpt, __pyx_n_s_y); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 395, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_19);
-                __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 392, __pyx_L17_error)
+                __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 395, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_2);
                 __Pyx_GIVEREF(__pyx_t_24);
-                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_24)) __PYX_ERR(0, 392, __pyx_L17_error);
+                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_24)) __PYX_ERR(0, 395, __pyx_L18_error);
                 __Pyx_GIVEREF(__pyx_t_19);
-                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_19)) __PYX_ERR(0, 392, __pyx_L17_error);
+                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_19)) __PYX_ERR(0, 395, __pyx_L18_error);
                 __pyx_t_24 = 0;
                 __pyx_t_19 = 0;
-                __pyx_t_19 = PyList_New(1); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 392, __pyx_L17_error)
+                __pyx_t_19 = PyList_New(1); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 395, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_19);
                 __Pyx_GIVEREF(__pyx_t_2);
-                if (__Pyx_PyList_SET_ITEM(__pyx_t_19, 0, __pyx_t_2)) __PYX_ERR(0, 392, __pyx_L17_error);
+                if (__Pyx_PyList_SET_ITEM(__pyx_t_19, 0, __pyx_t_2)) __PYX_ERR(0, 395, __pyx_L18_error);
                 __pyx_t_2 = 0;
-                __pyx_t_2 = __Pyx_PyList_GetSlice(__pyx_v_coords, __pyx_v_stidx, __pyx_v_cidx); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 392, __pyx_L17_error)
+                __pyx_t_2 = __Pyx_PyList_GetSlice(__pyx_v_coords, __pyx_v_stidx, __pyx_v_cidx); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 395, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_2);
-                __pyx_t_24 = PyNumber_Add(__pyx_t_19, __pyx_t_2); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 392, __pyx_L17_error)
+                __pyx_t_24 = PyNumber_Add(__pyx_t_19, __pyx_t_2); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 395, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_24);
                 __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
                 __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-                __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_n_s_x); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 392, __pyx_L17_error)
+                __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_n_s_x); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 395, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_2);
-                __pyx_t_19 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_n_s_y); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 392, __pyx_L17_error)
+                __pyx_t_19 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_n_s_y); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 395, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_19);
-                __pyx_t_23 = PyTuple_New(2); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 392, __pyx_L17_error)
+                __pyx_t_23 = PyTuple_New(2); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 395, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_23);
                 __Pyx_GIVEREF(__pyx_t_2);
-                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_23, 0, __pyx_t_2)) __PYX_ERR(0, 392, __pyx_L17_error);
+                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_23, 0, __pyx_t_2)) __PYX_ERR(0, 395, __pyx_L18_error);
                 __Pyx_GIVEREF(__pyx_t_19);
-                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_23, 1, __pyx_t_19)) __PYX_ERR(0, 392, __pyx_L17_error);
+                if (__Pyx_PyTuple_SET_ITEM(__pyx_t_23, 1, __pyx_t_19)) __PYX_ERR(0, 395, __pyx_L18_error);
                 __pyx_t_2 = 0;
                 __pyx_t_19 = 0;
-                __pyx_t_19 = PyList_New(1); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 392, __pyx_L17_error)
+                __pyx_t_19 = PyList_New(1); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 395, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_19);
                 __Pyx_GIVEREF(__pyx_t_23);
-                if (__Pyx_PyList_SET_ITEM(__pyx_t_19, 0, __pyx_t_23)) __PYX_ERR(0, 392, __pyx_L17_error);
+                if (__Pyx_PyList_SET_ITEM(__pyx_t_19, 0, __pyx_t_23)) __PYX_ERR(0, 395, __pyx_L18_error);
                 __pyx_t_23 = 0;
-                __pyx_t_23 = PyNumber_Add(__pyx_t_24, __pyx_t_19); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 392, __pyx_L17_error)
+                __pyx_t_23 = PyNumber_Add(__pyx_t_24, __pyx_t_19); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 395, __pyx_L18_error)
                 __Pyx_GOTREF(__pyx_t_23);
                 __Pyx_DECREF(__pyx_t_24); __pyx_t_24 = 0;
                 __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
@@ -31718,16 +31755,16 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
                   __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_13, __pyx_callargs+1-__pyx_t_16, 1+__pyx_t_16);
                   __Pyx_XDECREF(__pyx_t_19); __pyx_t_19 = 0;
                   __Pyx_DECREF(__pyx_t_23); __pyx_t_23 = 0;
-                  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 392, __pyx_L17_error)
+                  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 395, __pyx_L18_error)
                   __Pyx_GOTREF(__pyx_t_1);
                   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
                 }
-                __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_lns, __pyx_t_1); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 392, __pyx_L17_error)
+                __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_lns, __pyx_t_1); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 395, __pyx_L18_error)
                 __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
               }
-              __pyx_L33:;
+              __pyx_L34:;
 
-              /* "geom.pyx":393
+              /* "geom.pyx":396
  *                         else:
  *                             lns.append(LineString([(prevpt.x, prevpt.y)] + coords[stidx:cidx] + [(p.x, p.y)]))
  *                         stidx = cidx             # <<<<<<<<<<<<<<
@@ -31736,7 +31773,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
  */
               __pyx_v_stidx = __pyx_v_cidx;
 
-              /* "geom.pyx":394
+              /* "geom.pyx":397
  *                             lns.append(LineString([(prevpt.x, prevpt.y)] + coords[stidx:cidx] + [(p.x, p.y)]))
  *                         stidx = cidx
  *                         prevpt = p             # <<<<<<<<<<<<<<
@@ -31746,16 +31783,16 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
               __Pyx_INCREF(__pyx_v_p);
               __Pyx_DECREF_SET(__pyx_v_prevpt, __pyx_v_p);
 
-              /* "geom.pyx":395
+              /* "geom.pyx":398
  *                         stidx = cidx
  *                         prevpt = p
  *                         break             # <<<<<<<<<<<<<<
  *                     cidx += 1
  *             if prevpt is not None:
  */
-              goto __pyx_L30_break;
+              goto __pyx_L31_break;
 
-              /* "geom.pyx":386
+              /* "geom.pyx":389
  *                         break
  *                     pd = kg.project(Point(coords[cidx]))
  *                     if pd > j:             # <<<<<<<<<<<<<<
@@ -31764,7 +31801,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
  */
             }
 
-            /* "geom.pyx":396
+            /* "geom.pyx":399
  *                         prevpt = p
  *                         break
  *                     cidx += 1             # <<<<<<<<<<<<<<
@@ -31773,9 +31810,9 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
  */
             __pyx_v_cidx = (__pyx_v_cidx + 1);
           }
-          __pyx_L30_break:;
+          __pyx_L31_break:;
 
-          /* "geom.pyx":381
+          /* "geom.pyx":384
  *         prevpt = None
  *         try:
  *             for p, j in zip(ixpt, ixpj):             # <<<<<<<<<<<<<<
@@ -31785,45 +31822,45 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
         }
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "geom.pyx":397
+        /* "geom.pyx":400
  *                         break
  *                     cidx += 1
  *             if prevpt is not None:             # <<<<<<<<<<<<<<
  *                 lns.append(LineString([(prevpt.x, prevpt.y)] + coords[stidx:]))
- *             if ExtendLines > 0.0:
+ *             if lns[0].length < ExtendLinesB:
  */
         __pyx_t_5 = (__pyx_v_prevpt != Py_None);
         if (__pyx_t_5) {
 
-          /* "geom.pyx":398
+          /* "geom.pyx":401
  *                     cidx += 1
  *             if prevpt is not None:
  *                 lns.append(LineString([(prevpt.x, prevpt.y)] + coords[stidx:]))             # <<<<<<<<<<<<<<
- *             if ExtendLines > 0.0:
- *                 if lns[0].length < ExtendLinesB:
+ *             if lns[0].length < ExtendLinesB:
+ *                 lns.pop(0)
  */
-          __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_LineString); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 398, __pyx_L17_error)
+          __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_LineString); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 401, __pyx_L18_error)
           __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_prevpt, __pyx_n_s_x); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 398, __pyx_L17_error)
+          __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_prevpt, __pyx_n_s_x); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 401, __pyx_L18_error)
           __Pyx_GOTREF(__pyx_t_13);
-          __pyx_t_23 = __Pyx_PyObject_GetAttrStr(__pyx_v_prevpt, __pyx_n_s_y); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 398, __pyx_L17_error)
+          __pyx_t_23 = __Pyx_PyObject_GetAttrStr(__pyx_v_prevpt, __pyx_n_s_y); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 401, __pyx_L18_error)
           __Pyx_GOTREF(__pyx_t_23);
-          __pyx_t_19 = PyTuple_New(2); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 398, __pyx_L17_error)
+          __pyx_t_19 = PyTuple_New(2); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 401, __pyx_L18_error)
           __Pyx_GOTREF(__pyx_t_19);
           __Pyx_GIVEREF(__pyx_t_13);
-          if (__Pyx_PyTuple_SET_ITEM(__pyx_t_19, 0, __pyx_t_13)) __PYX_ERR(0, 398, __pyx_L17_error);
+          if (__Pyx_PyTuple_SET_ITEM(__pyx_t_19, 0, __pyx_t_13)) __PYX_ERR(0, 401, __pyx_L18_error);
           __Pyx_GIVEREF(__pyx_t_23);
-          if (__Pyx_PyTuple_SET_ITEM(__pyx_t_19, 1, __pyx_t_23)) __PYX_ERR(0, 398, __pyx_L17_error);
+          if (__Pyx_PyTuple_SET_ITEM(__pyx_t_19, 1, __pyx_t_23)) __PYX_ERR(0, 401, __pyx_L18_error);
           __pyx_t_13 = 0;
           __pyx_t_23 = 0;
-          __pyx_t_23 = PyList_New(1); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 398, __pyx_L17_error)
+          __pyx_t_23 = PyList_New(1); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 401, __pyx_L18_error)
           __Pyx_GOTREF(__pyx_t_23);
           __Pyx_GIVEREF(__pyx_t_19);
-          if (__Pyx_PyList_SET_ITEM(__pyx_t_23, 0, __pyx_t_19)) __PYX_ERR(0, 398, __pyx_L17_error);
+          if (__Pyx_PyList_SET_ITEM(__pyx_t_23, 0, __pyx_t_19)) __PYX_ERR(0, 401, __pyx_L18_error);
           __pyx_t_19 = 0;
-          __pyx_t_19 = __Pyx_PyList_GetSlice(__pyx_v_coords, __pyx_v_stidx, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 398, __pyx_L17_error)
+          __pyx_t_19 = __Pyx_PyList_GetSlice(__pyx_v_coords, __pyx_v_stidx, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 401, __pyx_L18_error)
           __Pyx_GOTREF(__pyx_t_19);
-          __pyx_t_13 = PyNumber_Add(__pyx_t_23, __pyx_t_19); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 398, __pyx_L17_error)
+          __pyx_t_13 = PyNumber_Add(__pyx_t_23, __pyx_t_19); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 401, __pyx_L18_error)
           __Pyx_GOTREF(__pyx_t_13);
           __Pyx_DECREF(__pyx_t_23); __pyx_t_23 = 0;
           __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
@@ -31846,127 +31883,108 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
             __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_16, 1+__pyx_t_16);
             __Pyx_XDECREF(__pyx_t_19); __pyx_t_19 = 0;
             __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 398, __pyx_L17_error)
+            if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 401, __pyx_L18_error)
             __Pyx_GOTREF(__pyx_t_3);
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           }
-          __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_lns, __pyx_t_3); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 398, __pyx_L17_error)
+          __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_lns, __pyx_t_3); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 401, __pyx_L18_error)
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-          /* "geom.pyx":397
+          /* "geom.pyx":400
  *                         break
  *                     cidx += 1
  *             if prevpt is not None:             # <<<<<<<<<<<<<<
  *                 lns.append(LineString([(prevpt.x, prevpt.y)] + coords[stidx:]))
- *             if ExtendLines > 0.0:
+ *             if lns[0].length < ExtendLinesB:
  */
         }
 
-        /* "geom.pyx":399
+        /* "geom.pyx":402
  *             if prevpt is not None:
  *                 lns.append(LineString([(prevpt.x, prevpt.y)] + coords[stidx:]))
- *             if ExtendLines > 0.0:             # <<<<<<<<<<<<<<
- *                 if lns[0].length < ExtendLinesB:
- *                     lns.pop(0)
+ *             if lns[0].length < ExtendLinesB:             # <<<<<<<<<<<<<<
+ *                 lns.pop(0)
+ *             if lns[-1].length < ExtendLinesB:
  */
-        __pyx_t_3 = PyObject_RichCompare(__pyx_cur_scope->__pyx_v_ExtendLines, __pyx_float_0_0, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 399, __pyx_L17_error)
-        __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 399, __pyx_L17_error)
+        __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_lns, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 402, __pyx_L18_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_length); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 402, __pyx_L18_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        if (unlikely(!__pyx_v_ExtendLinesB)) { __Pyx_RaiseUnboundLocalError("ExtendLinesB"); __PYX_ERR(0, 402, __pyx_L18_error) }
+        __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_v_ExtendLinesB, Py_LT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 402, __pyx_L18_error)
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 402, __pyx_L18_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         if (__pyx_t_5) {
 
-          /* "geom.pyx":400
+          /* "geom.pyx":403
  *                 lns.append(LineString([(prevpt.x, prevpt.y)] + coords[stidx:]))
- *             if ExtendLines > 0.0:
- *                 if lns[0].length < ExtendLinesB:             # <<<<<<<<<<<<<<
- *                     lns.pop(0)
- *                 if lns[-1].length < ExtendLinesB:
+ *             if lns[0].length < ExtendLinesB:
+ *                 lns.pop(0)             # <<<<<<<<<<<<<<
+ *             if lns[-1].length < ExtendLinesB:
+ *                 lns.pop(-1)
  */
-          __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_lns, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 400, __pyx_L17_error)
+          __pyx_t_3 = __Pyx_PyList_PopIndex(__pyx_v_lns, __pyx_int_0, 0, 1, Py_ssize_t, PyInt_FromSsize_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 403, __pyx_L18_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_length); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 400, __pyx_L17_error)
-          __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_v_ExtendLinesB, Py_LT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 400, __pyx_L17_error)
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 400, __pyx_L17_error)
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (__pyx_t_5) {
-
-            /* "geom.pyx":401
- *             if ExtendLines > 0.0:
- *                 if lns[0].length < ExtendLinesB:
- *                     lns.pop(0)             # <<<<<<<<<<<<<<
- *                 if lns[-1].length < ExtendLinesB:
- *                     lns.pop(-1)
- */
-            __pyx_t_3 = __Pyx_PyList_PopIndex(__pyx_v_lns, __pyx_int_0, 0, 1, Py_ssize_t, PyInt_FromSsize_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 401, __pyx_L17_error)
-            __Pyx_GOTREF(__pyx_t_3);
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-            /* "geom.pyx":400
- *                 lns.append(LineString([(prevpt.x, prevpt.y)] + coords[stidx:]))
- *             if ExtendLines > 0.0:
- *                 if lns[0].length < ExtendLinesB:             # <<<<<<<<<<<<<<
- *                     lns.pop(0)
- *                 if lns[-1].length < ExtendLinesB:
- */
-          }
 
           /* "geom.pyx":402
- *                 if lns[0].length < ExtendLinesB:
- *                     lns.pop(0)
- *                 if lns[-1].length < ExtendLinesB:             # <<<<<<<<<<<<<<
- *                     lns.pop(-1)
- *             dfo.loc[k, 'geometry'] = MultiLineString(lns)
- */
-          __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_lns, -1L, long, 1, __Pyx_PyInt_From_long, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 402, __pyx_L17_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_length); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 402, __pyx_L17_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_v_ExtendLinesB, Py_LT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 402, __pyx_L17_error)
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 402, __pyx_L17_error)
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (__pyx_t_5) {
-
-            /* "geom.pyx":403
- *                     lns.pop(0)
- *                 if lns[-1].length < ExtendLinesB:
- *                     lns.pop(-1)             # <<<<<<<<<<<<<<
- *             dfo.loc[k, 'geometry'] = MultiLineString(lns)
- *         except:
- */
-            __pyx_t_3 = __Pyx_PyList_PopIndex(__pyx_v_lns, __pyx_int_neg_1, -1L, 1, Py_ssize_t, PyInt_FromSsize_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 403, __pyx_L17_error)
-            __Pyx_GOTREF(__pyx_t_3);
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-            /* "geom.pyx":402
- *                 if lns[0].length < ExtendLinesB:
- *                     lns.pop(0)
- *                 if lns[-1].length < ExtendLinesB:             # <<<<<<<<<<<<<<
- *                     lns.pop(-1)
- *             dfo.loc[k, 'geometry'] = MultiLineString(lns)
- */
-          }
-
-          /* "geom.pyx":399
  *             if prevpt is not None:
  *                 lns.append(LineString([(prevpt.x, prevpt.y)] + coords[stidx:]))
- *             if ExtendLines > 0.0:             # <<<<<<<<<<<<<<
- *                 if lns[0].length < ExtendLinesB:
- *                     lns.pop(0)
+ *             if lns[0].length < ExtendLinesB:             # <<<<<<<<<<<<<<
+ *                 lns.pop(0)
+ *             if lns[-1].length < ExtendLinesB:
  */
         }
 
         /* "geom.pyx":404
- *                 if lns[-1].length < ExtendLinesB:
- *                     lns.pop(-1)
+ *             if lns[0].length < ExtendLinesB:
+ *                 lns.pop(0)
+ *             if lns[-1].length < ExtendLinesB:             # <<<<<<<<<<<<<<
+ *                 lns.pop(-1)
+ *             dfo.loc[k, 'geometry'] = MultiLineString(lns)
+ */
+        __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_lns, -1L, long, 1, __Pyx_PyInt_From_long, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 404, __pyx_L18_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_length); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 404, __pyx_L18_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        if (unlikely(!__pyx_v_ExtendLinesB)) { __Pyx_RaiseUnboundLocalError("ExtendLinesB"); __PYX_ERR(0, 404, __pyx_L18_error) }
+        __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_v_ExtendLinesB, Py_LT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 404, __pyx_L18_error)
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 404, __pyx_L18_error)
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        if (__pyx_t_5) {
+
+          /* "geom.pyx":405
+ *                 lns.pop(0)
+ *             if lns[-1].length < ExtendLinesB:
+ *                 lns.pop(-1)             # <<<<<<<<<<<<<<
+ *             dfo.loc[k, 'geometry'] = MultiLineString(lns)
+ *         except:
+ */
+          __pyx_t_3 = __Pyx_PyList_PopIndex(__pyx_v_lns, __pyx_int_neg_1, -1L, 1, Py_ssize_t, PyInt_FromSsize_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 405, __pyx_L18_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+          /* "geom.pyx":404
+ *             if lns[0].length < ExtendLinesB:
+ *                 lns.pop(0)
+ *             if lns[-1].length < ExtendLinesB:             # <<<<<<<<<<<<<<
+ *                 lns.pop(-1)
+ *             dfo.loc[k, 'geometry'] = MultiLineString(lns)
+ */
+        }
+
+        /* "geom.pyx":406
+ *             if lns[-1].length < ExtendLinesB:
+ *                 lns.pop(-1)
  *             dfo.loc[k, 'geometry'] = MultiLineString(lns)             # <<<<<<<<<<<<<<
  *         except:
  *             pass
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_MultiLineString); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 404, __pyx_L17_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_MultiLineString); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 406, __pyx_L18_error)
         __Pyx_GOTREF(__pyx_t_1);
         __pyx_t_13 = NULL;
         __pyx_t_16 = 0;
@@ -31986,26 +32004,26 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
           PyObject *__pyx_callargs[2] = {__pyx_t_13, __pyx_v_lns};
           __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_16, 1+__pyx_t_16);
           __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-          if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 404, __pyx_L17_error)
+          if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 406, __pyx_L18_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         }
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_dfo, __pyx_n_s_loc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 404, __pyx_L17_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_dfo, __pyx_n_s_loc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 406, __pyx_L18_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 404, __pyx_L17_error)
+        __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 406, __pyx_L18_error)
         __Pyx_GOTREF(__pyx_t_13);
         __Pyx_INCREF(__pyx_v_k);
         __Pyx_GIVEREF(__pyx_v_k);
-        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_v_k)) __PYX_ERR(0, 404, __pyx_L17_error);
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_v_k)) __PYX_ERR(0, 406, __pyx_L18_error);
         __Pyx_INCREF(__pyx_n_s_geometry);
         __Pyx_GIVEREF(__pyx_n_s_geometry);
-        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_n_s_geometry)) __PYX_ERR(0, 404, __pyx_L17_error);
-        if (unlikely((PyObject_SetItem(__pyx_t_1, __pyx_t_13, __pyx_t_3) < 0))) __PYX_ERR(0, 404, __pyx_L17_error)
+        if (__Pyx_PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_n_s_geometry)) __PYX_ERR(0, 406, __pyx_L18_error);
+        if (unlikely((PyObject_SetItem(__pyx_t_1, __pyx_t_13, __pyx_t_3) < 0))) __PYX_ERR(0, 406, __pyx_L18_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "geom.pyx":380
+        /* "geom.pyx":383
  *         stidx = 0
  *         prevpt = None
  *         try:             # <<<<<<<<<<<<<<
@@ -32016,8 +32034,8 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
       __Pyx_XDECREF(__pyx_t_20); __pyx_t_20 = 0;
       __Pyx_XDECREF(__pyx_t_21); __pyx_t_21 = 0;
       __Pyx_XDECREF(__pyx_t_22); __pyx_t_22 = 0;
-      goto __pyx_L24_try_end;
-      __pyx_L17_error:;
+      goto __pyx_L25_try_end;
+      __pyx_L18_error:;
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_XDECREF(__pyx_t_19); __pyx_t_19 = 0;
@@ -32026,36 +32044,36 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
       __Pyx_XDECREF(__pyx_t_24); __pyx_t_24 = 0;
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "geom.pyx":405
- *                     lns.pop(-1)
+      /* "geom.pyx":407
+ *                 lns.pop(-1)
  *             dfo.loc[k, 'geometry'] = MultiLineString(lns)
  *         except:             # <<<<<<<<<<<<<<
  *             pass
- *     print(f'\t{cnt}/{numg} | {(cnt/numg):.1f}%')
+ *     print(f'\t{cnt}/{numg} | {(cnt/numg*100):.1f}%')
  */
       /*except:*/ {
         __Pyx_ErrRestore(0,0,0);
-        goto __pyx_L18_exception_handled;
+        goto __pyx_L19_exception_handled;
       }
-      __pyx_L18_exception_handled:;
+      __pyx_L19_exception_handled:;
       __Pyx_XGIVEREF(__pyx_t_20);
       __Pyx_XGIVEREF(__pyx_t_21);
       __Pyx_XGIVEREF(__pyx_t_22);
       __Pyx_ExceptionReset(__pyx_t_20, __pyx_t_21, __pyx_t_22);
-      __pyx_L24_try_end:;
+      __pyx_L25_try_end:;
     }
-    __pyx_L14_continue:;
+    __pyx_L15_continue:;
   }
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "geom.pyx":407
+  /* "geom.pyx":409
  *         except:
  *             pass
- *     print(f'\t{cnt}/{numg} | {(cnt/numg):.1f}%')             # <<<<<<<<<<<<<<
+ *     print(f'\t{cnt}/{numg} | {(cnt/numg*100):.1f}%')             # <<<<<<<<<<<<<<
  *     dfo = multilinestring_to_linestring(dfo)
- * 
+ *     print(f'\tNetworkSegmentIntersection splits from {len(dfNw)} lines to {len(dfo)} lines')
  */
-  __pyx_t_8 = PyTuple_New(7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 407, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 409, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_t_15 = 0;
   __pyx_t_18 = 127;
@@ -32063,7 +32081,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
   __pyx_t_15 += 1;
   __Pyx_GIVEREF(__pyx_kp_u__23);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_kp_u__23);
-  __pyx_t_3 = __Pyx_PyUnicode_From_int(__pyx_v_cnt, 0, ' ', 'd'); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 407, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyUnicode_From_int(__pyx_v_cnt, 0, ' ', 'd'); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 409, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_15 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_3);
@@ -32073,7 +32091,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
   __pyx_t_15 += 1;
   __Pyx_GIVEREF(__pyx_kp_u__24);
   PyTuple_SET_ITEM(__pyx_t_8, 2, __pyx_kp_u__24);
-  __pyx_t_3 = __Pyx_PyUnicode_From_int(__pyx_v_numg, 0, ' ', 'd'); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 407, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyUnicode_From_int(__pyx_v_numg, 0, ' ', 'd'); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 409, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_15 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_3);
@@ -32085,11 +32103,11 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
   PyTuple_SET_ITEM(__pyx_t_8, 4, __pyx_kp_u__25);
   if (unlikely(__pyx_v_numg == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 407, __pyx_L1_error)
+    __PYX_ERR(0, 409, __pyx_L1_error)
   }
-  __pyx_t_3 = PyFloat_FromDouble((((double)__pyx_v_cnt) / ((double)__pyx_v_numg))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 407, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(((((double)__pyx_v_cnt) / ((double)__pyx_v_numg)) * 100.0)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 409, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_13 = __Pyx_PyObject_Format(__pyx_t_3, __pyx_kp_u_1f); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 407, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PyObject_Format(__pyx_t_3, __pyx_kp_u_1f); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 409, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_18 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_13) > __pyx_t_18) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_13) : __pyx_t_18;
@@ -32101,22 +32119,22 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
   __pyx_t_15 += 1;
   __Pyx_GIVEREF(__pyx_kp_u__26);
   PyTuple_SET_ITEM(__pyx_t_8, 6, __pyx_kp_u__26);
-  __pyx_t_13 = __Pyx_PyUnicode_Join(__pyx_t_8, 7, __pyx_t_15, __pyx_t_18); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 407, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PyUnicode_Join(__pyx_t_8, 7, __pyx_t_15, __pyx_t_18); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 409, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_13); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 407, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_13); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 409, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "geom.pyx":408
+  /* "geom.pyx":410
  *             pass
- *     print(f'\t{cnt}/{numg} | {(cnt/numg):.1f}%')
+ *     print(f'\t{cnt}/{numg} | {(cnt/numg*100):.1f}%')
  *     dfo = multilinestring_to_linestring(dfo)             # <<<<<<<<<<<<<<
- * 
  *     print(f'\tNetworkSegmentIntersection splits from {len(dfNw)} lines to {len(dfo)} lines')
+ *     if DoublePass:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_13, __pyx_n_s_multilinestring_to_linestring); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 408, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_13, __pyx_n_s_multilinestring_to_linestring); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 410, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __pyx_t_3 = NULL;
   __pyx_t_4 = 0;
@@ -32136,21 +32154,21 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
     PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_v_dfo};
     __pyx_t_8 = __Pyx_PyObject_FastCall(__pyx_t_13, __pyx_callargs+1-__pyx_t_4, 1+__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 408, __pyx_L1_error)
+    if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 410, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
   }
   __Pyx_DECREF_SET(__pyx_v_dfo, __pyx_t_8);
   __pyx_t_8 = 0;
 
-  /* "geom.pyx":410
+  /* "geom.pyx":411
+ *     print(f'\t{cnt}/{numg} | {(cnt/numg*100):.1f}%')
  *     dfo = multilinestring_to_linestring(dfo)
- * 
  *     print(f'\tNetworkSegmentIntersection splits from {len(dfNw)} lines to {len(dfo)} lines')             # <<<<<<<<<<<<<<
  *     if DoublePass:
  *         print('\tRunning double pass')
  */
-  __pyx_t_8 = PyTuple_New(5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 410, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 411, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_t_15 = 0;
   __pyx_t_18 = 127;
@@ -32158,8 +32176,8 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
   __pyx_t_15 += 40;
   __Pyx_GIVEREF(__pyx_kp_u_NetworkSegmentIntersection_spli);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_kp_u_NetworkSegmentIntersection_spli);
-  __pyx_t_11 = PyObject_Length(__pyx_v_dfNw); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 410, __pyx_L1_error)
-  __pyx_t_13 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_t_11, 0, ' ', 'd'); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 410, __pyx_L1_error)
+  __pyx_t_11 = PyObject_Length(__pyx_v_dfNw); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 411, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_t_11, 0, ' ', 'd'); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 411, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __pyx_t_15 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_13);
   __Pyx_GIVEREF(__pyx_t_13);
@@ -32169,8 +32187,8 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
   __pyx_t_15 += 10;
   __Pyx_GIVEREF(__pyx_kp_u_lines_to);
   PyTuple_SET_ITEM(__pyx_t_8, 2, __pyx_kp_u_lines_to);
-  __pyx_t_11 = PyObject_Length(__pyx_v_dfo); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 410, __pyx_L1_error)
-  __pyx_t_13 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_t_11, 0, ' ', 'd'); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 410, __pyx_L1_error)
+  __pyx_t_11 = PyObject_Length(__pyx_v_dfo); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 411, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_t_11, 0, ' ', 'd'); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 411, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __pyx_t_15 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_13);
   __Pyx_GIVEREF(__pyx_t_13);
@@ -32180,57 +32198,57 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
   __pyx_t_15 += 6;
   __Pyx_GIVEREF(__pyx_kp_u_lines);
   PyTuple_SET_ITEM(__pyx_t_8, 4, __pyx_kp_u_lines);
-  __pyx_t_13 = __Pyx_PyUnicode_Join(__pyx_t_8, 5, __pyx_t_15, __pyx_t_18); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 410, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PyUnicode_Join(__pyx_t_8, 5, __pyx_t_15, __pyx_t_18); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 411, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_13); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 410, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_13); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 411, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "geom.pyx":411
- * 
+  /* "geom.pyx":412
+ *     dfo = multilinestring_to_linestring(dfo)
  *     print(f'\tNetworkSegmentIntersection splits from {len(dfNw)} lines to {len(dfo)} lines')
  *     if DoublePass:             # <<<<<<<<<<<<<<
  *         print('\tRunning double pass')
  *         dfo = NetworkSegmentIntersections(dfo, EndPoints=False, tol=tol, ExtendLines=ExtendLines, DoublePass=False, ForceCull=True)
  */
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_v_DoublePass); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 411, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_v_DoublePass); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 412, __pyx_L1_error)
   if (__pyx_t_5) {
 
-    /* "geom.pyx":412
+    /* "geom.pyx":413
  *     print(f'\tNetworkSegmentIntersection splits from {len(dfNw)} lines to {len(dfo)} lines')
  *     if DoublePass:
  *         print('\tRunning double pass')             # <<<<<<<<<<<<<<
  *         dfo = NetworkSegmentIntersections(dfo, EndPoints=False, tol=tol, ExtendLines=ExtendLines, DoublePass=False, ForceCull=True)
- * 
+ *     dfo = dfo[dfo.geometry.length > 0.05].reset_index()
  */
-    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 412, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 413, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "geom.pyx":413
+    /* "geom.pyx":414
  *     if DoublePass:
  *         print('\tRunning double pass')
  *         dfo = NetworkSegmentIntersections(dfo, EndPoints=False, tol=tol, ExtendLines=ExtendLines, DoublePass=False, ForceCull=True)             # <<<<<<<<<<<<<<
- * 
+ *     dfo = dfo[dfo.geometry.length > 0.05].reset_index()
  *     if EndPoints:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_NetworkSegmentIntersections); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 413, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_NetworkSegmentIntersections); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 414, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_13 = PyTuple_New(1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 413, __pyx_L1_error)
+    __pyx_t_13 = PyTuple_New(1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 414, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
     __Pyx_INCREF(__pyx_v_dfo);
     __Pyx_GIVEREF(__pyx_v_dfo);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_v_dfo)) __PYX_ERR(0, 413, __pyx_L1_error);
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 413, __pyx_L1_error)
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_v_dfo)) __PYX_ERR(0, 414, __pyx_L1_error);
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 414, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_EndPoints, Py_False) < 0) __PYX_ERR(0, 413, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_tol, __pyx_v_tol) < 0) __PYX_ERR(0, 413, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_ExtendLines, __pyx_cur_scope->__pyx_v_ExtendLines) < 0) __PYX_ERR(0, 413, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_DoublePass, Py_False) < 0) __PYX_ERR(0, 413, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_ForceCull, Py_True) < 0) __PYX_ERR(0, 413, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_13, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 413, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_EndPoints, Py_False) < 0) __PYX_ERR(0, 414, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_tol, __pyx_v_tol) < 0) __PYX_ERR(0, 414, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_ExtendLines, __pyx_cur_scope->__pyx_v_ExtendLines) < 0) __PYX_ERR(0, 414, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_DoublePass, Py_False) < 0) __PYX_ERR(0, 414, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_ForceCull, Py_True) < 0) __PYX_ERR(0, 414, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_13, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 414, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
@@ -32238,8 +32256,8 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
     __Pyx_DECREF_SET(__pyx_v_dfo, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "geom.pyx":411
- * 
+    /* "geom.pyx":412
+ *     dfo = multilinestring_to_linestring(dfo)
  *     print(f'\tNetworkSegmentIntersection splits from {len(dfNw)} lines to {len(dfo)} lines')
  *     if DoublePass:             # <<<<<<<<<<<<<<
  *         print('\tRunning double pass')
@@ -32248,23 +32266,68 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
   }
 
   /* "geom.pyx":415
+ *         print('\tRunning double pass')
  *         dfo = NetworkSegmentIntersections(dfo, EndPoints=False, tol=tol, ExtendLines=ExtendLines, DoublePass=False, ForceCull=True)
- * 
+ *     dfo = dfo[dfo.geometry.length > 0.05].reset_index()             # <<<<<<<<<<<<<<
+ *     if EndPoints:
+ *         ixdf = NetworkCompileIntersections(dfo, tol)
+ */
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_dfo, __pyx_n_s_geometry); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 415, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_length); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 415, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_13, __pyx_float_0_05, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 415, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+  __pyx_t_13 = __Pyx_PyObject_GetItem(__pyx_v_dfo, __pyx_t_3); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 415, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_13, __pyx_n_s_reset_index); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 415, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+  __pyx_t_13 = NULL;
+  __pyx_t_4 = 0;
+  #if CYTHON_UNPACK_METHODS
+  if (likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_13)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_13);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_4 = 1;
+    }
+  }
+  #endif
+  {
+    PyObject *__pyx_callargs[2] = {__pyx_t_13, NULL};
+    __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_4, 0+__pyx_t_4);
+    __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 415, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  }
+  __Pyx_DECREF_SET(__pyx_v_dfo, __pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "geom.pyx":416
+ *         dfo = NetworkSegmentIntersections(dfo, EndPoints=False, tol=tol, ExtendLines=ExtendLines, DoublePass=False, ForceCull=True)
+ *     dfo = dfo[dfo.geometry.length > 0.05].reset_index()
  *     if EndPoints:             # <<<<<<<<<<<<<<
  *         ixdf = NetworkCompileIntersections(dfo, tol)
  *         return dfo, ixdf
  */
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_v_EndPoints); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 415, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_v_EndPoints); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 416, __pyx_L1_error)
   if (__pyx_t_5) {
 
-    /* "geom.pyx":416
- * 
+    /* "geom.pyx":417
+ *     dfo = dfo[dfo.geometry.length > 0.05].reset_index()
  *     if EndPoints:
  *         ixdf = NetworkCompileIntersections(dfo, tol)             # <<<<<<<<<<<<<<
  *         return dfo, ixdf
  *     return dfo
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_NetworkCompileIntersections); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 416, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_NetworkCompileIntersections); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 417, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_13 = NULL;
     __pyx_t_4 = 0;
@@ -32284,14 +32347,14 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
       PyObject *__pyx_callargs[3] = {__pyx_t_13, __pyx_v_dfo, __pyx_v_tol};
       __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_4, 2+__pyx_t_4);
       __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 416, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 417, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
     __pyx_v_ixdf = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "geom.pyx":417
+    /* "geom.pyx":418
  *     if EndPoints:
  *         ixdf = NetworkCompileIntersections(dfo, tol)
  *         return dfo, ixdf             # <<<<<<<<<<<<<<
@@ -32299,28 +32362,28 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
  * 
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 417, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 418, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_v_dfo);
     __Pyx_GIVEREF(__pyx_v_dfo);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_dfo)) __PYX_ERR(0, 417, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_dfo)) __PYX_ERR(0, 418, __pyx_L1_error);
     __Pyx_INCREF(__pyx_v_ixdf);
     __Pyx_GIVEREF(__pyx_v_ixdf);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_ixdf)) __PYX_ERR(0, 417, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_ixdf)) __PYX_ERR(0, 418, __pyx_L1_error);
     __pyx_r = __pyx_t_1;
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "geom.pyx":415
+    /* "geom.pyx":416
  *         dfo = NetworkSegmentIntersections(dfo, EndPoints=False, tol=tol, ExtendLines=ExtendLines, DoublePass=False, ForceCull=True)
- * 
+ *     dfo = dfo[dfo.geometry.length > 0.05].reset_index()
  *     if EndPoints:             # <<<<<<<<<<<<<<
  *         ixdf = NetworkCompileIntersections(dfo, tol)
  *         return dfo, ixdf
  */
   }
 
-  /* "geom.pyx":418
+  /* "geom.pyx":419
  *         ixdf = NetworkCompileIntersections(dfo, tol)
  *         return dfo, ixdf
  *     return dfo             # <<<<<<<<<<<<<<
@@ -32386,7 +32449,7 @@ static PyObject *__pyx_pf_4geom_24NetworkSegmentIntersections(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "geom.pyx":425
+/* "geom.pyx":426
  * 
  * 
  * def MapEntries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist:float = 100.0, AttrNodeID:str='FID', AttrEdgeID:str='FID', EdgeCost:str|None=None):             # <<<<<<<<<<<<<<
@@ -32466,7 +32529,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 425, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 426, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -32474,42 +32537,42 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 425, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 426, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("MapEntries", 0, 2, 6, 1); __PYX_ERR(0, 425, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("MapEntries", 0, 2, 6, 1); __PYX_ERR(0, 426, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_EntryDist);
           if (value) { values[2] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 425, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 426, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_AttrNodeID);
           if (value) { values[3] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 425, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 426, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_AttrEdgeID);
           if (value) { values[4] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 425, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 426, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_EdgeCost);
           if (value) { values[5] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 425, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 426, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "MapEntries") < 0)) __PYX_ERR(0, 425, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "MapEntries") < 0)) __PYX_ERR(0, 426, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -32530,7 +32593,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
     __pyx_v_GphDf = values[0];
     __pyx_v_EntryDf = values[1];
     if (values[2]) {
-      __pyx_v_EntryDist = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_EntryDist == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 425, __pyx_L3_error)
+      __pyx_v_EntryDist = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_EntryDist == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 426, __pyx_L3_error)
     } else {
       __pyx_v_EntryDist = ((double)((double)100.0));
     }
@@ -32540,7 +32603,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("MapEntries", 0, 2, 6, __pyx_nargs); __PYX_ERR(0, 425, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("MapEntries", 0, 2, 6, __pyx_nargs); __PYX_ERR(0, 426, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -32554,8 +32617,8 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_AttrNodeID), (&PyString_Type), 0, "AttrNodeID", 1))) __PYX_ERR(0, 425, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_AttrEdgeID), (&PyString_Type), 0, "AttrEdgeID", 1))) __PYX_ERR(0, 425, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_AttrNodeID), (&PyString_Type), 0, "AttrNodeID", 1))) __PYX_ERR(0, 426, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_AttrEdgeID), (&PyString_Type), 0, "AttrEdgeID", 1))) __PYX_ERR(0, 426, __pyx_L1_error)
   __pyx_r = __pyx_pf_4geom_26MapEntries(__pyx_self, __pyx_v_GphDf, __pyx_v_EntryDf, __pyx_v_EntryDist, __pyx_v_AttrNodeID, __pyx_v_AttrEdgeID, __pyx_v_EdgeCost);
 
   /* function exit code */
@@ -32607,45 +32670,45 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("MapEntries", 1);
 
-  /* "geom.pyx":431
+  /* "geom.pyx":432
  *     # cdef int EntriesN = len(EntryDf)
  *     # cdef EntryMap* Entryinfo = <EntryMap*>malloc(EntriesN * sizeof(EntryMap))
  *     EntryInfo = []             # <<<<<<<<<<<<<<
  *     NearestMatch = GphDf.geometry.sindex.nearest(EntryDf.geometry, return_all=False,  return_distance=True)
  *     EdgeMatch = NearestMatch[0][1]
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 431, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 432, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_EntryInfo = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "geom.pyx":432
+  /* "geom.pyx":433
  *     # cdef EntryMap* Entryinfo = <EntryMap*>malloc(EntriesN * sizeof(EntryMap))
  *     EntryInfo = []
  *     NearestMatch = GphDf.geometry.sindex.nearest(EntryDf.geometry, return_all=False,  return_distance=True)             # <<<<<<<<<<<<<<
  *     EdgeMatch = NearestMatch[0][1]
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_GphDf, __pyx_n_s_geometry); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_GphDf, __pyx_n_s_geometry); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 433, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_sindex); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_sindex); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 433, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_nearest); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_nearest); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 433, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_EntryDf, __pyx_n_s_geometry); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_EntryDf, __pyx_n_s_geometry); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 433, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 433, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2)) __PYX_ERR(0, 432, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2)) __PYX_ERR(0, 433, __pyx_L1_error);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 433, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_return_all, Py_False) < 0) __PYX_ERR(0, 432, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_return_distance, Py_True) < 0) __PYX_ERR(0, 432, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 432, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_return_all, Py_False) < 0) __PYX_ERR(0, 433, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_return_distance, Py_True) < 0) __PYX_ERR(0, 433, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 433, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -32653,65 +32716,65 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_v_NearestMatch = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "geom.pyx":433
+  /* "geom.pyx":434
  *     EntryInfo = []
  *     NearestMatch = GphDf.geometry.sindex.nearest(EntryDf.geometry, return_all=False,  return_distance=True)
  *     EdgeMatch = NearestMatch[0][1]             # <<<<<<<<<<<<<<
  * 
  *     EntryCtr = EntryDf.geometry.centroid.values
  */
-  __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_NearestMatch, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_NearestMatch, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 434, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_4, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_4, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 434, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_EdgeMatch = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "geom.pyx":435
+  /* "geom.pyx":436
  *     EdgeMatch = NearestMatch[0][1]
  * 
  *     EntryCtr = EntryDf.geometry.centroid.values             # <<<<<<<<<<<<<<
  *     EdgeMatch_geom = GphDf.geometry.values[EdgeMatch]
  *     Match_distO = EdgeMatch_geom.project(EntryCtr)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_EntryDf, __pyx_n_s_geometry); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 435, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_EntryDf, __pyx_n_s_geometry); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 436, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_centroid); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 435, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_centroid); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 436, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_values); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 435, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_values); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 436, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_EntryCtr = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "geom.pyx":436
+  /* "geom.pyx":437
  * 
  *     EntryCtr = EntryDf.geometry.centroid.values
  *     EdgeMatch_geom = GphDf.geometry.values[EdgeMatch]             # <<<<<<<<<<<<<<
  *     Match_distO = EdgeMatch_geom.project(EntryCtr)
  *     Match_distD = EdgeMatch_geom.length - Match_distO
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_GphDf, __pyx_n_s_geometry); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 436, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_GphDf, __pyx_n_s_geometry); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 437, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_values); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 436, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_values); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 437, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_EdgeMatch); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 436, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_EdgeMatch); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 437, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_EdgeMatch_geom = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "geom.pyx":437
+  /* "geom.pyx":438
  *     EntryCtr = EntryDf.geometry.centroid.values
  *     EdgeMatch_geom = GphDf.geometry.values[EdgeMatch]
  *     Match_distO = EdgeMatch_geom.project(EntryCtr)             # <<<<<<<<<<<<<<
  *     Match_distD = EdgeMatch_geom.length - Match_distO
  *     Match_ixPt = EdgeMatch_geom.interpolate(Match_distO)
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_EdgeMatch_geom, __pyx_n_s_project); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 437, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_EdgeMatch_geom, __pyx_n_s_project); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 438, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_3 = NULL;
   __pyx_t_5 = 0;
@@ -32731,36 +32794,36 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
     PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_v_EntryCtr};
     __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 437, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 438, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __pyx_v_Match_distO = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "geom.pyx":438
+  /* "geom.pyx":439
  *     EdgeMatch_geom = GphDf.geometry.values[EdgeMatch]
  *     Match_distO = EdgeMatch_geom.project(EntryCtr)
  *     Match_distD = EdgeMatch_geom.length - Match_distO             # <<<<<<<<<<<<<<
  *     Match_ixPt = EdgeMatch_geom.interpolate(Match_distO)
  *     Match_Eid = GphDf.index.values[EdgeMatch]
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_EdgeMatch_geom, __pyx_n_s_length); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 438, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_EdgeMatch_geom, __pyx_n_s_length); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 439, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = PyNumber_Subtract(__pyx_t_2, __pyx_v_Match_distO); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 438, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Subtract(__pyx_t_2, __pyx_v_Match_distO); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 439, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_Match_distD = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "geom.pyx":439
+  /* "geom.pyx":440
  *     Match_distO = EdgeMatch_geom.project(EntryCtr)
  *     Match_distD = EdgeMatch_geom.length - Match_distO
  *     Match_ixPt = EdgeMatch_geom.interpolate(Match_distO)             # <<<<<<<<<<<<<<
  *     Match_Eid = GphDf.index.values[EdgeMatch]
  *     Match_distx = NearestMatch[1]
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_EdgeMatch_geom, __pyx_n_s_interpolate); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 439, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_EdgeMatch_geom, __pyx_n_s_interpolate); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 440, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   __pyx_t_5 = 0;
@@ -32780,67 +32843,67 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
     PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_v_Match_distO};
     __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 439, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 440, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __pyx_v_Match_ixPt = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "geom.pyx":440
+  /* "geom.pyx":441
  *     Match_distD = EdgeMatch_geom.length - Match_distO
  *     Match_ixPt = EdgeMatch_geom.interpolate(Match_distO)
  *     Match_Eid = GphDf.index.values[EdgeMatch]             # <<<<<<<<<<<<<<
  *     Match_distx = NearestMatch[1]
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_GphDf, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 440, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_GphDf, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 441, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_values); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 440, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_values); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 441, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_EdgeMatch); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 440, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_EdgeMatch); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 441, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_Match_Eid = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "geom.pyx":441
+  /* "geom.pyx":442
  *     Match_ixPt = EdgeMatch_geom.interpolate(Match_distO)
  *     Match_Eid = GphDf.index.values[EdgeMatch]
  *     Match_distx = NearestMatch[1]             # <<<<<<<<<<<<<<
  * 
  *     cullp = Match_distx > EntryDist
  */
-  __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_NearestMatch, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 441, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_NearestMatch, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 442, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_v_Match_distx = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "geom.pyx":443
+  /* "geom.pyx":444
  *     Match_distx = NearestMatch[1]
  * 
  *     cullp = Match_distx > EntryDist             # <<<<<<<<<<<<<<
  *     # cull by dist
  *     if np.sum(cullp) > 0.0:
  */
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_EntryDist); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 443, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_EntryDist); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 444, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = PyObject_RichCompare(__pyx_v_Match_distx, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 443, __pyx_L1_error)
+  __pyx_t_2 = PyObject_RichCompare(__pyx_v_Match_distx, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 444, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_cullp = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "geom.pyx":445
+  /* "geom.pyx":446
  *     cullp = Match_distx > EntryDist
  *     # cull by dist
  *     if np.sum(cullp) > 0.0:             # <<<<<<<<<<<<<<
  *         Match_Eid[cullp] = -1
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 445, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 446, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_sum); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 445, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_sum); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 446, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -32861,26 +32924,26 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
     PyObject *__pyx_callargs[2] = {__pyx_t_4, __pyx_v_cullp};
     __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 445, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 446, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_2, __pyx_float_0_0, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 445, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_2, __pyx_float_0_0, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 446, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 445, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 446, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_6) {
 
-    /* "geom.pyx":446
+    /* "geom.pyx":447
  *     # cull by dist
  *     if np.sum(cullp) > 0.0:
  *         Match_Eid[cullp] = -1             # <<<<<<<<<<<<<<
  * 
  *     if EdgeCost is not None:
  */
-    if (unlikely((PyObject_SetItem(__pyx_v_Match_Eid, __pyx_v_cullp, __pyx_int_neg_1) < 0))) __PYX_ERR(0, 446, __pyx_L1_error)
+    if (unlikely((PyObject_SetItem(__pyx_v_Match_Eid, __pyx_v_cullp, __pyx_int_neg_1) < 0))) __PYX_ERR(0, 447, __pyx_L1_error)
 
-    /* "geom.pyx":445
+    /* "geom.pyx":446
  *     cullp = Match_distx > EntryDist
  *     # cull by dist
  *     if np.sum(cullp) > 0.0:             # <<<<<<<<<<<<<<
@@ -32889,7 +32952,7 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
  */
   }
 
-  /* "geom.pyx":448
+  /* "geom.pyx":449
  *         Match_Eid[cullp] = -1
  * 
  *     if EdgeCost is not None:             # <<<<<<<<<<<<<<
@@ -32899,71 +32962,71 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_t_6 = (__pyx_v_EdgeCost != Py_None);
   if (__pyx_t_6) {
 
-    /* "geom.pyx":449
+    /* "geom.pyx":450
  * 
  *     if EdgeCost is not None:
  *         EntryInfo = pd.DataFrame({             # <<<<<<<<<<<<<<
  *             'fid':EntryDf.index,
  *             'lnID':Match_Eid,
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pd); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 449, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pd); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 450, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 449, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 450, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "geom.pyx":450
+    /* "geom.pyx":451
  *     if EdgeCost is not None:
  *         EntryInfo = pd.DataFrame({
  *             'fid':EntryDf.index,             # <<<<<<<<<<<<<<
  *             'lnID':Match_Eid,
  *             'ixDs':Match_distx,
  */
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 450, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 451, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_EntryDf, __pyx_n_s_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 450, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_EntryDf, __pyx_n_s_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 451, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_fid, __pyx_t_1) < 0) __PYX_ERR(0, 450, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_fid, __pyx_t_1) < 0) __PYX_ERR(0, 451, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "geom.pyx":451
+    /* "geom.pyx":452
  *         EntryInfo = pd.DataFrame({
  *             'fid':EntryDf.index,
  *             'lnID':Match_Eid,             # <<<<<<<<<<<<<<
  *             'ixDs':Match_distx,
  *             'lnDist':np.vstack((Match_distO, Match_distD)).T.tolist(),
  */
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_lnID, __pyx_v_Match_Eid) < 0) __PYX_ERR(0, 450, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_lnID, __pyx_v_Match_Eid) < 0) __PYX_ERR(0, 451, __pyx_L1_error)
 
-    /* "geom.pyx":452
+    /* "geom.pyx":453
  *             'fid':EntryDf.index,
  *             'lnID':Match_Eid,
  *             'ixDs':Match_distx,             # <<<<<<<<<<<<<<
  *             'lnDist':np.vstack((Match_distO, Match_distD)).T.tolist(),
  *             'ixPt':np.vstack((Match_ixPt.x, Match_ixPt.y, np.zeros(Match_ixPt.shape, dtype=np.float32))).T.tolist(),
  */
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_ixDs, __pyx_v_Match_distx) < 0) __PYX_ERR(0, 450, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_ixDs, __pyx_v_Match_distx) < 0) __PYX_ERR(0, 451, __pyx_L1_error)
 
-    /* "geom.pyx":453
+    /* "geom.pyx":454
  *             'lnID':Match_Eid,
  *             'ixDs':Match_distx,
  *             'lnDist':np.vstack((Match_distO, Match_distD)).T.tolist(),             # <<<<<<<<<<<<<<
  *             'ixPt':np.vstack((Match_ixPt.x, Match_ixPt.y, np.zeros(Match_ixPt.shape, dtype=np.float32))).T.tolist(),
  *             'cost':GphDf[EdgeCost].values[EdgeMatch]
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 453, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 454, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_vstack); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 453, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_vstack); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 454, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 453, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 454, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_INCREF(__pyx_v_Match_distO);
     __Pyx_GIVEREF(__pyx_v_Match_distO);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_v_Match_distO)) __PYX_ERR(0, 453, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_v_Match_distO)) __PYX_ERR(0, 454, __pyx_L1_error);
     __Pyx_INCREF(__pyx_v_Match_distD);
     __Pyx_GIVEREF(__pyx_v_Match_distD);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_v_Match_distD)) __PYX_ERR(0, 453, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_v_Match_distD)) __PYX_ERR(0, 454, __pyx_L1_error);
     __pyx_t_10 = NULL;
     __pyx_t_5 = 0;
     #if CYTHON_UNPACK_METHODS
@@ -32983,14 +33046,14 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
       __pyx_t_7 = __Pyx_PyObject_FastCall(__pyx_t_9, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 453, __pyx_L1_error)
+      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 454, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     }
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_T); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 453, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_T); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 454, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_tolist); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 453, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_tolist); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 454, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_t_9 = NULL;
@@ -33011,63 +33074,63 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
       PyObject *__pyx_callargs[2] = {__pyx_t_9, NULL};
       __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_7, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 453, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 454, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_lnDist, __pyx_t_1) < 0) __PYX_ERR(0, 450, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_lnDist, __pyx_t_1) < 0) __PYX_ERR(0, 451, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "geom.pyx":454
+    /* "geom.pyx":455
  *             'ixDs':Match_distx,
  *             'lnDist':np.vstack((Match_distO, Match_distD)).T.tolist(),
  *             'ixPt':np.vstack((Match_ixPt.x, Match_ixPt.y, np.zeros(Match_ixPt.shape, dtype=np.float32))).T.tolist(),             # <<<<<<<<<<<<<<
  *             'cost':GphDf[EdgeCost].values[EdgeMatch]
  *             })
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_vstack); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_vstack); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_Match_ixPt, __pyx_n_s_x); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_Match_ixPt, __pyx_n_s_x); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_Match_ixPt, __pyx_n_s_y); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_Match_ixPt, __pyx_n_s_y); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_np); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_np); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_zeros); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_zeros); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_Match_ixPt, __pyx_n_s_shape); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_Match_ixPt, __pyx_n_s_shape); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    __pyx_t_13 = PyTuple_New(1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __pyx_t_13 = PyTuple_New(1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
     __Pyx_GIVEREF(__pyx_t_11);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_11)) __PYX_ERR(0, 454, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_11)) __PYX_ERR(0, 455, __pyx_L1_error);
     __pyx_t_11 = 0;
-    __pyx_t_11 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    __Pyx_GetModuleGlobalName(__pyx_t_14, __pyx_n_s_np); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_14, __pyx_n_s_np); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
-    __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_t_14, __pyx_n_s_float32); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_t_14, __pyx_n_s_float32); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_dtype, __pyx_t_15) < 0) __PYX_ERR(0, 454, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_dtype, __pyx_t_15) < 0) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __pyx_t_15 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_13, __pyx_t_11); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_13, __pyx_t_11); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __pyx_t_11 = PyTuple_New(3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __pyx_t_11 = PyTuple_New(3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_GIVEREF(__pyx_t_9);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_9)) __PYX_ERR(0, 454, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_9)) __PYX_ERR(0, 455, __pyx_L1_error);
     __Pyx_GIVEREF(__pyx_t_10);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_t_10)) __PYX_ERR(0, 454, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_t_10)) __PYX_ERR(0, 455, __pyx_L1_error);
     __Pyx_GIVEREF(__pyx_t_15);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 2, __pyx_t_15)) __PYX_ERR(0, 454, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 2, __pyx_t_15)) __PYX_ERR(0, 455, __pyx_L1_error);
     __pyx_t_9 = 0;
     __pyx_t_10 = 0;
     __pyx_t_15 = 0;
@@ -33090,14 +33153,14 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
       __pyx_t_7 = __Pyx_PyObject_FastCall(__pyx_t_8, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 454, __pyx_L1_error)
+      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 455, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_T); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_T); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_tolist); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_tolist); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __pyx_t_8 = NULL;
@@ -33118,29 +33181,29 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
       PyObject *__pyx_callargs[2] = {__pyx_t_8, NULL};
       __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_7, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 454, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 455, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_ixPt, __pyx_t_1) < 0) __PYX_ERR(0, 450, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_ixPt, __pyx_t_1) < 0) __PYX_ERR(0, 451, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "geom.pyx":455
+    /* "geom.pyx":456
  *             'lnDist':np.vstack((Match_distO, Match_distD)).T.tolist(),
  *             'ixPt':np.vstack((Match_ixPt.x, Match_ixPt.y, np.zeros(Match_ixPt.shape, dtype=np.float32))).T.tolist(),
  *             'cost':GphDf[EdgeCost].values[EdgeMatch]             # <<<<<<<<<<<<<<
  *             })
  *     else:
  */
-    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_GphDf, __pyx_v_EdgeCost); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 455, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_GphDf, __pyx_v_EdgeCost); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 456, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_values); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 455, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_values); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 456, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_7, __pyx_v_EdgeMatch); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 455, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_7, __pyx_v_EdgeMatch); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 456, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_cost, __pyx_t_1) < 0) __PYX_ERR(0, 450, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_cost, __pyx_t_1) < 0) __PYX_ERR(0, 451, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_1 = NULL;
     __pyx_t_5 = 0;
@@ -33161,14 +33224,14 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
       __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 449, __pyx_L1_error)
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 450, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
     __Pyx_DECREF_SET(__pyx_v_EntryInfo, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "geom.pyx":448
+    /* "geom.pyx":449
  *         Match_Eid[cullp] = -1
  * 
  *     if EdgeCost is not None:             # <<<<<<<<<<<<<<
@@ -33178,7 +33241,7 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
     goto __pyx_L4;
   }
 
-  /* "geom.pyx":458
+  /* "geom.pyx":459
  *             })
  *     else:
  *         EntryInfo = pd.DataFrame({             # <<<<<<<<<<<<<<
@@ -33186,64 +33249,64 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
  *             'lnID':Match_Eid,
  */
   /*else*/ {
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pd); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 458, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pd); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 459, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 458, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 459, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "geom.pyx":459
+    /* "geom.pyx":460
  *     else:
  *         EntryInfo = pd.DataFrame({
  *             'fid':EntryDf.index,             # <<<<<<<<<<<<<<
  *             'lnID':Match_Eid,
  *             'ixDs':Match_distx,
  */
-    __pyx_t_4 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 459, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 460, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_EntryDf, __pyx_n_s_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 459, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_EntryDf, __pyx_n_s_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 460, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_fid, __pyx_t_1) < 0) __PYX_ERR(0, 459, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_fid, __pyx_t_1) < 0) __PYX_ERR(0, 460, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "geom.pyx":460
+    /* "geom.pyx":461
  *         EntryInfo = pd.DataFrame({
  *             'fid':EntryDf.index,
  *             'lnID':Match_Eid,             # <<<<<<<<<<<<<<
  *             'ixDs':Match_distx,
  *             'lnDist':np.vstack((Match_distO, Match_distD)).T.tolist(),
  */
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_lnID, __pyx_v_Match_Eid) < 0) __PYX_ERR(0, 459, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_lnID, __pyx_v_Match_Eid) < 0) __PYX_ERR(0, 460, __pyx_L1_error)
 
-    /* "geom.pyx":461
+    /* "geom.pyx":462
  *             'fid':EntryDf.index,
  *             'lnID':Match_Eid,
  *             'ixDs':Match_distx,             # <<<<<<<<<<<<<<
  *             'lnDist':np.vstack((Match_distO, Match_distD)).T.tolist(),
  *             'ixPt':np.vstack((Match_ixPt.x, Match_ixPt.y, np.zeros(Match_ixPt.shape, dtype=np.float32))).T.tolist(),
  */
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_ixDs, __pyx_v_Match_distx) < 0) __PYX_ERR(0, 459, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_ixDs, __pyx_v_Match_distx) < 0) __PYX_ERR(0, 460, __pyx_L1_error)
 
-    /* "geom.pyx":462
+    /* "geom.pyx":463
  *             'lnID':Match_Eid,
  *             'ixDs':Match_distx,
  *             'lnDist':np.vstack((Match_distO, Match_distD)).T.tolist(),             # <<<<<<<<<<<<<<
  *             'ixPt':np.vstack((Match_ixPt.x, Match_ixPt.y, np.zeros(Match_ixPt.shape, dtype=np.float32))).T.tolist(),
  *             'cost':np.zeros(Match_ixPt.shape, dtype=np.float32)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 462, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 463, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_vstack); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 462, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_vstack); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 463, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 462, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 463, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_INCREF(__pyx_v_Match_distO);
     __Pyx_GIVEREF(__pyx_v_Match_distO);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_v_Match_distO)) __PYX_ERR(0, 462, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_v_Match_distO)) __PYX_ERR(0, 463, __pyx_L1_error);
     __Pyx_INCREF(__pyx_v_Match_distD);
     __Pyx_GIVEREF(__pyx_v_Match_distD);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_v_Match_distD)) __PYX_ERR(0, 462, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_v_Match_distD)) __PYX_ERR(0, 463, __pyx_L1_error);
     __pyx_t_15 = NULL;
     __pyx_t_5 = 0;
     #if CYTHON_UNPACK_METHODS
@@ -33263,14 +33326,14 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
       __pyx_t_7 = __Pyx_PyObject_FastCall(__pyx_t_11, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 462, __pyx_L1_error)
+      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     }
-    __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_T); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 462, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_T); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 463, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_tolist); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 462, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_tolist); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 463, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     __pyx_t_11 = NULL;
@@ -33291,63 +33354,63 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
       PyObject *__pyx_callargs[2] = {__pyx_t_11, NULL};
       __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_7, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 462, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_lnDist, __pyx_t_1) < 0) __PYX_ERR(0, 459, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_lnDist, __pyx_t_1) < 0) __PYX_ERR(0, 460, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "geom.pyx":463
+    /* "geom.pyx":464
  *             'ixDs':Match_distx,
  *             'lnDist':np.vstack((Match_distO, Match_distD)).T.tolist(),
  *             'ixPt':np.vstack((Match_ixPt.x, Match_ixPt.y, np.zeros(Match_ixPt.shape, dtype=np.float32))).T.tolist(),             # <<<<<<<<<<<<<<
  *             'cost':np.zeros(Match_ixPt.shape, dtype=np.float32)
  *             })
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_np); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_np); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_vstack); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_vstack); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_Match_ixPt, __pyx_n_s_x); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_Match_ixPt, __pyx_n_s_x); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_v_Match_ixPt, __pyx_n_s_y); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_v_Match_ixPt, __pyx_n_s_y); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
-    __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_zeros); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_zeros); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_Match_ixPt, __pyx_n_s_shape); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_Match_ixPt, __pyx_n_s_shape); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_13 = PyTuple_New(1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __pyx_t_13 = PyTuple_New(1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
     __Pyx_GIVEREF(__pyx_t_10);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_10)) __PYX_ERR(0, 463, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_10)) __PYX_ERR(0, 464, __pyx_L1_error);
     __pyx_t_10 = 0;
-    __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_float32); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_float32); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_dtype, __pyx_t_14) < 0) __PYX_ERR(0, 463, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_dtype, __pyx_t_14) < 0) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_13, __pyx_t_10); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_13, __pyx_t_10); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = PyTuple_New(3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __pyx_t_10 = PyTuple_New(3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_GIVEREF(__pyx_t_11);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_11)) __PYX_ERR(0, 463, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_11)) __PYX_ERR(0, 464, __pyx_L1_error);
     __Pyx_GIVEREF(__pyx_t_15);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_15)) __PYX_ERR(0, 463, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_15)) __PYX_ERR(0, 464, __pyx_L1_error);
     __Pyx_GIVEREF(__pyx_t_14);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_10, 2, __pyx_t_14)) __PYX_ERR(0, 463, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_10, 2, __pyx_t_14)) __PYX_ERR(0, 464, __pyx_L1_error);
     __pyx_t_11 = 0;
     __pyx_t_15 = 0;
     __pyx_t_14 = 0;
@@ -33370,14 +33433,14 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
       __pyx_t_7 = __Pyx_PyObject_FastCall(__pyx_t_8, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 463, __pyx_L1_error)
+      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_T); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_T); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_tolist); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_tolist); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __pyx_t_8 = NULL;
@@ -33398,47 +33461,47 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
       PyObject *__pyx_callargs[2] = {__pyx_t_8, NULL};
       __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_7, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 463, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_ixPt, __pyx_t_1) < 0) __PYX_ERR(0, 459, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_ixPt, __pyx_t_1) < 0) __PYX_ERR(0, 460, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "geom.pyx":464
+    /* "geom.pyx":465
  *             'lnDist':np.vstack((Match_distO, Match_distD)).T.tolist(),
  *             'ixPt':np.vstack((Match_ixPt.x, Match_ixPt.y, np.zeros(Match_ixPt.shape, dtype=np.float32))).T.tolist(),
  *             'cost':np.zeros(Match_ixPt.shape, dtype=np.float32)             # <<<<<<<<<<<<<<
  *             })
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 464, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 465, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 464, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 465, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_Match_ixPt, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 464, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_Match_ixPt, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 465, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 464, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 465, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_1);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_1)) __PYX_ERR(0, 464, __pyx_L1_error);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_1)) __PYX_ERR(0, 465, __pyx_L1_error);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 464, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 465, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 464, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 465, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_float32); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 464, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_float32); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 465, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_14) < 0) __PYX_ERR(0, 464, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_14) < 0) __PYX_ERR(0, 465, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_8, __pyx_t_1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 464, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_8, __pyx_t_1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 465, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_cost, __pyx_t_14) < 0) __PYX_ERR(0, 459, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_cost, __pyx_t_14) < 0) __PYX_ERR(0, 460, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __pyx_t_14 = NULL;
     __pyx_t_5 = 0;
@@ -33459,7 +33522,7 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
       __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 458, __pyx_L1_error)
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 459, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
@@ -33468,7 +33531,7 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
   }
   __pyx_L4:;
 
-  /* "geom.pyx":468
+  /* "geom.pyx":469
  * 
  *     # free(gphbounds)
  *     return EntryInfo             # <<<<<<<<<<<<<<
@@ -33478,7 +33541,7 @@ static PyObject *__pyx_pf_4geom_26MapEntries(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_r = __pyx_v_EntryInfo;
   goto __pyx_L0;
 
-  /* "geom.pyx":425
+  /* "geom.pyx":426
  * 
  * 
  * def MapEntries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist:float = 100.0, AttrNodeID:str='FID', AttrEdgeID:str='FID', EdgeCost:str|None=None):             # <<<<<<<<<<<<<<
@@ -35028,7 +35091,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 119, __pyx_L1_error)
   __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 249, __pyx_L1_error)
   __pyx_builtin_round = __Pyx_GetBuiltinName(__pyx_n_s_round); if (!__pyx_builtin_round) __PYX_ERR(0, 261, __pyx_L1_error)
-  __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(0, 347, __pyx_L1_error)
+  __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(0, 350, __pyx_L1_error)
   __pyx_builtin___import__ = __Pyx_GetBuiltinName(__pyx_n_s_import); if (!__pyx_builtin___import__) __PYX_ERR(1, 100, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 141, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 156, __pyx_L1_error)
@@ -35202,25 +35265,25 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
 
-  /* "geom.pyx":354
+  /* "geom.pyx":357
  *     cdef int cnt = 0
  *     cdef int numg = len(gp)
  *     print('\tSplitting lines')             # <<<<<<<<<<<<<<
  *     for k, v in gp.items():
  *         print(f'\t{cnt}/{numg} | {(cnt/numg*100):.1f}%', end='\r')
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_s_Splitting_lines); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 354, __pyx_L1_error)
+  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_s_Splitting_lines); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 357, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__22);
   __Pyx_GIVEREF(__pyx_tuple__22);
 
-  /* "geom.pyx":412
+  /* "geom.pyx":413
  *     print(f'\tNetworkSegmentIntersection splits from {len(dfNw)} lines to {len(dfo)} lines')
  *     if DoublePass:
  *         print('\tRunning double pass')             # <<<<<<<<<<<<<<
  *         dfo = NetworkSegmentIntersections(dfo, EndPoints=False, tol=tol, ExtendLines=ExtendLines, DoublePass=False, ForceCull=True)
- * 
+ *     dfo = dfo[dfo.geometry.length > 0.05].reset_index()
  */
-  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_s_Running_double_pass); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 412, __pyx_L1_error)
+  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_s_Running_double_pass); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 413, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__28);
   __Pyx_GIVEREF(__pyx_tuple__28);
 
@@ -35496,17 +35559,17 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__70);
   __Pyx_GIVEREF(__pyx_tuple__70);
 
-  /* "geom.pyx":425
+  /* "geom.pyx":426
  * 
  * 
  * def MapEntries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist:float = 100.0, AttrNodeID:str='FID', AttrEdgeID:str='FID', EdgeCost:str|None=None):             # <<<<<<<<<<<<<<
  *     """
  *     Mapping Entries into graph
  */
-  __pyx_tuple__71 = PyTuple_Pack(17, __pyx_n_s_GphDf, __pyx_n_s_EntryDf, __pyx_n_s_EntryDist, __pyx_n_s_AttrNodeID, __pyx_n_s_AttrEdgeID, __pyx_n_s_EdgeCost, __pyx_n_s_EntryInfo, __pyx_n_s_NearestMatch, __pyx_n_s_EdgeMatch, __pyx_n_s_EntryCtr, __pyx_n_s_EdgeMatch_geom, __pyx_n_s_Match_distO, __pyx_n_s_Match_distD, __pyx_n_s_Match_ixPt, __pyx_n_s_Match_Eid, __pyx_n_s_Match_distx, __pyx_n_s_cullp); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(0, 425, __pyx_L1_error)
+  __pyx_tuple__71 = PyTuple_Pack(17, __pyx_n_s_GphDf, __pyx_n_s_EntryDf, __pyx_n_s_EntryDist, __pyx_n_s_AttrNodeID, __pyx_n_s_AttrEdgeID, __pyx_n_s_EdgeCost, __pyx_n_s_EntryInfo, __pyx_n_s_NearestMatch, __pyx_n_s_EdgeMatch, __pyx_n_s_EntryCtr, __pyx_n_s_EdgeMatch_geom, __pyx_n_s_Match_distO, __pyx_n_s_Match_distD, __pyx_n_s_Match_ixPt, __pyx_n_s_Match_Eid, __pyx_n_s_Match_distx, __pyx_n_s_cullp); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(0, 426, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__71);
   __Pyx_GIVEREF(__pyx_tuple__71);
-  __pyx_codeobj__72 = (PyObject*)__Pyx_PyCode_New(6, 0, 0, 17, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__71, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_geom_pyx, __pyx_n_s_MapEntries, 425, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__72)) __PYX_ERR(0, 425, __pyx_L1_error)
+  __pyx_codeobj__72 = (PyObject*)__Pyx_PyCode_New(6, 0, 0, 17, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__71, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_geom_pyx, __pyx_n_s_MapEntries, 426, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__72)) __PYX_ERR(0, 426, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -35522,7 +35585,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   __pyx_float_1_0 = PyFloat_FromDouble(1.0); if (unlikely(!__pyx_float_1_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_float_1_1 = PyFloat_FromDouble(1.1); if (unlikely(!__pyx_float_1_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_float_1_5 = PyFloat_FromDouble(1.5); if (unlikely(!__pyx_float_1_5)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_float_1_05 = PyFloat_FromDouble(1.05); if (unlikely(!__pyx_float_1_05)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_float_0_05 = PyFloat_FromDouble(0.05); if (unlikely(!__pyx_float_0_05)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_float_1eneg_3 = PyFloat_FromDouble(1e-3); if (unlikely(!__pyx_float_1eneg_3)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -37018,44 +37081,44 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_NetworkSegmentIntersections, __pyx_t_4) < 0) __PYX_ERR(0, 325, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "geom.pyx":425
+  /* "geom.pyx":426
  * 
  * 
  * def MapEntries(GphDf:gpd.GeoDataFrame, EntryDf:gpd.GeoDataFrame, EntryDist:float = 100.0, AttrNodeID:str='FID', AttrEdgeID:str='FID', EdgeCost:str|None=None):             # <<<<<<<<<<<<<<
  *     """
  *     Mapping Entries into graph
  */
-  __pyx_t_4 = PyFloat_FromDouble(((double)100.0)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 425, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(((double)100.0)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 426, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 425, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 426, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_4);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4)) __PYX_ERR(0, 425, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4)) __PYX_ERR(0, 426, __pyx_L1_error);
   __Pyx_INCREF(((PyObject*)__pyx_n_s_FID));
   __Pyx_GIVEREF(((PyObject*)__pyx_n_s_FID));
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 1, ((PyObject*)__pyx_n_s_FID))) __PYX_ERR(0, 425, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 1, ((PyObject*)__pyx_n_s_FID))) __PYX_ERR(0, 426, __pyx_L1_error);
   __Pyx_INCREF(((PyObject*)__pyx_n_s_FID));
   __Pyx_GIVEREF(((PyObject*)__pyx_n_s_FID));
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 2, ((PyObject*)__pyx_n_s_FID))) __PYX_ERR(0, 425, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 2, ((PyObject*)__pyx_n_s_FID))) __PYX_ERR(0, 426, __pyx_L1_error);
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 3, Py_None)) __PYX_ERR(0, 425, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 3, Py_None)) __PYX_ERR(0, 426, __pyx_L1_error);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 425, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 426, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_GphDf, __pyx_kp_s_gpd_GeoDataFrame) < 0) __PYX_ERR(0, 425, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_EntryDf, __pyx_kp_s_gpd_GeoDataFrame) < 0) __PYX_ERR(0, 425, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_EntryDist, __pyx_n_s_float) < 0) __PYX_ERR(0, 425, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_AttrNodeID, __pyx_n_s_str) < 0) __PYX_ERR(0, 425, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_AttrEdgeID, __pyx_n_s_str) < 0) __PYX_ERR(0, 425, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_EdgeCost, __pyx_kp_s_str_None) < 0) __PYX_ERR(0, 425, __pyx_L1_error)
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_4geom_27MapEntries, 0, __pyx_n_s_MapEntries, NULL, __pyx_n_s_geom, __pyx_d, ((PyObject *)__pyx_codeobj__72)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 425, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_GphDf, __pyx_kp_s_gpd_GeoDataFrame) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_EntryDf, __pyx_kp_s_gpd_GeoDataFrame) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_EntryDist, __pyx_n_s_float) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_AttrNodeID, __pyx_n_s_str) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_AttrEdgeID, __pyx_n_s_str) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_EdgeCost, __pyx_kp_s_str_None) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_4geom_27MapEntries, 0, __pyx_n_s_MapEntries, NULL, __pyx_n_s_geom, __pyx_d, ((PyObject *)__pyx_codeobj__72)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 426, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_7, __pyx_t_5);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_7, __pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_MapEntries, __pyx_t_7) < 0) __PYX_ERR(0, 425, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_MapEntries, __pyx_t_7) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
   /* "geom.pyx":1
@@ -42102,6 +42165,94 @@ static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
   static CYTHON_INLINE void __Pyx_RaiseClosureNameError(const char *varname) {
     PyErr_Format(PyExc_NameError, "free variable '%s' referenced before assignment in enclosing scope", varname);
 }
+
+/* PyFloatBinop */
+  #if !CYTHON_COMPILING_IN_PYPY
+static int __Pyx_PyFloat_BoolEqObjC(PyObject *op1, PyObject *op2, double floatval, int inplace, int zerodivision_check) {
+    const double b = floatval;
+    double a;
+    CYTHON_UNUSED_VAR(inplace);
+    CYTHON_UNUSED_VAR(zerodivision_check);
+    if (op1 == op2) {
+        return 1;
+    }
+    if (likely(PyFloat_CheckExact(op1))) {
+#if CYTHON_COMPILING_IN_LIMITED_API
+        a = __pyx_PyFloat_AsDouble(op1);
+#else
+        a = PyFloat_AS_DOUBLE(op1);
+#endif
+        
+    } else
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op1))) {
+        a = (double) PyInt_AS_LONG(op1);
+        
+    } else
+    #endif
+    if (likely(PyLong_CheckExact(op1))) {
+        #if CYTHON_USE_PYLONG_INTERNALS
+        if (__Pyx_PyLong_IsZero(op1)) {
+            a = 0.0;
+            
+        } else if (__Pyx_PyLong_IsCompact(op1)) {
+            a = (double) __Pyx_PyLong_CompactValue(op1);
+        } else {
+            const digit* digits = __Pyx_PyLong_Digits(op1);
+            const Py_ssize_t size = __Pyx_PyLong_SignedDigitCount(op1);
+            switch (size) {
+                case -2:
+                case 2:
+                    if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (1 * PyLong_SHIFT < 53))) {
+                        a = (double) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        if ((8 * sizeof(unsigned long) < 53) || (2 * PyLong_SHIFT < 53) || (a < (double) ((PY_LONG_LONG)1 << 53))) {
+                            if (size == -2)
+                                a = -a;
+                            break;
+                        }
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -3:
+                case 3:
+                    if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (2 * PyLong_SHIFT < 53))) {
+                        a = (double) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        if ((8 * sizeof(unsigned long) < 53) || (3 * PyLong_SHIFT < 53) || (a < (double) ((PY_LONG_LONG)1 << 53))) {
+                            if (size == -3)
+                                a = -a;
+                            break;
+                        }
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -4:
+                case 4:
+                    if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT && ((8 * sizeof(unsigned long) < 53) || (3 * PyLong_SHIFT < 53))) {
+                        a = (double) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        if ((8 * sizeof(unsigned long) < 53) || (4 * PyLong_SHIFT < 53) || (a < (double) ((PY_LONG_LONG)1 << 53))) {
+                            if (size == -4)
+                                a = -a;
+                            break;
+                        }
+                    }
+                    CYTHON_FALLTHROUGH;
+                default:
+        #endif
+                    return __Pyx_PyObject_IsTrueAndDecref(
+                        PyFloat_Type.tp_richcompare(op2, op1, Py_EQ));
+        #if CYTHON_USE_PYLONG_INTERNALS
+            }
+        }
+        #endif
+    } else {
+        return __Pyx_PyObject_IsTrueAndDecref(
+            PyObject_RichCompare(op1, op2, Py_EQ));
+    }
+        if (a == b) {
+            return 1;
+        } else {
+            return 0;
+        }
+}
+#endif
 
 /* PyObjectCallNoArg */
   static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
