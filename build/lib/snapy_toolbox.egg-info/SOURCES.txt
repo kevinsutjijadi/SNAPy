@@ -10,10 +10,14 @@ SNAPy/prcs_sna.py
 SNAPy/routines.py
 SNAPy/utils.py
 SNAPy/SGACy/geom.cp311-win_amd64.pyd
+SNAPy/SGACy/geom.cp312-win_amd64.pyd
 SNAPy/SGACy/geom.cpp
+SNAPy/SGACy/geom.cpython-312-darwin.so
 SNAPy/SGACy/geom.pyx
 SNAPy/SGACy/graph.cp311-win_amd64.pyd
+SNAPy/SGACy/graph.cp312-win_amd64.pyd
 SNAPy/SGACy/graph.cpp
+SNAPy/SGACy/graph.cpython-312-darwin.so
 SNAPy/SGACy/graph.pyx
 SNAPy/SGACy/setup.py
 snapy_toolbox.egg-info/PKG-INFO

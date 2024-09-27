@@ -11,19 +11,16 @@ ext_modules = [
         "graph",
         [dir+"graph.pyx"],
         include_dirs=[numpy.get_include()]
-    )
-]
-
-ext_modules = [
+    ),
     Extension(
         "geom",
         [dir+"geom.pyx"],
+        include_dirs=[numpy.get_include()]
     )
 ]
 
 setup(
     ext_modules=cythonize(ext_modules),
-    include_dirs=[numpy.get_include()]
 )
 # cd SNAPy\SGACy
 # python setup.py build_ext --inplace

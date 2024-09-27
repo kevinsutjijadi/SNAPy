@@ -3,7 +3,16 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
-        "depends": [],
+        "depends": [
+            "C:\\Users\\Kevin Sutjijadi\\anaconda3\\envs\\TBAnalytics\\Lib\\site-packages\\numpy\\core\\include\\numpy\\arrayobject.h",
+            "C:\\Users\\Kevin Sutjijadi\\anaconda3\\envs\\TBAnalytics\\Lib\\site-packages\\numpy\\core\\include\\numpy\\arrayscalars.h",
+            "C:\\Users\\Kevin Sutjijadi\\anaconda3\\envs\\TBAnalytics\\Lib\\site-packages\\numpy\\core\\include\\numpy\\ndarrayobject.h",
+            "C:\\Users\\Kevin Sutjijadi\\anaconda3\\envs\\TBAnalytics\\Lib\\site-packages\\numpy\\core\\include\\numpy\\ndarraytypes.h",
+            "C:\\Users\\Kevin Sutjijadi\\anaconda3\\envs\\TBAnalytics\\Lib\\site-packages\\numpy\\core\\include\\numpy\\ufuncobject.h"
+        ],
+        "include_dirs": [
+            "C:\\Users\\Kevin Sutjijadi\\anaconda3\\envs\\TBAnalytics\\Lib\\site-packages\\numpy\\core\\include"
+        ],
         "language": "c++",
         "name": "geom",
         "sources": [
