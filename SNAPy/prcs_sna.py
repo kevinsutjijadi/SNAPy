@@ -32,6 +32,101 @@ from .SGACy.graph import GraphCy
 from .SGACy.geom import *
 
 
+def _gateflow_requested(Settings:dict) -> bool:
+    return (
+        Settings.get('GateIds') is not None
+        or Settings.get('TermIds') is not None
+        or Settings.get('TouchIds') is not None
+    )
+
+
+def _gateflow_axis_ids(gate_ids, term_ids):
+    gates = set()
+    if gate_ids is not None:
+        for g in np.asarray(gate_ids).ravel():
+            gi = int(g)
+            if gi > 0:
+                gates.add(gi)
+    terms = set()
+    if term_ids:
+        for v in dict(term_ids).values():
+            ti = int(v)
+            if ti > 0:
+                terms.add(ti)
+    return [0] + sorted(gates) + sorted(t for t in terms if t not in gates)
+
+
+def _gateflow_prepare(Settings:dict, n_edges:int):
+    if not _gateflow_requested(Settings):
+        return False, None, None, None, None, None, 0.0
+    gate_ids = Settings.get('GateIds')
+    if gate_ids is None:
+        gate_arr = np.zeros(n_edges, dtype=np.int32)
+    else:
+        gate_arr = np.asarray(gate_ids, dtype=np.int32).ravel()
+        if gate_arr.size < n_edges:
+            pad = np.zeros(n_edges, dtype=np.int32)
+            pad[:gate_arr.size] = gate_arr
+            gate_arr = pad
+        elif gate_arr.size > n_edges:
+            gate_arr = gate_arr[:n_edges]
+    term_raw = Settings.get('TermIds') or {}
+    term_dict = {int(k): int(v) for k, v in dict(term_raw).items() if int(v) > 0}
+    touch_mask = None
+    touch_ids = Settings.get('TouchIds')
+    if touch_ids is not None:
+        touch_mask = np.zeros(n_edges, dtype=bool)
+        for e in np.asarray(touch_ids).ravel():
+            ie = int(e)
+            if 0 <= ie < n_edges:
+                touch_mask[ie] = True
+    axis = _gateflow_axis_ids(gate_arr, term_dict)
+    id_to_ix = {gid: i for i, gid in enumerate(axis)}
+    mat = np.zeros((len(axis), len(axis)), dtype=np.float64)
+    return True, gate_arr, term_dict, touch_mask, id_to_ix, mat, 0.0
+
+
+def _path_collapsed_gates(path, gate_arr):
+    seq = []
+    n = int(gate_arr.size)
+    for e in path:
+        ie = int(e)
+        if ie < 0 or ie >= n:
+            continue
+        g = int(gate_arr[ie])
+        if g > 0 and (not seq or seq[-1] != g):
+            seq.append(g)
+    return seq
+
+
+def _gateflow_add_path(mat, id_to_ix, seq, ori_term, dest_term, trf):
+    if not seq:
+        return
+    if ori_term > 0:
+        fr, to = ori_term, seq[-1]
+    elif dest_term > 0:
+        fr, to = seq[0], dest_term
+    elif len(seq) >= 2:
+        fr, to = seq[0], seq[-1]
+    else:
+        fr, to = seq[0], 0
+    i = id_to_ix.get(fr)
+    j = id_to_ix.get(to)
+    if i is not None and j is not None:
+        mat[i, j] += trf
+
+
+def _touch_add(path, touch_mask, trf):
+    if touch_mask is None:
+        return 0.0
+    n = int(touch_mask.size)
+    for e in path:
+        ie = int(e)
+        if 0 <= ie < n and touch_mask[ie]:
+            return float(trf)
+    return 0.0
+
+
 # functions
 def Base_BetweenessPatronage_Singular(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
     '''
@@ -59,6 +154,9 @@ def Base_BetweenessPatronage_Singular(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestD
     OutAr = np.zeros(Gph.sizeInfo()[1], dtype=float)
     expA = Settings['AlphaExp']
     SrcD = Settings['SearchDist']
+    gate_on, gate_arr, term_dict, touch_mask, id_to_ix, gate_mat, touch = _gateflow_prepare(
+        Settings, Gph.arraySizeInfo()[1]
+    )
 
     numpaths = 0
     # cycles by oridf
@@ -80,6 +178,7 @@ def Base_BetweenessPatronage_Singular(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestD
         iterPths = []
         iterDsts = []
         iterWgts = []
+        iterDids = []
 
         for Di in range(len(DestDf)):
             Did = DidAr[Di]
@@ -105,11 +204,13 @@ def Base_BetweenessPatronage_Singular(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestD
                 iterPths.append(fp[0])
                 iterDsts.append(dsts[0])
                 iterWgts.append(DestWgt[Di])
+                iterDids.append(Did)
             else:
                 # compiling through
                 iterPths += tuple(fp)
                 iterDsts += tuple(dsts)
                 iterWgts += [DestWgt[Di]]*len(fp)
+                iterDids += [Did]*len(fp)
         # now compiling the results
         if len(iterPths) == 0:
             continue
@@ -121,11 +222,17 @@ def Base_BetweenessPatronage_Singular(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestD
         WgtPthSm = sum(WgtPth)
         TrafficPth = tuple(wgtO*(w/WgtPthSm) for w in WgtPth) # calculating traffic on each path
         # checking on segments
-        for pth, trf in zip(iterPths, TrafficPth):
+        ori_term = term_dict.get(int(Oid), 0) if gate_on else 0
+        for pth, trf, Did in zip(iterPths, TrafficPth, iterDids):
             for i in pth:
                 OutAr[i] += trf
-            pass
+            if gate_on:
+                seq = _path_collapsed_gates(pth, gate_arr)
+                _gateflow_add_path(gate_mat, id_to_ix, seq, ori_term, term_dict.get(int(Did), 0), float(trf))
+                touch += _touch_add(pth, touch_mask, trf)
     print(f'Total Paths {numpaths:,}')
+    if gate_on:
+        return OutAr, gate_mat, touch
     return OutAr
 
 def Base_BetweenessPatronage_Plural(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
@@ -159,6 +266,9 @@ def Base_BetweenessPatronage_Plural(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:
         OutEn = np.zeros(DestDf.shape[0], dtype=np.float32)
     expA = Settings['AlphaExp']
     SrcD = Settings['SearchDist']
+    gate_on, gate_arr, term_dict, touch_mask, id_to_ix, gate_mat, touch = _gateflow_prepare(
+        Settings, Gph.arraySizeInfo()[1]
+    )
     
     TruePathFind = Settings['TruePathFind']
     numpaths = 0
@@ -211,21 +321,25 @@ def Base_BetweenessPatronage_Plural(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:
         WgtPthSm = np.sum(WgtPth)
         TrafficPth = wgtO*(WgtPth/WgtPthSm)
         
-        if Include_Destination:
-            for pth, trf, id in zip(iterPths, TrafficPth, iterId):
+        ori_term = term_dict.get(int(Oid), 0) if gate_on else 0
+        for pth, trf, id in zip(iterPths, TrafficPth, iterId):
+            if Include_Destination:
                 OutEn[id] += trf
-                for i in pth:
-                    OutAr[i] += trf
-            pass
-        else:
-            for pth, trf in zip(iterPths, TrafficPth):
-                for i in pth:
-                    OutAr[i] += trf
+            for i in pth:
+                OutAr[i] += trf
+            if gate_on:
+                Did = int(DidAr[id])
+                seq = _path_collapsed_gates(pth, gate_arr)
+                _gateflow_add_path(gate_mat, id_to_ix, seq, ori_term, term_dict.get(Did, 0), float(trf))
+                touch += _touch_add(pth, touch_mask, trf)
     print(f'Total Paths {numpaths:,}')
     if Include_Destination:
+        if gate_on:
+            return OutAr, OutEn, gate_mat, touch
         return OutAr, OutEn
-    else:
-        return OutAr
+    if gate_on:
+        return OutAr, gate_mat, touch
+    return OutAr
 
 
 def Base_ReachN(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):

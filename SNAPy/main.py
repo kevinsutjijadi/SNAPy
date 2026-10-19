@@ -28,6 +28,7 @@ import warnings
 # from .prcs_geom import *
 from .prcs_grph import *
 from .prcs_sna import *
+from .prcs_sna import _gateflow_requested, _gateflow_axis_ids
 from .utils import *
 from .SGACy.graph import GraphCy
 from .SGACy.geom import multilinestring_to_linestring, NetworkCompileIntersections, NetworkSegmentIntersections
@@ -146,6 +147,8 @@ class GraphSims:
         self.NetworkSize = self.Gph.sizeInfo() # returns (nodesize, edgesize)
         print(f'Graph Built with {self.NetworkSize[0]:,} Nodes, {self.NetworkSize[1]:,} Edges')
         self.NetworkDf = NetworkDf
+        self.GateFlow = {}
+        self.TouchFlow = {}
         EntriesDt = graph_addentries(self.NetworkDf, EntriesDf, self.baseSet['EntDist'], self.baseSet['EntID'], self.baseSet['EdgeID'],  self.baseSet['AN_EdgeCost'])
         print(f'Graph mapped {len(EntriesDt):,} Entries')
         
@@ -432,7 +435,10 @@ class GraphSims:
             'LimCycles' : 1_000_000,
             'OpType' : 'P',
             'Include_Destination' : False,
-            'Threads' : None
+            'Threads' : None,
+            'GateIds': None,
+            'TermIds': None,
+            'TouchIds': None,
         }
         if kwargs:
             for k,v in kwargs.items():
@@ -463,6 +469,18 @@ class GraphSims:
             raise Exception("OriID or DestID not in correct form. Any form of iterable array that works in panda DataFrame.isin() is possible")
 
         # Base_BetweenessPatronage(Gdf, Gph, EntriesPt, OriDf, DestDf, SettingDict)
+        gate_on = _gateflow_requested(Settings)
+
+        def _store_gateflow(gmat, touch):
+            if not gate_on:
+                return
+            axis = _gateflow_axis_ids(Settings.get('GateIds'), Settings.get('TermIds'))
+            gdf = pd.DataFrame(gmat, index=axis, columns=axis)
+            gdf.index = ['open' if i == 0 else i for i in gdf.index]
+            gdf.columns = ['open' if c == 0 else c for c in gdf.columns]
+            self.GateFlow[Settings['RsltAttr']] = gdf
+            self.TouchFlow[Settings['RsltAttr']] = float(touch)
+
         if self.baseSet['Threads'] == 1:
             tmSt = time()
             if Settings['OpType'] == 'P':
@@ -481,6 +499,11 @@ class GraphSims:
                RsltDes[Entryids] = Rslt[1]
                self.EntriesDf[Settings['RsltAttr']] = RsltDes
                self.NetworkDf[Settings['RsltAttr']] = Rslt[0]
+               if gate_on:
+                   _store_gateflow(Rslt[2], Rslt[3])
+            elif gate_on:
+                self.NetworkDf[Settings['RsltAttr']] = Rslt[0]
+                _store_gateflow(Rslt[1], Rslt[2])
             else:
                 self.NetworkDf[Settings['RsltAttr']] = Rslt
         else:
@@ -499,17 +522,35 @@ class GraphSims:
             print(f'Multiprocessing finished in {time()-tmSt:,.3f} seconds')
 
             Rslt = np.zeros(len(self.NetworkDf), dtype=np.float32)
+            gmat = None
+            touch = 0.0
             if Settings['Include_Destination']:
                 Entryids = np.array(DestDf.index)
                 RsltDes = np.zeros(len(self.EntriesDf), dtype=np.float32)
                 for rslt in SubRslt:
                     Rslt += rslt[0]
                     RsltDes[Entryids] += rslt[1]
+                    if gate_on:
+                        if gmat is None:
+                            gmat = np.array(rslt[2], dtype=np.float64, copy=True)
+                        else:
+                            gmat += rslt[2]
+                        touch += rslt[3]
                 self.EntriesDf[Settings['RsltAttr']] = RsltDes
+            elif gate_on:
+                for rslt in SubRslt:
+                    Rslt += rslt[0]
+                    if gmat is None:
+                        gmat = np.array(rslt[1], dtype=np.float64, copy=True)
+                    else:
+                        gmat += rslt[1]
+                    touch += rslt[2]
             else:
                 for rslt in SubRslt:
                     Rslt += rslt
             self.NetworkDf[Settings['RsltAttr']] = Rslt
+            if gate_on:
+                _store_gateflow(gmat, touch)
         return self.NetworkDf
 
     def Reach(self, OriID:list=None, DestID:list=None, Mode:str='N', **kwargs):
@@ -723,6 +764,20 @@ class GraphSims:
                         return LineString([(cp.x, cp.y)] + coords[i:])
                     else:
                         return LineString(coords[:i] + [(cp.x, cp.y)])
+            return geom
+
+        def _edges_from_reach(rslt):
+            pairs = [(x[0], x[1]) for x in rslt if x[0] >= 0]
+            cols = ['geometry', self.baseSet['EdgeID']]
+            if len(pairs) == 0:
+                edfs = self.NetworkDf.iloc[0:0][cols].copy()
+                edfs['vector'] = pd.Series(dtype=float)
+                return edfs
+            eid = [p[0] for p in pairs]
+            edfs = self.NetworkDf.loc[eid][cols].copy()
+            edfs['vector'] = [p[1] for p in pairs]
+            edfs['geometry'] = edfs.apply(lambda x: line_subpart(x.geometry, x.vector), axis=1)
+            return edfs
         if showmap and not incl_nodes:
             incl_nodes = True
             print('if showmap, incl_nodes must be true')
@@ -738,10 +793,7 @@ class GraphSims:
                 nid = [x[0] for x in rsltNd]
                 nodedf = self.NodeDf.loc[nid].copy()
                 nodedf['Distance'] = [x[1] for x in rsltNd]
-            eid = [x[0] for x in rslt]
-            edf = self.NetworkDf.loc[eid][['geometry', self.baseSet['EdgeID']]]
-            edf['vector'] = [x[1] for x in rslt]
-            edf['geometry'] = edf.apply(lambda x: line_subpart(x.geometry, x.vector), axis=1)
+            edf = _edges_from_reach(rslt)
         else:
             edf = None
             nodedf = None
@@ -757,10 +809,7 @@ class GraphSims:
                         nodedf = nodedfs.copy()
                     else:
                         nodedf = gpd.GeoDataFrame(pd.concat([nodedf, nodedfs], ignore_index=True))
-                eid = [x[0] for x in rslt]
-                edfs = self.NetworkDf.loc[eid][['geometry', self.baseSet['EdgeID']]]
-                edfs['vector'] = [x[1] for x in rslt]
-                edfs['geometry'] = edfs.apply(lambda x: line_subpart(x.geometry, x.vector), axis=1)
+                edfs = _edges_from_reach(rslt)
                 edfs['Oid'] = oid
                 if edf is None:
                     edf = edfs.copy()

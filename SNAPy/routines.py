@@ -189,8 +189,51 @@ def BetweenessPAggregate(GraphSm:GraphSims, PairsDf:pd.DataFrame, MeasureDf:pd.D
             'PathLim' : PathLim,
             'LimCycles' : LimCycles,
         }
+        for key in ('GateIds', 'TermIds', 'TouchIds', 'Include_Destination'):
+            if key in kwargs:
+                sets[key] = kwargs[key]
 
         GraphSm.BetweenessPatronage(**sets)
 
     print('------------------------\nAggregate Reach Completed')
     return GraphSm
+
+
+def GateFlowSum(GraphSm:GraphSims, names=None, RsltAttr='total'):
+    """
+    GateFlowSum(GraphSm, names=None, RsltAttr='total')
+
+    Sum gate-to-gate matrices already stored on GraphSm.GateFlow.
+    Axes are gates (+ terminals / open), not movement names. Each
+    BetweenessPatronage run still keeps its own matrix under RsltAttr;
+    this helper adds selected runs into one combined matrix.
+
+    names : iterable of GateFlow keys. If None, every stored matrix.
+    RsltAttr : key for the summed matrix (and summed TouchFlow).
+    """
+    if names is None:
+        names = tuple(GraphSm.GateFlow.keys())
+    names = tuple(n for n in names if n in GraphSm.GateFlow)
+    if len(names) == 0:
+        raise ValueError('GateFlowSum: no matching GateFlow matrices')
+
+    axis = []
+    for n in names:
+        for i in GraphSm.GateFlow[n].index:
+            if i not in axis:
+                axis.append(i)
+        for c in GraphSm.GateFlow[n].columns:
+            if c not in axis:
+                axis.append(c)
+
+    acc = pd.DataFrame(0.0, index=axis, columns=axis)
+    touch = 0.0
+    for n in names:
+        acc = acc.add(
+            GraphSm.GateFlow[n].reindex(index=axis, columns=axis, fill_value=0.0),
+            fill_value=0.0,
+        )
+        touch += float(GraphSm.TouchFlow.get(n, 0.0))
+    GraphSm.GateFlow[RsltAttr] = acc
+    GraphSm.TouchFlow[RsltAttr] = touch
+    return acc

@@ -11,8 +11,16 @@ Classifier: Programming Language :: Python :: 3.11
 Classifier: Operating System :: OS Independent
 Requires-Python: ~=3.11
 Description-Content-Type: text/markdown
-Provides-Extra: dev
 License-File: LICENSE
+Requires-Dist: pandas>=1.5.3
+Requires-Dist: geopandas>=1.0.1
+Requires-Dist: scipy>=1.10.0
+Requires-Dist: numpy>=1.23.5
+Requires-Dist: shapely>=2.0.0
+Requires-Dist: pydeck>=0.8.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: twine>=4.0.2; extra == "dev"
 
 # SNAPy (Spatial Network Analysis Python Module)
 

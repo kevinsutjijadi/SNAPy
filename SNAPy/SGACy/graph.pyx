@@ -243,6 +243,12 @@ cdef vector[int] EdgesReach_Eididx(const vector[pair[int, float]]& vec, const in
             v.push_back(i)
     return v
 
+cdef inline void EdgesFringe_erase_eid(vector[pair[int, float]]& vec, const int& value):
+    # re-query after a prior erase; skip if that eid is no longer present
+    cdef vector[int] idx = EdgesReach_Eididx(vec, value)
+    if idx.size() > 0:
+        vec.erase(vec.begin()+idx[0])
+
 @cython.boundscheck(False)
 @cython.wraparound(False)
 cdef inline bint Find_IntVector(vector[int]& vec, const int val) nogil:
@@ -541,6 +547,12 @@ cdef class GraphCy:
         if not self.EntryDt:
             raise MemoryError("Failed to allocate memory for entries")
 
+        cdef Entry ent0
+        ent0.fid = -1
+        ent0.Eid = -1
+        for n in range(entrysize):
+            self.EntryDt[n] = ent0
+
         cdef Edge edge
         edge.idx = -1
         for n in range(edgesize):
@@ -761,6 +773,7 @@ cdef class GraphCy:
         
         cdef Entry ent
         ent.fid = -1
+        ent.Eid = -1
         for n in range(size):
             self.EntryDt[n] = ent
         
@@ -1179,6 +1192,9 @@ cdef class GraphCy:
         cdef Entry entry
         for n, row in entriesDf.iterrows():
             if row.lnID == -1:
+                entry.fid = -1
+                entry.Eid = -1
+                self.EntryDt[n] = entry
                 continue
             entry.fid = row.fid
             entry.Eid = row.lnID
@@ -1222,6 +1238,9 @@ cdef class GraphCy:
         # it has to know if it is reversed or not
         if len(edges) == 1:
             return length
+        for n in range(len(edges)):
+            if edges[n] < 0:
+                return length
         for n in range(len(edges)):
             if n == len(edges)-1:
                 elook = self.edges[edges[n]]
@@ -1908,6 +1927,8 @@ cdef class GraphCy:
         cdef Entry EntryO = self.EntryDt[EntryOrigin]
         cdef Entry EntryD = self.EntryDt[EntryDestination]
 
+        if EntryO.fid == -1 or EntryD.fid == -1 or EntryO.Eid < 0 or EntryD.Eid < 0:
+            return None
         if self._edgesIds[EntryO.Eid] == -1 or self._edgesIds[EntryD.Eid] == -1:
             return None
         cdef float BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)
@@ -2054,6 +2075,8 @@ cdef class GraphCy:
         cdef Entry EntryO = self.EntryDt[EntryOrigin]
         cdef Entry EntryD = self.EntryDt[EntryDestination]
 
+        if EntryO.fid == -1 or EntryD.fid == -1 or EntryO.Eid < 0 or EntryD.Eid < 0:
+            return (None, None)
         if self._edgesIds[EntryO.Eid] == -1 or self._edgesIds[EntryD.Eid] == -1:
             return (None, None)
         cdef float BaseDist = dist3d_ar(EntryO.ixPt, EntryD.ixPt)
@@ -2205,6 +2228,8 @@ cdef class GraphCy:
         cdef int sizeDest = <int>len(EntryDests)
         cdef distpair* optD = <distpair*>malloc(sizeDest*sizeof(distpair))
 
+        if EntryO.fid == -1 or EntryO.Eid < 0:
+            return None
         if self._edgesIds[EntryO.Eid] == -1: # or self._edgesIds[EntryD.Eid] == -1
             return None
         cdef float BaseDist # = dist3d_ar(EntryO.ixPt, EntryD.ixPt)
@@ -2224,6 +2249,10 @@ cdef class GraphCy:
         for EntryDestination in EntryDests:
             destN += 1
             EntryD = self.EntryDt[EntryDestination]
+            if EntryD.fid == -1 or EntryD.Eid < 0 or self._edgesIds[EntryD.Eid] == -1:
+                optD[destN].pth = NullVal
+                optD[destN].fly = NullVal
+                continue
             if EntryD.fid == EntryO.fid:
                 optD[destN].pth = NullVal
                 optD[destN].fly = NullVal
@@ -2333,9 +2362,14 @@ cdef class GraphCy:
         cdef int Eid
         cdef float lenE
 
+        if OpenNodes.empty():
+            return ()
+
         while keepGoing:
             cycles += 1
             # check paths from OpenNodes
+            if OpenNodes.empty():
+                break
             NodeCheck = OpenNodes.pop_top()
             for i in range(self.EidN):
                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
@@ -2401,13 +2435,13 @@ cdef class GraphCy:
                     else: # elif EdgesReach_EidVec.size() == 2, should not be possible more than 2
                         if remainingDist == -1.0 or remainingDist == 1.0:
                             EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
-                            EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
+                            EdgesFringe_erase_eid(EdgesFringe, Eid)
                             EdgesFringe.push_back(pair[int, float](Eid, remainingDist))
                         elif edgeVector == 1.0:
                             if EdgesFringe[EdgesReach_EidVec[0]].second > 0.0:
                                 if (remainingDist - EdgesFringe[EdgesReach_EidVec[1]].second) > 1.0:
                                     EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
-                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
+                                    EdgesFringe_erase_eid(EdgesFringe, Eid)
                                     EdgesFringe.push_back(pair[int, float](Eid, edgeVector))
                                 elif remainingDist > EdgesFringe[EdgesReach_EidVec[0]].second:
                                     EdgesFringe.erase(EdgesFringe.begin()+ EdgesReach_EidVec[0])
@@ -2415,7 +2449,7 @@ cdef class GraphCy:
                             else:
                                 if (remainingDist - EdgesFringe[EdgesReach_EidVec[0]].second) > 1.0:
                                     EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
-                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
+                                    EdgesFringe_erase_eid(EdgesFringe, Eid)
                                     EdgesFringe.push_back(pair[int, float](Eid, edgeVector))
                                 elif remainingDist > EdgesFringe[EdgesReach_EidVec[1]].second:
                                     EdgesFringe.erase(EdgesFringe.begin()+ EdgesReach_EidVec[1])
@@ -2424,7 +2458,7 @@ cdef class GraphCy:
                             if EdgesFringe[EdgesReach_EidVec[0]].second > 0.0:
                                 if (EdgesFringe[EdgesReach_EidVec[0]].second - remainingDist) > 1.0:
                                     EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
-                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
+                                    EdgesFringe_erase_eid(EdgesFringe, Eid)
                                     EdgesFringe.push_back(pair[int, float](Eid, edgeVector))
                                 elif remainingDist < EdgesFringe[EdgesReach_EidVec[1]].second:
                                     EdgesFringe.erase(EdgesFringe.begin()+ EdgesReach_EidVec[1])
@@ -2432,7 +2466,7 @@ cdef class GraphCy:
                             else:
                                 if (EdgesFringe[EdgesReach_EidVec[1]].second - remainingDist) > 1.0:
                                     EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
-                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
+                                    EdgesFringe_erase_eid(EdgesFringe, Eid)
                                     EdgesFringe.push_back(pair[int, float](Eid, edgeVector))
                                 elif remainingDist < EdgesFringe[EdgesReach_EidVec[0]].second:
                                     EdgesFringe.erase(EdgesFringe.begin()+ EdgesReach_EidVec[0])
@@ -2465,6 +2499,8 @@ cdef class GraphCy:
             if self.nodeVisited[i].Nid == -1:
                 continue
             NodeReach_T = self.nodeVisited[i]
+            if NodeReach_T.Eid < 0:
+                continue
 
             if self.edges[NodeReach_T.Eid].NidO == NodeReach_T.Nid:
                 edgeVector = 1.0
@@ -2548,6 +2584,10 @@ cdef class GraphCy:
 
         for org in OriginTup:
             EntryO = self.EntryDt[org]
+            if EntryO.fid == -1 or EntryO.Eid < 0:
+                continue
+            if self._edgesIds[EntryO.Eid] == -1:
+                continue
             Dist = EntryO.EDist
             if Dist[0] > LimDist:
                 continue
@@ -2574,9 +2614,16 @@ cdef class GraphCy:
 
             EdgesReach.push_back(pair[int, float](EntryO.Eid, <float>1.0))
 
+        if OpenNodes.empty():
+            if OutputNodes:
+                return (), ()
+            return ()
+
         while keepGoing:
             cycles += 1
             # check paths from OpenNodes
+            if OpenNodes.empty():
+                break
             NodeCheck = OpenNodes.pop_top()
             for i in range(self.EidN):
                 Eid = self.nodes[NodeCheck.Nid].Eid[i]
@@ -2654,13 +2701,13 @@ cdef class GraphCy:
                     else: # elif EdgesReach_EidVec.size() == 2, should not be possible more than 2
                         if remainingDist == -1.0 or remainingDist == 1.0:
                             EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
-                            EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
+                            EdgesFringe_erase_eid(EdgesFringe, Eid)
                             EdgesReach.push_back(pair[int, float](Eid, edgeVector))
                         elif edgeVector == 1.0:
                             if EdgesFringe[EdgesReach_EidVec[0]].second > 0.0:
                                 if (remainingDist - EdgesFringe[EdgesReach_EidVec[1]].second) > 1.0:
                                     EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
-                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
+                                    EdgesFringe_erase_eid(EdgesFringe, Eid)
                                     EdgesReach.push_back(pair[int, float](Eid, edgeVector))
                                 elif remainingDist > EdgesFringe[EdgesReach_EidVec[0]].second:
                                     EdgesFringe.erase(EdgesFringe.begin()+ EdgesReach_EidVec[0])
@@ -2668,7 +2715,7 @@ cdef class GraphCy:
                             else:
                                 if (remainingDist - EdgesFringe[EdgesReach_EidVec[0]].second) > 1.0:
                                     EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
-                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
+                                    EdgesFringe_erase_eid(EdgesFringe, Eid)
                                     EdgesReach.push_back(pair[int, float](Eid, edgeVector))
                                 elif remainingDist > EdgesFringe[EdgesReach_EidVec[1]].second:
                                     EdgesFringe.erase(EdgesFringe.begin()+ EdgesReach_EidVec[1])
@@ -2677,7 +2724,7 @@ cdef class GraphCy:
                             if EdgesFringe[EdgesReach_EidVec[0]].second > 0.0:
                                 if (EdgesFringe[EdgesReach_EidVec[0]].second - remainingDist) > 1.0:
                                     EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
-                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
+                                    EdgesFringe_erase_eid(EdgesFringe, Eid)
                                     EdgesReach.push_back(pair[int, float](Eid, edgeVector))
                                 elif remainingDist < EdgesFringe[EdgesReach_EidVec[1]].second:
                                     EdgesFringe.erase(EdgesFringe.begin()+ EdgesReach_EidVec[1])
@@ -2685,7 +2732,7 @@ cdef class GraphCy:
                             else:
                                 if (EdgesFringe[EdgesReach_EidVec[1]].second - remainingDist) > 1.0:
                                     EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_EidVec[0])
-                                    EdgesFringe.erase(EdgesFringe.begin()+EdgesReach_Eididx(EdgesFringe, Eid)[0])
+                                    EdgesFringe_erase_eid(EdgesFringe, Eid)
                                     EdgesReach.push_back(pair[int, float](Eid, edgeVector))
                                 elif remainingDist < EdgesFringe[EdgesReach_EidVec[0]].second:
                                     EdgesFringe.erase(EdgesFringe.begin()+ EdgesReach_EidVec[0])
@@ -2919,6 +2966,10 @@ cdef class GraphCy:
 
         cdef Entry EntryO = self.EntryDt[EntryOrigin]
         cdef Entry EntryD = self.EntryDt[EntryDestination]
+        if EntryO.fid == -1 or EntryD.fid == -1 or EntryO.Eid < 0 or EntryD.Eid < 0:
+            return
+        if self._edgesIds[EntryO.Eid] == -1 or self._edgesIds[EntryD.Eid] == -1:
+            return
         # START
         cdef int cycles
         cycles = 1
@@ -3077,6 +3128,10 @@ cdef class GraphCy:
         OpenNodes = PriorityQueue_NR()
         cdef Entry EntryO = self.EntryDt[EntryOrigin]
         cdef int EidO = EntryO.Eid
+        if EntryO.fid == -1 or EidO < 0:
+            return
+        if self._edgesIds[EidO] == -1:
+            return
 
         # for Oriding edgeorigin
         startNode.Nid = self.edges[EidO].NidO
@@ -3351,6 +3406,10 @@ cdef class GraphCy:
         """
         cdef Entry EntryO = self.EntryDt[EntryOrigin]
         cdef Entry EntryD = self.EntryDt[EntryDestination]
+        if EntryO.fid == -1 or EntryD.fid == -1 or EntryO.Eid < 0 or EntryD.Eid < 0:
+            return (), ()
+        if self._edgesIds[EntryO.Eid] == -1 or self._edgesIds[EntryD.Eid] == -1:
+            return (), ()
 
         cdef float MinimumDistance = self.PathDist_AStar_VirtuEntry(EntryOrigin ,
                                                                     EntryDestination,
@@ -3546,6 +3605,8 @@ cdef class GraphCy:
         cdef Entry EntryD
         cdef float BaseDist
         cdef float MinimumDistance
+        if EntryO.fid == -1 or EntryO.Eid < 0 or self._edgesIds[EntryO.Eid] == -1:
+            return (), (), ()
         self.C_NodeMap_VirtuEntry(
             EntryOrigin,
             0, LimDist*DistMulLim, LimCycle*2)
@@ -3576,6 +3637,8 @@ cdef class GraphCy:
         for EntryDestination in EntryDests:
             EntryD = self.EntryDt[EntryDestination]
             if EntryOrigin == EntryDestination:
+                continue
+            if EntryD.fid == -1 or EntryD.Eid < 0 or self._edgesIds[EntryD.Eid] == -1:
                 continue
 
             MappedPaths.clear()
@@ -3762,6 +3825,8 @@ cdef class GraphCy:
         cdef Entry EntryD
         cdef float BaseDist
         cdef float MinimumDistance
+        if EntryO.fid == -1 or EntryO.Eid < 0 or self._edgesIds[EntryO.Eid] == -1:
+            return (), (), ()
         self.C_NodeMap_VirtuEntry(
             EntryOrigin,
             0, LimDist*DistMulLim, LimCycle*2)
@@ -3792,6 +3857,8 @@ cdef class GraphCy:
         for EntryDestination in EntryDests:
             EntryD = self.EntryDt[EntryDestination]
             if EntryOrigin == EntryDestination:
+                continue
+            if EntryD.fid == -1 or EntryD.Eid < 0 or self._edgesIds[EntryD.Eid] == -1:
                 continue
 
             MappedPaths.clear()
