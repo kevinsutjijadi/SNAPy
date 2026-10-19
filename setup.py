@@ -6,7 +6,7 @@ with open("README.md", 'r') as f:
 
 setup(
     name="snapy-toolbox",
-    version="0.2.14",
+    version="0.3.00",
     description="""Spatial Network Analysis Python Module
  A package of urban network analysis tools based on Geopandas dataframe and networkx pathfinding""",
     # package_dir={"": "SNAPy"},
