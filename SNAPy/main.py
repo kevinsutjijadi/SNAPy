@@ -439,6 +439,7 @@ class GraphSims:
             'GateIds': None,
             'TermIds': None,
             'TouchIds': None,
+            'GravityPerDest': False,
         }
         if kwargs:
             for k,v in kwargs.items():

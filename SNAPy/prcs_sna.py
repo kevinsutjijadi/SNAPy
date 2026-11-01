@@ -128,6 +128,24 @@ def _touch_add(path, touch_mask, trf):
 
 
 # functions
+def _gravity_per_dest(dest_ix, dsts, dest_wgt, dist_min, exp_a):
+    '''
+    Share of one origin's weight per path when gravity is counted once per destination.
+    Each destination scores dest_wgt * (dist_min/its shortest path)^(1+exp_a); that share is
+    split over its own paths by the same distance decay, so the number of alternative paths
+    found (up to PathLim) does not inflate a destination.
+    '''
+    dsts = np.asarray(dsts, dtype=float)
+    raw = (dist_min/dsts) ** (1+exp_a)
+    uq, inv = np.unique(np.asarray(dest_ix), return_inverse=True)
+    dmin = np.full(len(uq), np.inf)
+    np.minimum.at(dmin, inv, dsts)
+    score = np.asarray(dest_wgt, dtype=float)[uq] * (dist_min/dmin) ** (1+exp_a)
+    raw_sum = np.zeros(len(uq))
+    np.add.at(raw_sum, inv, raw)
+    return (score/score.sum())[inv] * raw / raw_sum[inv]
+
+
 def Base_BetweenessPatronage_Singular(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict):
     '''
     Base_BetweenessPatronage(Gph:GraphCy, EntriesPt:tuple, OriDf:gpd.GeoDataFrame, DestDf:gpd.GeoDataFrame, SettingDict:dict)\n
@@ -147,6 +165,7 @@ def Base_BetweenessPatronage_Singular(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestD
         'EdgeCmin' : 0.9,
         'PathLim' : 2_000,
         'LimCycles' : 1_000_000,
+        'GravityPerDest': False,
     }
     for k,v in SettingDict.items(): # setting kwargs
         Settings[k] = v
@@ -218,9 +237,14 @@ def Base_BetweenessPatronage_Singular(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestD
         #     print(d, w, p)
         numpaths += len(iterPths)
         DistMn = min(iterDsts)
-        WgtPth = tuple(wgt*(DistMn/dst)**(1+expA) for dst, wgt in zip(iterDsts, iterWgts)) # weighting calculations based on dist
-        WgtPthSm = sum(WgtPth)
-        TrafficPth = tuple(wgtO*(w/WgtPthSm) for w in WgtPth) # calculating traffic on each path
+        if Settings['GravityPerDest']:
+            dix = {d: i for i, d in enumerate(DidAr)}
+            TrafficPth = tuple(wgtO*_gravity_per_dest(
+                np.array([dix[d] for d in iterDids]), np.array(iterDsts, dtype=float), DestWgt, DistMn, expA))
+        else:
+            WgtPth = tuple(wgt*(DistMn/dst)**(1+expA) for dst, wgt in zip(iterDsts, iterWgts)) # weighting calculations based on dist
+            WgtPthSm = sum(WgtPth)
+            TrafficPth = tuple(wgtO*(w/WgtPthSm) for w in WgtPth) # calculating traffic on each path
         # checking on segments
         ori_term = term_dict.get(int(Oid), 0) if gate_on else 0
         for pth, trf, Did in zip(iterPths, TrafficPth, iterDids):
@@ -256,6 +280,7 @@ def Base_BetweenessPatronage_Plural(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:
         'LimCycles' : 1_000_000,
         'Include_Destination': False,
         'TruePathFind':False,
+        'GravityPerDest': False,
     }
     for k,v in SettingDict.items(): # setting kwargs
         Settings[k] = v
@@ -316,10 +341,13 @@ def Base_BetweenessPatronage_Plural(Gph:GraphCy, OriDf:gpd.GeoDataFrame, DestDf:
         iterIds = np.array(iterIds, dtype=np.int32)
         # iterWgts = DestWgt.loc[iterIds]
         iterId = np.digitize(iterIds, DidAr)-1
-        iterWgts = DestWgt[iterId]
-        WgtPth = iterWgts * (DistMn/iterDsts) ** (1+expA)
-        WgtPthSm = np.sum(WgtPth)
-        TrafficPth = wgtO*(WgtPth/WgtPthSm)
+        if Settings['GravityPerDest']:
+            TrafficPth = wgtO*_gravity_per_dest(iterId, iterDsts, DestWgt, DistMn, expA)
+        else:
+            iterWgts = DestWgt[iterId]
+            WgtPth = iterWgts * (DistMn/iterDsts) ** (1+expA)
+            WgtPthSm = np.sum(WgtPth)
+            TrafficPth = wgtO*(WgtPth/WgtPthSm)
         
         ori_term = term_dict.get(int(Oid), 0) if gate_on else 0
         for pth, trf, id in zip(iterPths, TrafficPth, iterId):

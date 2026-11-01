@@ -189,7 +189,7 @@ def BetweenessPAggregate(GraphSm:GraphSims, PairsDf:pd.DataFrame, MeasureDf:pd.D
             'PathLim' : PathLim,
             'LimCycles' : LimCycles,
         }
-        for key in ('GateIds', 'TermIds', 'TouchIds', 'Include_Destination'):
+        for key in ('GateIds', 'TermIds', 'TouchIds', 'Include_Destination', 'GravityPerDest'):
             if key in kwargs:
                 sets[key] = kwargs[key]
 
